@@ -3,6 +3,7 @@
   <head>
     <!-- Link to the Bootstrap CSS from a CDN -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <title> VMS </title>
     <style>
 	    th,td{
 		    padding-left : 5%;
@@ -12,25 +13,23 @@
   <body>
     <div class="container">
       <div class="header">
-        <h3 class="text-muted">VMS: Lists of All Assigned Jobs</h3>
+        <h3 class="text-muted">VMS: Lists of All SATs</h3>
       </div>
        <div class="row" style="padding:20px;">
 	       <table>
 		       <tr>
-		 		<th> Event Name </th>
-				<th> Volunteers Name </th>
-		 		<th> Job Name </th>
-		 		<th> Edit </th>
-		 		<th> Delete </th>
+		 		<th> Shift Name </th>
+		 		<th> Start Time </th>
+		 		<th> End Time </th>
+		 		<th> Assigned Hours </th>
 			</tr>
 
-			{% for assigned in allAssignedJobs %}
+			{% for sat in sats %}
 			<tr>
-				<td> {{ assigned.event.eventName }} </td>
-				<td> {{ assigned.volunteerName }} </td>
-				<td> {{ assigned.job }} </td>
-				<td> <a href="/AdminUnit/assignJob/{{ assigned.pk }}/">Edit</a> </td>
-				<td> <a href="/AdminUnit/deleteJob/{{ assigned.pk }}/">Delete</a> </td>
+				<td> {{ sat.shift }} </td>
+				<td> {{ sat.startTime }} </td>
+				<td> {{ sat.endTime }} </td>
+				<td> {{ sat.hours }} </td>
 			</tr>
 			{% endfor %}
 		</table>

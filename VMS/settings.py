@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# Below email fields are used to notify volunteers in case of creation of new jobs or assigning of job
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ADMIN EMAIL'
+EMAIL_HOST_PASSWORD = 'PASSWORD'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -28,7 +34,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/Users/jlahori/personal/VMS/VMS/templates',
+    BASE_DIR+'/VMS/templates',
 )
 
 ALLOWED_HOSTS = []
@@ -43,7 +49,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AdminUnit'
+    'AdminUnit',
+    'googlecharts'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,11 +70,23 @@ WSGI_APPLICATION = 'VMS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# For prod, use below database settings in postgreSQL
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'vms',
+#        'USER': 'myuser',
+#        'PASSWORD': 'mypassword',
+#        'HOST': 'localhost',
+#    }
+#}
+
+# For staging, use below database settings in sqlite
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+     }
 }
 
 # Internationalization
@@ -87,4 +106,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = BASE_DIR+'/VMS/static/'

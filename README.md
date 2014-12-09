@@ -1,6 +1,6 @@
 VMS
 ===
 
-Volunteer Management System for Systers Google Summer of Code 2014. This VMS will be particularly useful for volunteer coordinators, volunteer sign-up, tracking hours, and reporting.
-
-
+Volunteer Management System<br />
+Google Summer of Code-2014 Project for Systers Foundation, An Anita Borg Community<br />
+Documentation can be accessed at <a href="https://github.com/jayesh92/vms-1/wiki">Wiki</a>
