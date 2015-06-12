@@ -5,6 +5,8 @@ from organization.services import *
 from shift.models import Shift, VolunteerShift
 from volunteer.services import get_volunteer_by_id
 
+# v_id - volunteer_id
+# s_id - shift_id
 def add_shift_hours(v_id, s_id, start_time, end_time):
 
     volunteer_shift = get_volunteer_shift_by_id(v_id, s_id)

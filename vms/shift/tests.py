@@ -16,56 +16,70 @@ class ShiftMethodTests(TestCase):
 
         u1 = User.objects.create_user('Yoshi')     
 
-        v1 = Volunteer(first_name = "Yoshi",
-                    last_name = "Turtle",
-                    address = "Mario Land",
-                    city = "Nintendo Land",
-                    state = "Nintendo State",
-                    country = "Nintendo Nation",
-                    phone_number = "2374983247",
-                    email = "yoshi@nintendo.com",
-                    user = u1)
+        v1 = Volunteer(
+                    first_name="Yoshi",
+                    last_name="Turtle",
+                    address="Mario Land",
+                    city="Nintendo Land",
+                    state="Nintendo State",
+                    country="Nintendo Nation",
+                    phone_number="2374983247",
+                    email="yoshi@nintendo.com",
+                    user=u1
+                    )
 
         v1.save()
 
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23",
-                description = "A software job",
-                event = e1)
+        j1 = Job(
+                name="Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description="A software job",
+                event=e1
+                )
 
-        j2 = Job(name = "Systems Administrator",
-                start_date = "2012-9-1",
-                end_date = "2012-10-26",
-                description = "A systems administrator job",
-                event = e1)
+        j2 = Job(
+                name="Systems Administrator",
+                start_date="2012-9-1",
+                end_date="2012-10-26",
+                description="A systems administrator job",
+                event=e1
+                )
 
         j1.save()
         j2.save()
 
-        s1 = Shift(date = "2012-10-23",
-                start_time = "9:00",
-                end_time = "3:00",
+        s1 = Shift(
+                date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
                 max_volunteers = 1,
-                job = j1)
+                job=j1
+                )
 
-        s2 = Shift(date = "2012-10-23",
-                start_time = "10:00",
-                end_time = "4:00",
+        s2 = Shift(
+                date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
                 max_volunteers = 2,
-                job = j1)
+                job=j1
+                )
 
-        s3 = Shift(date = "2012-10-23",
-                start_time = "12:00",
-                end_time = "6:00",
+        s3 = Shift(
+                date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
                 max_volunteers = 4,
-                job = j2)
+                job=j2
+                )
 
         s1.save()
         s2.save()
@@ -85,21 +99,21 @@ class ShiftMethodTests(TestCase):
         start_time = datetime.time(hour=9, minute=0)
         end_time = datetime.time(hour=10, minute=0)
         add_shift_hours(v1.id, s1.id, start_time, end_time)
-        volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id);
+        volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id)
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
 
         start_time = datetime.time(hour=10, minute=0)
         end_time = datetime.time(hour=12, minute=0)
         add_shift_hours(v1.id, s2.id, start_time, end_time)
-        volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s2.id);
+        volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s2.id)
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
 
         start_time = datetime.time(hour=5, minute=0)
         end_time = datetime.time(hour=6, minute=0)
         add_shift_hours(v1.id, s3.id, start_time, end_time)
-        volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s3.id);
+        volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s3.id)
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
 
@@ -217,44 +231,48 @@ class ShiftMethodTests(TestCase):
         v1.save()
         v2.save()
 
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23",
-                description = "A software job",
-                event = e1)
+        j1 = Job(
+                name = "Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description="A software job",
+                event=e1
+                )
 
         j2 = Job(name = "Systems Administrator",
-                start_date = "2012-9-1",
-                end_date = "2012-10-26",
+                start_date="2012-9-1",
+                end_date="2012-10-26",
                 description = "A systems administrator job",
                 event = e1)
 
         j1.save()
         j2.save()
 
-        s1 = Shift(date = "2012-10-23",
-                start_time = "9:00",
-                end_time = "3:00",
+        s1 = Shift(date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
                 max_volunteers = 1,
-                job = j1)
+                job=j1)
 
-        s2 = Shift(date = "2012-10-23",
-                start_time = "10:00",
-                end_time = "4:00",
+        s2 = Shift(date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
                 max_volunteers = 2,
-                job = j1)
+                job=j1)
 
-        s3 = Shift(date = "2012-10-23",
-                start_time = "12:00",
-                end_time = "6:00",
+        s3 = Shift(date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
                 max_volunteers = 4,
-                job = j2)
+                job=j2)
 
         s1.save()
         s2.save()
@@ -300,63 +318,63 @@ class ShiftMethodTests(TestCase):
 
     def test_calculate_duration(self):
 
-        start_time = datetime.time(hour=1, minute=0) 
-        end_time = datetime.time(hour=2, minute=0) 
+        start_time=datetime.time(hour=1, minute=0) 
+        end_time=datetime.time(hour=2, minute=0) 
         delta_time_hours = 1
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=1, minute=45) 
-        end_time = datetime.time(hour=2, minute=0) 
+        start_time=datetime.time(hour=1, minute=45) 
+        end_time=datetime.time(hour=2, minute=0) 
         delta_time_hours = 0.25
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=1, minute=0) 
-        end_time = datetime.time(hour=2, minute=30) 
+        start_time=datetime.time(hour=1, minute=0) 
+        end_time=datetime.time(hour=2, minute=30) 
         delta_time_hours = 1.5
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=1, minute=0) 
-        end_time = datetime.time(hour=1, minute=45) 
+        start_time=datetime.time(hour=1, minute=0) 
+        end_time=datetime.time(hour=1, minute=45) 
         delta_time_hours = 0.75
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=1, minute=0) 
-        end_time = datetime.time(hour=13, minute=0) 
+        start_time=datetime.time(hour=1, minute=0) 
+        end_time=datetime.time(hour=13, minute=0) 
         delta_time_hours = 12
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=1, minute=0) 
-        end_time = datetime.time(hour=5, minute=45) 
+        start_time=datetime.time(hour=1, minute=0) 
+        end_time=datetime.time(hour=5, minute=45) 
         delta_time_hours = 4.75 
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=1, minute=0) 
-        end_time = datetime.time(hour=1, minute=0) 
+        start_time=datetime.time(hour=1, minute=0) 
+        end_time=datetime.time(hour=1, minute=0) 
         delta_time_hours = 0 
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=1, minute=0) 
-        end_time = datetime.time(hour=23, minute=0) 
+        start_time=datetime.time(hour=1, minute=0) 
+        end_time=datetime.time(hour=23, minute=0) 
         delta_time_hours = 22 
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=22, minute=0) 
-        end_time = datetime.time(hour=1, minute=0) 
+        start_time=datetime.time(hour=22, minute=0) 
+        end_time=datetime.time(hour=1, minute=0) 
         delta_time_hours = 3 
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=13, minute=0) 
-        end_time = datetime.time(hour=1, minute=0) 
+        start_time=datetime.time(hour=13, minute=0) 
+        end_time=datetime.time(hour=1, minute=0) 
         delta_time_hours = 12 
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=0, minute=0) 
-        end_time = datetime.time(hour=23, minute=0) 
+        start_time=datetime.time(hour=0, minute=0) 
+        end_time=datetime.time(hour=23, minute=0) 
         delta_time_hours = 23 
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
-        start_time = datetime.time(hour=23, minute=0) 
-        end_time = datetime.time(hour=0, minute=0) 
+        start_time=datetime.time(hour=23, minute=0) 
+        end_time=datetime.time(hour=0, minute=0) 
         delta_time_hours = 1 
         self.assertEqual(calculate_duration(start_time, end_time), delta_time_hours)
 
@@ -364,56 +382,58 @@ class ShiftMethodTests(TestCase):
 
         u1 = User.objects.create_user('Yoshi')     
 
-        v1 = Volunteer(first_name = "Yoshi",
-                    last_name = "Turtle",
-                    address = "Mario Land",
-                    city = "Nintendo Land",
-                    state = "Nintendo State",
-                    country = "Nintendo Nation",
-                    phone_number = "2374983247",
-                    email = "yoshi@nintendo.com",
-                    user = u1)
+        v1 = Volunteer(
+                    first_name="Yoshi",
+                    last_name="Turtle",
+                    address="Mario Land",
+                    city="Nintendo Land",
+                    state="Nintendo State",
+                    country="Nintendo Nation",
+                    phone_number="2374983247",
+                    email="yoshi@nintendo.com",
+                    user=u1
+                    )
 
         v1.save()
 
         e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+                start_date="2012-10-22",
+                end_date="2012-10-23")
 
         e1.save()
 
         j1 = Job(name = "Software Developer",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
                 description = "A software job",
                 event = e1)
 
         j2 = Job(name = "Systems Administrator",
-                start_date = "2012-9-1",
-                end_date = "2012-10-26",
-                description = "A systems administrator job",
-                event = e1)
+                start_date="2012-9-1",
+                end_date="2012-10-26",
+                description="A systems administrator job",
+                event=e1)
 
         j1.save()
         j2.save()
 
-        s1 = Shift(date = "2012-10-23",
-                start_time = "9:00",
-                end_time = "3:00",
+        s1 = Shift(date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
                 max_volunteers = 1,
-                job = j1)
+                job=j1)
 
-        s2 = Shift(date = "2012-10-23",
-                start_time = "10:00",
-                end_time = "4:00",
+        s2 = Shift(date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
                 max_volunteers = 2,
-                job = j1)
+                job=j1)
 
-        s3 = Shift(date = "2012-10-23",
-                start_time = "12:00",
-                end_time = "6:00",
+        s3 = Shift(date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
                 max_volunteers = 4,
-                job = j2)
+                job=j2)
 
         s1.save()
         s2.save()
@@ -428,16 +448,16 @@ class ShiftMethodTests(TestCase):
         register(v1.id, s3.id)
         self.assertIsNotNone(VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s3.id))
 
-        start_time = datetime.time(hour=9, minute=0)
-        end_time = datetime.time(hour=10, minute=0)
+        start_time=datetime.time(hour=9, minute=0)
+        end_time=datetime.time(hour=10, minute=0)
         add_shift_hours(v1.id, s1.id, start_time, end_time)
 
-        start_time = datetime.time(hour=10, minute=0)
-        end_time = datetime.time(hour=12, minute=0)
+        start_time=datetime.time(hour=10, minute=0)
+        end_time=datetime.time(hour=12, minute=0)
         add_shift_hours(v1.id, s2.id, start_time, end_time)
 
-        start_time = datetime.time(hour=5, minute=0)
-        end_time = datetime.time(hour=6, minute=0)
+        start_time=datetime.time(hour=5, minute=0)
+        end_time=datetime.time(hour=6, minute=0)
         add_shift_hours(v1.id, s3.id, start_time, end_time)
 
         clear_shift_hours(v1.id, s1.id)
@@ -454,12 +474,13 @@ class ShiftMethodTests(TestCase):
         volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s3.id)
         self.assertIsNone(volunteer_shift.start_time)
         self.assertIsNone(volunteer_shift.end_time)
-
-    def test_edit_shift_hours(self):
-
+        
+        
+    def test_delete_shift(self):
         u1 = User.objects.create_user('Yoshi')     
 
-        v1 = Volunteer(first_name = "Yoshi",
+        v1 = Volunteer(
+                    first_name = "Yoshi",
                     last_name = "Turtle",
                     address = "Mario Land",
                     city = "Nintendo Land",
@@ -467,41 +488,98 @@ class ShiftMethodTests(TestCase):
                     country = "Nintendo Nation",
                     phone_number = "2374983247",
                     email = "yoshi@nintendo.com",
-                    user = u1)
+                    user = u1
+                    )
 
         v1.save()
 
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        e1 = Event(
+                name = "Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23",
+        j1 = Job(
+                name="Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
                 description = "A software job",
-                event = e1)
+                event = e1
+                )
 
         j1.save()
 
-        s1 = Shift(date = "2012-10-23",
-                start_time = "1:00",
-                end_time = "12:00",
+        s1 = Shift(
+                date="2012-10-23",
+                start_time="1:00",
+                end_time="12:00",
                 max_volunteers = 1,
-                job = j1)
+                job=j1
+                )
+
+        s1.save()
+        
+        self.assertTrue(delete_shift(s1.id))
+        self.assertFalse(delete_shift(100))
+        
+
+    def test_edit_shift_hours(self):
+
+        u1 = User.objects.create_user('Yoshi')     
+
+        v1 = Volunteer(
+                    first_name = "Yoshi",
+                    last_name = "Turtle",
+                    address = "Mario Land",
+                    city = "Nintendo Land",
+                    state = "Nintendo State",
+                    country = "Nintendo Nation",
+                    phone_number = "2374983247",
+                    email = "yoshi@nintendo.com",
+                    user = u1
+                    )
+
+        v1.save()
+
+        e1 = Event(
+                name = "Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+
+        e1.save()
+
+        j1 = Job(
+                name="Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description = "A software job",
+                event = e1
+                )
+
+        j1.save()
+
+        s1 = Shift(
+                date="2012-10-23",
+                start_time="1:00",
+                end_time="12:00",
+                max_volunteers = 1,
+                job=j1
+                )
 
         s1.save()
 
         register(v1.id, s1.id)
         self.assertIsNotNone(VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id))
 
-        start_time = datetime.time(hour=9, minute=0)
-        end_time = datetime.time(hour=10, minute=0)
+        start_time=datetime.time(hour=9, minute=0)
+        end_time=datetime.time(hour=10, minute=0)
         add_shift_hours(v1.id, s1.id, start_time, end_time)
 
-        start_time = datetime.time(hour=10, minute=0)
-        end_time = datetime.time(hour=11, minute=0)
+        start_time=datetime.time(hour=10, minute=0)
+        end_time=datetime.time(hour=11, minute=0)
         edit_shift_hours(v1.id, s1.id, start_time, end_time)
         volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id)
         self.assertIsNotNone(volunteer_shift.start_time)
@@ -509,8 +587,8 @@ class ShiftMethodTests(TestCase):
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
 
-        start_time = datetime.time(hour=1, minute=0)
-        end_time = datetime.time(hour=4, minute=0)
+        start_time=datetime.time(hour=1, minute=0)
+        end_time=datetime.time(hour=4, minute=0)
         edit_shift_hours(v1.id, s1.id, start_time, end_time)
         volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id)
         self.assertIsNotNone(volunteer_shift.start_time)
@@ -518,8 +596,8 @@ class ShiftMethodTests(TestCase):
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
 
-        start_time = datetime.time(hour=4, minute=15)
-        end_time = datetime.time(hour=12, minute=35)
+        start_time=datetime.time(hour=4, minute=15)
+        end_time=datetime.time(hour=12, minute=35)
         edit_shift_hours(v1.id, s1.id, start_time, end_time)
         volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id)
         self.assertIsNotNone(volunteer_shift.start_time)
@@ -527,8 +605,8 @@ class ShiftMethodTests(TestCase):
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
 
-        start_time = datetime.time(hour=2, minute=5)
-        end_time = datetime.time(hour=4, minute=15)
+        start_time=datetime.time(hour=2, minute=5)
+        end_time=datetime.time(hour=4, minute=15)
         edit_shift_hours(v1.id, s1.id, start_time, end_time)
         volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id)
         self.assertIsNotNone(volunteer_shift.start_time)
@@ -536,48 +614,126 @@ class ShiftMethodTests(TestCase):
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
 
-        start_time = datetime.time(hour=5, minute=0)
-        end_time = datetime.time(hour=5, minute=30)
+        start_time=datetime.time(hour=5, minute=0)
+        end_time=datetime.time(hour=5, minute=30)
         edit_shift_hours(v1.id, s1.id, start_time, end_time)
         volunteer_shift = VolunteerShift.objects.get(volunteer_id=v1.id, shift_id=s1.id)
         self.assertIsNotNone(volunteer_shift.start_time)
         self.assertIsNotNone(volunteer_shift.end_time)
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
+        
+    def test_get_all_volunteer_shifts_with_hours(self):
+        u1 = User.objects.create_user('Yoshi')     
 
-    def test_get_shift_by_id(self):
+        v1 = Volunteer(
+                    first_name="Yoshi",
+                    last_name="Turtle",
+                    address="Mario Land",
+                    city="Nintendo Land",
+                    state="Nintendo State",
+                    country="Nintendo Nation",
+                    phone_number="2374983247",
+                    email="yoshi@nintendo.com",
+                    user=u1
+                    )
+
+        v1.save()
 
         e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+                start_date="2012-10-22",
+                end_date="2012-10-23")
 
         e1.save()
 
         j1 = Job(name = "Software Developer",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description="A software job",
+                event=e1
+                )
+
+        j2 = Job(name="Systems Administrator",
+                start_date="2012-9-1",
+                end_date="2012-10-26",
+                description="A systems administrator job",
+                event=e1)
+
+        j1.save()
+        j2.save()
+
+        s1 = Shift(date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
+                max_volunteers = 1,
+                job=j1
+                )
+
+        s2 = Shift(date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
+                max_volunteers = 2,
+                job=j1
+                )
+
+        s3 = Shift(date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
+                max_volunteers = 4,
+                job=j2
+                )
+
+        s1.save()
+        s2.save()
+        s3.save()
+        
+        self.assertIsNotNone(get_all_volunteer_shifts_with_hours()) 
+    
+        
+
+    def test_get_shift_by_id(self):
+
+        e1 = Event(
+                name = "Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+
+        e1.save()
+
+        j1 = Job(
+                name = "Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
                 description = "A software job",
-                event = e1)
+                event = e1
+                )
 
         j1.save()
 
-        s1 = Shift(date = "2012-10-23",
-                start_time = "9:00",
-                end_time = "3:00",
+        s1 = Shift(
+                date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
                 max_volunteers = 1,
-                job = j1)
+                job=j1
+                )
 
-        s2 = Shift(date = "2012-10-23",
-                start_time = "10:00",
-                end_time = "4:00",
+        s2 = Shift(
+                date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
                 max_volunteers = 2,
-                job = j1)
+                job=j1
+                )
 
-        s3 = Shift(date = "2012-10-23",
-                start_time = "12:00",
-                end_time = "6:00",
+        s3 = Shift(
+                date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
                 max_volunteers = 4,
-                job = j1)
+                job=j1
+                )
 
         s1.save()
         s2.save()
@@ -607,40 +763,103 @@ class ShiftMethodTests(TestCase):
         self.assertNotEqual(get_shift_by_id(300), s1)
         self.assertNotEqual(get_shift_by_id(300), s2)
         self.assertNotEqual(get_shift_by_id(300), s3)
-
-    def get_shifts_ordered_by_date(self):
-
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        
+    def test_get_shifts_by_job_id(self):
+    
+        e1 = Event(
+                name = "Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-            start_date = "2012-10-22",
-            end_date = "2012-10-23",
-            description = "A software job",
-            event = e1)
+        j1 = Job(
+                name = "Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description = "A software job",
+                event = e1
+                )
 
         j1.save()
 
-        s1 = Shift(date = "2012-1-10",
-            start_time = "9:00",
-            end_time = "3:00",
+        s1 = Shift(
+                date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
+                max_volunteers = 1,
+                job=j1
+                )
+
+        s2 = Shift(
+                date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
+                max_volunteers = 2,
+                job=j1
+                )
+
+        s3 = Shift(
+                date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
+                max_volunteers = 4,
+                job=j1
+                )
+
+        s1.save()
+        s2.save()
+        s3.save()
+        
+        self.assertIsNotNone(get_shifts_by_job_id(j1.id))
+    
+    
+        
+
+    def test_get_shifts_ordered_by_date(self):
+
+        e1 = Event(
+                name = "Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+
+        e1.save()
+
+        j1 = Job(
+            name = "Software Developer",
+            start_date="2012-10-22",
+            end_date="2012-10-23",
+            description = "A software job",
+            event = e1
+            )
+
+        j1.save()
+
+        s1 = Shift(
+            date="2012-12-10",
+            start_time="9:00",
+            end_time="3:00",
             max_volunteers = 1,
-            job = j1)
+            job=j1
+            )
 
-        s2 = Shift(date = "2012-6-25",
-            start_time = "10:00",
-            end_time = "4:00",
+        s2 = Shift(
+            date="2012-6-25",
+            start_time="10:00",
+            end_time="4:00",
             max_volunteers = 2,
-            job = j1)
+            job=j1
+            )
 
-        s3 = Shift(date = "2012-12-9",
-            start_time = "12:00",
-            end_time = "6:00",
+        s3 = Shift(
+            date="2012-1-9",
+            start_time="12:00",
+            end_time="6:00",
             max_volunteers = 4,
-            job = j1)
+            job=j1
+            )
 
         s1.save()
         s2.save()
@@ -656,64 +875,199 @@ class ShiftMethodTests(TestCase):
         self.assertIn(s3, shift_list)
 
         #test order
-        self.assertEqual(shift_list[0].date, s1.date)
-        self.assertEqual(shift_list[1].date, s2.date)
-        self.assertEqual(shift_list[2].date, s3.date)
+        self.assertEqual(shift_list[0], s3)
+        self.assertEqual(shift_list[1], s2)
+        self.assertEqual(shift_list[2], s1)
+        
+        
+    def test_get_shift_slots_remaining(self):
+    
+        e1 = Event(
+                name = "Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+
+        e1.save()
+
+        j1 = Job(
+            name = "Software Developer",
+            start_date="2012-10-22",
+            end_date="2012-10-23",
+            description = "A software job",
+            event = e1
+            )
+
+        j1.save()
+
+        s1 = Shift(
+            date="2012-12-10",
+            start_time="9:00",
+            end_time="3:00",
+            max_volunteers = 1,
+            job=j1
+            )
+
+        s2 = Shift(
+            date="2012-6-25",
+            start_time="10:00",
+            end_time="4:00",
+            max_volunteers = 2,
+            job=j1
+            )
+
+        s3 = Shift(
+            date="2012-1-9",
+            start_time="12:00",
+            end_time="6:00",
+            max_volunteers = 4,
+            job=j1
+            )
+
+        s1.save()
+        s2.save()
+        s3.save()
+        
+        self.assertIsNotNone(get_shift_slots_remaining(s1.id))
+        self.assertIsNotNone(get_shift_slots_remaining(s2.id))
+        self.assertIsNotNone(get_shift_slots_remaining(s3.id))
+        
+        
+    def test_get_shifts_with_open_slots(self):
+        u1 = User.objects.create_user('Yoshi')     
+
+        v1 = Volunteer(
+                    first_name="Yoshi",
+                    last_name="Turtle",
+                    address="Mario Land",
+                    city="Nintendo Land",
+                    state="Nintendo State",
+                    country="Nintendo Nation",
+                    phone_number="2374983247",
+                    email="yoshi@nintendo.com",
+                    user=u1
+                    )
+
+        v1.save()
+
+        e1 = Event(name = "Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23")
+
+        e1.save()
+
+        j1 = Job(name = "Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description="A software job",
+                event=e1
+                )
+
+        j2 = Job(name="Systems Administrator",
+                start_date="2012-9-1",
+                end_date="2012-10-26",
+                description="A systems administrator job",
+                event=e1)
+
+        j1.save()
+        j2.save()
+
+        s1 = Shift(date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
+                max_volunteers = 1,
+                job=j1
+                )
+
+        s2 = Shift(date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
+                max_volunteers = 2,
+                job=j1
+                )
+
+        s3 = Shift(date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
+                max_volunteers = 4,
+                job=j2
+                )
+
+        s1.save()
+        s2.save()
+        s3.save()
+        
+        self.assertIsNotNone(get_shifts_with_open_slots(j1.id))
+        self.assertIsNotNone(get_shifts_with_open_slots(j2.id))
 
     def test_get_unlogged_shifts_by_volunteer_id(self):
 
         u1 = User.objects.create_user('Yoshi')     
 
-        v1 = Volunteer(first_name = "Yoshi",
-            last_name = "Turtle",
-            address = "Mario Land",
-            city = "Nintendo Land",
-            state = "Nintendo State",
-            country = "Nintendo Nation",
-            phone_number = "2374983247",
-            email = "yoshi@nintendo.com",
-            user = u1)
+        v1 = Volunteer(
+            first_name="Yoshi",
+            last_name="Turtle",
+            address="Mario Land",
+            city="Nintendo Land",
+            state="Nintendo State",
+            country="Nintendo Nation",
+            phone_number="2374983247",
+            email="yoshi@nintendo.com",
+            user=u1
+            )
 
         v1.save()
 
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-            start_date = "2012-10-22",
-            end_date = "2012-10-23",
+        j1 = Job(
+            name="Software Developer",
+            start_date="2012-10-22",
+            end_date="2012-10-23",
             description = "A software job",
-            event = e1)
+            event = e1
+            )
 
-        j2 = Job(name = "Systems Administrator",
-            start_date = "2012-9-1",
-            end_date = "2012-10-26",
+        j2 = Job(
+            name="Systems Administrator",
+            start_date="2012-9-1",
+            end_date="2012-10-26",
             description = "A systems administrator job",
-            event = e1)
+            event = e1
+            )
 
         j1.save()
         j2.save()
 
-        s1 = Shift(date = "2012-10-23",
-            start_time = "9:00",
-            end_time = "3:00",
-            max_volunteers = 1,
-            job = j1)
+        s1 = Shift(
+            date="2012-10-23",
+            start_time="9:00",
+            end_time="3:00",
+            max_volunteers=1,
+            job=j1
+            )
 
-        s2 = Shift(date = "2012-10-23",
-            start_time = "10:00",
-            end_time = "4:00",
-            max_volunteers = 2,
-            job = j1)
+        s2 = Shift(
+            date="2012-10-23",
+            start_time="10:00",
+            end_time="4:00",
+            max_volunteers=2,
+            job=j1
+            )
 
-        s3 = Shift(date = "2012-10-23",
-            start_time = "12:00",
-            end_time = "6:00",
-            max_volunteers = 4,
-            job = j2)
+        s3 = Shift(
+            date="2012-10-23",
+            start_time="12:00",
+            end_time="6:00",
+            max_volunteers=4,
+            job=j2
+            )
 
         s1.save()
         s2.save()
@@ -738,67 +1092,83 @@ class ShiftMethodTests(TestCase):
         u1 = User.objects.create_user('Yoshi')     
         u2 = User.objects.create_user('John')     
 
-        v1 = Volunteer(first_name = "Yoshi",
-            last_name = "Turtle",
-            address = "Mario Land",
-            city = "Nintendo Land",
-            state = "Nintendo State",
-            country = "Nintendo Nation",
-            phone_number = "2374983247",
-            email = "yoshi@nintendo.com",
-            user = u1)
+        v1=Volunteer(
+            first_name="Yoshi",
+            last_name="Turtle",
+            address="Mario Land",
+            city="Nintendo Land",
+            state="Nintendo State",
+            country="Nintendo Nation",
+            phone_number="2374983247",
+            email="yoshi@nintendo.com",
+            user=u1
+            )
 
-        v2 = Volunteer(first_name = "John",
-            last_name = "Doe",
-            address = "7 Alpine Street",
-            city = "Maplegrove",
-            state = "Wyoming",
-            country = "USA",
-            phone_number = "23454545",
-            email = "john@test.com",
-            user = u2)
+        v2 = Volunteer(
+            first_name="John",
+            last_name="Doe",
+            address="7 Alpine Street",
+            city="Maplegrove",
+            state="Wyoming",
+            country="USA",
+            phone_number="23454545",
+            email="john@test.com",
+            user=u2
+            )
 
         v1.save()
         v2.save()
 
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-            start_date = "2012-10-22",
-            end_date = "2012-10-23",
-            description = "A software job",
-            event = e1)
+        j1 = Job(
+            name="Software Developer",
+            start_date="2012-10-22",
+            end_date="2012-10-23",
+            description="A software job",
+            event=e1
+            )
 
-        j2 = Job(name = "Systems Administrator",
-            start_date = "2012-9-1",
-            end_date = "2012-10-26",
-            description = "A systems administrator job",
-            event = e1)
+        j2 = Job(
+            name="Systems Administrator",
+            start_date="2012-9-1",
+            end_date="2012-10-26",
+            description="A systems administrator job",
+            event=e1
+            )
 
         j1.save()
         j2.save()
 
-        s1 = Shift(date = "2012-10-23",
-            start_time = "9:00",
-            end_time = "3:00",
+        s1 = Shift(
+            date="2012-10-23",
+            start_time="9:00",
+            end_time="3:00",
             max_volunteers = 1,
-            job = j1)
+            job=j1
+            )
 
-        s2 = Shift(date = "2012-10-23",
-            start_time = "10:00",
-            end_time = "4:00",
+        s2 = Shift(
+            date="2012-10-23",
+            start_time="10:00",
+            end_time="4:00",
             max_volunteers = 2,
-            job = j1)
+            job=j1
+            )
 
-        s3 = Shift(date = "2012-10-23",
-            start_time = "12:00",
-            end_time = "6:00",
+        s3 = Shift(
+            date="2012-10-23",
+            start_time="12:00",
+            end_time="6:00",
             max_volunteers = 4,
-            job = j2)
+            job=j2
+            )
 
         s1.save()
         s2.save()
@@ -820,6 +1190,95 @@ class ShiftMethodTests(TestCase):
         #self.assertEqual(get_volunteer_shift_by_id(v2.id, s1.id), VolunteerShift.objects.get(volunteer_id=v2.id, shift_id=s1.id)) #why does this throw DoesNotExist?
         self.assertEqual(get_volunteer_shift_by_id(v2.id, s2.id), VolunteerShift.objects.get(volunteer_id=v2.id, shift_id=s2.id))
         self.assertEqual(get_volunteer_shift_by_id(v2.id, s3.id), VolunteerShift.objects.get(volunteer_id=v2.id, shift_id=s3.id))
+        
+    def get_volunteer_shifts_with_hours(self):
+        u1 = User.objects.create_user('Yoshi')     
+        u2 = User.objects.create_user('John')     
+
+        v1=Volunteer(
+            first_name="Yoshi",
+            last_name="Turtle",
+            address="Mario Land",
+            city="Nintendo Land",
+            state="Nintendo State",
+            country="Nintendo Nation",
+            phone_number="2374983247",
+            email="yoshi@nintendo.com",
+            user=u1
+            )
+
+        v2 = Volunteer(
+            first_name="John",
+            last_name="Doe",
+            address="7 Alpine Street",
+            city="Maplegrove",
+            state="Wyoming",
+            country="USA",
+            phone_number="23454545",
+            email="john@test.com",
+            user=u2
+            )
+
+        v1.save()
+        v2.save()
+
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+
+        e1.save()
+
+        j1 = Job(
+            name="Software Developer",
+            start_date="2012-10-22",
+            end_date="2012-10-23",
+            description="A software job",
+            event=e1
+            )
+
+        j2 = Job(
+            name="Systems Administrator",
+            start_date="2012-9-1",
+            end_date="2012-10-26",
+            description="A systems administrator job",
+            event=e1
+            )
+
+        j1.save()
+        j2.save()
+
+        s1 = Shift(
+            date="2012-10-23",
+            start_time="9:00",
+            end_time="3:00",
+            max_volunteers = 1,
+            job=j1
+            )
+
+        s2 = Shift(
+            date="2012-10-23",
+            start_time="10:00",
+            end_time="4:00",
+            max_volunteers = 2,
+            job=j1
+            )
+
+        s3 = Shift(
+            date="2012-10-23",
+            start_time="12:00",
+            end_time="6:00",
+            max_volunteers = 4,
+            job=j2
+            )
+
+        s1.save()
+        s2.save()
+        s3.save()
+        
+        self.assertIsNotNone(get_volunteer_shifts_with_hours(v1))
+        self.assertIsNotNone(get_volunteer_shifts_with_hours(v2))
 
 
     def test_is_signed_up(self):
@@ -827,67 +1286,83 @@ class ShiftMethodTests(TestCase):
         u1 = User.objects.create_user('Yoshi')     
         u2 = User.objects.create_user('John')     
 
-        v1 = Volunteer(first_name = "Yoshi",
-            last_name = "Turtle",
-            address = "Mario Land",
-            city = "Nintendo Land",
-            state = "Nintendo State",
-            country = "Nintendo Nation",
-            phone_number = "2374983247",
-            email = "yoshi@nintendo.com",
-            user = u1)
+        v1 = Volunteer(
+            first_name="Yoshi",
+            last_name="Turtle",
+            address="Mario Land",
+            city="Nintendo Land",
+            state="Nintendo State",
+            country="Nintendo Nation",
+            phone_number="2374983247",
+            email="yoshi@nintendo.com",
+            user=u1
+            )
 
-        v2 = Volunteer(first_name = "John",
-            last_name = "Doe",
-            address = "7 Alpine Street",
-            city = "Maplegrove",
-            state = "Wyoming",
-            country = "USA",
-            phone_number = "23454545",
-            email = "john@test.com",
-            user = u2)
+        v2 = Volunteer(
+            first_name="John",
+            last_name="Doe",
+            address="7 Alpine Street",
+            city="Maplegrove",
+            state="Wyoming",
+            country="USA",
+            phone_number="23454545",
+            email="john@test.com",
+            user=u2
+            )
 
         v1.save()
         v2.save()
 
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-            start_date = "2012-10-22",
-            end_date = "2012-10-23",
-            description = "A software job",
-            event = e1)
+        j1 = Job(
+            name="Software Developer",
+            start_date="2012-10-22",
+            end_date="2012-10-23",
+            description="A software job",
+            event=e1
+            )
 
-        j2 = Job(name = "Systems Administrator",
-            start_date = "2012-9-1",
-            end_date = "2012-10-26",
-            description = "A systems administrator job",
-            event = e1)
+        j2 = Job(
+            name="Systems Administrator",
+            start_date="2012-9-1",
+            end_date="2012-10-26",
+            description="A systems administrator job",
+            event=e1
+            )
 
         j1.save()
         j2.save()
 
-        s1 = Shift(date = "2012-10-23",
-            start_time = "9:00",
-            end_time = "3:00",
-            max_volunteers = 1,
-            job = j1)
+        s1 = Shift(
+            date="2012-10-23",
+            start_time="9:00",
+            end_time="3:00",
+            max_volunteers=1,
+            job=j1
+            )
 
-        s2 = Shift(date = "2012-10-23",
-            start_time = "10:00",
-            end_time = "4:00",
-            max_volunteers = 2,
-            job = j1)
+        s2 = Shift(
+            date="2012-10-23",
+            start_time="10:00",
+            end_time="4:00",
+            max_volunteers=2,
+            job=j1
+            )
 
-        s3 = Shift(date = "2012-10-23",
-            start_time = "12:00",
-            end_time = "6:00",
-            max_volunteers = 4,
-            job = j2)
+        s3 = Shift(
+            date="2012-10-23",
+            start_time="12:00",
+            end_time="6:00",
+            max_volunteers=4,
+            job=j2
+            )
 
         s1.save()
         s2.save()
@@ -928,67 +1403,83 @@ class ShiftMethodTests(TestCase):
         u1 = User.objects.create_user('Yoshi')     
         u2 = User.objects.create_user('John')     
 
-        v1 = Volunteer(first_name = "Yoshi",
-                    last_name = "Turtle",
-                    address = "Mario Land",
-                    city = "Nintendo Land",
-                    state = "Nintendo State",
-                    country = "Nintendo Nation",
-                    phone_number = "2374983247",
-                    email = "yoshi@nintendo.com",
-                    user = u1)
+        v1 = Volunteer(
+                    first_name="Yoshi",
+                    last_name="Turtle",
+                    address="Mario Land",
+                    city="Nintendo Land",
+                    state="Nintendo State",
+                    country="Nintendo Nation",
+                    phone_number="2374983247",
+                    email="yoshi@nintendo.com",
+                    user=u1
+                    )
 
-        v2 = Volunteer(first_name = "John",
-                    last_name = "Doe",
-                    address = "7 Alpine Street",
-                    city = "Maplegrove",
-                    state = "Wyoming",
-                    country = "USA",
-                    phone_number = "23454545",
-                    email = "john@test.com",
-                    user = u2)
+        v2 = Volunteer(
+                    first_name="John",
+                    last_name="Doe",
+                    address="7 Alpine Street",
+                    city="Maplegrove",
+                    state="Wyoming",
+                    country="USA",
+                    phone_number="23454545",
+                    email="john@test.com",
+                    user=u2
+                    )
 
         v1.save()
         v2.save()
 
-        e1 = Event(name = "Open Source Event",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23")
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
 
         e1.save()
 
-        j1 = Job(name = "Software Developer",
-                start_date = "2012-10-22",
-                end_date = "2012-10-23",
-                description = "A software job",
-                event = e1)
+        j1 = Job(
+                name="Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description="A software job",
+                event=e1
+                )
 
-        j2 = Job(name = "Systems Administrator",
-                start_date = "2012-9-1",
-                end_date = "2012-10-26",
-                description = "A systems administrator job",
-                event = e1)
+        j2 = Job(
+                name="Systems Administrator",
+                start_date="2012-9-1",
+                end_date="2012-10-26",
+                description="A systems administrator job",
+                event=e1
+                )
 
         j1.save()
         j2.save()
 
-        s1 = Shift(date = "2012-10-23",
-                start_time = "9:00",
-                end_time = "3:00",
-                max_volunteers = 1,
-                job = j1)
+        s1 = Shift(
+                date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
+                max_volunteers=1,
+                job=j1
+                )
 
-        s2 = Shift(date = "2012-10-23",
-                start_time = "10:00",
-                end_time = "4:00",
-                max_volunteers = 2,
-                job = j1)
+        s2 = Shift(
+                date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
+                max_volunteers=2,
+                job=j1
+                )
 
-        s3 = Shift(date = "2012-10-23",
-                start_time = "12:00",
-                end_time = "6:00",
-                max_volunteers = 4,
-                job = j2)
+        s3 = Shift(
+                date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
+                max_volunteers=4,
+                job=j2
+                )
 
         s1.save()
         s2.save()
