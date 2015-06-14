@@ -22,8 +22,6 @@ def delete_volunteer(volunteer_id):
         # then delete the volunteer
         volunteer.delete()
         result = True
-    else:
-        result = False
     return result
 
 
@@ -35,8 +33,6 @@ def delete_volunteer_resume(volunteer_id):
     if volunteer and volunteer.resume_file:
         volunteer.resume_file.delete()
         result = True
-    else:
-        result = False
     return result
 
 
@@ -97,6 +93,17 @@ def search_volunteers(
                         country,
                         organization
                         ):
+    """Volunteers search
+    None, one, or more parameters may be sent:
+    first_name, last_name, city, state, country, organization
+
+    If no search parameters are given, it returns all volunteers
+
+    Examples:
+    search_volunteers(None, None, None, None, None, None) - will return all volunteers
+    search_volunteers("Yoshi", None, None, None, None, None) - will return all volunteers with the first name "Yoshi"
+    search_volunteers(None, "Doe", None, None, None, None) - will return all volunteers with the last name "Doe"
+    """
 
     # if no search parameters are given, it returns all volunteers
     search_query = Volunteer.objects.all()

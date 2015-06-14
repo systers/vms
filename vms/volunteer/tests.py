@@ -63,7 +63,7 @@ class VolunteerMethodTests(TestCase):
         self.assertFalse(delete_volunteer(300))
 
     def test_delete_volunteer_resume(self):
-        """ Test delete_volunteer_resume(volunteer_id) """
+        """ Tests delete_volunteer_resume(volunteer_id) """
         u1 = User.objects.create_user('John')
 
         v1 = Volunteer(
@@ -85,7 +85,7 @@ class VolunteerMethodTests(TestCase):
         self.assertFalse(delete_volunteer(100))
 
     def test_get_all_volunteers(self):
-        """ Test get_all_volunteers() """
+        """ Tests get_all_volunteers() """
 
         u1 = User.objects.create_user('John')
         u2 = User.objects.create_user('James')
