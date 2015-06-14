@@ -121,11 +121,11 @@ def generate_report(volunteer_shift_list):
         report["event_name"] = event.name
         report["job_name"] = job.name
         report["date"] = shift.date
-        report["logged_start_time"] = volunteer_shift.start_time
-        report["logged_end_time"] = volunteer_shift.end_time
+        report["logged_start_time"] = volunteer_shift.shift.start_time
+        report["logged_end_time"] = volunteer_shift.shift.end_time
         report["duration"] = calculate_duration(
-                                                volunteer_shift.start_time,
-                                                volunteer_shift.end_time
+                                                volunteer_shift.shift.start_time,
+                                                volunteer_shift.shift.end_time
                                                 )
 
         report_list.append(report)

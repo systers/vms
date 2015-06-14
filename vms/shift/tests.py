@@ -7,7 +7,7 @@ from django.test import TestCase
 from event.models import Event
 from job.models import Job
 from shift.models import Shift, VolunteerShift
-from shift.services import *
+from shift.services import add_shift_hours, calculate_duration, calculate_total_report_hours, cancel_shift_registration, clear_shift_hours, delete_shift, edit_shift_hours, generate_report, get_administrator_report, get_all_volunteer_shifts_with_hours, get_shift_by_id, get_shifts_by_job_id, get_shifts_ordered_by_date, get_shift_slots_remaining, get_shifts_with_open_slots, get_unlogged_shifts_by_volunteer_id, get_volunteer_report, get_volunteer_shift_by_id, get_volunteer_shifts_with_hours, is_signed_up, register
 from volunteer.models import Volunteer
 
 
@@ -759,6 +759,120 @@ class ShiftMethodTests(TestCase):
         self.assertIsNotNone(volunteer_shift.end_time)
         self.assertEqual(volunteer_shift.start_time, start_time)
         self.assertEqual(volunteer_shift.end_time, end_time)
+
+    def test_generate_report(self):
+        """ Tests test_generate_report(volunteer_shift_list) """
+        u1 = User.objects.create_user('Yoshi')
+
+        v1 = Volunteer(
+                    first_name="Yoshi",
+                    last_name="Turtle",
+                    address="Mario Land",
+                    city="Nintendo Land",
+                    state="Nintendo State",
+                    country="Nintendo Nation",
+                    phone_number="2374983247",
+                    email="yoshi@nintendo.com",
+                    user=u1
+                    )
+
+        v1.save()
+
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+
+        e1.save()
+
+        j1 = Job(
+                name="Software Developer",
+                start_date="2012-10-22",
+                end_date="2012-10-23",
+                description="A software job",
+                event=e1
+                )
+
+        j2 = Job(
+                name="Systems Administrator",
+                start_date="2012-9-1",
+                end_date="2012-10-26",
+                description="A systems administrator job",
+                event=e1
+                )
+
+        j1.save()
+        j2.save()
+
+        s1 = Shift(
+                date="2012-10-23",
+                start_time="9:00",
+                end_time="3:00",
+                max_volunteers=1,
+                job=j1
+                )
+
+        s2 = Shift(
+                date="2012-10-23",
+                start_time="10:00",
+                end_time="4:00",
+                max_volunteers=2,
+                job=j1
+                )
+
+        s3 = Shift(
+                date="2012-10-23",
+                start_time="12:00",
+                end_time="6:00",
+                max_volunteers=4,
+                job=j2
+                )
+
+        s1.save()
+        s2.save()
+        s3.save()
+
+        shift_list = [s1, s2, s3]
+
+        self.assertIsNotNone(shift_list)
+        self.assertNotEqual(shift_list, False)
+        self.assertEqual(len(shift_list), 3)
+        self.assertIn(s1, shift_list)
+        self.assertIn(s2, shift_list)
+        self.assertIn(s3, shift_list)
+
+        # register will return an exception on error
+        # (such as when invalid parameters are passed)
+        # if an exception does get raised, this test will automatically fail
+        register(v1.id, s1.id)
+        volunteer_shift_1 = VolunteerShift.objects.get(
+                                volunteer_id=v1.id,
+                                shift_id=s1.id
+                                )
+        self.assertIsNotNone(volunteer_shift_1)
+
+        register(v1.id, s2.id)
+        volunteer_shift_2 = VolunteerShift.objects.get(
+                                    volunteer_id=v1.id,
+                                    shift_id=s2.id
+                                    )
+        self.assertIsNotNone(volunteer_shift_2)
+
+        register(v1.id, s3.id)
+        volunteer_shift_3 = VolunteerShift.objects.get(
+                                    volunteer_id=v1.id,
+                                    shift_id=s3.id
+                                    )
+        self.assertIsNotNone(volunteer_shift_3)
+
+        volunteer_shift_list = [
+                                volunteer_shift_1,
+                                volunteer_shift_2,
+                                volunteer_shift_3
+                                ]
+
+        self.assertIsNotNone(generate_report(volunteer_shift_list))
 
     def test_get_all_volunteer_shifts_with_hours(self):
         """ Test get_all_volunteer_shifts_with_hours() """
