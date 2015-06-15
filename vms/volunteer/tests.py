@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from organization.models import Organization
 from volunteer.models import Volunteer
+<<<<<<< HEAD
 from volunteer.services import (delete_volunteer,
                                 delete_volunteer_resume,
                                 get_all_volunteers,
@@ -11,6 +12,9 @@ from volunteer.services import (delete_volunteer,
                                 get_volunteers_ordered_by_first_name,
                                 has_resume_file,
                                 search_volunteers)
+=======
+from volunteer.services import delete_volunteer, delete_volunteer_resume, get_all_volunteers, get_volunteer_by_id, get_volunteer_resume_file_url, get_volunteers_ordered_by_first_name, has_resume_file, search_volunteers
+>>>>>>> 62c95a7734232181135af867c13a23f13d918a0f
 
 
 class VolunteerMethodTests(TestCase):

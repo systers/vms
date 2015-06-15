@@ -1,9 +1,13 @@
 from django.core.exceptions import ObjectDoesNotExist
 
+<<<<<<< HEAD
 from organization.services import (
                                     get_organization_by_name,
                                     get_organizations_ordered_by_name
                                     )
+=======
+from organization.services import get_organization_by_name, get_organizations_ordered_by_name
+>>>>>>> 62c95a7734232181135af867c13a23f13d918a0f
 from volunteer.models import Volunteer
 
 
@@ -103,12 +107,18 @@ def search_volunteers(
     If no search parameters are given, it returns all volunteers
 
     Examples:
+<<<<<<< HEAD
     search_volunteers(None, None, None, None, None, None)
     will return all volunteers
     search_volunteers("Yoshi", None, None, None, None, None)
     will return all volunteers with the first name "Yoshi"
     search_volunteers(None, "Doe", None, None, None, None)
     will return all volunteers with the last name "Doe"
+=======
+    search_volunteers(None, None, None, None, None, None) - will return all volunteers
+    search_volunteers("Yoshi", None, None, None, None, None) - will return all volunteers with the first name "Yoshi"
+    search_volunteers(None, "Doe", None, None, None, None) - will return all volunteers with the last name "Doe"
+>>>>>>> 62c95a7734232181135af867c13a23f13d918a0f
     """
 
     # if no search parameters are given, it returns all volunteers
