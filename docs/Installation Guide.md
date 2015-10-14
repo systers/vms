@@ -25,7 +25,7 @@ If you don't already have git, you can download it [here](http://git-scm.com/dow
 
 Clone the project from GitHub by running the following command:
 
-    git clone project_url_here
+    git clone https://github.com/systers/vms
 
 For my project, this would correspond to:
 
