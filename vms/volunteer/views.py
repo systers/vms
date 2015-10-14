@@ -1,4 +1,5 @@
 import os
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -6,12 +7,14 @@ from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+
 from organization.services import *
 from shift.services import *
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from volunteer.models import Volunteer
 from volunteer.services import * 
 from volunteer.validation import validate_file
+
 
 @login_required
 def download_resume(request, volunteer_id):
@@ -82,7 +85,7 @@ def edit(request, volunteer_id):
                     volunteer_to_edit.save()
                     return HttpResponseRedirect(reverse('volunteer:profile', args=(volunteer_id,)))
                 else:
-                    print form.errors
+                    print (form.errors)
                     return render(request, 'volunteer/edit.html', {'form' : form, 'organization_list' : organization_list, 'volunteer' : volunteer,})
             else:
                 #create a form to change an existing volunteer
@@ -119,8 +122,9 @@ def report(request, volunteer_id):
                 if form.is_valid():
                     event_name = form.cleaned_data['event_name']
                     job_name = form.cleaned_data['job_name']
-                    date = form.cleaned_data['date']
-                    report_list = get_volunteer_report(volunteer_id, event_name, job_name, date)
+                    start_date = form.cleaned_data['start_date']
+                    end_date = form.cleaned_data['end_date']
+                    report_list = get_volunteer_report(volunteer_id, event_name, job_name, start_date, end_date)
                     total_hours = calculate_total_report_hours(report_list)
                     return render(request, 'volunteer/report.html', {'form' : form, 'report_list' : report_list, 'total_hours' : total_hours, 'notification' : True})
                 else:

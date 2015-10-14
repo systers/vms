@@ -6,10 +6,12 @@ This tutorial assumes that the user is installing and running the project under 
 ## Table of Contents
 1. [Install git](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-git)
 2. [Clone Project](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#clone-project)
+2.5 [Install Python] (https://www.python.org/downloads/)
+2.6 [Install and make sure pip is working] (https://pip.pypa.io/en/latest/installing/)
 3. [Install Django and PostgreSQL](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-django-and-postgresql)
 4. [Install VirtualBox and Vagrant](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-virtualbox-and-vagrant)
 5. [Download Systers Ubuntu Virtual Machine](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#download-systers-ubuntu-virtual-machine)
-6. [Using Vagrant] (https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#using-vagrant)
+6. [Using Vagrant](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#using-vagrant)
 7. [Install python-psycopg2 module](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-python-psycopg2-module)
 8. [Setup PostgreSQL](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#setup-postgresql)
 9. [Generate Database Tables Corresponding to Django Models](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#generate-database-tables-corresponding-to-django-models)
@@ -25,11 +27,11 @@ If you don't already have git, you can download it [here](http://git-scm.com/dow
 
 Clone the project from GitHub by running the following command:
 
-    git clone project_url_here
+    git clone https://github.com/systers/vms
 
 For my project, this would correspond to:
 
-    git clone git@github.com:Nerdylicious/vms-integrated.git
+    git clone https://github.com/Nerdylicious/vms-integrated.git
 
 ## Install Django and PostgreSQL
 
@@ -88,13 +90,13 @@ You must wait a few minutes for the VM to be downloaded completely.
 
 The `vagrant up` command also boots the Virtual Machine.
 
-Once the VM download has completed, upon boot, it may ask you to choose an `Available bridged network interface`. The first option wil work in most cases.
+Once the VM download has completed, upon boot, it may ask you to choose an `Available bridged network interface`. The first option will work in most cases.
 
 You may come across a message that says `default: Warning: Remote connection disconnect. Retrying...` This message means that the VM is still booting up which is why we cannot establish a connection with it. It is normal to wait on this message for a few minutes (~5 minutes in my case) before we are able to get a connection to the VM. You may need to wait a few minutes until you get a message saying `default: Machine booted and ready!`.
 
 File syncing will work properly after you receive this message: `default: Mounting shared folders`. Please wait for this message before proceeding to the next steps.
 
-Once the VM booted up (and you were able to receive the messages specified above), you can ssh onto the VM by running the command:
+Once the VM boots up (and you were able to receive the messages specified above), you can ssh onto the VM by running the command:
 
     vagrant ssh
 
@@ -104,7 +106,7 @@ You will notice that the project is now synced to this VM by changing directory 
 
 When you make any changes to the project locally, these changes are also reflected (synced) to the project files located in /vagrant/vms, and vice versa.
 
-Here are some additional vagrant commands that may be useful (which you can try later, do not run these commands right now). Proceed to [Install python-psycopg2 module](https://github.com/Nerdylicious/vms/wiki/VMS-Installation-Instructions#install-python-psycopg2-module).
+Here are some additional vagrant commands that may be useful (which you can try later, do not run these commands right now). Proceed to [Install python-psycopg2 module](#ppm).
 
 Once you are done with the VM, exit out of the ssh session by running:
 
@@ -122,17 +124,37 @@ To start up the VM again, run the command:
 
     vagrant up
 
-## Install python-psycopg2 module
+## <a name="ppm"></a>Install python-psycopg2 module
 
-To use Django with PostgreSQL, we will also need to install the python module python-psycopg2. Install it by running this command (this package is not installed by default on the VM):
+To use Django with PostgreSQL, we will also need to install the python module python-psycopg2.
+By default, this package is not installed on the VM.
+
+Install it by running this command from the VM command prompt:
 
     sudo apt-get install python-psycopg2
+
+Example output on VM:
+
+    vagrant@vagrant-ubuntu-trusty-32:/vagrant/vms$ sudo apt-get install python-psycopg2
+    Reading package lists... Done
+    Building dependency tree
+    Reading state information... Done
+    ...
+    After this operation, 1,300 kB of additional disk space will be used.
+    Do you want to continue? [Y/n] Y
+    Get:1 http://archive.ubuntu.com/ubuntu/ trusty/main python-egenix-mxtools i386 3.2.7-1build1 [74.3 kB]
+    ...
+    Setting up python-psycopg2 (2.4.5-1build5) ...
+    vagrant@vagrant-ubuntu-trusty-32:/vagrant/vms$
 
 ## Setup PostgreSQL
 
 We will now setup PostgreSQL by first running the postgres client as root:
 
     sudo -u postgres psql
+
+NOTE: In case, you get an error - postgres: invalid argument: "psql". Then run the following command
+    sudo -u <insert postgres username here> psql
 
 Next, we will create a user called `vmsadmin` with a password `0xdeadbeef` (for now) with the permissions to be able to create roles, databases and to login with a password:
 
@@ -148,9 +170,16 @@ sudo nano /etc/postgresql/x.x/main/pg_hba.conf
 ```
 (where x.x is the version number of postgres)
 
+NOTE: In case you find a file not found error, then the postgresql installation has probably taken place in a different directory. Find the file using the following command
+    sudo find / -type f -iname pg_hba\.conf
+
+Now go the directory where the pg_hba.conf file is present.
+
 Change the line `local all postgres peer` to `local all postgres md5`
 
 Also, change the line `local all all peer` to `local all all md5`
+
+NOTE: In case you dont find the entries, just add the entries as mentioned above.
 
 After making these changes, make sure to save the file.
 
@@ -200,6 +229,13 @@ To generate the database tables that correspond to the Django models, run the co
 
     python manage.py syncdb
 
+NOTE: In case, you get the following error django.db.utils.ProgrammingError: relation "auth_user" does not exist, while running the above command do the following
+    python manage.py migrate auth
+    python manage.py migrate
+Now again try running the command 
+    python manage.py syncdb
+
+
 We do not want to create a superuser at this time, so when it asks you to create a superuser, say 'no':
 
     You just installed Djano's auth system, which means you don't have any superusers defined.
@@ -226,6 +262,11 @@ You will have to change the permissions on the **/srv** directory to read, write
 
     sudo chmod 777 /srv
 
+NOTE: In case you can the error "/srv: No such file or directory" while running the above comment do the following
+    sudo mkdir /srv
+
+After creating the directory, then try to change the permissions i.e., run the following command (sudo chmod 777 /srv)
+
 ## Run Development Server
 
 Change directory to where you can find the **manage.py** file (this is located in the top level directory for the project).
@@ -234,7 +275,7 @@ Start the development server by running the command (this runs the development s
 
     python manage.py runserver [::]:8000
 
-You can now try out the project by going to [http://localhost:8001/home](http://localhost:8001/home) on a browser on your local machine.
+You can now try out the project by going to [http://localhost:8000/home](http://localhost:8000/home) on a browser on your local machine.
 
 ## Run Unit Tests
 

@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
+
 from organization.models import Organization
+
 
 class Administrator(models.Model):
     first_name = models.CharField(
@@ -56,7 +58,8 @@ class Administrator(models.Model):
         max_length=20,
         validators=[
             RegexValidator(
-                r'^[0-9]+$',
+                r'^\+?1?\d{9,15}$',
+                message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
             ),
         ],
     )
@@ -69,10 +72,10 @@ class Administrator(models.Model):
             ),
         ],
     )
-    #Organization to Volunteer is a one-to-many relationship
+    # Organization to Volunteer is a one-to-many relationship
     organization = models.ForeignKey(Organization, null=True)
-    #EmailField automatically checks if email address is a valid format 
-    email = models.EmailField(max_length=20)
+    # EmailField automatically checks if email address is a valid format
+    email = models.EmailField(max_length=45, unique=True)
     user = models.OneToOneField(User)
 
     def __unicode__(self):

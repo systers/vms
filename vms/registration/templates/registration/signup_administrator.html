@@ -1,6 +1,7 @@
 {% extends "vms/base.html" %}
 
 {% block content %}
+
     <form class="signup form-signup" id="signup_form" method="post" action="{% url 'registration:signup_administrator' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <h2>Sign Up</h2>
@@ -245,7 +246,7 @@
                     Phone Number<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
-                    <input id="id_phone_number" class="textinput textInput form-control" type="text" placeholder="Phone Number" name="admin-phone_number" value="{{ administrator_form.phone_number.value }}">
+                    <input id="id_phone_number" class="textinput textInput form-control" type="text" placeholder="+999999999" name="admin-phone_number" value="{{ administrator_form.phone_number.value }}">
                     <p class="help-block">
                         <strong>
                             {% for error in administrator_form.phone_number.errors %}
@@ -261,7 +262,7 @@
                     Phone Number<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
-                    <input id="id_phone_number" class="textinput textInput form-control" type="text" placeholder="Phone Number" name="admin-phone_number" value="{% if administrator_form.phone_number.value %}{{ administrator_form.phone_number.value }}{% endif %}">
+                    <input id="id_phone_number" class="textinput textInput form-control" type="text" placeholder="+999999999" name="admin-phone_number" value="{% if administrator_form.phone_number.value %}{{ administrator_form.phone_number.value }}{% endif %}">
                 </div>
             </div>
         {% endif %}

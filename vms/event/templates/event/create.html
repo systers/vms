@@ -1,7 +1,22 @@
 {% extends "administrator/settings.html" %}
 
+
+
 {% block setting_content %}
-    <div class="spacer"></div>
+<br>
+{% if messages %}
+
+<div class="alert alert-dismissible alert-danger">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+</div>
+
+{% endif %}
+
     <div class="well">
         <form class="form-horizontal" action="{% url 'event:create' %}" method="post">
             {% csrf_token %}
@@ -29,11 +44,12 @@
                         </div>
                     </div>
                 {% endif %}
-                {% if form.start_date.errors %}
+				
+				{% if form.start_date.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Start Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="start_date" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
+							<input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.start_date.errors %}
@@ -47,7 +63,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Start Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="start_date" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
+							<input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
@@ -55,7 +71,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">End Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="end_date" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
+                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.end_date.errors %}
@@ -69,10 +85,127 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">End Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="end_date" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
+                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
+				
+				{% if form.country.errors %}
+                    <div class="form-group has-error">
+                        <label class="col-md-2 control-label">Country</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event Country" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}">
+                            <p class="help-block">
+                                <strong>
+                                    {% for error in form.country.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Country</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event Country" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}">
+                        </div>
+                    </div>
+                {% endif %}
+				
+				{% if form.state.errors %}
+                    <div class="form-group has-error">
+                        <label class="col-md-2 control-label">State</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event State" type="text" name="state" value="{% if form.state.value %}{{ form.state.value }}{% endif %}">
+                            <p class="help-block">
+                                <strong>
+                                    {% for error in form.state.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">State</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event State" type="text" name="state" value="{% if form.state.value %}{{ form.state.value }}{% endif %}">
+                        </div>
+                    </div>
+                {% endif %}
+				
+				{% if form.city.errors %}
+                    <div class="form-group has-error">
+                        <label class="col-md-2 control-label">City</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event City" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}">
+                            <p class="help-block">
+                                <strong>
+                                    {% for error in form.city.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">City</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event City" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}">
+                        </div>
+                    </div>
+                {% endif %}
+				
+				{% if form.address.errors %}
+                    <div class="form-group has-error">
+                        <label class="col-md-2 control-label">Address</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event Address" type="text" name="address" value="{% if form.address.value %}{{ form.address.value }}{% endif %}">
+                            <p class="help-block">
+                                <strong>
+                                    {% for error in form.address.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Address</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event Address" type="text" name="address" value="{% if form.address.value %}{{ form.address.value }}{% endif %}">
+                        </div>
+                    </div>
+                {% endif %}
+				
+				{% if form.venue.errors %}
+                    <div class="form-group has-error">
+                        <label class="col-md-2 control-label">Venue</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event Venue" type="text" name="venue" value="{% if form.venue.value %}{{ form.venue.value }}{% endif %}">
+                            <p class="help-block">
+                                <strong>
+                                    {% for error in form.venue.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </strong>
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Venue</label>
+                        <div class="col-md-8">
+                            <input class="form-control" placeholder="Event Venue" type="text" name="venue" value="{% if form.venue.value %}{{ form.venue.value }}{% endif %}">
+                        </div>
+                    </div>
+                {% endif %}
+				
+				
                 <div class="form-group">
                     <div class="col-md-12 col-md-offset-2">
                         <button class="btn btn-primary" type="submit">Create</button>

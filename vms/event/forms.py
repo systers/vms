@@ -1,13 +1,24 @@
 from django import forms
 from django.db import models
 from django.forms import ModelForm
+
 from event.models import Event
+
 
 class EventForm(ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'start_date', 'end_date']
-    
+        fields = [
+            'name',
+            'start_date',
+            'end_date',
+            'country',
+            'state',
+            'city',
+            'address',
+            'venue'
+            ]
+
     def clean(self):
 
         start_date = self.cleaned_data.get('start_date')
@@ -19,3 +30,8 @@ class EventForm(ModelForm):
                 self._errors['start_date'] = self.error_class([msg])
 
         return self.cleaned_data
+
+
+class EventDateForm(forms.Form):
+    start_date = forms.DateField(required=True)
+    end_date = forms.DateField(required=True)
