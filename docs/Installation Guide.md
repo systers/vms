@@ -6,8 +6,8 @@ This tutorial assumes that the user is installing and running the project under 
 ## Table of Contents
 1. [Install git](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-git)
 2. [Clone Project](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#clone-project)
-2.5 [Install Python] (https://www.python.org/downloads/)
-2.6 [Install and make sure pip is working] (https://pip.pypa.io/en/latest/installing/)
+2.5 [Install Python] (https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-python)
+2.6 [Install and make sure pip is working] (https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-and-make-sure-pip-is-working)
 3. [Install Django and PostgreSQL](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-django-and-postgresql)
 4. [Install VirtualBox and Vagrant](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-virtualbox-and-vagrant)
 5. [Download Systers Ubuntu Virtual Machine](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#download-systers-ubuntu-virtual-machine)
@@ -32,6 +32,16 @@ Clone the project from GitHub by running the following command:
 For my project, this would correspond to:
 
     git clone https://github.com/Nerdylicious/vms-integrated.git
+## Install Python
+
+1.Install python [here](https://www.python.org/downloads/)
+
+Follow the tutorial given by django-girls
+2. [Tutorial by Django-girls](http://tutorial.djangogirls.org/en/python_installation/index.html)
+
+## Install and make sure pip is working
+
+Check whether the pip is working [here](https://pip.pypa.io/en/latest/installing/)
 
 ## Install Django and PostgreSQL
 
