@@ -36,6 +36,7 @@ Contribute
 
 - Issue Tracker: [vms/issues](http://github.com/systers/vms/issues)
 - Source Code: [vms](http://github.com/systers/vms/)
+- Contributors link [here](https://github.com/systers/vms/graphs/contributors)
 
 
 Documentation
@@ -57,6 +58,13 @@ for the contributions from our GSoC developers.
 * [Task list for GSoC 2015](https://docs.google.com/document/d/13GVI5yGsx4Aj1L0UYawPRo5ViyB7o-0v_UyMWyrOZMY/edit)
 * [Completed features during GSoC 2014](https://docs.google.com/document/d/1wIHGmqTbufyGW9nKYt3vV-zZhdJEPfdxaOjegQ9qKEk/edit)
 
+Google Code-in (GCI) Development
+--------------------------------
+
+We are pleased to participate in the Google Code-in.
+
+* Visit the page [Google Code-in](https://developers.google.com/open-source/gci/) for more information.
+* The tasks in GCI include Coding,Documentation and Training,Outreach and research,quuality assurance,user interface.More on this [here](https://developers.google.com/open-source/gci/resources/contest-rules).
 
 Support
 -------
