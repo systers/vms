@@ -63,7 +63,7 @@ Google Code-in (GCI) Development
 
 We are pleased to participate in the Google Code-in.
 
-* Visit the page [Google Code-in] (https://developers.google.com/open-source/gci/) for more information.
+* Visit the page [Google Code-in] (https://developers.google.com/open-source/gci/) for detailed information.
 * The tasks in GCI include Coding, Documentation and Training, Outreach and research, Quality assurance, user interface. More on this can be found [here](https://developers.google.com/open-source/gci/resources/contest-rules).
 
 Support
