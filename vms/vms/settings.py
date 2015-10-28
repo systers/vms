@@ -81,7 +81,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # Specifies the directory where static files (CSS, JavasScript) are stored
-STATIC_URL = '/static/'
+STATIC_URL = '/static/vms/'
 
 # All uploaded files (such as resumes) are stored in the /srv directory
 # /srv directory contains site-specific data which is served by the system
