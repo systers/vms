@@ -38,16 +38,30 @@ def create(request):
                 event = get_event_by_id(event_id)
                 if event:
                     job.event = event
+
                 else:
                     raise Http404
                 job.save()
                 return HttpResponseRedirect(reverse('job:list'))
             else:
-                return render(
-                    request,
-                    'job/create.html',
-                    {'form': form, 'event_list': event_list}
-                    )
+                event_id=event_id = request.POST.get('event_id')
+                if event_id.is_valid():
+                    start=get_start_date_by_event_id(event_id)
+                    end=get_end_date_by_event_id(event_id)
+
+                    return render(
+                        request,
+                        'job/create.html',
+                        {'form': form, 'event_list': event_list, 'start': start, 'end':end }
+                        )
+
+                else
+                    return render(
+                        request,
+                        'job/create.html',
+                        {'form': form, 'event_list': event_list}
+                        )
+
         else:
             form = JobForm()
             return render(
@@ -141,3 +155,4 @@ def list_sign_up(request, event_id, volunteer_id):
             raise Http404
     else:
         raise Http404
+
