@@ -55,7 +55,7 @@ def create(request):
                         {'form': form, 'event_list': event_list, 'start': start, 'end':end }
                         )
 
-                else
+                else:
                     return render(
                         request,
                         'job/create.html',
