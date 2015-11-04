@@ -32,7 +32,8 @@ def get_event_by_shift_id(shift_id):
 
     return result
 
-# need to check that this event is not accociated with any jobs,
+
+# need to check that this event is not associated with any jobs,
 # otherwise the jobs that it is associated with will be cascade deleted
 def delete_event(event_id):
 
@@ -86,36 +87,23 @@ def get_events_by_date(start_date, end_date):
 
     return result
 
+
 def get_start_date_by_event_id(event_id):
 
-    is_valid = True
     result = None
-
-    try:
-        event = Event.objects.get(pk=event_id)
-    except ObjectDoesNotExist:
-        is_valid = False
-
-    if is_valid:
+    event = get_event_by_id(event_id)
+    if event:
         result = event.start_date
-
     return result
+
 
 def get_end_date_by_event_id(event_id):
 
-    is_valid = True
     result = None
-
-    try:
-        event = Event.objects.get(pk=event_id)
-    except ObjectDoesNotExist:
-        is_valid = False
-
-    if is_valid:
+    event = get_event_by_id(event_id)
+    if event:
         result = event.end_date
-
     return result
-
 
 
 def get_events_ordered_by_name():
