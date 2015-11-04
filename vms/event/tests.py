@@ -283,3 +283,99 @@ class EventMethodTests(TestCase):
         self.assertEqual(event_list[2], e1)
         self.assertEqual(event_list[3], e2)
         self.assertEqual(event_list[4], e4)
+
+def test_get_start_date_by_event_id(self):
+        """ Test get_event_by_id(event_id) """
+
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+        e2 = Event(
+                name="Python Event",
+                start_date="2013-11-12",
+                end_date="2013-11-13"
+                )
+        e3 = Event(
+                name="Django Event",
+                start_date="2015-07-07",
+                end_date="2015-07-08"
+                )
+
+        e1.save()
+        e2.save()
+        e3.save()
+
+        # test typical cases
+        self.assertIsNotNone(get_start_date_by_event_id(e1.id))
+        self.assertIsNotNone(get_start_date_by_event_id(e2.id))
+        self.assertIsNotNone(get_start_date_by_event_id(e3.id))
+
+        self.assertEqual(get_start_date_by_event_id(e1.id), e1)
+        self.assertEqual(get_start_date_by_event_id(e2.id), e2)
+        self.assertEqual(get_start_date_by_event_id(e3.id), e3)
+
+        self.assertIsNone(get_start_date_by_event_id(100))
+        self.assertIsNone(get_start_date_by_event_id(200))
+        self.assertIsNone(get_start_date_by_event_id(300))
+
+        self.assertNotEqual(get_start_date_by_event_id(100), e1)
+        self.assertNotEqual(get_start_date_by_event_id(200), e1)
+        self.assertNotEqual(get_start_date_by_event_id(300), e1)
+
+        self.assertNotEqual(get_start_date_by_event_id(100), e2)
+        self.assertNotEqual(get_start_date_by_event_id(200), e2)
+        self.assertNotEqual(get_start_date_by_event_id(300), e2)
+
+        self.assertNotEqual(get_start_date_by_event_id(100), e3)
+        self.assertNotEqual(get_start_date_by_event_id(200), e3)
+        self.assertNotEqual(get_start_date_by_event_id(300), e3)
+
+def test_get_end_date_by_event_id(self):
+        """ Test get_event_by_id(event_id) """
+
+        e1 = Event(
+                name="Open Source Event",
+                start_date="2012-10-22",
+                end_date="2012-10-23"
+                )
+        e2 = Event(
+                name="Python Event",
+                start_date="2013-11-12",
+                end_date="2013-11-13"
+                )
+        e3 = Event(
+                name="Django Event",
+                start_date="2015-07-07",
+                end_date="2015-07-08"
+                )
+
+        e1.save()
+        e2.save()
+        e3.save()
+
+        # test typical cases
+        self.assertIsNotNone(get_end_date_by_event_id(e1.id))
+        self.assertIsNotNone(get_end_date_by_event_id(e2.id))
+        self.assertIsNotNone(get_end_date_by_event_id(e3.id))
+
+        self.assertEqual(get_end_date_by_event_id(e1.id), e1)
+        self.assertEqual(get_end_date_by_event_id(e2.id), e2)
+        self.assertEqual(get_end_date_by_event_id(e3.id), e3)
+
+        self.assertIsNone(get_end_date_by_event_id(100))
+        self.assertIsNone(get_end_date_by_event_id(200))
+        self.assertIsNone(get_end_date_by_event_id(300))
+
+        self.assertNotEqual(get_end_date_by_event_id(100), e1)
+        self.assertNotEqual(get_end_date_by_event_id(200), e1)
+        self.assertNotEqual(get_end_date_by_event_id(300), e1)
+
+        self.assertNotEqual(get_end_date_by_event_id(100), e2)
+        self.assertNotEqual(get_end_date_by_event_id(200), e2)
+        self.assertNotEqual(get_end_date_by_event_id(300), e2)
+
+        self.assertNotEqual(get_end_date_by_event_id(100), e3)
+        self.assertNotEqual(get_end_date_by_event_id(200), e3)
+        self.assertNotEqual(get_end_date_by_event_id(300), e3)
