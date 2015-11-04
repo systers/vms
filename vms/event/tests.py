@@ -312,25 +312,25 @@ def test_get_start_date_by_event_id(self):
         self.assertIsNotNone(get_start_date_by_event_id(e2.id))
         self.assertIsNotNone(get_start_date_by_event_id(e3.id))
 
-        self.assertEqual(get_start_date_by_event_id(e1.id), e1)
-        self.assertEqual(get_start_date_by_event_id(e2.id), e2)
-        self.assertEqual(get_start_date_by_event_id(e3.id), e3)
+        self.assertEqual(get_start_date_by_event_id(e1.id), e1.start_date)
+        self.assertEqual(get_start_date_by_event_id(e2.id), e2.start_date)
+        self.assertEqual(get_start_date_by_event_id(e3.id), e3.start_date)
 
         self.assertIsNone(get_start_date_by_event_id(100))
         self.assertIsNone(get_start_date_by_event_id(200))
         self.assertIsNone(get_start_date_by_event_id(300))
 
-        self.assertNotEqual(get_start_date_by_event_id(100), e1)
-        self.assertNotEqual(get_start_date_by_event_id(200), e1)
-        self.assertNotEqual(get_start_date_by_event_id(300), e1)
+        self.assertNotEqual(get_start_date_by_event_id(100), e1.start_date)
+        self.assertNotEqual(get_start_date_by_event_id(200), e1.start_date)
+        self.assertNotEqual(get_start_date_by_event_id(300), e1.start_date)
 
-        self.assertNotEqual(get_start_date_by_event_id(100), e2)
-        self.assertNotEqual(get_start_date_by_event_id(200), e2)
-        self.assertNotEqual(get_start_date_by_event_id(300), e2)
+        self.assertNotEqual(get_start_date_by_event_id(100), e2.start_date)
+        self.assertNotEqual(get_start_date_by_event_id(200), e2.start_date)
+        self.assertNotEqual(get_start_date_by_event_id(300), e2.start_date)
 
-        self.assertNotEqual(get_start_date_by_event_id(100), e3)
-        self.assertNotEqual(get_start_date_by_event_id(200), e3)
-        self.assertNotEqual(get_start_date_by_event_id(300), e3)
+        self.assertNotEqual(get_start_date_by_event_id(100), e3.start_date)
+        self.assertNotEqual(get_start_date_by_event_id(200), e3.start_date)
+        self.assertNotEqual(get_start_date_by_event_id(300), e3.start_date)
 
 def test_get_end_date_by_event_id(self):
         """ Test get_event_by_id(event_id) """
@@ -360,22 +360,22 @@ def test_get_end_date_by_event_id(self):
         self.assertIsNotNone(get_end_date_by_event_id(e2.id))
         self.assertIsNotNone(get_end_date_by_event_id(e3.id))
 
-        self.assertEqual(get_end_date_by_event_id(e1.id), e1)
-        self.assertEqual(get_end_date_by_event_id(e2.id), e2)
-        self.assertEqual(get_end_date_by_event_id(e3.id), e3)
+        self.assertEqual(get_end_date_by_event_id(e1.id), e1.end_date)
+        self.assertEqual(get_end_date_by_event_id(e2.id), e2.end_date)
+        self.assertEqual(get_end_date_by_event_id(e3.id), e3.end_date)
 
         self.assertIsNone(get_end_date_by_event_id(100))
         self.assertIsNone(get_end_date_by_event_id(200))
         self.assertIsNone(get_end_date_by_event_id(300))
 
-        self.assertNotEqual(get_end_date_by_event_id(100), e1)
-        self.assertNotEqual(get_end_date_by_event_id(200), e1)
-        self.assertNotEqual(get_end_date_by_event_id(300), e1)
+        self.assertNotEqual(get_end_date_by_event_id(100), e1.end_date)
+        self.assertNotEqual(get_end_date_by_event_id(200), e1.end_date)
+        self.assertNotEqual(get_end_date_by_event_id(300), e1.end_date)
 
-        self.assertNotEqual(get_end_date_by_event_id(100), e2)
-        self.assertNotEqual(get_end_date_by_event_id(200), e2)
-        self.assertNotEqual(get_end_date_by_event_id(300), e2)
+        self.assertNotEqual(get_end_date_by_event_id(100), e2.end_date)
+        self.assertNotEqual(get_end_date_by_event_id(200), e2.end_date)
+        self.assertNotEqual(get_end_date_by_event_id(300), e2.end_date)
 
-        self.assertNotEqual(get_end_date_by_event_id(100), e3)
-        self.assertNotEqual(get_end_date_by_event_id(200), e3)
-        self.assertNotEqual(get_end_date_by_event_id(300), e3)
+        self.assertNotEqual(get_end_date_by_event_id(100), e3.end_date)
+        self.assertNotEqual(get_end_date_by_event_id(200), e3.end_date)
+        self.assertNotEqual(get_end_date_by_event_id(300), e3.end_date)
