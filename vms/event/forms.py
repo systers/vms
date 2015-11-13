@@ -16,7 +16,7 @@ class EventForm(ModelForm):
             'state',
             'city',
             'address',
-            'venue'
+            'venue',
             ]
 
     def clean(self):

@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^edit/(?P<event_id>\d+)$', views.edit, name='edit'),
     url(r'^list/$', views.list, name='list'),
     url(r'^list_sign_up/(?P<volunteer_id>\d+)$', views.list_sign_up, name='list_sign_up'),
+    url(r'^(?P<event_id>\d+)$',views.getevent,name="getevent"),
 )

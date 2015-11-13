@@ -5,9 +5,11 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
-
+from event.models import Event
 from event.forms import EventForm, EventDateForm
 from event.services import *
+from django.core import serializers
+from event.services import get_event_by_id as get_by_id
 
 
 @login_required
@@ -62,6 +64,17 @@ def delete(request, event_id):
         return render(request, 'event/delete.html', {'event_id': event_id})
     else:
         return render(request, 'vms/no_admin_rights.html')
+
+@login_required
+def getevent(request,event_id):
+    if is_admin(request):
+        if request.is_ajax():
+            print "hurray"
+            data = get_by_id(event_id)
+            print data.start_date
+            return HttpResponse(data)
+    else:
+        render(request, 'vms/no_admin_rights.html')
 
 
 @login_required

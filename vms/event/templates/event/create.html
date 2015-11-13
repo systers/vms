@@ -1,8 +1,90 @@
+
 {% extends "administrator/settings.html" %}
 
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
 {% block setting_content %}
+<script>
+$( document ).ready(function() {
+var valeur=0;
+var a1=12;
+var a2=13;
+var a3=12;
+var a4=13;
+var a5=12;
+var a6=13;
+var a7=12;
+var a8=13;
+
+$('#v1').on('input', function() {
+    valeur+=a1;
+    a1=0; 
+     document.getElementById("myProgress").value = valeur;
+    
+});
+
+    
+$('#v2').change(function() {
+    valeur+=a2;
+    a2=0;
+     document.getElementById("myProgress").value = valeur;
+   
+   
+});
+
+
+$('#v3').change(function() {
+    valeur+=a3;
+    a3=0;
+     document.getElementById("myProgress").value = valeur;
+   
+   
+});
+
+$('#v4').change(function() {
+    valeur+=a4;
+    a4=0;
+     document.getElementById("myProgress").value = valeur;
+   
+   
+});
+
+$('#v5').change(function() {
+    valeur+=a5;
+    a5=0;
+     document.getElementById("myProgress").value = valeur;
+   
+   
+});
+
+$('#v6').change(function() {
+    valeur+=a6;
+    a6=0;
+     document.getElementById("myProgress").value = valeur;
+   
+   
+});
+
+
+$('#v7').change(function() {
+    valeur+=a7;
+    a7=0;
+     document.getElementById("myProgress").value = valeur;
+   
+   
+});
+
+$('#v8').change(function() {
+    valeur+=a8;
+    a8=0;
+     document.getElementById("myProgress").value = valeur;
+   
+   
+});
+});
+</script>  
 <br>
 {% if messages %}
 
@@ -16,6 +98,8 @@
 </div>
 
 {% endif %}
+<progress id="myProgress" value="0" max="100" style="width:100%">
+</progress>
 
     <div class="well">
         <form class="form-horizontal" action="{% url 'event:create' %}" method="post">
@@ -26,7 +110,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Event Name</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Name" type="text" name="name" value="{% if form.name.value %}{{ form.name.value }}{% endif %}">
+                            <input id="v1" class="form-control" placeholder="Event Name" type="text" name="name" value="{% if form.name.value %}{{ form.name.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.name.errors %}
@@ -40,7 +124,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Event Name</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Name" type="text" name="name" value="{% if form.name.value %}{{ form.name.value }}{% endif %}">
+                            <input id="v1" class="form-control" placeholder="Event Name" type="text" name="name" value="{% if form.name.value %}{{ form.name.value }}{% endif %}" required="required">
                         </div>
                     </div>
                 {% endif %}
@@ -49,7 +133,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Start Date</label>
                         <div class="col-md-8">
-							<input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
+							<input  id="v2" class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.start_date.errors %}
@@ -63,7 +147,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Start Date</label>
                         <div class="col-md-8">
-							<input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
+							<input id="v2" class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}" required="required">
                         </div>
                     </div>
                 {% endif %}
@@ -71,7 +155,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">End Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
+                            <input id="v3" class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.end_date.errors %}
@@ -85,7 +169,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">End Date</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
+                            <input id="v3" class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}" required="required">
                         </div>
                     </div>
                 {% endif %}
@@ -94,7 +178,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Country</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Country" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}">
+                            <input id="v4" class="form-control" placeholder="Event Country" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.country.errors %}
@@ -108,7 +192,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Country</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Country" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}">
+                            <input id="v4" class="form-control" placeholder="Event Country" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}" required="required">
                         </div>
                     </div>
                 {% endif %}
@@ -117,7 +201,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">State</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event State" type="text" name="state" value="{% if form.state.value %}{{ form.state.value }}{% endif %}">
+                            <input  id="v5" class="form-control" placeholder="Event State" type="text" name="state" value="{% if form.state.value %}{{ form.state.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.state.errors %}
@@ -131,7 +215,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">State</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event State" type="text" name="state" value="{% if form.state.value %}{{ form.state.value }}{% endif %}">
+                            <input id="v5" class="form-control" placeholder="Event State" type="text" name="state" value="{% if form.state.value %}{{ form.state.value }}{% endif %}" required="required">
                         </div>
                     </div>
                 {% endif %}
@@ -140,7 +224,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">City</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event City" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}">
+                            <input id="v6" class="form-control" placeholder="Event City" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.city.errors %}
@@ -154,7 +238,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">City</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event City" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}">
+                            <input id="v6" class="form-control" placeholder="Event City" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}" required="required">
                         </div>
                     </div>
                 {% endif %}
@@ -163,7 +247,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Address</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Address" type="text" name="address" value="{% if form.address.value %}{{ form.address.value }}{% endif %}">
+                            <input id="v7" class="form-control" placeholder="Event Address" type="text" name="address" value="{% if form.address.value %}{{ form.address.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.address.errors %}
@@ -177,7 +261,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Address</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Address" type="text" name="address" value="{% if form.address.value %}{{ form.address.value }}{% endif %}">
+                            <input id="v7" class="form-control" placeholder="Event Address" type="text" name="address" value="{% if form.address.value %}{{ form.address.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
@@ -186,7 +270,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Venue</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Venue" type="text" name="venue" value="{% if form.venue.value %}{{ form.venue.value }}{% endif %}">
+                            <input id="v8" class="form-control" placeholder="Event Venue" type="text" name="venue" value="{% if form.venue.value %}{{ form.venue.value }}{% endif %}" required="required">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.venue.errors %}
@@ -200,7 +284,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">Venue</label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="Event Venue" type="text" name="venue" value="{% if form.venue.value %}{{ form.venue.value }}{% endif %}">
+                            <input id="v8" class="form-control" placeholder="Event Venue" type="text" name="venue" value="{% if form.venue.value %}{{ form.venue.value }}{% endif %}" required="required">
                         </div>
                     </div>
                 {% endif %}
