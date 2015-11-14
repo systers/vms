@@ -8,7 +8,6 @@ from job.forms import JobForm
 from job.services import *
 from event.services import *
 
-
 @login_required
 def is_admin(request):
     user = request.user

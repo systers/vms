@@ -3,6 +3,8 @@ from django.db import models
 from django.forms import ModelForm
 
 from event.models import Event
+from django_countries.fields import CountryField
+from django_countries import countries
 
 
 class EventForm(ModelForm):
@@ -16,7 +18,8 @@ class EventForm(ModelForm):
             'state',
             'city',
             'address',
-            'venue'
+            'venue',
+            'country2',
             ]
 
     def clean(self):
@@ -35,3 +38,5 @@ class EventForm(ModelForm):
 class EventDateForm(forms.Form):
     start_date = forms.DateField(required=True)
     end_date = forms.DateField(required=True)
+
+
