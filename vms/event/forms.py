@@ -3,6 +3,8 @@ from django.db import models
 from django.forms import ModelForm
 
 from event.models import Event
+from django_countries.fields import CountryField
+from django_countries import countries
 
 
 class EventForm(ModelForm):
@@ -16,7 +18,12 @@ class EventForm(ModelForm):
             'state',
             'city',
             'address',
+<<<<<<< HEAD
             'venue'
+=======
+            'venue',
+            'country2',
+>>>>>>> 93e903e... added country suggesting dropbox in event form
             ]
 
     def clean(self):
@@ -35,3 +42,5 @@ class EventForm(ModelForm):
 class EventDateForm(forms.Form):
     start_date = forms.DateField(required=True)
     end_date = forms.DateField(required=True)
+
+
