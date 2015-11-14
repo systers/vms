@@ -1,6 +1,11 @@
 from django.core.validators import RegexValidator
 from django.db import models
+<<<<<<< HEAD
 
+=======
+from django_countries.fields import CountryField
+from django_countries import countries
+>>>>>>> 93e903e... added country suggesting dropbox in event form
 
 class Event(models.Model):
     name = models.CharField(
@@ -11,6 +16,8 @@ class Event(models.Model):
             ),
         ],
     )
+    country2=models.CharField(default='NZ',max_length=50)
+    
     start_date = models.DateField()
     end_date = models.DateField()
 
