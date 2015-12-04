@@ -12,6 +12,10 @@
             {% csrf_token %}
             <fieldset>
                 <legend>Create Shift</legend>
+                    <p>Job Name: {{ job.name }}</p>
+                    <p>Start Date of Job: {{ job.start_date }}</p>
+                    <p>End Date of Job: {{ job.end_date }}</p>
+
                 {% if form.date.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Date</label>
