@@ -221,7 +221,7 @@ def create(request, job_id):
             event = job.event
             if request.method == 'POST':
                 if job:
-                    form = ShiftForm(request.POST)
+                    form = ShiftForm(request.POST, instance=job)
                     if form.is_valid():
                         shift = form.save(commit=False)
                         shift.job = job
@@ -231,12 +231,12 @@ def create(request, job_id):
                         return render(
                             request,
                             'shift/create.html',
-                            {'form': form, 'job_id': job_id, }
+                            {'form': form, 'job_id': job_id,'job': job }
                             )
                 else:
                     raise Http404
             else:
-                form = ShiftForm()
+                form = ShiftForm(instance=job)
                 country = event.country
                 state = event.state
                 city = event.city
@@ -245,7 +245,7 @@ def create(request, job_id):
                 return render(
                     request,
                     'shift/create.html',
-                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue}
+                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue, 'job': job}
                     )
         else:
             raise Http404
