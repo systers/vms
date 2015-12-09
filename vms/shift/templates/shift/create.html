@@ -12,6 +12,18 @@
             {% csrf_token %}
             <fieldset>
                 <legend>Create Shift</legend>
+                <label class="col-md-2 control-label">Job Name</label>
+                <div class="col-md-10">
+                    <p class="form-control-static">{{ job.name }}</p>
+                </div>
+                <label class="col-md-2 control-label">Job Start Date</label>
+                <div class="col-md-10">
+                    <p class="form-control-static">{{ job.start_date }}</p>
+                </div>
+                <label class="col-md-2 control-label">Job End Date</label>
+                <div class="col-md-10">
+                    <p class="form-control-static">{{ job.end_date }}</p>
+                </div>
                 {% if form.date.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Date</label>
@@ -40,10 +52,10 @@
                         <div class="col-md-8">
                             <div id="datetimepicker1" class="input-append">
 									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value|time:"H:i" }}{% endif %}"></input>
-									<span class="add-on">	  
+									<span class="add-on">
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
-								</div> 
+								</div>
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.start_time.errors %}
@@ -59,10 +71,10 @@
                         <div class="col-md-8">
                             <div id="datetimepicker1" class="input-append">
 									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value|time:"H:i" }}{% endif %}"></input>
-									<span class="add-on">	  
+									<span class="add-on">
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
-								</div> 
+								</div>
                         </div>
                     </div>
                 {% endif %}
@@ -72,7 +84,7 @@
                         <div class="col-md-8">
                             <div id="datetimepicker2" class="input-append">
 									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value|time:"H:i" }}{% endif %}"></input>
-									<span class="add-on">	  
+									<span class="add-on">
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
 								</div>
@@ -91,7 +103,7 @@
                         <div class="col-md-8">
                             <div id="datetimepicker2" class="input-append">
 									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value|time:"H:i" }}{% endif %}"></input>
-									<span class="add-on">	  
+									<span class="add-on">
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
 								</div>
@@ -164,7 +176,7 @@
                         </div>
                     </div>
                 {% endif %}
-				
+
 				{% if form.city.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">City</label>
@@ -187,7 +199,7 @@
                         </div>
                     </div>
                 {% endif %}
-				
+
 				{% if form.address.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Address</label>
@@ -210,7 +222,7 @@
                         </div>
                     </div>
                 {% endif %}
-				
+
 				{% if form.venue.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">Venue</label>
