@@ -26,6 +26,27 @@ def is_admin(request):
         return False
 
 
+@login_required()
+def ajax(self, request):
+    response_dict = {
+        'success': True,
+    }
+    action = request.POST.get('action','')
+    if action == 'date_get':
+        event_id = request.POST.get('id','')
+
+    if hasattr(self, action):
+        response_dict = getattr(self,action)(request)
+        start_date = get_start_date_by_event_id(event_id)
+        end_date = get_end_date_by_event_id(event_id)
+    response_dict = {
+        'start_date': start_date,
+        'end_date': end_date
+    }
+
+    return HttpResponse(response_dict)
+
+
 @login_required
 def create(request):
     if is_admin(request):
@@ -38,16 +59,19 @@ def create(request):
                 event = get_event_by_id(event_id)
                 if event:
                     job.event = event
+
                 else:
                     raise Http404
                 job.save()
                 return HttpResponseRedirect(reverse('job:list'))
             else:
+
                 return render(
-                    request,
-                    'job/create.html',
-                    {'form': form, 'event_list': event_list}
-                    )
+                        request,
+                        'job/create.html',
+                        {'form': form, 'event_list': event_list}
+                        )
+
         else:
             form = JobForm()
             return render(
@@ -141,3 +165,4 @@ def list_sign_up(request, event_id, volunteer_id):
             raise Http404
     else:
         raise Http404
+

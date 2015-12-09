@@ -4,22 +4,46 @@
     <div class="spacer"></div>
     {% if event_list %}
         <div class="well">
-            <form class="form-horizontal" action="{% url 'job:create' %}" method="post">
+            <form id="myform" class="form-horizontal" action="{% url 'job:create' %}" method="post">
                 {% csrf_token %}
                 <fieldset>
                     <legend>Create Job</legend>
+
                     <div class="form-group">
                         <label class="col-md-2 control-label">
                             Event:
                         </label>
+
                         <div class="col-md-8">
-                            <select class="form-control" name="event_id">
+                            <select class="form-control" name="event_id" onchange="function()">
                                 {% for event in event_list %}
                                     <option value="{{ event.id }}">{{ event.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
+                    <p id="start"> Event Starts </p>
+                    <p id="end"> Event Ends </p>
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                            $(document).on("change",'.get_date',
+                                function(){
+                                    $event_id=$(this).attr('value')
+                                    $ajax({
+                                        type:"POST",
+                                        data:{action: "date_get",id: $event_id},
+                                        success:function(data){
+                                            document.getElementById("start").innerHTML=str(data.start_date)
+                                            document.getElementById("end").innerHTML=str(data.end_date)
+
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    </script>
+
+
                     {% if form.name.errors %}
                         <div class="form-group has-error">
                             <label class="col-md-2 control-label">Job Name</label>

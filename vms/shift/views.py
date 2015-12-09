@@ -231,7 +231,7 @@ def create(request, job_id):
                         return render(
                             request,
                             'shift/create.html',
-                            {'form': form, 'job_id': job_id, }
+                            {'form': form, 'job_id': job_id,'job': job }
                             )
                 else:
                     raise Http404
@@ -245,7 +245,7 @@ def create(request, job_id):
                 return render(
                     request,
                     'shift/create.html',
-                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue}
+                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue, 'job': job}
                     )
         else:
             raise Http404
