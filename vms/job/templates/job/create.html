@@ -8,18 +8,34 @@
                 {% csrf_token %}
                 <fieldset>
                     <legend>Create Job</legend>
+
                     <div class="form-group">
                         <label class="col-md-2 control-label">
                             Event:
                         </label>
+
                         <div class="col-md-8">
-                            <select class="form-control" name="event_id">
+                            <select class="form-control" name="event_id" onchange="GetDates()">
                                 {% for event in event_list %}
                                     <option value="{{ event.id }}">{{ event.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
+                    <p id="start"></p>
+                    <p id="end"></p>
+                    <script type="text/javascript">
+                        function GetDates(){
+
+                            var a=" ";
+                            a="Start Date of Event is "+ get_start_date_by_event_id(document.getElementById("event_id").value);
+                            var b=" ";
+                            b="End Date of Event is "+ get_end_date_by_event_id(document.getElementById("event_id").value);
+                            document.getElementById("start").innerHTML=a;
+                            document.getElementById("end").innerHTML=b;
+                        }
+                    </script>
+
                     {% if form.name.errors %}
                         <div class="form-group has-error">
                             <label class="col-md-2 control-label">Job Name</label>
