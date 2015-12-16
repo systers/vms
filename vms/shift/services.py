@@ -326,15 +326,15 @@ def get_shifts_with_open_slots(j_id):
 
 def get_shifts_with_open_slots_for_volunteer(j_id, v_id):
     """
-    Returns shifts with open slots
+    Returns shifts with open slots that start today or later only
     all except those for which the volunteer has signed up.
     """
     shift_list_by_date = get_shifts_ordered_by_date(j_id)
     shift_list = []
-
+    current_date = date.today()
     for shift in shift_list_by_date:
         slots_remaining = get_shift_slots_remaining(shift.id)
-        if slots_remaining > 0 and not is_signed_up(v_id, shift.id):
+        if slots_remaining > 0 and not is_signed_up(v_id, shift.id) and shift.date >= current_date:
             shift_map = {}
             shift_map["id"] = shift.id
             shift_map["date"] = shift.date

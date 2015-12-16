@@ -16,9 +16,9 @@
                             <select class="form-control" name="event_id">
                                 {% for event in event_list %}
                                     {% if event.name == job.event.name %}
-                                        <option selected value="{{ event.id }}">{{ event.name }}</option>
+                                        <option selected value="{{ event.id }} ">{{ event.name }} ({{event.start_date}} - {{event.end_date}})</option>
                                     {% else %}
-                                        <option value="{{ event.id }}">{{ event.name }}</option>
+                                        <option value="{{ event.id }} ">{{ event.name }} ({{event.start_date}} - {{event.end_date}})</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
