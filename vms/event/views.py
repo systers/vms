@@ -8,7 +8,8 @@ from django.contrib import messages
 
 from event.forms import EventForm, EventDateForm
 from event.services import *
-
+from job.services import get_jobs_by_event_id
+from shift.services import get_shifts_with_open_slots_for_volunteer
 
 @login_required
 def is_admin(request):
@@ -99,8 +100,15 @@ def list_sign_up(request, volunteer_id):
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
             
-            event_list = get_events_by_date(start_date, end_date)
-            
+            event_list = get_events_has_shift_by_date(start_date, end_date)
+            for event in event_list:
+                job_list = get_jobs_by_event_id(event.id)
+                for job in job_list:
+                    shift_list = get_shifts_with_open_slots_for_volunteer(job.id, volunteer_id)
+                    if not shift_list:
+                        job_list = job_list.exclude(id=job.id)
+                if not job_list:
+                    event_list = event_list.exclude(id=event.id)
             return render(
                 request,
                 'event/list_sign_up.html',
@@ -108,6 +116,14 @@ def list_sign_up(request, volunteer_id):
                 )
         else:
             event_list = get_events_ordered_by_name()
+            for event in event_list:
+                job_list = get_jobs_by_event_id(event.id)
+                for job in job_list:
+                    shift_list = get_shifts_with_open_slots_for_volunteer(job.id, volunteer_id)
+                    if not shift_list:
+                        job_list = job_list.exclude(id=job.id)
+                if not job_list:
+                    event_list = event_list.exclude(id=event.id)
             return render(
                 request,
                 'event/list_sign_up.html',
@@ -115,6 +131,14 @@ def list_sign_up(request, volunteer_id):
                 )
     else:
         event_list = get_events_ordered_by_name()
+        for event in event_list:
+                job_list = get_jobs_by_event_id(event.id)
+                for job in job_list:
+                    shift_list = get_shifts_with_open_slots_for_volunteer(job.id, volunteer_id)
+                    if not shift_list:
+                        job_list = job_list.exclude(id=job.id)
+                if not job_list:
+                    event_list = event_list.exclude(id=event.id)
         return render(
             request,
             'event/list_sign_up.html',
