@@ -15,7 +15,7 @@
                         <div class="col-md-8">
                             <select class="form-control" name="event_id">
                                 {% for event in event_list %}
-                                    <option value="{{ event.id }}">{{ event.name }}</option>
+                                    <option value="{{ event.id }} ">{{ event.name }} ({{event.start_date}} - {{event.end_date}})</option>
                                 {% endfor %}
                             </select>
                         </div>
