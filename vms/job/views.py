@@ -7,6 +7,7 @@ from job.models import Job
 from job.forms import JobForm
 from job.services import *
 from event.services import *
+from shift.services import get_shifts_with_open_slots_for_volunteer
 
 
 @login_required
@@ -136,6 +137,10 @@ def list_sign_up(request, event_id, volunteer_id):
         event = get_event_by_id(event_id)
         if event:
             job_list = get_jobs_by_event_id(event_id)
+            for job in job_list:
+                shift_list = get_shifts_with_open_slots_for_volunteer(job.id, volunteer_id)
+                if not shift_list:
+                    job_list = job_list.exclude(id=job.id)
             return render(request, 'job/list_sign_up.html', {'event': event, 'job_list': job_list, 'volunteer_id': volunteer_id})
         else:
             raise Http404
