@@ -30,7 +30,7 @@
                         <div class="col-md-8">
                             <select class="form-control" name="event_id" id="id" onchange="dates()">
                                 {% for event in event_list %}
-                                    <option value="{{ event.id }}" event="{{ event }}">{{ event.name }}</option>
+                                    <option value="{{ event.id }}" event="{{ event }}">{{ event.name }} &nbsp;&nbsp;&nbsp;&nbsp; [from {{ event.start_date }} to {{ event.end_date }}]</option>
                                 {% endfor %}
                             </select>
                         </div>
