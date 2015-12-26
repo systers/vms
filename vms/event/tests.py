@@ -16,6 +16,7 @@ from event.services import (
         remove_empty_events_for_volunteer
         )
 
+from cities_light.models import City, Region, Country
 
 class EventMethodTests(TestCase):
 
@@ -103,7 +104,7 @@ class EventMethodTests(TestCase):
         s1.save()
         s2.save()
         s3.save()
-        
+
         self.assertIsNotNone(get_event_by_shift_id(s1.id))
         self.assertIsNotNone(get_event_by_shift_id(s2.id))
         self.assertIsNotNone(get_event_by_shift_id(s3.id))
@@ -225,12 +226,12 @@ class EventMethodTests(TestCase):
         # test typical cases
         event_list = get_events_by_date('2015-07-01','2015-08-01')
         self.assertIsNotNone(event_list)
-        
+
         self.assertIn(e3, event_list)
         self.assertIn(e4, event_list)
         self.assertIn(e5, event_list)
         self.assertEqual(len(event_list), 3)
-        
+
         # test order
         self.assertEqual(event_list[0], e3)
         self.assertEqual(event_list[1], e5)
@@ -296,14 +297,14 @@ class EventMethodTests(TestCase):
                 start_date="2012-10-22",
                 end_date="2012-10-23"
                 )
-        
+
         #Event with job and shift that volunteer already signed up for
         e2 = Event(
                 name="Python Event",
                 start_date="2013-11-12",
                 end_date="2013-11-13"
                 )
-        
+
         #Event with job and shift that have no slots remaining
         e3 = Event(
                 name="Django Event",
@@ -330,7 +331,7 @@ class EventMethodTests(TestCase):
         e3.save()
         e4.save()
         e5.save()
-        
+
         #Job with shift that has slots available
         j1 = Job(
                 name="Software Developer",
@@ -339,8 +340,8 @@ class EventMethodTests(TestCase):
                 description="A software job",
                 event=e1
                 )
-        
-        #Job with shift volunteer will have already signed up for  
+
+        #Job with shift volunteer will have already signed up for
         j2 = Job(
                 name="Systems Administrator",
                 start_date="2012-9-1",
@@ -371,7 +372,7 @@ class EventMethodTests(TestCase):
         j2.save()
         j3.save()
         j4.save()
-        
+
         s1 = Shift(
                 date="2012-10-23",
                 start_time="9:00",
@@ -399,25 +400,28 @@ class EventMethodTests(TestCase):
         s1.save()
         s2.save()
         s3.save()
-        
+
         u1 = User.objects.create_user('Yoshi')
-        
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
                     )
 
         v1.save()
-        
+
         register(v1.id, s2.id)
-        
+
         event_list = [e1, e2, e3, e4, e5]
         event_list = remove_empty_events_for_volunteer(event_list, v1.id)
 

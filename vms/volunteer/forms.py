@@ -1,7 +1,16 @@
 from django import forms
 from django.forms import ModelForm
+from django.forms import ModelChoiceField
 from volunteer.models import Volunteer
+from cities_light.models import Country
+import sys
 
+class CountryChoiceField(ModelChoiceField):    #As mentioned at https://docs.djangoproject.com/en/dev/ref/forms/fields/#django.forms.ModelChoiceField
+    def label_from_instance(self, obj):
+        if sys.version_info[0]==2:
+            return unicode(obj.name)   #python 2
+        elif sys.version_info[0]==3:
+            return str(obj.name)       #python 3
 
 class ReportForm(forms.Form):
     event_name = forms.RegexField(
@@ -52,14 +61,14 @@ class SearchVolunteerForm(forms.Form):
 
 
 class VolunteerForm(ModelForm):
+    country = CountryChoiceField(queryset=Country.objects.all(), empty_label=None)   #custom field for from to display name at dropdown
+
     class Meta:
         model = Volunteer
         fields = [
             'first_name',
             'last_name',
             'address',
-            'city',
-            'state',
             'country',
             'phone_number',
             'unlisted_organization',

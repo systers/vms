@@ -28,38 +28,41 @@ from shift.services import (
             send_reminder
             )
 from volunteer.models import Volunteer
-
+from cities_light.models import City, Region, Country
 
 class ShiftMethodTests(TestCase):
 
     def test_send_reminder(self):
-        
+
 
         u1 = User.objects.create_user('Marina')
         u2 = User.objects.create_user('Anna')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
             first_name="Marina",
             last_name="Tsvetaeva",
             address="MyAddress",
-            city="MyCity",
-            state="MyState",
-            country="MyCountry",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="2374983247",
             email="email1@gmail.com",
             reminder_days=1,
             user=u1
             )
 
-        
-        
+
+
         v2 = Volunteer(
             first_name="Anna",
             last_name="Akhmatova",
             address="MyAddress",
-            city="MyCity",
-            state="MyState",
-            country="MyCountry",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="2374983247",
             email="email2@gmail.com",
             reminder_days=7,
@@ -147,23 +150,26 @@ class ShiftMethodTests(TestCase):
         register(v2.id, s3.id)
 
         # test typical case
-        
-        result = send_reminder()       
-               
+
+        result = send_reminder()
+
         self.assertEqual(result,2)
-    
+
 
     def test_add_shift_hours(self):
 
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -388,14 +394,17 @@ class ShiftMethodTests(TestCase):
 
         u1 = User.objects.create_user('Yoshi')
         u2 = User.objects.create_user('John')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                         first_name="Yoshi",
                         last_name="Turtle",
                         address="Mario Land",
-                        city="Nintendo Land",
-                        state="Nintendo State",
-                        country="Nintendo Nation",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="2374983247",
                         email="yoshi@nintendo.com",
                         user=u1
@@ -405,9 +414,9 @@ class ShiftMethodTests(TestCase):
                         first_name="John",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="john@test.com",
                         user=u2
@@ -611,14 +620,17 @@ class ShiftMethodTests(TestCase):
     def test_clear_shift_hours(self):
 
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -738,14 +750,17 @@ class ShiftMethodTests(TestCase):
     def test_delete_shift(self):
         """ Test delete_shift(shift_id) """
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -799,14 +814,17 @@ class ShiftMethodTests(TestCase):
 
     def test_edit_shift_hours(self):
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -915,14 +933,17 @@ class ShiftMethodTests(TestCase):
     def test_generate_report(self):
         """ Tests test_generate_report(volunteer_shift_list) """
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -1029,14 +1050,17 @@ class ShiftMethodTests(TestCase):
     def test_get_all_volunteer_shifts_with_hours(self):
         """ Test get_all_volunteer_shifts_with_hours() """
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -1343,14 +1367,17 @@ class ShiftMethodTests(TestCase):
     def test_get_shifts_with_open_slots(self):
         """ Test get_shifts_with_open_slots(j_id) """
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -1419,14 +1446,17 @@ class ShiftMethodTests(TestCase):
     def test_get_unlogged_shifts_by_volunteer_id(self):
 
         u1 = User.objects.create_user('Yoshi')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
             first_name="Yoshi",
             last_name="Turtle",
             address="Mario Land",
-            city="Nintendo Land",
-            state="Nintendo State",
-            country="Nintendo Nation",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="2374983247",
             email="yoshi@nintendo.com",
             user=u1
@@ -1507,14 +1537,17 @@ class ShiftMethodTests(TestCase):
 
         u1 = User.objects.create_user('Yoshi')
         u2 = User.objects.create_user('John')
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
 
         v1 = Volunteer(
             first_name="Yoshi",
             last_name="Turtle",
             address="Mario Land",
-            city="Nintendo Land",
-            state="Nintendo State",
-            country="Nintendo Nation",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="2374983247",
             email="yoshi@nintendo.com",
             user=u1
@@ -1524,9 +1557,9 @@ class ShiftMethodTests(TestCase):
             first_name="John",
             last_name="Doe",
             address="7 Alpine Street",
-            city="Maplegrove",
-            state="Wyoming",
-            country="USA",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="23454545",
             email="john@test.com",
             user=u2
@@ -1643,13 +1676,17 @@ class ShiftMethodTests(TestCase):
         u1 = User.objects.create_user('Yoshi')
         u2 = User.objects.create_user('John')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
             first_name="Yoshi",
             last_name="Turtle",
             address="Mario Land",
-            city="Nintendo Land",
-            state="Nintendo State",
-            country="Nintendo Nation",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="2374983247",
             email="yoshi@nintendo.com",
             user=u1
@@ -1659,9 +1696,9 @@ class ShiftMethodTests(TestCase):
             first_name="John",
             last_name="Doe",
             address="7 Alpine Street",
-            city="Maplegrove",
-            state="Wyoming",
-            country="USA",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="23454545",
             email="john@test.com",
             user=u2
@@ -1733,13 +1770,17 @@ class ShiftMethodTests(TestCase):
         u1 = User.objects.create_user('Yoshi')
         u2 = User.objects.create_user('John')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
             first_name="Yoshi",
             last_name="Turtle",
             address="Mario Land",
-            city="Nintendo Land",
-            state="Nintendo State",
-            country="Nintendo Nation",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="2374983247",
             email="yoshi@nintendo.com",
             user=u1
@@ -1749,9 +1790,9 @@ class ShiftMethodTests(TestCase):
             first_name="John",
             last_name="Doe",
             address="7 Alpine Street",
-            city="Maplegrove",
-            state="Wyoming",
-            country="USA",
+            city=city1,
+            state=state1,
+            country=country1,
             phone_number="23454545",
             email="john@test.com",
             user=u2
@@ -1849,13 +1890,17 @@ class ShiftMethodTests(TestCase):
         u1 = User.objects.create_user('Yoshi')
         u2 = User.objects.create_user('John')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
@@ -1865,9 +1910,9 @@ class ShiftMethodTests(TestCase):
                     first_name="John",
                     last_name="Doe",
                     address="7 Alpine Street",
-                    city="Maplegrove",
-                    state="Wyoming",
-                    country="USA",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="23454545",
                     email="john@test.com",
                     user=u2

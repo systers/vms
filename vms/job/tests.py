@@ -14,6 +14,7 @@ from job.services import (
                             remove_empty_jobs_for_volunteer
                             )
 
+from cities_light.models import City, Region, Country
 
 class JobMethodTests(TestCase):
 
@@ -236,7 +237,7 @@ class JobMethodTests(TestCase):
                 )
 
         e1.save()
-        
+
         #Job with shift that has slots available
         j1 = Job(
                 name="Software Developer",
@@ -245,8 +246,8 @@ class JobMethodTests(TestCase):
                 description="A software job",
                 event=e1
                 )
-        
-        #Job with shift volunteer will have already signed up for  
+
+        #Job with shift volunteer will have already signed up for
         j2 = Job(
                 name="Systems Administrator",
                 start_date="2012-9-1",
@@ -277,7 +278,7 @@ class JobMethodTests(TestCase):
         j2.save()
         j3.save()
         j4.save()
-        
+
         s1 = Shift(
                 date="2012-10-23",
                 start_time="9:00",
@@ -305,25 +306,28 @@ class JobMethodTests(TestCase):
         s1.save()
         s2.save()
         s3.save()
-        
+
         u1 = User.objects.create_user('Yoshi')
-        
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                     first_name="Yoshi",
                     last_name="Turtle",
                     address="Mario Land",
-                    city="Nintendo Land",
-                    state="Nintendo State",
-                    country="Nintendo Nation",
+                    city=city1,
+                    state=state1,
+                    country=country1,
                     phone_number="2374983247",
                     email="yoshi@nintendo.com",
                     user=u1
                     )
 
         v1.save()
-        
+
         register(v1.id, s2.id)
-        
+
         job_list = [j1, j2, j3, j4]
         job_list = remove_empty_jobs_for_volunteer(job_list, v1.id)
 
@@ -332,5 +336,3 @@ class JobMethodTests(TestCase):
         self.assertNotIn(j2, job_list)
         self.assertNotIn(j3, job_list)
         self.assertNotIn(j4, job_list)
-            
-            

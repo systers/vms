@@ -5,7 +5,7 @@ from organization.services import (
                                     get_organizations_ordered_by_name
                                     )
 from volunteer.models import Volunteer
-
+from cities_light.models import City, Region, Country
 
 def delete_volunteer(volunteer_id):
     result = False
@@ -120,11 +120,14 @@ def search_volunteers(
     if last_name:
         search_query = search_query.filter(last_name__icontains=last_name)
     if city:
-        search_query = search_query.filter(city__icontains=city)
+        city1 = City.objects.filter(name=city)
+        search_query = search_query.filter(city=city1)
     if state:
-        search_query = search_query.filter(state__icontains=state)
+        state1 = Region.objects.filter(name=state)
+        search_query = search_query.filter(state=state1)
     if country:
-        search_query = search_query.filter(country__icontains=country)
+        country1 = Country.objects.filter(name=country)
+        search_query = search_query.filter(country=country1)
     if organization:
         organization_obj = get_organization_by_name(organization)
         organization_list = get_organizations_ordered_by_name()
