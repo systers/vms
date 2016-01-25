@@ -8,19 +8,21 @@
 {% block content %}
 
 <script>
+$( document ).ready(function() {
+
 $(window).scroll(function () {
-  var s = $(window).scrollTop(),
-        d = $(document).height(),
-        c = $(window).height();
-        scrollPercent = (s / (d-c)) * 100;
+  var s = $(window).scrollTop();
+  var d = $(document).height();
+  var c = $(window).height();
+   var scrollPercent = (s / (d-c)) * 100;
         var position = scrollPercent;
-
    $("#progressbar").attr('value', position);
-
+   $("#progressbar").css({'background': 'Orange'});
+});
 });
 </script>  
 
-
+<progress class = progress id="progressbar" value=“0” max="100" style = "position:fixed;width:500px;height:15px;right:440px;color:#0082FF"></progress>
     <form class="signup form-signup" id="signup_form" method="post" action="{% url 'registration:signup_volunteer' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <h2>Sign Up</h2>
@@ -403,7 +405,6 @@ $(window).scroll(function () {
                     </p>
                 </div>
             </div>
-<progress id="progressbar" value="0" max="100" style = “position:fixed”></progress>
         {% endif %}
 
 
