@@ -10,8 +10,6 @@ from shift.models import Shift
 from shift.services import *
 from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers
-from django.contrib import messages
-
 @login_required
 def add_hours(request, shift_id, volunteer_id):
     if shift_id and volunteer_id:
