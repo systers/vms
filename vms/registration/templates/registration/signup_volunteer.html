@@ -1,7 +1,25 @@
 {% extends "vms/base.html" %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 {% block content %}
+
+<script>
+$(window).scroll(function () {
+  var s = $(window).scrollTop(),
+        d = $(document).height(),
+        c = $(window).height();
+        scrollPercent = (s / (d-c)) * 100;
+        var position = scrollPercent;
+
+   $("#progressbar").attr('value', position);
+
+});
+</script>  
+
 
     <form class="signup form-signup" id="signup_form" method="post" action="{% url 'registration:signup_volunteer' %}" enctype="multipart/form-data">
         {% csrf_token %}
@@ -385,10 +403,16 @@
                     </p>
                 </div>
             </div>
+<progress id="progressbar" value="0" max="100" style = “position:fixed”></progress>
         {% endif %}
+
+
         <button type="submit" class="btn btn-lg btn-primary btn-block">Create Account</button>
         <p>
             Already have an account? Then please <a href="{% url 'authentication:login_process' %}">sign in</a>.
         </p>
     </form>
+
+
+
 {% endblock %}
