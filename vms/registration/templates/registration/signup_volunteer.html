@@ -1,8 +1,13 @@
 {% extends "vms/base.html" %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
+<script src="progress.js"></script>
 
 {% block content %}
 
+<progress class = progress id="progressbar" value=“0” max="100" style = "position:fixed;width:500px;height:15px;right:440px;color:#0082FF"></progress>
     <form class="signup form-signup" id="signup_form" method="post" action="{% url 'registration:signup_volunteer' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <h2>Sign Up</h2>
@@ -386,9 +391,18 @@
                 </div>
             </div>
         {% endif %}
+
+
         <button type="submit" class="btn btn-lg btn-primary btn-block">Create Account</button>
         <p>
             Already have an account? Then please <a href="{% url 'authentication:login_process' %}">sign in</a>.
         </p>
     </form>
+
+
+
+<<<<<<< HEAD
 {% endblock %}
+=======
+{% endblock %}
+>>>>>>> origin/develop
