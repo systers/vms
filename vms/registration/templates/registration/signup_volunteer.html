@@ -3,24 +3,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="progress.js"></script>
 
 {% block content %}
-
-<script>
-$( document ).ready(function() {
-
-$(window).scroll(function () {
-  var s = $(window).scrollTop();
-  var d = $(document).height();
-  var c = $(window).height();
-   var scrollPercent = (s / (d-c)) * 100;
-        var position = scrollPercent;
-   $("#progressbar").attr('value', position);
-   $("#progressbar").css({'background': 'Orange'});
-});
-});
-</script>  
 
 <progress class = progress id="progressbar" value=“0” max="100" style = "position:fixed;width:500px;height:15px;right:440px;color:#0082FF"></progress>
     <form class="signup form-signup" id="signup_form" method="post" action="{% url 'registration:signup_volunteer' %}" enctype="multipart/form-data">
