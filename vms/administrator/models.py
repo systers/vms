@@ -56,7 +56,7 @@ class Administrator(models.Model):
         max_length=20,
         validators=[
             RegexValidator(
-                r'^[0-9]+$',
+		r'^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$',
             ),
         ],
     )
