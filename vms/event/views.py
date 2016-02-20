@@ -74,8 +74,13 @@ def edit(request, event_id):
         if request.method == 'POST':
             form = EventForm(request.POST, instance=event)
             if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(reverse('event:list'))
+                start_date = form.cleaned_data['start_date']
+                if start_date < (datetime.date.today() - datetime.timedelta(days=1)):
+                    messages.add_message(request, messages.INFO, 'Start date should be today\'s date or later.')
+                    return render(request, 'event/edit.html', {'form': form, })
+                else:
+                    form.save()
+                    return HttpResponseRedirect(reverse('event:list'))
             else:
                 return render(request, 'event/edit.html', {'form': form, })
         else:
