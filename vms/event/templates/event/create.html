@@ -1,6 +1,7 @@
 {% extends "administrator/settings.html" %}
 
 {% load i18n %}
+{% load easy_maps_tags %}
 
 {% block setting_content %}
 <br>
@@ -181,7 +182,29 @@
                         </div>
                     </div>
                 {% endif %}
-				
+
+                {% if location == " " %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>Please enter details to search</p>                            
+                        </div>                                                                        
+                    </div> 
+                {% elif location == "not found" %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>The entered address could not be displayed on a map. Please retry with a different one or check your internet connection</p>
+                        </div>                                                                        
+                    </div>                      
+                {% elif location %}   
+                    <div class="row">                   
+                        <div class="map-area col-md-offset-2 col-md-8">
+                            {% with 450 as w and 300 as h and 16 as z and "easy_maps/map.html" as t %}
+                                {% easy_map location w h z using t %}
+                            {% endwith %} 
+                        </div>                                                                        
+                    </div> 
+                {% endif %}                 
+
 				{% if form.venue.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">{% trans "Venue" %}</label>
@@ -207,8 +230,11 @@
 				
 				
                 <div class="form-group">
-                    <div class="col-md-12 col-md-offset-2">
-                        <button class="btn btn-primary" type="submit">{% trans "Create" %}</button>
+                    <div class="col-md-1 col-md-offset-2">
+                        <button class="btn btn-primary" type="submit" name ="create_event">{% trans "Create" %}</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-default" type="submit" name ="show_map">View Map</button>
                     </div>
                 </div>
             </fieldset>
