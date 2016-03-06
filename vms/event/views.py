@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from event.forms import EventForm, EventDateForm
 from event.services import *
+from event.validate_address import *
 
 
 @login_required
@@ -42,7 +43,8 @@ def create(request):
                     form.save()
                     return HttpResponseRedirect(reverse('event:list'))
             elif form.is_valid() and 'show_map' in request.POST:
-                location = request.POST.get("address", "") + " " + request.POST.get("city", "") + " " + request.POST.get("state", "") + " " + request.POST.get("country", "")          
+                area = request.POST.get("address", "") + " " + request.POST.get("city", "") + " " + request.POST.get("state", "") + " " + request.POST.get("country", "")
+                location = validate_address(area)         
                 return render(request, 'event/create.html', {'form': form, 'location':location,})
             else:
                 return render(request, 'event/create.html', {'form': form, 'location':location,})
@@ -95,13 +97,15 @@ def edit(request, event_id):
                 form.save()
                 return HttpResponseRedirect(reverse('event:list'))
             elif form.is_valid() and 'show_map' in request.POST:
-                location = request.POST.get("address", "") + " " + request.POST.get("city", "") + " " + request.POST.get("state", "") + " " + request.POST.get("country", "") 
+                area = request.POST.get("address", "") + " " + request.POST.get("city", "") + " " + request.POST.get("state", "") + " " + request.POST.get("country", "")
+                location = validate_address(area) 
                 return render(request, 'event/edit.html', {'form': form, 'location': location, 'new_edit': new_edit,})
             else:
                 return render(request, 'event/edit.html', {'form': form, 'location': location, 'new_edit': new_edit,})
         else:
             form = EventForm(instance=event)
-            location = event.address + " " + event.city + " " + event.state + " " +  event.country
+            area = event.address + " " + event.city + " " + event.state + " " +  event.country
+            location = validate_address(area)
             new_edit = True
             return render(request, 'event/edit.html', {'form': form, 'location': location, 'new_edit': new_edit,})
     else:
