@@ -1,4 +1,5 @@
 {% extends "administrator/settings.html" %}
+{% load easy_maps_tags %}
 
 {% load i18n %}
 
@@ -166,6 +167,34 @@
                         </div>
                     </div>
                 {% endif %}
+
+                {% if new_edit and location == " "  or new_edit and location == "not found" %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>No map attached to this location</p>                            
+                        </div>                                                                        
+                    </div> 
+                {% elif location == " " %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>Please enter details to search</p>                            
+                        </div>                                                                        
+                    </div> 
+                {% elif location == "not found" %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>The entered address could not be displayed on a map. Please retry with a different one or check your internet connection</p>
+                        </div>                                                                        
+                    </div>                      
+                {% elif location %}   
+                    <div class="row">                   
+                        <div class="map-area col-md-offset-2 col-md-8">
+                            {% with 450 as w and 300 as h and 16 as z and "easy_maps/map.html" as t %}
+                                {% easy_map location w h z using t %}
+                            {% endwith %} 
+                        </div>                                                                        
+                    </div> 
+                {% endif %} 
 				
 				{% if form.venue.errors %}
                     <div class="form-group has-error">
@@ -190,8 +219,11 @@
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    <div class="col-md-12 col-md-offset-2">
-                        <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+                    <div class="col-md-1 col-md-offset-2">
+                        <button class="btn btn-primary" type="submit" name ="edit_event">{% trans "Save" %}</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-default" type="submit" name ="show_map">View Map</button>
                     </div>
                 </div>
             </fieldset>
