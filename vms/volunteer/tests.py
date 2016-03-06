@@ -12,6 +12,7 @@ from volunteer.services import (delete_volunteer,
                                 has_resume_file,
                                 search_volunteers)
 
+from cities_light.models import City, Region, Country
 
 class VolunteerMethodTests(TestCase):
 
@@ -21,13 +22,17 @@ class VolunteerMethodTests(TestCase):
         u2 = User.objects.create_user('Ashley')
         u3 = User.objects.create_user('Zelda')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="Yoshi",
                         last_name="Doe",
                         address="7 Oak Street",
-                        city="Elmgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="yoshi@test.com",
                         user=u1
@@ -37,9 +42,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="Ashley",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="ashley@test.com",
                         user=u2
@@ -50,9 +55,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="Zelda",
                         last_name="Doe",
                         address="7 Elm Street",
-                        city="Oakgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="zelda@test.com",
                         user=u3
@@ -73,13 +78,17 @@ class VolunteerMethodTests(TestCase):
         """ Tests delete_volunteer_resume(volunteer_id) """
         u1 = User.objects.create_user('John')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="John",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="john@test.com",
                         resume_file="MyResume.pdf",
@@ -98,13 +107,17 @@ class VolunteerMethodTests(TestCase):
         u2 = User.objects.create_user('James')
         u3 = User.objects.create_user('George')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="John",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="john@test.com",
                         user=u1
@@ -114,9 +127,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="James",
                         last_name="Doe",
                         address="7 Oak Street",
-                        city="Elmgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="james@test.com",
                         user=u2
@@ -127,9 +140,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="George",
                         last_name="Doe",
                         address="7 Elm Street",
-                        city="Oakgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="george@test.com",
                         user=u3
@@ -148,13 +161,17 @@ class VolunteerMethodTests(TestCase):
         u2 = User.objects.create_user('James')
         u3 = User.objects.create_user('George')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="John",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="john@test.com",
                         user=u1
@@ -164,9 +181,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="James",
                         last_name="Doe",
                         address="7 Oak Street",
-                        city="Elmgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="james@test.com",
                         user=u2
@@ -177,9 +194,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="George",
                         last_name="Doe",
                         address="7 Elm Street",
-                        city="Oakgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="george@test.com",
                         user=u3
@@ -213,13 +230,17 @@ class VolunteerMethodTests(TestCase):
 
         u1 = User.objects.create_user('John')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="John",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="john@test.com",
                         resume_file="MyResume.pdf",
@@ -249,13 +270,17 @@ class VolunteerMethodTests(TestCase):
         u2 = User.objects.create_user('Ashley')
         u3 = User.objects.create_user('Zelda')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="Yoshi",
                         last_name="Doe",
                         address="7 Oak Street",
-                        city="Elmgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="yoshi@test.com",
                         user=u1
@@ -265,9 +290,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="Ashley",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="ashley@test.com",
                         user=u2
@@ -278,9 +303,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="Zelda",
                         last_name="Doe",
                         address="7 Elm Street",
-                        city="Oakgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="zelda@test.com",
                         user=u3
@@ -309,13 +334,17 @@ class VolunteerMethodTests(TestCase):
         u2 = User.objects.create_user('James')
         u3 = User.objects.create_user('Jane')
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="John",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="john@test.com",
                         resume_file="MyResume.pdf",
@@ -326,9 +355,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="James",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="james@test.com",
                         user=u2
@@ -338,9 +367,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="Jane",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         email="jane@test.com",
                         resume_file="",
@@ -370,13 +399,17 @@ class VolunteerMethodTests(TestCase):
         o1.save()
         o2.save()
 
+        country1 = Country.objects.create(name_ascii="India", slug="india", geoname_id=1269750, name="India", continent="AS",tld="in")
+        state1 = Region.objects.create(name_ascii="Telangana", slug="telangana", geoname_id=1254788, name="Telangana", display_name="Telangana, India", geoname_code="tamil-nadu", country=country1)
+        city1 = City.objects.create(name_ascii="Hyderabad", slug="hyderabad", name="Hyderabad", display_name="Hyderabad, Telangana, India", search_names="Hyderabad", region=state1, country=country1)
+
         v1 = Volunteer(
                         first_name="Yoshi",
                         last_name="Doe",
                         address="7 Oak Street",
-                        city="Elmgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         organization=o1,
                         email="yoshi@test.com",
@@ -387,9 +420,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="Ashley",
                         last_name="Doe",
                         address="7 Alpine Street",
-                        city="Maplegrove",
-                        state="Wyoming",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         organization=o2,
                         email="ashley@test.com",
@@ -401,9 +434,9 @@ class VolunteerMethodTests(TestCase):
                         first_name="Zelda",
                         last_name="Doe",
                         address="7 Elm Street",
-                        city="Oakgrove",
-                        state="California",
-                        country="USA",
+                        city=city1,
+                        state=state1,
+                        country=country1,
                         phone_number="23454545",
                         unlisted_organization="Government of Canada",
                         email="zelda@test.com",
@@ -434,9 +467,9 @@ class VolunteerMethodTests(TestCase):
         search_list = search_volunteers(
                                         "Yoshi",
                                         "Doe",
-                                        "Elmgrove",
-                                        "California",
-                                        "USA",
+                                        "Hyderabad",
+                                        "Telangana",
+                                        "India",
                                         "Apple"
                                         )
         self.assertNotEqual(search_list, False)

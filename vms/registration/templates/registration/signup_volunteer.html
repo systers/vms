@@ -1,8 +1,8 @@
 {% extends "vms/base.html" %}
-
+{% load staticfiles %}
 
 {% block content %}
-
+    <script src="{% static "vms/js/country_state_city_validator.js" %}"></script>
     <form class="signup form-signup" id="signup_form" method="post" action="{% url 'registration:signup_volunteer' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <h2>Sign Up</h2>
@@ -189,83 +189,97 @@
                 </div>
             </div>
         {% endif %}
-        {% if volunteer_form.city.errors %}
-            <div id="div_id_city" class="form-group has-error">
-                <label class="control-label requiredField" for="id_city">
-                    City<span class="asteriskField">*</span>
-                </label>
-                <div class="controls">
-                    <input id="id_city" class="textinput textInput form-control" type="text" placeholder="City" name="vol-city" value="{{ volunteer_form.city.value }}">
-                    <p class="help-block">
-                        <strong>
-                            {% for error in volunteer_form.city.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </strong>
-                    </p>
-                </div>
-            </div>
-        {% else %}
-            <div id="div_id_city" class="form-group">
-                <label class="control-label requiredField" for="id_city">
-                    City<span class="asteriskField">*</span>
-                </label>
-                <div class="controls">
-                    <input id="id_city" class="textinput textInput form-control" type="text" placeholder="City" name="vol-city" value="{% if volunteer_form.city.value %}{{ volunteer_form.city.value }}{% endif %}">
-                </div>
-            </div>
-        {% endif %}
-        {% if volunteer_form.state.errors %}
-            <div id="div_id_state" class="form-group has-error">
-                <label class="control-label requiredField" for="id_state">
-                    State/Province<span class="asteriskField">*</span>
-                </label>
-                <div class="controls">
-                    <input id="id_state" class="textinput textInput form-control" type="text" placeholder="State/Province" name="vol-state" value="{{ volunteer_form.state.value }}">
-                    <p class="help-block">
-                        <strong>
-                            {% for error in volunteer_form.state.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </strong>
-                    </p>
-                </div>
-            </div>
-        {% else %}
-            <div id="div_id_state" class="form-group">
-                <label class="control-label requiredField" for="id_state">
-                    State/Province<span class="asteriskField">*</span>
-                </label>
-                <div class="controls">
-                    <input id="id_state" class="textinput textInput form-control" type="text" placeholder="State/Province" name="vol-state" value="{% if volunteer_form.state.value %}{{ volunteer_form.state.value }}{% endif %}">
-                </div>
-            </div>
-        {% endif %}
         {% if volunteer_form.country.errors %}
-            <div id="div_id_country" class="form-group has-error">
-                <label class="control-label requiredField" for="id_country">
-                    Country<span class="asteriskField">*</span>
-                </label>
-                <div class="controls">
-                    <input id="id_country" class="textinput textInput form-control" type="text" placeholder="Country" name="vol-country" value="{{ volunteer_form.country.value }}">
-                    <p class="help-block">
-                        <strong>
-                            {% for error in volunteer_form.country.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </strong>
-                    </p>
-                </div>
+          <div id="div_id_country" class="form-group has-error">
+            <label class="control-label requiredField" for="id_country">
+                Country<span class="asteriskField">*</span>
+            </label>
+            <div class="controls">
+              <select id="id_country" class="form-control" name="vol-country">
+                  <option value="0">-- Select Country --</option>
+                  {% for choice_id, choice_label in volunteer_form.country.field.choices %}
+                      <option value="{{ choice_id }}">{{ choice_label }}</option>
+                  {% endfor %}
+              </select>
+              <p class="help-block">
+                  <strong>
+                      {% for error in volunteer_form.country.errors %}
+                          {{ error }}
+                      {% endfor %}
+                  </strong>
+              </p>
             </div>
+          </div>
         {% else %}
-            <div id="div_id_country" class="form-group">
-                <label class="control-label requiredField" for="id_country">
-                    Country<span class="asteriskField">*</span>
-                </label>
-                <div class="controls">
-                    <input id="id_country" class="textinput textInput form-control" type="text" placeholder="Country" name="vol-country" value="{% if volunteer_form.country.value %}{{ volunteer_form.country.value }}{% endif %}">
-                </div>
+          <div id="div_id_country" class="form-group">
+            <label class="control-label requiredField" for="id_country">
+                Country<span class="asteriskField">*</span>
+            </label>
+            <div class="controls">
+              <select id="id_country" class="form-control" name="vol-country">
+                  <option value="0">-- Select Country --</option>
+                  {% for choice_id, choice_label in volunteer_form.country.field.choices %}
+                      <option value="{{ choice_id }}">{{ choice_label }}</option>
+                  {% endfor %}
+              </select>
             </div>
+          </div>
+        {% endif %}
+        {% if state_error %}
+          <div id="div_id_state" class="form-group has-error">
+            <label class="control-label requiredField" for="id_state">
+                State<span class="asteriskField">*</span>
+            </label>
+            <div class="controls">
+              <select id="id_state" class="form-control" name="vol-state" disabled="true">
+                  <option value="0">-- Select State --</option>
+              </select>
+              <p class="help-block">
+                  <strong>
+                      State can't be Null
+                  </strong>
+              </p>
+            </div>
+          </div>
+        {% else %}
+          <div id="div_id_state" class="form-group">
+            <label class="control-label requiredField" for="id_state">
+                State<span class="asteriskField">*</span>
+            </label>
+            <div class="controls">
+              <select id="id_state" class="form-control" name="vol-state" disabled="true">
+                  <option value="0">-- Select State --</option>
+              </select>
+            </div>
+          </div>
+        {% endif %}
+        {% if city_error %}
+          <div id="div_id_city" class="form-group has-error">
+            <label class="control-label requiredField" for="id_city">
+                City<span class="asteriskField">*</span>
+            </label>
+            <div class="controls">
+              <select id="id_city" class="form-control" name="vol-city" disabled="true">
+                  <option value="0">-- Select City --</option>
+              </select>
+              <p class="help-block">
+                  <strong>
+                      City can't be Null
+                  </strong>
+              </p>
+            </div>
+          </div>
+        {% else %}
+          <div id="div_id_city" class="form-group">
+            <label class="control-label requiredField" for="id_city">
+                City<span class="asteriskField">*</span>
+            </label>
+            <div class="controls">
+              <select id="id_city" class="form-control" name="vol-city" disabled="true">
+                  <option value="0">-- Select City --</option>
+              </select>
+            </div>
+          </div>
         {% endif %}
         {% if volunteer_form.phone_number.errors %}
             <div id="div_id_phone_number" class="form-group has-error">

@@ -7,7 +7,7 @@ from django.core.validators import (
 from django.db import models
 
 from organization.models import Organization
-
+from cities_light.models import Country, City, Region
 
 class Volunteer(models.Model):
     first_name = models.CharField(
@@ -34,30 +34,10 @@ class Volunteer(models.Model):
             ),
         ],
     )
-    city = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
-            ),
-        ],
-    )
-    state = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
-            ),
-        ],
-    )
-    country = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
-            ),
-        ],
-    )
+    city = models.ForeignKey(City, null=False)
+    state = models.ForeignKey(Region, null=False)
+    country = models.ForeignKey(Country, null=False)
+
     phone_number = models.CharField(
         max_length=20,
         validators=[

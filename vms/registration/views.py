@@ -1,7 +1,9 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
 
 from administrator.forms import AdministratorForm
 from organization.services import (get_organizations_ordered_by_name,
@@ -10,6 +12,7 @@ from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
 from registration.forms import UserForm
 
+from cities_light.models import Country, Region, City
 
 def signup_administrator(request):
     """
@@ -75,7 +78,8 @@ def signup_volunteer(request):
 
     registered = False
     organization_list = get_organizations_ordered_by_name()
-
+    city_error = False
+    state_error = False
     if organization_list:
         if request.method == 'POST':
             # each form must have its own namespace (prefix) if multiple forms
@@ -95,16 +99,12 @@ def signup_volunteer(request):
                                       {'user_form': user_form,
                                        'volunteer_form': volunteer_form,
                                        'registered': registered,
+                                       'city_error': city_error,
+                                       'state_error': state_error,
                                        'organization_list': organization_list,
                                        })
 
-                user = user_form.save()
-
-                user.set_password(user.password)
-                user.save()
-
                 volunteer = volunteer_form.save(commit=False)
-                volunteer.user = user
 
                 # if an organization isn't chosen from the dropdown,
                 # then organization_id will be 0
@@ -114,7 +114,43 @@ def signup_volunteer(request):
                 if organization:
                     volunteer.organization = organization
 
+                state_id = request.POST.get('vol-state')
+                try:
+                    state = Region.objects.get(pk=state_id)
+                except ObjectDoesNotExist:
+                    state = None
+
+                if state:
+                    volunteer.state = state
+                else:
+                    state_error = True
+
+                city_id = request.POST.get('vol-city')
+                try:
+                    city = City.objects.get(pk=city_id)
+                except ObjectDoesNotExist:
+                    city = None
+
+                if city:
+                    volunteer.city = city
+                else:
+                    city_error = True
+
+                if state_error or city_error:
+                    return render(request, 'registration/signup_volunteer.html',
+                                  {'user_form': user_form,
+                                   'volunteer_form': volunteer_form,
+                                   'registered': registered,
+                                   'city_error': city_error,
+                                   'state_error': state_error,
+                                   'organization_list': organization_list, })
+
                 volunteer.reminder_days = 1
+
+                user = user_form.save()
+                user.set_password(user.password)
+                user.save()
+                volunteer.user = user
                 volunteer.save()
                 registered = True
 
@@ -126,6 +162,8 @@ def signup_volunteer(request):
                               {'user_form': user_form,
                                'volunteer_form': volunteer_form,
                                'registered': registered,
+                               'city_error': city_error,
+                               'state_error': state_error,
                                'organization_list': organization_list, })
         else:
             user_form = UserForm(prefix="usr")
@@ -135,7 +173,21 @@ def signup_volunteer(request):
                       {'user_form': user_form,
                        'volunteer_form': volunteer_form,
                        'registered': registered,
+                       'city_error': city_error,
+                       'state_error': state_error,
                        'organization_list': organization_list, })
 
     else:
         return render(request, 'organization/add_organizations.html')
+
+def getstate(request, country_id):
+    current_country = Country.objects.get(id=country_id)
+    states = Region.objects.filter(country=current_country)
+    json_states = serializers.serialize("json", states)
+    return HttpResponse(json_states, content_type="application/javascript")
+
+def getcity(request, region_id):
+    current_region = Region.objects.get(id=region_id)
+    cities = City.objects.filter(region=current_region)
+    json_cities = serializers.serialize("json", cities)
+    return HttpResponse(json_cities, content_type="application/javascript")
