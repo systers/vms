@@ -331,33 +331,26 @@ def edit(request, shift_id):
             form = ShiftForm(request.POST, instance=shift)
             if form.is_valid():
                 shift_to_edit = form.save(commit=False)
-                
-		job=shift.job
-		if job:
+                job=shift.job
+        		if job:
                     shift_to_edit.job = job
                 else:
                     raise Http404
-                shift_to_edit.save()
 		
-		start_date_job=job.start_date
-		end_date_job=job.end_date
+		        start_date_job=job.start_date
+		        end_date_job=job.end_date
                 shift_date=form.cleaned_data['date']
-		if( shift_date >= start_date_job and shift_date <= end_date_job ):
-                            shift = form.save(commit=False)
-                            shift.job = job
-                            shift.save()
-                            return HttpResponseRedirect(reverse('shift:list_shifts', args=(shift_id,)))
+		        if( shift_date >= start_date_job and shift_date <= end_date_job ):
+                    shift_to_edit.save()
+                    return HttpResponseRedirect(reverse('shift:list_shifts', args=(shift_id,)))
                 else:
-                            messages.add_message(request, messages.INFO, 'Shift date should lie within Job dates')
-                            return render(
+                    messages.add_message(request, messages.INFO, 'Shift date should lie within Job dates')
+                    return render(
                     	    request,
                             'shift/edit.html',
                             {'form': form, 'shift': shift, 'job': shift.job}
                             )
-                return HttpResponseRedirect(reverse(
-                    'shift:list_shifts',
-                    args=(shift.job.id, )
-                    ))
+                           
             else:
                 return render(
                     request,
