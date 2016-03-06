@@ -103,6 +103,8 @@ def edit(request, event_id):
             else:
                 return render(request, 'event/edit.html', {'form': form, 'location': location, 'new_edit': new_edit,})
         else:
+            event.start_date = formats.date_format(event.start_date, "SHORT_DATE_FORMAT")
+            event.end_date = formats.date_format(event.end_date, "SHORT_DATE_FORMAT")
             form = EventForm(instance=event)
             area = event.address + " " + event.city + " " + event.state + " " +  event.country
             location = validate_address(area)

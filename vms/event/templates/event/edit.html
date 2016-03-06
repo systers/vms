@@ -36,7 +36,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">{% trans "Start Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.start_date.errors %}
@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">{% trans "Start Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
@@ -58,7 +58,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">{% trans "End Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.end_date.errors %}
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">{% trans "End Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
