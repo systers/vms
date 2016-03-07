@@ -349,7 +349,7 @@ def edit(request, shift_id):
                             shift = form.save(commit=False)
                             shift.job = job
                             shift.save()
-                            return HttpResponseRedirect(reverse('shift:list_shifts', args=(shift.job.id,)))
+                            return HttpResponseRedirect(reverse('shift:list_shifts', args=(job.id,)))
 
 			else:
 			    messages.add_message(request, messages.INFO, 'Shift end time should be greater than start time')
