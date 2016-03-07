@@ -356,7 +356,7 @@ def edit(request, shift_id):
                     )
                 return HttpResponseRedirect(reverse(
                     'shift:list_shifts',
-                    args=(shift.job.id,)
+                    args=(job.id,)
                 ))
             else:
                 return render(
