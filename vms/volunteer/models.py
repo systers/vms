@@ -117,3 +117,7 @@ class Volunteer(models.Model):
         )
 
     user = models.OneToOneField(User)
+
+    def __str__(self):
+        return ''.join([self.first_name.capitalize(),
+                        ' ', self.last_name.capitalize()])
