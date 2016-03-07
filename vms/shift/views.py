@@ -12,6 +12,7 @@ from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers
 from django.contrib import messages
 
+
 @login_required
 def add_hours(request, shift_id, volunteer_id):
     if shift_id and volunteer_id:
@@ -23,24 +24,24 @@ def add_hours(request, shift_id, volunteer_id):
                     start_time = form.cleaned_data['start_time']
                     end_time = form.cleaned_data['end_time']
                     try:
-			if(end_time>start_time):
-                        	 add_shift_hours(
-                           	 volunteer_id,
-                           	 shift_id,
-                           	 start_time,
-                           	 end_time
-                            	 )
-                        	 return HttpResponseRedirect(reverse(
-                                	'shift:view_hours',
-                                	args=(volunteer_id,)
-                                	))
-			else:
-				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
-				return render(
-                        	request,
-                        	'shift/add_hours.html',
-                        	{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
-                        	)
+                        if (end_time > start_time):
+                            add_shift_hours(
+                                volunteer_id,
+                                shift_id,
+                                start_time,
+                                end_time
+                            )
+                            return HttpResponseRedirect(reverse(
+                                'shift:view_hours',
+                                args=(volunteer_id,)
+                            ))
+                        else:
+                            messages.add_message(request, messages.INFO, 'End time should be greater than start time')
+                            return render(
+                                request,
+                                'shift/add_hours.html',
+                                {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
+                            )
                     except:
                         raise Http404
                 else:
@@ -48,14 +49,14 @@ def add_hours(request, shift_id, volunteer_id):
                         request,
                         'shift/add_hours.html',
                         {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
-                        )
+                    )
             else:
                 form = HoursForm()
                 return render(
                     request,
                     'shift/add_hours.html',
                     {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
-                    )
+                )
         else:
             return HttpResponse(status=403)
     else:
@@ -81,24 +82,24 @@ def add_hours_manager(request, shift_id, volunteer_id):
                 start_time = form.cleaned_data['start_time']
                 end_time = form.cleaned_data['end_time']
                 try:
-                    if(end_time>start_time):
-                        	 add_shift_hours(
-                           	 volunteer_id,
-                           	 shift_id,
-                           	 start_time,
-                           	 end_time
-                            	 )
-                        	 return HttpResponseRedirect(reverse(
-                        	 'shift:manage_volunteer_shifts',
-                        	 args=(volunteer_id, )
-                        	 ))
-		    else:
-				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
-				return render(
-                    		request,
-                    		'shift/add_hours_manager.html',
-                    		{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
-                    		)
+                    if (end_time > start_time):
+                        add_shift_hours(
+                            volunteer_id,
+                            shift_id,
+                            start_time,
+                            end_time
+                        )
+                        return HttpResponseRedirect(reverse(
+                            'shift:manage_volunteer_shifts',
+                            args=(volunteer_id,)
+                        ))
+                    else:
+                        messages.add_message(request, messages.INFO, 'End time should be greater than start time')
+                        return render(
+                            request,
+                            'shift/add_hours_manager.html',
+                            {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
+                        )
                 except:
                     raise Http404
             else:
@@ -106,19 +107,18 @@ def add_hours_manager(request, shift_id, volunteer_id):
                     request,
                     'shift/add_hours_manager.html',
                     {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
-                    )
+                )
         else:
             form = HoursForm()
             return render(
                 request,
                 'shift/add_hours_manager.html',
                 {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
-                )
+            )
 
 
 @login_required
 def cancel(request, shift_id, volunteer_id):
-
     if shift_id and volunteer_id:
 
         user = request.user
@@ -149,13 +149,13 @@ def cancel(request, shift_id, volunteer_id):
                 if admin:
                     return HttpResponseRedirect(reverse(
                         'shift:manage_volunteer_shifts',
-                        args=(volunteer_id, )
-                        ))
+                        args=(volunteer_id,)
+                    ))
                 elif volunteer:
                     return HttpResponseRedirect(reverse(
                         'shift:view_volunteer_shifts',
-                        args=(volunteer_id, )
-                        ))
+                        args=(volunteer_id,)
+                    ))
                 else:
                     raise Http404
             except:
@@ -165,22 +165,21 @@ def cancel(request, shift_id, volunteer_id):
                 request,
                 'shift/cancel_shift.html',
                 {'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                )
+            )
     else:
         raise Http404
 
 
 @login_required
 def clear_hours(request, shift_id, volunteer_id):
-
     if shift_id and volunteer_id:
         if request.method == 'POST':
             result = clear_shift_hours(volunteer_id, shift_id)
             if result:
                 return HttpResponseRedirect(reverse(
                     'shift:view_hours',
-                    args=(volunteer_id, )
-                    ))
+                    args=(volunteer_id,)
+                ))
             else:
                 raise Http404
         else:
@@ -208,8 +207,8 @@ def clear_hours_manager(request, shift_id, volunteer_id):
                 if result:
                     return HttpResponseRedirect(reverse(
                         'shift:manage_volunteer_shifts',
-                        args=(volunteer_id, )
-                        ))
+                        args=(volunteer_id,)
+                    ))
                 else:
                     raise Http404
             else:
@@ -239,10 +238,10 @@ def create(request, job_id):
                 if job:
                     form = ShiftForm(request.POST)
                     if form.is_valid():
-                        start_date_job=job.start_date
-                        end_date_job=job.end_date
-                        shift_date=form.cleaned_data['date']
-                        if( shift_date >= start_date_job and shift_date <= end_date_job ):
+                        start_date_job = job.start_date
+                        end_date_job = job.end_date
+                        shift_date = form.cleaned_data['date']
+                        if (shift_date >= start_date_job and shift_date <= end_date_job):
                             shift = form.save(commit=False)
                             shift.job = job
                             shift.save()
@@ -250,17 +249,17 @@ def create(request, job_id):
                         else:
                             messages.add_message(request, messages.INFO, 'Shift date should lie within Job dates')
                             return render(
-                            request,
-                            'shift/create.html',
-                            {'form': form, 'job_id': job_id, 'job': job }
+                                request,
+                                'shift/create.html',
+                                {'form': form, 'job_id': job_id, 'job': job}
                             )
 
                     else:
                         return render(
                             request,
                             'shift/create.html',
-                            {'form': form, 'job_id': job_id, 'job': job }
-                            )
+                            {'form': form, 'job_id': job_id, 'job': job}
+                        )
                 else:
                     raise Http404
             else:
@@ -273,8 +272,9 @@ def create(request, job_id):
                 return render(
                     request,
                     'shift/create.html',
-                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue, 'job': job}
-                    )
+                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city,
+                     'address': address, 'venue': venue, 'job': job}
+                )
         else:
             raise Http404
 
@@ -304,7 +304,7 @@ def delete(request, shift_id):
                 request,
                 'shift/delete.html',
                 {'shift_id': shift_id}
-                )
+            )
         else:
             raise Http404
 
@@ -331,65 +331,64 @@ def edit(request, shift_id):
             form = ShiftForm(request.POST, instance=shift)
             if form.is_valid():
                 shift_to_edit = form.save(commit=False)
-                
-		job=shift.job
-		if job:
+
+                job = shift.job
+                if job:
                     shift_to_edit.job = job
                 else:
                     raise Http404
-		
-		start_date_job=job.start_date
-		end_date_job=job.end_date
-                shift_date=form.cleaned_data['date']
 
-		shift_start_time=form.cleaned_data['start_time']
-		shift_end_time=form.cleaned_data['end_time']
-		if( shift_date >= start_date_job and shift_date <= end_date_job ):
-			if(shift_end_time>shift_start_time):
-                            shift = form.save(commit=False)
-                            shift.job = job
-                            shift.save()
-                            return HttpResponseRedirect(reverse('shift:list_shifts', args=(job.id,)))
+                start_date_job = job.start_date
+                end_date_job = job.end_date
+                shift_date = form.cleaned_data['date']
 
-			else:
-			    messages.add_message(request, messages.INFO, 'Shift end time should be greater than start time')
-                            return render(
+                shift_start_time = form.cleaned_data['start_time']
+                shift_end_time = form.cleaned_data['end_time']
+                if (shift_date >= start_date_job and shift_date <= end_date_job):
+                    if (shift_end_time > shift_start_time):
+                        shift = form.save(commit=False)
+                        shift.job = job
+                        shift.save()
+                        return HttpResponseRedirect(reverse('shift:list_shifts', args=(job.id,)))
+
+                    else:
+                        messages.add_message(request, messages.INFO, 'Shift end time should be greater than start time')
+                        return render(
                             request,
                             'shift/edit.html',
-                            {'form': form, 'shift': shift, 'job': shift.job }
-                            )
+                            {'form': form, 'shift': shift, 'job': shift.job}
+                        )
 
                 else:
-                            messages.add_message(request, messages.INFO, 'Shift date should lie within Job dates')
-                            return render(
-                    	    request,
-                            'shift/edit.html',
-                            {'form': form, 'shift': shift, 'job': shift.job}
-                            )
+                    messages.add_message(request, messages.INFO, 'Shift date should lie within Job dates')
+                    return render(
+                        request,
+                        'shift/edit.html',
+                        {'form': form, 'shift': shift, 'job': shift.job}
+                    )
 
-		shift_to_edit.save()
+                shift_to_edit.save()
                 return HttpResponseRedirect(reverse(
                     'shift:list_shifts',
-                    args=(shift.job.id, )
-                    ))
+                    args=(shift.job.id,)
+                ))
             else:
                 return render(
                     request,
                     'shift/edit.html',
                     {'form': form, 'shift': shift, 'job': shift.job}
-                    )
+                )
         else:
             form = ShiftForm(instance=shift)
             return render(
                 request,
                 'shift/edit.html',
                 {'form': form, 'shift': shift, 'job': shift.job}
-                )
+            )
 
 
 @login_required
 def edit_hours(request, shift_id, volunteer_id):
-
     if shift_id and volunteer_id:
         volunteer_shift = get_volunteer_shift_by_id(volunteer_id, shift_id)
         user = request.user
@@ -401,22 +400,23 @@ def edit_hours(request, shift_id, volunteer_id):
                         start_time = form.cleaned_data['start_time']
                         end_time = form.cleaned_data['end_time']
                         try:
-			    if(end_time>start_time):
-                        	edit_shift_hours(
-                                volunteer_id,
-                                shift_id,
-                                start_time,
-                                end_time
+                            if (end_time > start_time):
+                                edit_shift_hours(
+                                    volunteer_id,
+                                    shift_id,
+                                    start_time,
+                                    end_time
                                 )
-                            	return HttpResponseRedirect(reverse('shift:view_hours', args=(volunteer_id,)))
-			    else:
-				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
-				return render(
-                        	request,
-                            	'shift/edit_hours.html',
-                            	{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                            	)
-                            
+                                return HttpResponseRedirect(reverse('shift:view_hours', args=(volunteer_id,)))
+                            else:
+                                messages.add_message(request, messages.INFO,
+                                                     'End time should be greater than start time')
+                                return render(
+                                    request,
+                                    'shift/edit_hours.html',
+                                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                                )
+
                         except:
                             raise Http404
                     else:
@@ -424,14 +424,15 @@ def edit_hours(request, shift_id, volunteer_id):
                             request,
                             'shift/edit_hours.html',
                             {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                            )
+                        )
                 else:
-                    form = HoursForm(initial={'start_time': volunteer_shift.start_time, 'end_time': volunteer_shift.end_time})
+                    form = HoursForm(
+                        initial={'start_time': volunteer_shift.start_time, 'end_time': volunteer_shift.end_time})
                     return render(
                         request,
                         'shift/edit_hours.html',
                         {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                        )
+                    )
             else:
                 raise Http404
         else:
@@ -462,17 +463,19 @@ def edit_hours_manager(request, shift_id, volunteer_id):
                         start_time = form.cleaned_data['start_time']
                         end_time = form.cleaned_data['end_time']
                         try:
-			    if(end_time>start_time):
-                        	edit_shift_hours(volunteer_id, shift_id, start_time, end_time)
-                                return HttpResponseRedirect(reverse('shift:manage_volunteer_shifts', args=(volunteer_id,)))
-			    else:
-				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
-				return render(
-                        	request,
-                            	'shift/edit_hours_manager.html',
-                            	{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                            	)
-                            
+                            if (end_time > start_time):
+                                edit_shift_hours(volunteer_id, shift_id, start_time, end_time)
+                                return HttpResponseRedirect(
+                                    reverse('shift:manage_volunteer_shifts', args=(volunteer_id,)))
+                            else:
+                                messages.add_message(request, messages.INFO,
+                                                     'End time should be greater than start time')
+                                return render(
+                                    request,
+                                    'shift/edit_hours_manager.html',
+                                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                                )
+
                         except:
                             raise Http404
                     else:
@@ -480,14 +483,15 @@ def edit_hours_manager(request, shift_id, volunteer_id):
                             request,
                             'shift/edit_hours_manager.html',
                             {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                            )
+                        )
                 else:
-                    form = HoursForm(initial={'start_time': volunteer_shift.start_time, 'end_time': volunteer_shift.end_time})
+                    form = HoursForm(
+                        initial={'start_time': volunteer_shift.start_time, 'end_time': volunteer_shift.end_time})
                     return render(
                         request,
                         'shift/edit_hours_manager.html',
                         {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                        )
+                    )
             else:
                 raise Http404
         else:
@@ -504,7 +508,7 @@ def list_jobs(request):
     except ObjectDoesNotExist:
         pass
 
-    #check that an admin is logged in
+    # check that an admin is logged in
     if not admin:
         return render(request, 'vms/no_admin_rights.html')
     else:
@@ -512,8 +516,8 @@ def list_jobs(request):
         return render(
             request,
             'shift/list_jobs.html',
-            {'job_list' : job_list}
-            )
+            {'job_list': job_list}
+        )
 
 
 @login_required
@@ -526,7 +530,7 @@ def list_shifts(request, job_id):
     except ObjectDoesNotExist:
         pass
 
-    #check that an admin is logged in
+    # check that an admin is logged in
     if not admin:
         return render(request, 'vms/no_admin_rights.html')
     else:
@@ -538,7 +542,7 @@ def list_shifts(request, job_id):
                     request,
                     'shift/list_shifts.html',
                     {'shift_list': shift_list, 'job_id': job_id}
-                    )
+                )
             else:
                 raise Http404
         else:
@@ -561,7 +565,7 @@ def list_shifts_sign_up(request, job_id, volunteer_id):
                 request,
                 'shift/list_shifts_sign_up.html',
                 {'shift_list': shift_list, 'job': job, 'volunteer_id': volunteer_id}
-                )
+            )
         else:
             raise Http404
     else:
@@ -592,8 +596,9 @@ def manage_volunteer_shifts(request, volunteer_id):
                 return render(
                     request,
                     'shift/manage_volunteer_shifts.html',
-                    {'shift_list': shift_list,'shift_list_with_hours': shift_list_with_hours, 'volunteer_id': volunteer_id}
-                    )
+                    {'shift_list': shift_list, 'shift_list_with_hours': shift_list_with_hours,
+                     'volunteer_id': volunteer_id}
+                )
             else:
                 raise Http404
         else:
@@ -639,7 +644,7 @@ def sign_up(request, shift_id, volunteer_id):
                             request,
                             'shift/sign_up_error.html',
                             {'error_code': result}
-                            )
+                        )
                 except ObjectDoesNotExist:
                     raise Http404
             else:
@@ -647,7 +652,7 @@ def sign_up(request, shift_id, volunteer_id):
                     request,
                     'shift/sign_up.html',
                     {'shift': shift, 'volunteer_id': volunteer_id}
-                    )
+                )
         else:
             raise Http404
     else:
@@ -666,7 +671,7 @@ def view_hours(request, volunteer_id):
                     request,
                     'shift/hours_list.html',
                     {'volunteer_shift_list': volunteer_shift_list, }
-                    )
+                )
             else:
                 return HttpResponse(status=403)
         else:
@@ -697,7 +702,7 @@ def view_volunteer_shifts(request, volunteer_id):
                         request,
                         'shift/volunteer_shifts.html',
                         {'shift_list': shift_list, 'volunteer_id': volunteer_id, }
-                        )
+                    )
                 else:
                     return HttpResponse(status=403)
             else:
@@ -725,7 +730,6 @@ def volunteer_search(request):
         if request.method == 'POST':
             form = SearchVolunteerForm(request.POST)
             if form.is_valid():
-
                 first_name = form.cleaned_data['first_name']
                 last_name = form.cleaned_data['last_name']
                 city = form.cleaned_data['city']
@@ -734,18 +738,18 @@ def volunteer_search(request):
                 organization = form.cleaned_data['organization']
 
                 volunteer_list = search_volunteers(
-                        first_name,
-                        last_name,
-                        city,
-                        state,
-                        country,
-                        organization
-                        )
+                    first_name,
+                    last_name,
+                    city,
+                    state,
+                    country,
+                    organization
+                )
                 return render(
                     request,
                     'shift/volunteer_search.html',
                     {'form': form, 'has_searched': True, 'volunteer_list': volunteer_list}
-                    )
+                )
         else:
             form = SearchVolunteerForm()
             volunteer_list = get_all_volunteers()
@@ -754,4 +758,4 @@ def volunteer_search(request):
             request,
             'shift/volunteer_search.html',
             {'form': form, 'has_searched': False, 'volunteer_list': volunteer_list}
-            )
+        )
