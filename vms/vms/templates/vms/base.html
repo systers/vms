@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load i18n %}
 {% load staticfiles %}
+{% load i18n %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -37,11 +38,27 @@
 			</button>
                 <a class="navbar-brand" href="{% url 'home:index' %}">Systers</a>
             </div>
-
 		<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
 			<ul class="nav navbar-nav text-uppercase">
 				<li><a href="#">{% trans "About" %}</a></li>
             </ul>
+			<ul class="nav navbar-nav">
+				<li>
+					<form action="/i18n/set_language/" method="post">
+						{% csrf_token %}
+						<input name="next" type="hidden" value="{{request.path}}" />
+						<select name="language">
+							{% get_language_info_list for LANGUAGES as languages %}
+							{% for language in languages %}
+								<option value="{{ language.code }}">
+									{{ language.name_local }} ({{ language.code }})
+								</option>
+							{% endfor %}
+						</select>
+						<input type="submit" value="{% blocktrans%}Change Language{%endblocktrans %}" />
+					</form>
+				</li>
+			</ul>
             <ul class="nav navbar-nav navbar-right text-uppercase">
                     {% if user.is_authenticated %}
                         {% if user.administrator %}
