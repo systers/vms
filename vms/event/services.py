@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from event.models import Event
 from job.models import Job
 from shift.models import Shift
-
+from job.services import get_jobs_by_event_id, remove_empty_jobs_for_volunteer
 
 def event_not_empty(event_id):
     """ Checks if the event exists and is not empty """
@@ -32,9 +32,10 @@ def get_event_by_shift_id(shift_id):
 
     return result
 
-# need to check that this event is not accociated with any jobs,
-# otherwise the jobs that it is associated with will be cascade deleted
 def delete_event(event_id):
+    """ 
+    Deletes an event if no jobs are associated with it
+    """
 
     result = True
     event = get_event_by_id(event_id)
@@ -52,6 +53,31 @@ def delete_event(event_id):
         result = False
 
     return result
+
+def check_edit_event(event_id, new_start_date, new_end_date):
+    """
+    Checks if an event can be edited without resulting in invalid job or shift dates
+    """
+    result = True
+    invalid_count = 0
+    invalid_jobs = []
+    event = get_event_by_id(event_id)
+
+    if event_not_empty(event_id) and event:
+
+        jobs_in_event = event.job_set.all()
+        # check if there are currently any jobs associated with this event
+        if jobs_in_event:
+            for job in jobs_in_event:
+                if( job.start_date < new_start_date or job.end_date > new_end_date):
+                    result = False
+                    invalid_count += 1
+                    invalid_jobs.append(job.name)
+
+    else:
+        result = False
+
+    return {'result' : result, 'invalid_count': invalid_count, 'invalid_jobs': invalid_jobs}
 
 
 def get_event_by_id(event_id):
@@ -89,3 +115,14 @@ def get_events_by_date(start_date, end_date):
 def get_events_ordered_by_name():
     event_list = Event.objects.all().order_by('name')
     return event_list
+
+
+def remove_empty_events_for_volunteer(event_list, volunteer_id):
+    """ Removes all events from an event list without jobs or shifts """
+    new_event_list = []
+    for event in event_list:
+        job_list = get_jobs_by_event_id(event.id)
+        job_list = remove_empty_jobs_for_volunteer(job_list, volunteer_id)
+        if job_list:
+            new_event_list.append(event)
+    return new_event_list

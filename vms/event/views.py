@@ -86,6 +86,15 @@ def edit(request, event_id):
             form = EventForm(request.POST, instance=event)
             
             if form.is_valid():
+                start_date_event = form.cleaned_data['start_date']
+                end_date_event = form.cleaned_data['end_date']
+                event_edit = check_edit_event(event_id, start_date_event, end_date_event)
+                if not event_edit['result']:
+                    return render(
+                        request,
+                        'event/edit_error.html',
+                        {'count': event_edit['invalid_count'], 'jobs': event_edit['invalid_jobs']}
+                        )
                 form.save()
                 return HttpResponseRedirect(reverse('event:list'))
             else:
@@ -112,6 +121,7 @@ def list_sign_up(request, volunteer_id):
             end_date = form.cleaned_data['end_date']
             
             event_list = get_events_by_date(start_date, end_date)
+            event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
             
             return render(
                 request,
@@ -120,6 +130,7 @@ def list_sign_up(request, volunteer_id):
                 )
         else:
             event_list = get_events_ordered_by_name()
+            event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
             return render(
                 request,
                 'event/list_sign_up.html',
@@ -127,6 +138,7 @@ def list_sign_up(request, volunteer_id):
                 )
     else:
         event_list = get_events_ordered_by_name()
+        event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
         return render(
             request,
             'event/list_sign_up.html',

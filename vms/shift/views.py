@@ -3,14 +3,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-
+from datetime import date
 from job.services import *
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
 from shift.services import *
 from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers
-
+from django.contrib import messages
 
 @login_required
 def add_hours(request, shift_id, volunteer_id):
@@ -23,16 +23,24 @@ def add_hours(request, shift_id, volunteer_id):
                     start_time = form.cleaned_data['start_time']
                     end_time = form.cleaned_data['end_time']
                     try:
-                        add_shift_hours(
-                            volunteer_id,
-                            shift_id,
-                            start_time,
-                            end_time
-                            )
-                        return HttpResponseRedirect(reverse(
-                                'shift:view_hours',
-                                args=(volunteer_id,)
-                                ))
+			if(end_time>start_time):
+                        	 add_shift_hours(
+                           	 volunteer_id,
+                           	 shift_id,
+                           	 start_time,
+                           	 end_time
+                            	 )
+                        	 return HttpResponseRedirect(reverse(
+                                	'shift:view_hours',
+                                	args=(volunteer_id,)
+                                	))
+			else:
+				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
+				return render(
+                        	request,
+                        	'shift/add_hours.html',
+                        	{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
+                        	)
                     except:
                         raise Http404
                 else:
@@ -73,16 +81,24 @@ def add_hours_manager(request, shift_id, volunteer_id):
                 start_time = form.cleaned_data['start_time']
                 end_time = form.cleaned_data['end_time']
                 try:
-                    add_shift_hours(
-                        volunteer_id,
-                        shift_id,
-                        start_time,
-                        end_time
-                        )
-                    return HttpResponseRedirect(reverse(
-                        'shift:manage_volunteer_shifts',
-                        args=(volunteer_id, )
-                        ))
+                    if(end_time>start_time):
+                        	 add_shift_hours(
+                           	 volunteer_id,
+                           	 shift_id,
+                           	 start_time,
+                           	 end_time
+                            	 )
+                        	 return HttpResponseRedirect(reverse(
+                        	 'shift:manage_volunteer_shifts',
+                        	 args=(volunteer_id, )
+                        	 ))
+		    else:
+				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
+				return render(
+                    		request,
+                    		'shift/add_hours_manager.html',
+                    		{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, }
+                    		)
                 except:
                     raise Http404
             else:
@@ -223,15 +239,27 @@ def create(request, job_id):
                 if job:
                     form = ShiftForm(request.POST)
                     if form.is_valid():
-                        shift = form.save(commit=False)
-                        shift.job = job
-                        shift.save()
-                        return HttpResponseRedirect(reverse('shift:list_shifts', args=(job_id,)))
+                        start_date_job=job.start_date
+                        end_date_job=job.end_date
+                        shift_date=form.cleaned_data['date']
+                        if( shift_date >= start_date_job and shift_date <= end_date_job ):
+                            shift = form.save(commit=False)
+                            shift.job = job
+                            shift.save()
+                            return HttpResponseRedirect(reverse('shift:list_shifts', args=(job_id,)))
+                        else:
+                            messages.add_message(request, messages.INFO, 'Shift date should lie within Job dates')
+                            return render(
+                            request,
+                            'shift/create.html',
+                            {'form': form, 'job_id': job_id, 'job': job }
+                            )
+
                     else:
                         return render(
                             request,
                             'shift/create.html',
-                            {'form': form, 'job_id': job_id, }
+                            {'form': form, 'job_id': job_id, 'job': job }
                             )
                 else:
                     raise Http404
@@ -245,7 +273,7 @@ def create(request, job_id):
                 return render(
                     request,
                     'shift/create.html',
-                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue}
+                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue, 'job': job}
                     )
         else:
             raise Http404
@@ -302,7 +330,44 @@ def edit(request, shift_id):
         if request.method == 'POST':
             form = ShiftForm(request.POST, instance=shift)
             if form.is_valid():
-                form.save()
+                shift_to_edit = form.save(commit=False)
+                
+		job=shift.job
+		if job:
+                    shift_to_edit.job = job
+                else:
+                    raise Http404
+		
+		start_date_job=job.start_date
+		end_date_job=job.end_date
+                shift_date=form.cleaned_data['date']
+
+		shift_start_time=form.cleaned_data['start_time']
+		shift_end_time=form.cleaned_data['end_time']
+		if( shift_date >= start_date_job and shift_date <= end_date_job ):
+			if(shift_end_time>shift_start_time):
+                            shift = form.save(commit=False)
+                            shift.job = job
+                            shift.save()
+                            return HttpResponseRedirect(reverse('shift:list_shifts', args=(shift.job.id,)))
+
+			else:
+			    messages.add_message(request, messages.INFO, 'Shift end time should be greater than start time')
+                            return render(
+                            request,
+                            'shift/edit.html',
+                            {'form': form, 'shift': shift, 'job': shift.job }
+                            )
+
+                else:
+                            messages.add_message(request, messages.INFO, 'Shift date should lie within Job dates')
+                            return render(
+                    	    request,
+                            'shift/edit.html',
+                            {'form': form, 'shift': shift, 'job': shift.job}
+                            )
+
+		shift_to_edit.save()
                 return HttpResponseRedirect(reverse(
                     'shift:list_shifts',
                     args=(shift.job.id, )
@@ -311,14 +376,14 @@ def edit(request, shift_id):
                 return render(
                     request,
                     'shift/edit.html',
-                    {'form': form, 'shift': shift}
+                    {'form': form, 'shift': shift, 'job': shift.job}
                     )
         else:
             form = ShiftForm(instance=shift)
             return render(
                 request,
                 'shift/edit.html',
-                {'form': form, 'shift': shift}
+                {'form': form, 'shift': shift, 'job': shift.job}
                 )
 
 
@@ -336,13 +401,22 @@ def edit_hours(request, shift_id, volunteer_id):
                         start_time = form.cleaned_data['start_time']
                         end_time = form.cleaned_data['end_time']
                         try:
-                            edit_shift_hours(
+			    if(end_time>start_time):
+                        	edit_shift_hours(
                                 volunteer_id,
                                 shift_id,
                                 start_time,
                                 end_time
                                 )
-                            return HttpResponseRedirect(reverse('shift:view_hours', args=(volunteer_id,)))
+                            	return HttpResponseRedirect(reverse('shift:view_hours', args=(volunteer_id,)))
+			    else:
+				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
+				return render(
+                        	request,
+                            	'shift/edit_hours.html',
+                            	{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                            	)
+                            
                         except:
                             raise Http404
                     else:
@@ -388,8 +462,17 @@ def edit_hours_manager(request, shift_id, volunteer_id):
                         start_time = form.cleaned_data['start_time']
                         end_time = form.cleaned_data['end_time']
                         try:
-                            edit_shift_hours(volunteer_id, shift_id, start_time, end_time)
-                            return HttpResponseRedirect(reverse('shift:manage_volunteer_shifts', args=(volunteer_id,)))
+			    if(end_time>start_time):
+                        	edit_shift_hours(volunteer_id, shift_id, start_time, end_time)
+                                return HttpResponseRedirect(reverse('shift:manage_volunteer_shifts', args=(volunteer_id,)))
+			    else:
+				messages.add_message(request, messages.INFO, 'End time should be greater than start time')
+				return render(
+                        	request,
+                            	'shift/edit_hours_manager.html',
+                            	{'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                            	)
+                            
                         except:
                             raise Http404
                     else:
@@ -467,7 +550,13 @@ def list_shifts_sign_up(request, job_id, volunteer_id):
     if job_id:
         job = get_job_by_id(job_id)
         if job:
-            shift_list = get_shifts_with_open_slots_for_volunteer(job_id, volunteer_id)
+            shift_list = []
+            shift_list_all = get_shifts_with_open_slots_for_volunteer(job_id, volunteer_id)
+            for shift in shift_list_all:
+                sdate = shift["date"]
+                today = date.today()
+                if sdate >= today:
+                    shift_list.append(shift)
             return render(
                 request,
                 'shift/list_shifts_sign_up.html',
@@ -539,7 +628,7 @@ def sign_up(request, shift_id, volunteer_id):
 
             if request.method == 'POST':
                 try:
-                    result = register(volunteer_id, shift_id)            
+                    result = register(volunteer_id, shift_id)
                     if result == "IS_VALID":
                         if admin:
                             return HttpResponseRedirect(reverse('shift:manage_volunteer_shifts', args=(volunteer_id,)))
