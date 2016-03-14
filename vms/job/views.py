@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib import messages
 
 from job.models import Job
 from job.forms import JobForm
@@ -30,18 +31,34 @@ def is_admin(request):
 def create(request):
     if is_admin(request):
         event_list = get_events_ordered_by_name()
+
         if request.method == 'POST':
             form = JobForm(request.POST)
+
             if form.is_valid():
-                job = form.save(commit=False)
+
                 event_id = request.POST.get('event_id')
                 event = get_event_by_id(event_id)
-                if event:
-                    job.event = event
+                start_date_event=event.start_date
+                end_date_event=event.end_date
+                start_date_job=form.cleaned_data.get('start_date')
+                end_date_job=form.cleaned_data.get('end_date')
+                if(start_date_job>=start_date_event and end_date_job<=end_date_event):
+                    job = form.save(commit=False)
+                    if event:
+                        job.event = event
+                    else:
+                        raise Http404
+                    job.save()
+                    return HttpResponseRedirect(reverse('job:list'))
                 else:
-                    raise Http404
-                job.save()
-                return HttpResponseRedirect(reverse('job:list'))
+                    messages.add_message(request, messages.INFO, 'Job dates should lie within Event dates')
+                    return render(
+                    request,
+                    'job/create.html',
+                    {'form': form, 'event_list': event_list}
+                    )
+
             else:
                 return render(
                     request,
@@ -57,6 +74,7 @@ def create(request):
                 )
     else:
         return render(request, 'vms/no_admin_rights.html')
+
 
 
 @login_required
@@ -100,16 +118,40 @@ def edit(request, job_id):
 
         if request.method == 'POST':
             form = JobForm(request.POST, instance=job)
+
             if form.is_valid():
-                job_to_edit = form.save(commit=False)
+
                 event_id = request.POST.get('event_id')
                 event = get_event_by_id(event_id)
-                if event:
-                    job_to_edit.event = event
+                start_date_event=event.start_date
+                end_date_event=event.end_date
+                start_date_job=form.cleaned_data.get('start_date')
+                end_date_job=form.cleaned_data.get('end_date')
+
+                job_edit = check_edit_job(job_id, start_date_job, end_date_job)
+                if not job_edit['result']:
+                    return render(
+                        request,
+                        'job/edit_error.html',
+                        {'count': job_edit['invalid_count']}
+                        )
+
+                if(start_date_job>=start_date_event and end_date_job<=end_date_event):
+                    job_to_edit = form.save(commit=False)
+                    if event:
+                        job_to_edit.event = event
+                    else:
+                        raise Http404
+                    job_to_edit.save()
+                    return HttpResponseRedirect(reverse('job:list'))
                 else:
-                    raise Http404
-                job_to_edit.save()
-                return HttpResponseRedirect(reverse('job:list'))
+                    messages.add_message(request, messages.INFO, 'Job dates should lie within Event dates')
+                    return render(
+                    request,
+                    'job/edit.html',
+                    {'form': form, 'event_list': event_list , 'job': job}
+                    )
+
             else:
                 return render(
                     request,
@@ -136,6 +178,7 @@ def list_sign_up(request, event_id, volunteer_id):
         event = get_event_by_id(event_id)
         if event:
             job_list = get_jobs_by_event_id(event_id)
+            job_list = remove_empty_jobs_for_volunteer(job_list, volunteer_id)
             return render(request, 'job/list_sign_up.html', {'event': event, 'job_list': job_list, 'volunteer_id': volunteer_id})
         else:
             raise Http404

@@ -37,7 +37,7 @@ For my project, this would correspond to:
 
 If you are installing and running the project on your local machine and not on the Systers VM, then you will need to download and install the following software:
 
-1. [Django](https://www.djangoproject.com/download/) (version >= 1.6.5)
+1. [Django](https://www.djangoproject.com/download/) (version >= 1.6.5 and version < 1.8)
 2. [PostgreSQL](http://www.postgresql.org/download/) (version >= 9.3.4)
 
 **You do not need to download and install Django and PostgreSQL if you are installing and running the project on the Systers VM, as Django and PostgreSQL are already included in the Systers VM.**
@@ -93,6 +93,10 @@ The `vagrant up` command also boots the Virtual Machine.
 Once the VM download has completed, upon boot, it may ask you to choose an `Available bridged network interface`. The first option will work in most cases.
 
 You may come across a message that says `default: Warning: Remote connection disconnect. Retrying...` This message means that the VM is still booting up which is why we cannot establish a connection with it. It is normal to wait on this message for a few minutes (~5 minutes in my case) before we are able to get a connection to the VM. You may need to wait a few minutes until you get a message saying `default: Machine booted and ready!`.
+
+You might be prompted for the virtual machine login and password.
+Enter "vagrant" as login and "vagrant" as password.
+After this the Virtual Machine will be booted completely and the command prompt appears.
 
 File syncing will work properly after you receive this message: `default: Mounting shared folders`. Please wait for this message before proceeding to the next steps.
 
@@ -201,6 +205,8 @@ We will now create a database called `vms`:
 
     createdb -U vmsadmin vms;
 
+You will be prompted to enter a password, which is '0xdeadbeef'
+
 We can now login to the postgres client for the `vms` database:
 
     psql -U vmsadmin -d vms -h localhost -W
@@ -245,6 +251,8 @@ Check that the tables were created by starting the postgres client and viewing t
 ```
 psql -U vmsadmin -d vms -h localhost -W
 ```
+You will be prompted to enter a password, which is '0xdeadbeef'
+
 ```
 \dt
 ```
@@ -275,7 +283,7 @@ Start the development server by running the command (this runs the development s
 
     python manage.py runserver [::]:8000
 
-You can now try out the project by going to [http://localhost:8000/home](http://localhost:8000/home) on a browser on your local machine.
+You can now try out the project by going to [http://localhost:8001/home](http://localhost:8001/home) on a browser on your local machine.
 
 ## Run Unit Tests
 
