@@ -18,12 +18,9 @@ class EventForm(ModelForm):
             'state',
             'city',
             'address',
-<<<<<<< HEAD
             'venue'
-=======
             'venue',
             'country2',
->>>>>>> 93e903e... added country suggesting dropbox in event form
             ]
 
     def clean(self):
