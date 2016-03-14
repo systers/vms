@@ -1,4 +1,5 @@
 import datetime
+from django_countries import countries
 
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -25,27 +26,35 @@ def is_admin(request):
         return True
     else:
         return False
-
+def getcountries():
+    temp=[]
+    for i in countries:
+        temp.append(i[1])
+    return temp
 
 @login_required
 def create(request):
-    
+
     if is_admin(request):
         if request.method == 'POST':
             form = EventForm(request.POST)
+            c=getcountries()
             if form.is_valid():
                 start_date = form.cleaned_data['start_date']
                 if start_date < (datetime.date.today() - datetime.timedelta(days=1)):
                     messages.add_message(request, messages.INFO, 'Start date should be today\'s date or later.')
-                    return render(request, 'event/create.html', {'form': form, })
+                    print form
+                    return render(request, 'event/create.html', {'form': form, 'countries':c,})
                 else:
                     form.save()
+                    print form
                     return HttpResponseRedirect(reverse('event:list'))
             else:
-                return render(request, 'event/create.html', {'form': form, })
+                return render(request, 'event/create.html', {'form': form,'countries':c,})
         else:
             form = EventForm()
-            return render(request, 'event/create.html', {'form': form, })
+            c=getcountries()
+            return render(request, 'event/create.html', {'form': form,'countries':c,})
     else:
         return render(request, 'vms/no_admin_rights.html')
 
@@ -68,11 +77,14 @@ def delete(request, event_id):
 def edit(request, event_id):
     if is_admin(request):
         event = None
+        c=getcountries()
+
         if event_id:
             event = get_event_by_id(event_id)
 
         if request.method == 'POST':
             form = EventForm(request.POST, instance=event)
+            
             if form.is_valid():
                 start_date_event = form.cleaned_data['start_date']
                 end_date_event = form.cleaned_data['end_date']
@@ -86,10 +98,10 @@ def edit(request, event_id):
                 form.save()
                 return HttpResponseRedirect(reverse('event:list'))
             else:
-                return render(request, 'event/edit.html', {'form': form, })
+                return render(request, 'event/edit.html', {'form': form, 'countries':c,})
         else:
             form = EventForm(instance=event)
-            return render(request, 'event/edit.html', {'form': form, })
+            return render(request, 'event/edit.html', {'form': form, 'countries':c,})
     else:
         return render(request, 'vms/no_admin_rights.html')
 
