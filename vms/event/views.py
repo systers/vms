@@ -44,7 +44,11 @@ def create(request):
                     return HttpResponseRedirect(reverse('event:list'))
             elif form.is_valid() and 'show_map' in request.POST:
                 area = request.POST.get("address", "") + " " + request.POST.get("city", "") + " " + request.POST.get("state", "") + " " + request.POST.get("country", "")
-                location = validate_address(area)         
+                #print user entered area
+                print (area)
+                location = validate_address(area)
+                #print geocoded area
+                print (location)
                 return render(request, 'event/create.html', {'form': form, 'location':location,})
             else:
                 return render(request, 'event/create.html', {'form': form, 'location':location,})
