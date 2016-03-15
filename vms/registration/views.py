@@ -9,7 +9,7 @@ from organization.services import (get_organizations_ordered_by_name,
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
 from registration.forms import UserForm
-
+from django.http import HttpResponseBadRequest
 
 def signup_administrator(request):
     """
@@ -68,7 +68,7 @@ def signup_administrator(request):
                        'organization_list': organization_list, })
 
     else:
-        return render(request, 'organization/add_organizations.html')
+        return HttpResponseBadRequest("<h1>You need to have atleast one organization</h1><br> <a href='/'> <button >Go back</button></a>")
 
 
 def signup_volunteer(request):
@@ -138,4 +138,4 @@ def signup_volunteer(request):
                        'organization_list': organization_list, })
 
     else:
-        return render(request, 'organization/add_organizations.html')
+	return HttpResponseBadRequest("<h1>You need to have atleast one organization</h1> <br> <a href='/'> <button >Go back</button></a>")
