@@ -4,6 +4,8 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from datetime import date
+
+from event.validate_address import *
 from job.services import *
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
@@ -219,6 +221,8 @@ def clear_hours_manager(request, shift_id, volunteer_id):
 def create(request, job_id):
     user = request.user
     admin = None
+    location = ""
+    new_edit = False
 
     try:
         admin = user.administrator
@@ -235,7 +239,7 @@ def create(request, job_id):
             if request.method == 'POST':
                 if job:
                     form = ShiftForm(request.POST)
-                    if form.is_valid():
+                    if form.is_valid() and 'create_shift' in request.POST:
                         start_date_job=job.start_date
                         end_date_job=job.end_date
                         shift_date=form.cleaned_data['date']
@@ -254,14 +258,21 @@ def create(request, job_id):
                             return render(
                             request,
                             'shift/create.html',
-                            {'form': form, 'job_id': job_id, 'job': job }
+                            {'form': form, 'job_id': job_id, 'job': job, 'location':location, 'new_edit': new_edit }
                             )
-
+                    elif form.is_valid() and 'show_map' in request.POST:
+                        area = request.POST.get("address", "") + " " + request.POST.get("city", "") + " " + request.POST.get("state", "") + " " + request.POST.get("country", "")
+                        location = validate_address(area)
+                        return render(
+                            request, 
+                            'shift/create.html', 
+                            {'form': form, 'job_id': job_id, 'job': job, 'location':location, 'new_edit': new_edit }
+                            )
                     else:
                         return render(
                             request,
                             'shift/create.html',
-                            {'form': form, 'job_id': job_id, 'job': job }
+                            {'form': form, 'job_id': job_id, 'job': job, 'location':location, 'new_edit': new_edit }
                             )
                 else:
                     raise Http404
@@ -272,10 +283,13 @@ def create(request, job_id):
                 city = event.city
                 address = event.address
                 venue = event.venue
+                new_edit = True
+                area = address + " " + city + " " + state + " " +  country
+                location = validate_address(area)
                 return render(
                     request,
                     'shift/create.html',
-                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue, 'job': job}
+                    {'form': form, 'job_id': job_id, 'country': country, 'state': state, 'city': city, 'address': address, 'venue': venue, 'job': job, 'location':location, 'new_edit': new_edit }
                     )
         else:
             raise Http404
@@ -321,6 +335,8 @@ def delete(request, shift_id):
 def edit(request, shift_id):
     user = request.user
     admin = None
+    location = ""
+    new_edit = False
 
     try:
         admin = user.administrator
@@ -339,10 +355,10 @@ def edit(request, shift_id):
         if request.method == 'POST':
             if job:
                 form = ShiftForm(request.POST, instance=shift)
-                if form.is_valid():
 
-                    start_date_job = job.start_date
-                    end_date_job = job.end_date
+                if form.is_valid() and 'edit_shift' in request.POST:
+                    start_date_job=job.start_date
+                    end_date_job=job.end_date
                     shift_date=form.cleaned_data['date']
                     shift_start_time=form.cleaned_data['start_time']
                     shift_end_time=form.cleaned_data['end_time']
@@ -363,21 +379,31 @@ def edit(request, shift_id):
                             'shift/edit.html',
                             {'form': form, 'shift': shift, 'job': shift.job}
                             )
+
+                elif form.is_valid() and 'show_map' in request.POST:
+                    area = request.POST.get("address", "") + " " + request.POST.get("city", "") + " " + request.POST.get("state", "") + " " + request.POST.get("country", "")
+                    location = validate_address(area)
+                    return render(
+                        request, 
+                        'shift/edit.html',
+                        {'form': form, 'shift': shift, 'job': shift.job, 'location':location, 'new_edit': new_edit }
+                        )
                 else:
                     return render(
                         request,
                         'shift/edit.html',
-                        {'form': form, 'shift': shift, 'job': shift.job}
-                        )
+                        {'form': form, 'shift': shift, 'job': shift.job, 'location':location, 'new_edit': new_edit })
             else:
                 raise Http404
-
         else:
             form = ShiftForm(instance=shift)
+            new_edit = True
+            area = shift.address + " " + shift.city + " " + shift.state + " " +  shift.country
+            location = validate_address(area)
             return render(
                 request,
                 'shift/edit.html',
-                {'form': form, 'shift': shift, 'job': shift.job}
+                {'form': form, 'shift': shift, 'job': shift.job, 'location':location, 'new_edit': new_edit }
                 )
 
 
