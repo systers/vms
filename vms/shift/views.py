@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from datetime import date
+from django.utils import formats
 
 from event.validate_address import *
 from job.services import *
@@ -396,6 +397,9 @@ def edit(request, shift_id):
             else:
                 raise Http404
         else:
+            shift.date = formats.date_format(shift.date, "SHORT_DATE_FORMAT")
+            shift.start_time = shift.start_time.strftime('%H:%M')
+            shift.end_time = shift.end_time.strftime('%H:%M')
             form = ShiftForm(instance=shift)
             new_edit = True
             area = shift.address + " " + shift.city + " " + shift.state + " " +  shift.country

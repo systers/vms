@@ -44,7 +44,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">{% trans "Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="date" value="{% if form.date.value %}{{ form.date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="date" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.date.errors %}
@@ -58,7 +58,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">{% trans "Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" id="datepicker" type="text" name="date" value="{% if form.date.value %}{{ form.date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" placeholder="MM/DD/YYYY" id="datepicker" type="text" name="date" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
@@ -67,7 +67,7 @@
                         <label class="col-md-2 control-label">{% trans "Start Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <div id="datetimepicker1" class="input-append">
-									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
@@ -86,7 +86,7 @@
                         <label class="col-md-2 control-label">{% trans "Start Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <div id="datetimepicker1" class="input-append">
-									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
@@ -99,7 +99,7 @@
                         <label class="col-md-2 control-label">{% trans "End Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                              <div id="datetimepicker2" class="input-append">
-									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
@@ -118,7 +118,7 @@
                         <label class="col-md-2 control-label">{% trans "End Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                              <div id="datetimepicker2" class="input-append">
-									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
