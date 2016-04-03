@@ -2,6 +2,11 @@
 {% load i18n %}
 {% block content %}
     <div class="spacer"></div>
+    {% if notification %}
+            <div class="alert alert-danger">
+                {% trans "Your criteria did not return any results." %}
+            </div>
+    {% endif %}
     <div class="alert alert-info">
         {% trans "Please enter any of the fields below to generate a report." %}
     </div>
@@ -128,7 +133,12 @@
                     <div class="form-group">
                         <label class="col-md-3 control-label">{% trans "Job Name" %}</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="text" name="job_name" value="{% if form.job_name.value %}{{ form.job_name.value }}{% endif %}">
+                            <select id="select" class="form-control" name="organization">
+								<option value="">-- {% trans "Select J" %} --</option>
+								{% for organization in organization_list %}
+								<option value="{{ organization.name }}" {% if selected_organization == organization.name %}selected{% endif %}>{{ organization.name }}</option>
+								{% endfor %}
+							</select>
                         </div>
                     </div>
                 {% endif %}                
@@ -191,11 +201,5 @@
                 </tbody>
             </table>
         </div>
-    {% else %}
-        {% if notification %}
-            <div class="alert alert-danger">
-                {% trans "Your criteria did not return any results." %}
-            </div>
-        {% endif %}
     {% endif %}
 {% endblock %}
