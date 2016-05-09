@@ -35,7 +35,7 @@ def create(request):
             form = EventForm(request.POST)
             if form.is_valid():
                 start_date = form.cleaned_data['start_date']
-                if start_date < (datetime.date.today() - datetime.timedelta(days=1)):
+                if start_date < datetime.date.today():
                     messages.add_message(request, messages.INFO, 'Start date should be today\'s date or later.')
                     return render(request, 'event/create.html', {'form': form, })
                 else:
