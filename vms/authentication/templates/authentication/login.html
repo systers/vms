@@ -1,7 +1,7 @@
 {% extends "vms/base.html" %}
 {% load i18n %}
 {% block content %}
-    <form class="login form-signin" role="form" method="POST" action="{% url 'authentication:login_process' %}">
+    <form class="login form-signin" role="form" method="POST" action="{% url 'login_process' %}">
         {% csrf_token %}
         <h2>{% trans "Please sign in" %}</h2>
         <hr>
