@@ -114,3 +114,7 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o600
 # If user fails to authenticate, then they are redirected to the view
 # specified in the reverse_lazy call
 LOGIN_URL = reverse_lazy('auth:user_login')
+LOGIN_REDIRECT_URL = 'home'
+RECOVER_ONLY_ACTIVE_USERS = False
+ACCOUNT_ACTIVATION_DAYS = 2
+ANONYMOUS_USER_ID = -1
