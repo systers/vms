@@ -24,7 +24,7 @@
             <p>
                 <a class="btn btn-lg btn-success" href="{% url 'registration:signup_volunteer' %}">{% trans "Sign Up" %}</a>
                 <a class="btn btn-lg btn-default" href="{% url 'registration:signup_administrator' %}">{% trans "Sign Up Admin" %}</a>
-                <a class="btn btn-lg btn-primary" href="{% url 'authentication:login_process' %}">{% trans "Log In" %}</a>
+                <a class="btn btn-lg btn-primary" href="{% url 'login_process' %}">{% trans "Log In" %}</a>
             </p>
         {% endif %}
         {% if error %}

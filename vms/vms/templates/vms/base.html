@@ -57,7 +57,7 @@
 
                             <ul class="dropdown-menu">
                                     <li><a href="{% url 'registration:signup_administrator' %}">{% trans "Create Admin Account" %}</a></li>
-                                    <li><a href="{% url 'authentication:logout_process' %}">{% trans "Log Out" %}</a></li>
+                                    <li><a href="{% url 'logout_process' %}">{% trans "Log Out" %}</a></li>
                             </ul>
                         </li>
                       </ul>
@@ -77,7 +77,7 @@
 
                             <ul class="dropdown-menu">
                                     <li><a href="{% url 'volunteer:profile' user.volunteer.id %}">{% trans "Profile" %}</a></li>
-                                    <li><a href="{% url 'authentication:logout_process' %}">{% trans "Log Out" %}</a></li>
+                                    <li><a href="{% url 'logout_process' %}">{% trans "Log Out" %}</a></li>
                             </ul>
                         </li>
              </ul>
@@ -85,7 +85,7 @@
                         {% endif %}
                     {% else %}
                         <li><a href="{% url 'registration:signup_volunteer' %}">{% trans "Sign Up" %}</a></li>
-                        <li><a href="{% url 'authentication:login_process' %}">{% trans "Log In" %}</a></li>
+                        <li><a href="{% url 'login_process' %}">{% trans "Log In" %}</a></li>
                     {% endif %}
                 </ul>
             </div>
