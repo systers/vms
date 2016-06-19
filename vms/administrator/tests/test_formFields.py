@@ -16,8 +16,10 @@ from organization.models import Organization  # hack to pass travis,Bug in Code
 
 class FormFields(LiveServerTestCase):
     '''
-    Contains Tests for checking if value in forms are saved for
-    event, shift and job forms
+    Contains Tests for 
+    - checking if value in forms are saved for event, shift 
+    and job forms
+    - validation of number of volunteers field
     '''
 
     def setUp(self):
@@ -363,3 +365,48 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(self.driver.find_element_by_xpath(
             '//input[@name = "max_volunteers"]').get_attribute(
             'value'), '10')
+
+    def test_max_volunteer_field(self):
+        self.login({'username': 'admin', 'password': 'admin'})
+        event_1 = self.register_event_utility()
+        job_1 = self.register_job_utility(event_1)
+
+        self.navigate_to_shift_list_view()
+        self.driver.find_element_by_link_text('Create Shift').click()
+
+        shift = [
+            '01/01/2016',
+            '12:00',
+            '11:00',
+            '0']
+        self.fill_shift_form(shift)
+
+        # verify that error message displayed
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//form//div[7]/div/p/strong").text,
+            'Ensure this value is greater than or equal to 1.')
+
+        # Create shift and try editing it with 0 value
+        shift_1 = self.register_shift_utility(job_1)
+        self.navigate_to_shift_list_view()
+
+        self.assertEqual(self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[5]').text, 'Edit')
+        self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[5]//a').click()
+
+        self.driver.find_element_by_xpath(
+            '//input[@name = "date"]').clear()
+        self.driver.find_element_by_xpath(
+            '//input[@name = "start_time"]').clear()
+        self.driver.find_element_by_xpath(
+            '//input[@name = "end_time"]').clear()
+        self.driver.find_element_by_xpath(
+            '//input[@name = "max_volunteers"]').clear()
+
+        self.fill_shift_form(shift)
+
+        # verify that error message displayed
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//form//div[7]/div/p/strong").text,
+            'Ensure this value is greater than or equal to 1.')
