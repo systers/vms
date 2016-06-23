@@ -10,14 +10,15 @@ from shift.models import Shift, VolunteerShift
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import Select
 
 from organization.models import Organization  # hack to pass travis,Bug in Code
 
 
 class FormFields(LiveServerTestCase):
     '''
-    Contains Tests for 
-    - checking if value in forms are saved for event, shift 
+    Contains Tests for
+    - checking if value in forms are saved for event, shift
     and job forms
     - validation of number of volunteers field
     '''
@@ -48,7 +49,7 @@ class FormFields(LiveServerTestCase):
         self.job_list_page = '/job/list/'
         self.shift_list_page = '/shift/list_jobs/'
         self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(10)
         self.driver.maximize_window()
         super(FormFields, self).setUp()
 
@@ -410,3 +411,72 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(self.driver.find_element_by_xpath(
             "//form//div[7]/div/p/strong").text,
             'Ensure this value is greater than or equal to 1.')
+
+    def test_simplify_shift(self):
+        self.login({'username': 'admin', 'password': 'admin'})
+        event_1 = self.register_event_utility()
+        job_1 = self.register_job_utility(event_1)
+
+        self.navigate_to_shift_list_view()
+        self.driver.find_element_by_link_text('Create Shift').click()
+
+        # verify that the correct job name and date are displayed
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//div[2]//div[1]/p").text, 'job')
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//div[2]//div[2]/p").text, 'June 15, 2017')
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//div[2]//div[3]/p").text, 'June 15, 2017')
+
+        # Create shift and check job details in edit form
+        shift_1 = self.register_shift_utility(job_1)
+        self.navigate_to_shift_list_view()
+
+        self.assertEqual(self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[5]').text, 'Edit')
+        self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[5]//a').click()
+
+        # verify that the correct job name and date are displayed
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//div[2]//div[1]/p").text, 'job')
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//div[2]//div[2]/p").text, 'June 15, 2017')
+        self.assertEqual(self.driver.find_element_by_xpath(
+            "//div[2]//div[3]/p").text, 'June 15, 2017')
+
+    """def test_simplify_job(self):
+        self.login({'username': 'admin', 'password': 'admin'})
+        event_1 = self.register_event_utility()
+        self.navigate_to_job_list_view()
+
+        self.driver.find_element_by_link_text('Create Job').click()
+        self.assertEqual(self.driver.current_url,
+                         self.live_server_url + '/job/create/')
+
+        # verify that the correct event name and date are displayed
+        select = Select(self.driver.find_element_by_id(
+            'events'))
+        select.select_by_visible_text('event')
+        self.assertEqual(self.driver.find_element_by_id(
+            'start_date_here').text, 'June 15, 2017')
+        self.assertEqual(self.driver.find_element_by_id(
+            'end_date_here').text, 'June 17, 2017')
+
+        # Create job and check event details in edit form
+        job_1 = self.register_job_utility(event_1)
+        self.navigate_to_job_list_view()
+
+        self.assertEqual(self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[6]').text, 'Edit')
+        self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[6]//a').click()
+
+        # verify that the correct event name and date are displayed
+        select = Select(self.driver.find_element_by_id(
+            'events'))
+        select.select_by_visible_text('event')
+        self.assertEqual(self.driver.find_element_by_id(
+            'start_date_here').text, 'June 15, 2017')
+        self.assertEqual(self.driver.find_element_by_id(
+            'end_date_here').text, 'June 17, 2017')"""
