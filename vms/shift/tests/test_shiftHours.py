@@ -10,31 +10,32 @@ from shift.models import Shift, VolunteerShift
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
-from organization.models import Organization #hack to pass travis,Bug in Code
+from organization.models import Organization  # hack to pass travis,Bug in Code
 
 
 class ShiftHours(LiveServerTestCase):
     '''
     '''
+
     def setUp(self):
         volunteer_user = User.objects.create_user(
-                username = 'volunteer',
-                password = 'volunteer')
+            username='volunteer',
+            password='volunteer')
 
         volunteer = Volunteer.objects.create(
-                user = volunteer_user,
-                address = 'address',
-                city = 'city',
-                state = 'state',
-                country = 'country',
-                phone_number = '9999999999',
-                email = 'volunteer@volunteer.com',
-                unlisted_organization = 'organization')
+            user=volunteer_user,
+            address='address',
+            city='city',
+            state='state',
+            country='country',
+            phone_number='9999999999',
+            email='volunteer@volunteer.com',
+            unlisted_organization='organization')
 
         # create an org prior to registration. Bug in Code
         # added to pass CI
         Organization.objects.create(
-                name = 'DummyOrg')
+            name='DummyOrg')
 
         self.homepage = '/'
         self.authentication_page = '/authentication/login/'
@@ -49,58 +50,60 @@ class ShiftHours(LiveServerTestCase):
 
     def login(self, credentials):
         self.driver.get(self.live_server_url + self.authentication_page)
-        self.driver.find_element_by_id('id_login').send_keys(credentials['username'])
-        self.driver.find_element_by_id('id_password').send_keys(credentials['password'])
+        self.driver.find_element_by_id(
+            'id_login').send_keys(credentials['username'])
+        self.driver.find_element_by_id(
+            'id_password').send_keys(credentials['password'])
         self.driver.find_element_by_xpath('//form[1]').submit()
 
     def test_view_with_unlogged_shift(self):
-        self.login({'username' : 'volunteer', 'password' : 'volunteer'})
+        self.login({'username': 'volunteer', 'password': 'volunteer'})
         self.driver.find_element_by_link_text('Completed Shifts').click()
 
-        volunteer_id = Volunteer.objects.get(user__username = 'volunteer').pk
-        self.assertEqual(self.driver.current_url, self.live_server_url + 
-                '/shift/view_hours/' + str(volunteer_id))
+        volunteer_id = Volunteer.objects.get(user__username='volunteer').pk
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         '/shift/view_hours/' + str(volunteer_id))
 
         self.assertEqual(self.driver.find_element_by_class_name(
             'alert-info').text, 'You have not logged any hours.')
 
     def register_dataset(self, ):
-        volunteer = Volunteer.objects.get(user__username = 'volunteer')
+        volunteer = Volunteer.objects.get(user__username='volunteer')
 
         # create shift and log hours
         event = Event.objects.create(
-                    name = 'event',
-                    start_date = '2017-06-15',
-                    end_date = '2017-06-17')
+            name='event',
+            start_date='2017-06-15',
+            end_date='2017-06-17')
 
         job = Job.objects.create(
-                name = 'job',
-                start_date = '2017-06-15',
-                end_date = '2017-06-15',
-                event = event)
+            name='job',
+            start_date='2017-06-15',
+            end_date='2017-06-15',
+            event=event)
 
         shift = Shift.objects.create(
-                date = '2017-06-15',
-                start_time = '09:00',
-                end_time = '15:00',
-                max_volunteers ='6',
-                job = job)
+            date='2017-06-15',
+            start_time='09:00',
+            end_time='15:00',
+            max_volunteers='6',
+            job=job)
 
         # logged hours from 12:00 to 13:00
         VolunteerShift.objects.create(
-                shift = shift,
-                volunteer = volunteer,
-                start_time = '12:00',
-                end_time = '13:00')
+            shift=shift,
+            volunteer=volunteer,
+            start_time='12:00',
+            end_time='13:00')
 
     def test_view_with_logged_shift(self):
         self.register_dataset()
-        self.login({'username' : 'volunteer', 'password' : 'volunteer'})
+        self.login({'username': 'volunteer', 'password': 'volunteer'})
         self.driver.find_element_by_link_text('Completed Shifts').click()
 
-        volunteer_id = Volunteer.objects.get(user__username = 'volunteer').pk
-        self.assertEqual(self.driver.current_url, self.live_server_url + 
-                '/shift/view_hours/' + str(volunteer_id))
+        volunteer_id = Volunteer.objects.get(user__username='volunteer').pk
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         '/shift/view_hours/' + str(volunteer_id))
 
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[1]').text, 'job')
@@ -117,12 +120,12 @@ class ShiftHours(LiveServerTestCase):
 
     def test_edit_hours(self):
         self.register_dataset()
-        self.login({'username' : 'volunteer', 'password' : 'volunteer'})
+        self.login({'username': 'volunteer', 'password': 'volunteer'})
         self.driver.find_element_by_link_text('Completed Shifts').click()
 
-        volunteer_id = Volunteer.objects.get(user__username = 'volunteer').pk
-        self.assertEqual(self.driver.current_url, self.live_server_url + 
-                '/shift/view_hours/' + str(volunteer_id))
+        volunteer_id = Volunteer.objects.get(user__username='volunteer').pk
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         '/shift/view_hours/' + str(volunteer_id))
 
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[3]').text, 'noon')
@@ -131,22 +134,22 @@ class ShiftHours(LiveServerTestCase):
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[5]').text, 'Edit Hours')
         self.driver.find_element_by_xpath(
-                '//table//tbody//tr[1]//td[5]//a').click()
+            '//table//tbody//tr[1]//td[5]//a').click()
 
         self.assertEqual(self.driver.find_element_by_xpath(
             'html/body/div[2]/div[2]/form/fieldset/legend').text,
             'Edit Shift Hours')
         self.driver.find_element_by_xpath(
-                '//input[@name = "start_time"]').clear()
+            '//input[@name = "start_time"]').clear()
         self.driver.find_element_by_xpath(
-                '//input[@name = "start_time"]').send_keys(
-                        '10:00')
+            '//input[@name = "start_time"]').send_keys(
+            '10:00')
 
         self.driver.find_element_by_xpath(
-                '//input[@name = "end_time"]').clear()
+            '//input[@name = "end_time"]').clear()
         self.driver.find_element_by_xpath(
-                '//input[@name = "end_time"]').send_keys(
-                        '13:00')
+            '//input[@name = "end_time"]').send_keys(
+            '13:00')
         self.driver.find_element_by_xpath('//form[1]').submit()
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[3]').text, '10 a.m.')
@@ -155,12 +158,12 @@ class ShiftHours(LiveServerTestCase):
 
     def test_end_hours_less_than_start_hours(self):
         self.register_dataset()
-        self.login({'username' : 'volunteer', 'password' : 'volunteer'})
+        self.login({'username': 'volunteer', 'password': 'volunteer'})
         self.driver.find_element_by_link_text('Completed Shifts').click()
 
-        volunteer_id = Volunteer.objects.get(user__username = 'volunteer').pk
-        self.assertEqual(self.driver.current_url, self.live_server_url + 
-                '/shift/view_hours/' + str(volunteer_id))
+        volunteer_id = Volunteer.objects.get(user__username='volunteer').pk
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         '/shift/view_hours/' + str(volunteer_id))
 
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[3]').text, 'noon')
@@ -169,22 +172,22 @@ class ShiftHours(LiveServerTestCase):
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[5]').text, 'Edit Hours')
         self.driver.find_element_by_xpath(
-                '//table//tbody//tr[1]//td[5]//a').click()
+            '//table//tbody//tr[1]//td[5]//a').click()
 
         self.assertEqual(self.driver.find_element_by_xpath(
             'html/body/div[2]/div[2]/form/fieldset/legend').text,
             'Edit Shift Hours')
         self.driver.find_element_by_xpath(
-                '//input[@name = "start_time"]').clear()
+            '//input[@name = "start_time"]').clear()
         self.driver.find_element_by_xpath(
-                '//input[@name = "start_time"]').send_keys(
-                        '14:00')
+            '//input[@name = "start_time"]').send_keys(
+            '14:00')
 
         self.driver.find_element_by_xpath(
-                '//input[@name = "end_time"]').clear()
+            '//input[@name = "end_time"]').clear()
         self.driver.find_element_by_xpath(
-                '//input[@name = "end_time"]').send_keys(
-                        '12:00')
+            '//input[@name = "end_time"]').send_keys(
+            '12:00')
         self.driver.find_element_by_xpath('//form[1]').submit()
 
         try:
@@ -192,21 +195,59 @@ class ShiftHours(LiveServerTestCase):
         except NoSuchElementException:
             raise Exception("End hours greater than start hours")
 
-    def test_cancel_hours(self):
+    def test_logged_hours_between_shift_hours(self):
         self.register_dataset()
-        self.login({'username' : 'volunteer', 'password' : 'volunteer'})
+        self.login({'username': 'volunteer', 'password': 'volunteer'})
         self.driver.find_element_by_link_text('Completed Shifts').click()
 
-        volunteer_id = Volunteer.objects.get(user__username = 'volunteer').pk
-        self.assertEqual(self.driver.current_url, self.live_server_url + 
-                '/shift/view_hours/' + str(volunteer_id))
+        volunteer_id = Volunteer.objects.get(user__username='volunteer').pk
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         '/shift/view_hours/' + str(volunteer_id))
+
+        self.assertEqual(self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[3]').text, 'noon')
+        self.assertEqual(self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[4]').text, '1 p.m.')
+        self.assertEqual(self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[5]').text, 'Edit Hours')
+        self.driver.find_element_by_xpath(
+            '//table//tbody//tr[1]//td[5]//a').click()
+
+        self.assertEqual(self.driver.find_element_by_xpath(
+            'html/body/div[2]/div[2]/form/fieldset/legend').text,
+            'Edit Shift Hours')
+        self.driver.find_element_by_xpath(
+            '//input[@name = "start_time"]').clear()
+        self.driver.find_element_by_xpath(
+            '//input[@name = "start_time"]').send_keys(
+            '10:00')
+
+        self.driver.find_element_by_xpath(
+            '//input[@name = "end_time"]').clear()
+        self.driver.find_element_by_xpath(
+            '//input[@name = "end_time"]').send_keys(
+            '16:00')
+        self.driver.find_element_by_xpath('//form[1]').submit()
+
+        self.assertEqual(
+            self.driver.find_element_by_class_name('alert-danger').text,
+            'Logged hours should be between shift hours')
+
+    def test_cancel_hours(self):
+        self.register_dataset()
+        self.login({'username': 'volunteer', 'password': 'volunteer'})
+        self.driver.find_element_by_link_text('Completed Shifts').click()
+
+        volunteer_id = Volunteer.objects.get(user__username='volunteer').pk
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         '/shift/view_hours/' + str(volunteer_id))
 
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[1]').text, 'job')
         self.assertEqual(self.driver.find_element_by_xpath(
             '//table//tbody//tr[1]//td[6]').text, 'Clear Hours')
         self.driver.find_element_by_xpath(
-                '//table//tbody//tr[1]//td[6]//a').click()
+            '//table//tbody//tr[1]//td[6]//a').click()
 
         self.assertEqual(self.driver.find_element_by_xpath(
             'html/body/div[2]/form/div/div[1]/h3').text,
