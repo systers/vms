@@ -406,7 +406,7 @@
         {% endif %}
         <button type="submit" class="btn btn-lg btn-primary btn-block">{% trans "Create Account" %}</button>
         <p>
-            {% trans "Already have an account? Then please "%}<a href="{% url 'authentication:login_process' %}">{% trans "sign in" %}</a>.
+            {% trans "Already have an account? Then please "%}<a href="{% url 'login_process' %}">{% trans "sign in" %}</a>.
         </p>
     </form>
 {% endblock %}
