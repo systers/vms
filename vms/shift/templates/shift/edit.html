@@ -1,4 +1,5 @@
 {% extends "administrator/settings.html" %}
+{% load easy_maps_tags %}
 
 {% block setting_content %}
 
@@ -43,7 +44,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">{% trans "Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="date" value="{% if form.date.value %}{{ form.date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="date" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.date.errors %}
@@ -57,7 +58,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">{% trans "Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" id="datepicker" type="text" name="date" value="{% if form.date.value %}{{ form.date.value|date:"SHORT_DATE_FORMAT" }}{% endif %}">
+                            <input class="form-control" placeholder="MM/DD/YYYY" id="datepicker" type="text" name="date" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
@@ -66,7 +67,7 @@
                         <label class="col-md-2 control-label">{% trans "Start Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <div id="datetimepicker1" class="input-append">
-									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
@@ -85,7 +86,7 @@
                         <label class="col-md-2 control-label">{% trans "Start Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <div id="datetimepicker1" class="input-append">
-									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="start_time" type="text" value="{% if form.start_time.value %}{{ form.start_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
@@ -98,7 +99,7 @@
                         <label class="col-md-2 control-label">{% trans "End Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                              <div id="datetimepicker2" class="input-append">
-									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
@@ -117,7 +118,7 @@
                         <label class="col-md-2 control-label">{% trans "End Time" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                              <div id="datetimepicker2" class="input-append">
-									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value|time:"H:i" }}{% endif %}"></input>
+									<input data-format="hh:mm" name="end_time" type="text" value="{% if form.end_time.value %}{{ form.end_time.value }}{% endif %}"></input>
 									<span class="add-on">	  
 										<span class="glyphicon glyphicon-time"></span>
 									</span>
@@ -237,6 +238,34 @@
                         </div>
                     </div>
                 {% endif %}
+
+                {% if new_edit and location == " "  or new_edit and location == "not found" %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>No map attached to this location</p>                            
+                        </div>                                                                        
+                    </div> 
+                {% elif location == " " %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>Please enter details to search</p>                            
+                        </div>                                                                        
+                    </div> 
+                {% elif location == "not found" %}
+                    <div class="row">                   
+                        <div class="col-md-offset-2 col-md-8">
+                            <p>The entered address could not be displayed on a map. Please retry with a different one or check your internet connection</p>
+                        </div>                                                                        
+                    </div>                      
+                {% elif location %}   
+                    <div class="row">                   
+                        <div class="map-area col-md-offset-2 col-md-8">
+                            {% with 450 as w and 300 as h and 16 as z and "easy_maps/map.html" as t %}
+                                {% easy_map location w h z using t %}
+                            {% endwith %} 
+                        </div>                                                                        
+                    </div> 
+                {% endif %} 
 				
 				{% if form.venue.errors %}
                     <div class="form-group has-error">
@@ -261,8 +290,11 @@
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    <div class="col-md-12 col-md-offset-2">
-                        <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
+                    <div class="col-md-1 col-md-offset-2">
+                        <button class="btn btn-primary" type="submit" name ="edit_shift">{% trans "Save" %}</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-default" type="submit" name ="show_map">View Map</button>
                     </div>
                 </div>
             </fieldset>

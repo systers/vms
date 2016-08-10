@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'vms',
     'volunteer',
     'cities_light',
+    'easy_maps',
 )
 
 MIDDLEWARE_CLASSES = (
