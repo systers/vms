@@ -36,6 +36,8 @@ class ShiftSignUp(LiveServerTestCase):
         self.login_volunteer()
 
     def tearDown(self):
+        from django.core.cache import cache
+        cache.clear()
         pass
 
     @classmethod
