@@ -34,6 +34,8 @@ class ShiftSignUp(LiveServerTestCase):
         super(ShiftSignUp, cls).setUpClass()
 
     def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
         self.volunteer = create_volunteer()
         self.login_volunteer()
 
