@@ -24,6 +24,8 @@ class ShiftSignUp(LiveServerTestCase):
     '''
     @classmethod
     def setUpClass(cls):
+        from django.core.cache import cache
+        cache.clear()
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -36,8 +38,6 @@ class ShiftSignUp(LiveServerTestCase):
         self.login_volunteer()
 
     def tearDown(self):
-        from django.core.cache import cache
-        cache.clear()
         pass
 
     @classmethod
