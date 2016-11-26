@@ -12,8 +12,8 @@ from django.views.generic import ListView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 from organization.services import *
 from shift.services import *
-from event.services import get_signed_up_events_for_volunteer
-from job.services import get_signed_up_jobs_for_volunteer
+from event.services import get_events_ordered_by_name
+from job.services import get_jobs_ordered_by_title
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from django.views.generic.edit import FormView, UpdateView
 from volunteer.models import Volunteer
@@ -149,8 +149,8 @@ class ShowReportListView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         volunteer_id = self.kwargs['volunteer_id']
-        event_list = get_signed_up_events_for_volunteer(volunteer_id)
-        job_list = get_signed_up_jobs_for_volunteer(volunteer_id)
+        event_list = get_events_ordered_by_name()
+        job_list = get_jobs_ordered_by_title()
         event_name = self.request.POST['event_name']
         job_name = self.request.POST['job_name']
         start_date = self.request.POST['start_date']
