@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'administrator',
     'authentication',
     'event',
@@ -40,6 +41,7 @@ INSTALLED_APPS = (
     'volunteer',
     'cities_light',
     'pom',
+    'about',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -67,6 +69,7 @@ DATABASES = {
         'USER': 'vmsadmin',
         'PASSWORD': '0xdeadbeef',
         'HOST': 'localhost',
+        'TEST_NAME': 'auto_tests',
     }
 }
 
@@ -123,3 +126,5 @@ LOGIN_REDIRECT_URL = reverse_lazy('home:index')
 RECOVER_ONLY_ACTIVE_USERS = False
 ACCOUNT_ACTIVATION_DAYS = 2
 ANONYMOUS_USER_ID = -1
+
+SITE_ID = 1
