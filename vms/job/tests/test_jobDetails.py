@@ -1,16 +1,13 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
-from pom.pages.jobDetailsPage import JobDetailsPage
-from pom.pages.authenticationPage import AuthenticationPage
-
-from shift.utils import (
-    create_admin,
-    create_event_with_details,
-    create_job_with_details
-    )
-
+# third-party stuff
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+
+# vms stuff
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.jobDetailsPage import JobDetailsPage
+from shift.utils import create_admin, create_event_with_details, create_job_with_details
+
 
 class JobDetails(LiveServerTestCase):
     '''

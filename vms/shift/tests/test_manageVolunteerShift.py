@@ -1,20 +1,19 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
-from pom.pages.eventSignUpPage import EventSignUpPage
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.pages.manageShiftPage import ManageShiftPage
-
+# third-party stuff
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
-from shift.models import VolunteerShift, Shift
+# vms stuff
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.eventSignUpPage import EventSignUpPage
+from pom.pages.manageShiftPage import ManageShiftPage
+from shift.models import VolunteerShift
 from shift.utils import (
-    create_admin,
-    create_volunteer_with_details,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details
-    )
+    create_admin, create_event_with_details, create_job_with_details, create_shift_with_details,
+    create_volunteer_with_details
+)
+
 
 class ManageVolunteerShift(LiveServerTestCase):
     '''
@@ -32,7 +31,7 @@ class ManageVolunteerShift(LiveServerTestCase):
     View of Admin Profile. Tests Included.
 
     - Test View with/without any registered volunteers
-    - Test Redirection to events view on clicking `Manage Shifts` 
+    - Test Redirection to events view on clicking `Manage Shifts`
     - Test Jobs page without jobs
     - Test assign shifts without any registered shifts
     - Test assign shifts with registered shifts
@@ -136,7 +135,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         # open manage volunteer shift
         self.manage_shift_page.navigate_to_manage_shift_page()
         manage_shift_page.navigate_to_manage_shift_page()
-        
+
         with self.assertRaises(NoSuchElementException):
             manage_shift_page.find_table_row()
 
@@ -226,7 +225,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         # volunteer-one does not have any registered shifts
         manage_shift_page.navigate_to_manage_shift_page()
         manage_shift_page.select_volunteer(1)
-        self.assertEqual(manage_shift_page.get_info_box(), 
+        self.assertEqual(manage_shift_page.get_info_box(),
             manage_shift_page.no_volunteer_shift_message)
 
         manage_shift_page.assign_shift()
@@ -268,7 +267,7 @@ class ManageVolunteerShift(LiveServerTestCase):
 
         # volunteer-one does not have any registered shifts
         manage_shift_page.select_volunteer(1)
-        self.assertEqual(manage_shift_page.get_info_box(), 
+        self.assertEqual(manage_shift_page.get_info_box(),
             manage_shift_page.no_volunteer_shift_message)
 
         manage_shift_page.assign_shift()
@@ -293,14 +292,14 @@ class ManageVolunteerShift(LiveServerTestCase):
 
         # volunteer-two does not have any registered shifts
         manage_shift_page.select_volunteer(2)
-        self.assertEqual(manage_shift_page.get_info_box(), 
+        self.assertEqual(manage_shift_page.get_info_box(),
             manage_shift_page.no_volunteer_shift_message)
 
         manage_shift_page.assign_shift()
 
         #no events shown in table
         self.assertEqual(sign_up_page.get_info_box().text,sign_up_page.no_event_message)
-            
+
     def test_cancel_assigned_shift(self):
         sign_up_page = self.sign_up_page
         manage_shift_page = self.manage_shift_page
@@ -317,7 +316,7 @@ class ManageVolunteerShift(LiveServerTestCase):
 
         # volunteer-one does not have any registered shifts
         manage_shift_page.select_volunteer(1)
-        self.assertEqual(manage_shift_page.get_info_box(), 
+        self.assertEqual(manage_shift_page.get_info_box(),
             manage_shift_page.no_volunteer_shift_message)
 
         manage_shift_page.assign_shift()

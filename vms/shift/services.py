@@ -4,13 +4,12 @@ from datetime import date
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 
-from organization.services import (
-                            get_organization_by_name,
-                            get_organizations_ordered_by_name
-                            )
+# vms stuff
+from organization.services import get_organization_by_name, get_organizations_ordered_by_name
 from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
-from volunteer.services import get_volunteer_by_id, get_all_volunteers
+from volunteer.services import get_all_volunteers, get_volunteer_by_id
+
 
 def add_shift_hours(v_id, s_id, start_time, end_time):
 

@@ -1,11 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 
-from organization.services import (
-                                    get_organization_by_name,
-                                    get_organizations_ordered_by_name
-                                    )
-from django.contrib.auth.models import User
+# vms stuff
+from organization.services import get_organization_by_name, get_organizations_ordered_by_name
 from volunteer.models import Volunteer
+
 
 def delete_volunteer(volunteer_id):
     result = False

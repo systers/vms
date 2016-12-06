@@ -1,7 +1,9 @@
-from basePage import *
-from pom.locators.authenticationPageLocators import *
-from pom.locators.homePageLocators import *
+# vms stuff
+from basePage import BasePage
+from pom.locators.authenticationPageLocators import AuthenticationPageLocators
+from pom.locators.homePageLocators import HomePageLocators
 from pom.pageUrls import PageUrls
+
 
 class AuthenticationPage(BasePage):
 

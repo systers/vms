@@ -1,26 +1,29 @@
 import os
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.servers.basehttp import FileWrapper
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.views.generic import ListView, View
 from django.views.generic.detail import DetailView
-from django.views.generic import ListView
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from organization.services import *
-from shift.services import *
+from django.views.generic.edit import FormView, UpdateView
+
+# third-party stuff
+from braces.views import LoginRequiredMixin
+
+# vms stuff
 from event.services import get_signed_up_events_for_volunteer
 from job.services import get_signed_up_jobs_for_volunteer
+from organization.services import get_organization_by_id, get_organizations_ordered_by_name
+from shift.services import calculate_total_report_hours, get_volunteer_report
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
-from django.views.generic.edit import FormView, UpdateView
 from volunteer.models import Volunteer
-from volunteer.services import *
+from volunteer.services import (
+    delete_volunteer_resume, get_volunteer_by_id, get_volunteer_resume_file_url, has_resume_file, search_volunteers
+)
 from volunteer.validation import validate_file
-from django.views.generic import View
-from django.core.urlresolvers import reverse_lazy
 
 
 @login_required

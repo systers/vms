@@ -3,11 +3,11 @@ Django settings for vms project.
 
 Note: Currently development settings. Not suitable as is for production.
 """
-from django.core.urlresolvers import reverse_lazy
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+from django.core.urlresolvers import reverse_lazy
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!

@@ -1,20 +1,22 @@
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
 from django.contrib import messages
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from job.models import Job
-from django.views.generic.edit import FormView, UpdateView
-from django.views.generic.edit import DeleteView
-from django.views.generic import ListView
-from django.views.generic import DetailView
-from job.forms import JobForm
-from job.services import *
-from job.models import *
-from event.services import *
-from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import DeleteView, FormView, UpdateView
+
+# third-party stuff
+from braces.views import LoginRequiredMixin
+
+# vms stuff
+from event.services import get_event_by_id, get_events_ordered_by_name
+from job.forms import JobForm
+from job.models import Job
+from job.services import check_edit_job, get_job_by_id, get_jobs_by_event_id, remove_empty_jobs_for_volunteer
+
 
 class AdministratorLoginRequiredMixin(object):
     @method_decorator(login_required)

@@ -1,7 +1,11 @@
-from basePage import *
-from pom.locators.administratorReportPageLocators import *
+# third-party stuff
 from selenium.webdriver.support.ui import Select
+
+# vms stuff
+from basePage import BasePage
+from pom.locators.administratorReportPageLocators import AdministratorReportPageLocators
 from pom.pages.homePage import HomePage
+
 
 class AdministratorReportPage(BasePage):
 
@@ -40,7 +44,7 @@ class AdministratorReportPage(BasePage):
         return (select1, select2, select3)
 
     def submit_form(self):
-        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()   
+        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()
 
     def get_alert_box_text(self):
         return self.element_by_class_name(self.elements.NO_RESULT_BOX).text

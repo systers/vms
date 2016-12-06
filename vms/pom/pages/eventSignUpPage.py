@@ -1,6 +1,8 @@
-from basePage import *
+# vms stuff
+from basePage import BasePage
 from pom.locators.eventSignUpPageLocators import EventSignUpPageLocators
 from pom.pages.homePage import HomePage
+
 
 class EventSignUpPage(BasePage):
 

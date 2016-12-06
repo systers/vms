@@ -1,5 +1,7 @@
-from basePage import *
-from pom.locators.homePageLocators import *
+# vms stuff
+from basePage import BasePage
+from pom.locators.homePageLocators import HomePageLocators
+
 
 class HomePage(BasePage):
 

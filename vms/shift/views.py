@@ -1,23 +1,31 @@
+from datetime import date
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from datetime import date
-from job.services import *
-from django.views.generic import TemplateView
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from django.utils.decorators import method_decorator
+from django.views.generic import DeleteView, ListView, TemplateView
 from django.views.generic.edit import FormView, UpdateView
-from django.views.generic import DeleteView
+
+# third-party stuff
+from braces.views import LoginRequiredMixin
+
+# vms stuff
+from job.models import Job
+from job.services import get_job_by_id
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
-from shift.services import *
+from shift.services import (
+    add_shift_hours, cancel_shift_registration, clear_shift_hours, delete_shift, edit_shift_hours,
+    get_logged_volunteers_by_shift_id, get_shift_by_id, get_shift_slots_remaining, get_shifts_by_job_id,
+    get_shifts_ordered_by_date, get_shifts_with_open_slots_for_volunteer, get_unlogged_shifts_by_volunteer_id,
+    get_volunteer_shift_by_id, get_volunteer_shifts_with_hours, get_volunteers_by_shift_id, register
+)
 from volunteer.forms import SearchVolunteerForm
-from volunteer.services import get_all_volunteers, search_volunteers
-from django.contrib import messages
-from django.views.generic import ListView
-from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse_lazy
+from volunteer.services import get_all_volunteers, get_volunteer_by_id, search_volunteers
 
 
 class AdministratorLoginRequiredMixin(object):

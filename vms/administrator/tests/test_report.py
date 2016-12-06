@@ -1,24 +1,16 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
-from django.db import IntegrityError
+# third-party stuff
+from selenium import webdriver
 
-from pom.locators.administratorReportPageLocators import *
+# vms stuff
+from pom.locators.administratorReportPageLocators import AdministratorReportPageLocators
 from pom.pages.administratorReportPage import AdministratorReportPage
 from pom.pages.authenticationPage import AuthenticationPage
-
 from shift.utils import (
-    create_admin,
-    create_volunteer,
-    create_organization_with_details,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details,
-    log_hours_with_details,
-    register_volunteer_for_shift_utility
-    )
-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+    create_admin, create_event_with_details, create_job_with_details, create_organization_with_details,
+    create_shift_with_details, create_volunteer, register_volunteer_for_shift_utility
+)
 
 
 class Report(LiveServerTestCase):
@@ -173,8 +165,8 @@ class Report(LiveServerTestCase):
     def create_dataset(self):
         parameters = {'org' : 'org-one',
                 'volunteer' : {
-                    'username' : 'uname1', 
-                    'password' : 'uname1', 
+                    'username' : 'uname1',
+                    'password' : 'uname1',
                     'email' : 'email1@email.com',
                     'first_name' : 'tom-fname',
                     'last_name' : 'tom-lname',
@@ -203,8 +195,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-one',
                 'volunteer' : {
-                    'username' : 'uname2', 
-                    'password' : 'uname2', 
+                    'username' : 'uname2',
+                    'password' : 'uname2',
                     'email' : 'email2@email.com',
                     'first_name' : 'peter-fname',
                     'last_name' : 'peter-lname',
@@ -233,8 +225,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-one',
                 'volunteer' : {
-                    'username' : 'uname3', 
-                    'password' : 'uname3', 
+                    'username' : 'uname3',
+                    'password' : 'uname3',
                     'email' : 'email3@email.com',
                     'first_name' : 'tom-fname',
                     'last_name' : 'tom-lname',
@@ -263,8 +255,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-two',
                 'volunteer' : {
-                    'username' : 'uname4', 
-                    'password' : 'uname4', 
+                    'username' : 'uname4',
+                    'password' : 'uname4',
                     'email' : 'email4@email.com',
                     'first_name' : 'harry-fname',
                     'last_name' : 'harry-lname',
@@ -293,8 +285,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-two',
                 'volunteer' : {
-                    'username' : 'uname5', 
-                    'password' : 'uname5', 
+                    'username' : 'uname5',
+                    'password' : 'uname5',
                     'email' : 'email5@email.com',
                     'first_name' : 'harry-fname',
                     'last_name' : 'harry-lname',
@@ -323,8 +315,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-three',
                 'volunteer' : {
-                    'username' : 'uname6', 
-                    'password' : 'uname6', 
+                    'username' : 'uname6',
+                    'password' : 'uname6',
                     'email' : 'email6@email.com',
                     'first_name' : 'sherlock-fname',
                     'last_name' : 'sherlock-lname',
@@ -353,8 +345,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-four',
                 'volunteer' : {
-                    'username' : 'uname7', 
-                    'password' : 'uname7', 
+                    'username' : 'uname7',
+                    'password' : 'uname7',
                     'email' : 'email7@email.com',
                     'first_name' : 'harvey-fname',
                     'last_name' : 'harvey-lname',
@@ -383,8 +375,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-four',
                 'volunteer' : {
-                    'username' : 'uname8', 
-                    'password' : 'uname8', 
+                    'username' : 'uname8',
+                    'password' : 'uname8',
                     'email' : 'email8@email.com',
                     'first_name' : 'mike-fname',
                     'last_name' : 'mike-lname',

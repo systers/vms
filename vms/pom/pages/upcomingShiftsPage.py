@@ -1,8 +1,10 @@
-from basePage import *
+# vms stuff
+from basePage import BasePage
 from pom.locators.upcomingShiftsPageLocators import UpcomingShiftsPageLocators
-from pom.pages.homePage import HomePage
 from pom.pages.completedShiftsPage import CompletedShiftsPage
+from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls
+
 
 class UpcomingShiftsPage(BasePage):
 

@@ -1,5 +1,7 @@
-from django.shortcuts import redirect
 from django.http.response import HttpResponse
+from django.shortcuts import redirect
+
+# vms stuff
 from vms import settings
 
 

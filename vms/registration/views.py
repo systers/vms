@@ -2,18 +2,15 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from django.views.generic.edit import FormView
 from django.views.generic import TemplateView
-from django.core.urlresolvers import reverse_lazy
+
+# vms stuff
 from administrator.forms import AdministratorForm
-from organization.services import (get_organizations_ordered_by_name,
-                                   get_organization_by_id)
-from volunteer.forms import VolunteerForm
-from volunteer.validation import validate_file
+from organization.services import get_organization_by_id, get_organizations_ordered_by_name
 from registration.forms import UserForm
 from registration.phone_validate import validate_phone
-from administrator.models import *
+from volunteer.forms import VolunteerForm
+from volunteer.validation import validate_file
 
 
 class AdministratorSignupView(TemplateView):

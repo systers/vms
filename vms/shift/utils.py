@@ -1,11 +1,16 @@
+from django.contrib.auth.models import User
+
+# third-party stuff
+from cities_light.models import Country
+
+# vms stuff
+from administrator.models import Administrator
 from event.models import Event
 from job.models import Job
-from administrator.models import Administrator
-from django.contrib.auth.models import User
+from organization.models import Organization
 from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
-from organization.models import Organization
-from cities_light.models import Country
+
 
 # Contains common functions which need to be frequently called by tests
 
@@ -14,7 +19,7 @@ def clear_objects():
     - Deletes objects from multiple tables
     - Called once all tests in a module are completed
     """
-    
+
     VolunteerShift.objects.all().delete()
     Volunteer.objects.all().delete()
     User.objects.all().delete()
@@ -39,7 +44,7 @@ def create_job_with_details(job):
     """
     Creates and returns job with passed name and dates
     """
-    
+
     j1 = Job(
         name=job[0],
         start_date=job[1],
@@ -113,7 +118,7 @@ def set_shift_location(shift,loc):
     shift.state=loc[2]
     shift.country=loc[3]
     shift.venue=loc[4]
-    
+
     shift.save()
     return shift
 
