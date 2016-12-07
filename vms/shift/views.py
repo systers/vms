@@ -12,6 +12,7 @@ from django.views.generic import DeleteView
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
 from shift.services import *
+from shift.utils import send_twilio_message
 from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers
 from django.contrib import messages
@@ -433,10 +434,17 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
         end_time = form.cleaned_data['end_time']
         shift_start_time = shift.start_time
         shift_end_time = shift.end_time
+
+        Message = 'Your shift has been updated, Start: '+start_time.strftime('%H:%M')+'  End:'+end_time.strftime('%H:%M')+' CHECK YOUR ACCOUNT'
+
         try:
             if (end_time > start_time):
                 if (start_time >= shift_start_time and end_time <= shift_end_time):
                     edit_shift_hours(volunteer_id, shift_id, start_time, end_time)
+
+                    volunteer = Volunteer.objects.get(pk=volunteer_id)
+                    send_twilio_message(volunteer.phone_number, Message)
+
                     return HttpResponseRedirect(reverse('shift:manage_volunteer_shifts', args=(volunteer_id,)))
                 else:
                     messages.add_message(self.request, messages.INFO, 'Logged hours should be between shift hours')
