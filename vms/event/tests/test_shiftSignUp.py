@@ -24,6 +24,8 @@ class ShiftSignUp(LiveServerTestCase):
     '''
     @classmethod
     def setUpClass(cls):
+        from django.core.cache import cache
+        cache.clear()
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -32,6 +34,8 @@ class ShiftSignUp(LiveServerTestCase):
         super(ShiftSignUp, cls).setUpClass()
 
     def setUp(self):
+        from django.core.cache import cache
+        cache.clear()
         self.volunteer = create_volunteer()
         self.login_volunteer()
 
