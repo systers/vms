@@ -1,0 +1,42 @@
+{% extends "vms/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="spacer"></div>
+    <form class="form-horizontal" action="{% url 'shift:sign_up' shift.id volunteer_id %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                {% if user.administrator %}
+                    <h3 class="panel-title">{% trans "Assign Shift Confirmation" %}</h3>
+                {% else %}
+                    <h3 class="panel-title">{% trans "Shift Sign Up Confirmation" %}</h3>
+                {% endif %}
+            </div>
+            <div class="panel-body">
+                <br>
+                {% if user.administrator %}
+                    {% trans "Are you sure you want to assign this shift?" %}
+                {% else %}
+                    {% trans "Are you sure that you want to sign up for this shift?" %}
+                {% endif %}
+                <br>
+                <br>
+                <label><h4><span class="label label-default">{% trans "Date" %}</span></h4></label>&nbsp&nbsp&nbsp{{ shift.date }}
+                <br>
+                <label><h4><span class="label label-default">{% trans "Start Time" %}</span></h4></label>&nbsp&nbsp&nbsp{{ shift.start_time }}
+                <br>
+                <label><h4><span class="label label-default">{% trans "End Time" %}</span></h4></label>&nbsp&nbsp&nbsp{{ shift.end_time }}
+                <br>
+                <br>
+                {% if user.administrator %}
+                    <button class="btn btn-default" type="submit">{% trans "Yes, Assign this Shift" %}</button>
+                {% else %}
+                    <button class="btn btn-default" type="submit">{% trans "Yes, Sign Up for this Shift" %}</button>
+                {% endif %}
+                <input type="button" class="btn btn-default" value="{% blocktrans %}Cancel{% endblocktrans %}" onClick="javascript:history.go(-1);">
+            </div>
+        </div>
+    </form>
+{% endblock %}

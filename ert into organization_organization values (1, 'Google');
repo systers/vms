@@ -1,0 +1,25 @@
+                    List of relations
+ Schema |            Name             | Type  |  Owner   
+--------+-----------------------------+-------+----------
+ public | administrator_administrator | table | vmsadmin
+ public | auth_group                  | table | vmsadmin
+ public | auth_group_permissions      | table | vmsadmin
+ public | auth_permission             | table | vmsadmin
+ public | auth_user                   | table | vmsadmin
+ public | auth_user_groups            | table | vmsadmin
+ public | auth_user_user_permissions  | table | vmsadmin
+ public | cities_light_city           | table | vmsadmin
+ public | cities_light_country        | table | vmsadmin
+ public | cities_light_region         | table | vmsadmin
+ public | django_admin_log            | table | vmsadmin
+ public | django_content_type         | table | vmsadmin
+ public | django_migrations           | table | vmsadmin
+ public | django_session              | table | vmsadmin
+ public | event_event                 | table | vmsadmin
+ public | job_job                     | table | vmsadmin
+ public | organization_organization   | table | vmsadmin
+ public | shift_shift                 | table | vmsadmin
+ public | shift_volunteershift        | table | vmsadmin
+ public | volunteer_volunteer         | table | vmsadmin
+(20 rows)
+
