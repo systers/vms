@@ -4,9 +4,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from shift.services import  calculate_total_report_hours, get_administrator_report
-from event.services import get_events_ordered_by_name
-from job.services import get_jobs_ordered_by_title
+from shift.services import *
+from event.services import *
+from job.services import *
 from django.views.generic import TemplateView
 from django.views.generic import ListView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
@@ -38,7 +38,13 @@ class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     """
     model = Administrator
     form_class = ReportForm
+    event_list = get_events_ordered_by_name()
+    organization_list = get_organizations_ordered_by_name()
     template_name = "administrator/report.html"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'administrator/report.html',
+                  { 'event_list': self.event_list,'organization_list': self.organization_list})
 
 
 
@@ -46,12 +52,16 @@ class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Li
     """
     Generate the report using ListView
     """
+    model = Administrator
+    form_class = ReportForm
     template_name = "administrator/report.html"
     organization_list = get_organizations_ordered_by_name()
     event_list = get_events_ordered_by_name()
+    print "event_list"
     job_list = get_jobs_ordered_by_title()
 
     def post(self, request, *args, **kwargs):
+        print "hello"
         report_list = get_administrator_report(
             self.request.POST['first_name'],
             self.request.POST['last_name'],
@@ -63,6 +73,7 @@ class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Li
         )
         organization = self.request.POST['organization']
         event_name = self.request.POST['event_name']
+        print "hi"
         total_hours = calculate_total_report_hours(report_list)
         return render(request, 'administrator/report.html',
                       { 'report_list': report_list, 'total_hours': total_hours, 'notification': True,
@@ -75,8 +86,9 @@ class GenerateReportView(LoginRequiredMixin, View):
         view = ShowFormView.as_view()
         return view(request, *args,**kwargs)
 
+
     def post(self, request, *args, **kwargs):
-        view = ShowReportListView.as_view()
+        view =ShowReportListView.as_view()
         return view(request, *args, **kwargs)
 
 

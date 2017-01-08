@@ -114,7 +114,8 @@ def get_events_by_date(start_date, end_date):
     return result
 
 def get_events_ordered_by_name():
-    event_list = Event.objects.all().order_by('name')
+    event_list = Event.objects.all().order_by('name')	
+    print event_list
     return event_list
 
 def get_signed_up_events_for_volunteer(volunteer_id):
