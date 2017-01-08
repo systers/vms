@@ -19,9 +19,14 @@
                 {% endif %}
                 <br>
                 <br>
-                <button class="btn btn-danger" type="submit">{% trans "Yes, Cancel this Shift" %}</button>
+		<button class="btn btn-danger" type="submit" {% if shift_running  %}disabled{% endif %}>{% trans "Yes, Cancel this Shift" %}</button>
                 <input type="button" class="btn btn-default" value="{% blocktrans %}Return to Previous Page{% endblocktrans %}" onClick="javascript:history.go(-1);">
-            </div>
-        </div>
+	    </div>
+	    {% if shift_running %}
+	    <div class="alert alert-danger">
+	       <p class="messages">{% trans "This shift is going on and cannot be canceled." %}</p>
+	    </div>
+	    {% endif %}
+	</div>
     </form>
 {% endblock %}
