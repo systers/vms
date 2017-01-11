@@ -6,27 +6,33 @@
     <div class="spacer"></div>
     <form action="{% url 'shift:cancel' shift_id volunteer_id %}" method="post">
         {% csrf_token %}
+	{% if shift_running %}
+	    <div class="spacer alert alert-danger">
+		<p class="messages"><strong>{% trans "This shift is running and cannot be cancelled." %}</strong></p>
+	    </div>
+	{% endif %}
         <div class="panel panel-danger">
             <div class="panel-heading">
                 <h3 class="panel-title">{% trans "Cancel Shift Confirmation" %}</h3>
             </div>
-            <div class="panel-body">
+	    <div class="panel-body">
                 <br>
-                {% if user.administrator %}
-                    {% trans "Are you sure you want to cancel this registered shift?" %}
-                {% else %}
-                    {% trans "Are you sure you want to cancel this shift you are signed up for?" %}
-                {% endif %}
+		{% if not shift_running %}
+		    {% if user.administrator %}
+                        {% trans "Are you sure you want to cancel this registered shift?" %}
+                    {% else %}
+                    	{% trans "Are you sure you want to cancel this shift you are signed up for?" %}
+               	    {% endif %}
+		{% else %}
+		    {% trans "Shift already started and cannot be cancelled." %}
+		{% endif %}
+		<br>
                 <br>
-                <br>
-		<button class="btn btn-danger" type="submit" {% if shift_running  %}disabled{% endif %}>{% trans "Yes, Cancel this Shift" %}</button>
-                <input type="button" class="btn btn-default" value="{% blocktrans %}Return to Previous Page{% endblocktrans %}" onClick="javascript:history.go(-1);">
-	    </div>
-	    {% if shift_running %}
-	    <div class="alert alert-danger">
-	       <p class="messages">{% trans "This shift is going on and cannot be canceled." %}</p>
-	    </div>
-	    {% endif %}
+		{% if not shift_running %}
+		    <button class="btn btn-danger" type="submit">{% trans "Yes, Cancel this Shift" %}</button>
+		{% endif %}
+		<input type="button" class="btn btn-default" value="{% blocktrans %}Return to Previous Page{% endblocktrans %}" onClick="javascript:history.go(-1);">
+            </div>
 	</div>
     </form>
 {% endblock %}

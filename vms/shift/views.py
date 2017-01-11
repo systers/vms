@@ -18,8 +18,7 @@ from django.contrib import messages
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
-from datetime import datetime
-
+from django.utils import timezone
 
 class AdministratorLoginRequiredMixin(object):
 
@@ -152,16 +151,19 @@ def cancel(request, shift_id, volunteer_id):
         volunteer = None
         is_shift_running = False
         shift = Shift.objects.get(id=shift_id)
-        now = datetime.now()
-        shift_timings = datetime.combine(shift.date, shift.start_time)
+
+        now = timezone.localtime(timezone.now())
+        shift_timings = timezone.localtime(timezone.make_aware(
+            timezone.datetime.combine(shift.date, shift.start_time),
+            timezone.get_default_timezone()))
         if shift_timings <= now:
             is_shift_running = True
             return render(
                 request,
                 'shift/cancel_shift.html',
                 {'shift_id': shift_id, 'volunteer_id': volunteer_id,
-                'shift_running': is_shift_running,}
-            )
+                     'shift_running': is_shift_running,}
+                )
 
         try:
             admin = user.administrator
@@ -178,12 +180,11 @@ def cancel(request, shift_id, volunteer_id):
 
         # if a volunteer is logged in, verify that they are canceling their own shift
         if volunteer:
-            if (int(volunteer_list.id) != int(volunteer_id)):
+            if (int(volunteer.id) != int(volunteer_id)):
                 return HttpResponse(status=403)
 
         if request.method == 'POST':
             # Check whether the shift is running.
-            # Below check is added as an extra security measure.
             if not is_shift_running:
                 try:
                     cancel_shift_registration(volunteer_id, shift_id)
