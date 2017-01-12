@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from datetime import date
+from datetime import date, datetime
 from job.services import *
 from django.views.generic import TemplateView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
@@ -18,7 +18,10 @@ from django.contrib import messages
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
+from tzlocal import get_localzone
+import os
 from django.utils import timezone
+
 
 class AdministratorLoginRequiredMixin(object):
 
@@ -151,11 +154,15 @@ def cancel(request, shift_id, volunteer_id):
         volunteer = None
         is_shift_running = False
         shift = Shift.objects.get(id=shift_id)
+        try:
+            del os.environ['TZ']
+        except KeyError:
+            pass
 
-        now = timezone.localtime(timezone.now())
-        shift_timings = timezone.localtime(timezone.make_aware(
-            timezone.datetime.combine(shift.date, shift.start_time),
-            timezone.get_default_timezone()))
+        now = timezone.now().astimezone(get_localzone())
+        shift_timings = timezone.make_aware(
+            timezone.datetime.combine(
+                shift.date, shift.start_time), get_localzone())
         if shift_timings <= now:
             is_shift_running = True
             return render(
