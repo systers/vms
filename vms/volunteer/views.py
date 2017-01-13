@@ -21,7 +21,8 @@ from volunteer.services import *
 from volunteer.validation import validate_file
 from django.views.generic import View
 from django.core.urlresolvers import reverse_lazy
-
+from vms.utils import check_correct_volunteer
+from django.utils.decorators import method_decorator
 
 @login_required
 def download_resume(request, volunteer_id):
@@ -59,6 +60,11 @@ def delete_resume(request, volunteer_id):
 '''
 
 class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
+
+    @method_decorator(check_correct_volunteer)
+    def dispatch(self, *args, **kwargs):
+        return super(VolunteerUpdateView, self).dispatch(*args, **kwargs)
+
     form_class = VolunteerForm
     template_name = 'volunteer/edit.html'
     success_url = reverse_lazy('volunteer:profile')
@@ -108,6 +114,10 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
 class ProfileView(LoginRequiredMixin, DetailView):
     template_name = 'volunteer/profile.html'
 
+    @method_decorator(check_correct_volunteer)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfileView, self).dispatch(*args, **kwargs)
+
     def get_object(self, queryset=None):
         volunteer_id = self.kwargs['volunteer_id']
         obj = Volunteer.objects.get(id=self.kwargs['volunteer_id'])
@@ -122,6 +132,10 @@ class ProfileView(LoginRequiredMixin, DetailView):
 '''
 
 class GenerateReportView(LoginRequiredMixin, View):
+
+    @method_decorator(check_correct_volunteer)
+    def dispatch(self, *args, **kwargs):
+        return super(GenerateReportView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         view = ShowFormView.as_view()
