@@ -41,7 +41,7 @@ class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     template_name = "administrator/report.html"
     org_list = get_organizations_ordered_by_name()
     job_list = get_jobs_ordered_by_name()
-    #show drop down menus
+    
     def get(self, request, *args, **kwargs):
         return render(request, 'administrator/report.html', {'job_list':self.job_list, 'org_list': self.org_list})
 
