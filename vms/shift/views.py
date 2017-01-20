@@ -11,9 +11,13 @@ from django.views.generic.edit import FormView, UpdateView
 from django.views.generic import DeleteView
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
-from shift.services import *
+from shift.services import (add_shift_hours, cancel_shift_registration, clear_shift_hours, delete_shift, edit_shift_hours,
+			 get_shift_by_id, get_shifts_ordered_by_date, get_shift_slots_remaining,
+			get_shifts_with_open_slots_for_volunteer, get_unlogged_shifts_by_volunteer_id,
+			 get_volunteer_shift_by_id, get_volunteer_shifts_with_hours, get_volunteers_by_shift_id, 
+			get_logged_volunteers_by_shift_id)
 from volunteer.forms import SearchVolunteerForm
-from volunteer.services import get_all_volunteers, search_volunteers
+from volunteer.services import get_all_volunteers, search_volunteers, get_volunteer_by_id
 from django.contrib import messages
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
@@ -345,9 +349,10 @@ class ShiftUpdateView(AdministratorLoginRequiredMixin, UpdateView):
         shift_date = form.cleaned_data['date']
         shift_start_time = form.cleaned_data['start_time']
         shift_end_time = form.cleaned_data['end_time']
+	maximum_volunteers = form.cleaned_data['max_volunteers']
 
         # save when all conditions satisfied
-        if (shift_date >= start_date_job and shift_date <= end_date_job and shift_end_time > shift_start_time):
+        if (shift_date >= start_date_job and shift_date <= end_date_job and shift_end_time > shift_start_time and maximum_volunteers >= len(shift.volunteers.all())):
             shift_to_edit = form.save(commit=False)
             shift_to_edit.job = job
             shift_to_edit.save()
@@ -357,6 +362,8 @@ class ShiftUpdateView(AdministratorLoginRequiredMixin, UpdateView):
                 messages.add_message(self.request, messages.INFO, 'Shift date should lie within Job dates')
             if shift_end_time <= shift_start_time:
                 messages.add_message(self.request, messages.INFO, 'Shift end time should be greater than start time')
+            if maximum_volunteers < len(shift.volunteers.all()):
+                messages.add_message(self.request, message.INFO, 'Maximum volunteers cannot be less than the previously assigned number')
             return render(
                 self.request,
                 'shift/edit.html',
