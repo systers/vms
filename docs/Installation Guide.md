@@ -11,7 +11,7 @@ This tutorial assumes that the user is installing and running the project under 
 3. [Install Django and PostgreSQL](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-django-and-postgresql)
 4. [Install VirtualBox and Vagrant](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-virtualbox-and-vagrant)
 5. [Download Systers Ubuntu Virtual Machine](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#download-systers-ubuntu-virtual-machine)
-6. [Using Vagrant] (https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#using-vagrant)
+6. [Using Vagrant](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#using-vagrant)
 7. [Install python-psycopg2 module](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-python-psycopg2-module)
 8. [Setup PostgreSQL](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#setup-postgresql)
 9. [Generate Database Tables Corresponding to Django Models](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#generate-database-tables-corresponding-to-django-models)
@@ -106,7 +106,7 @@ You will notice that the project is now synced to this VM by changing directory 
 
 When you make any changes to the project locally, these changes are also reflected (synced) to the project files located in /vagrant/vms, and vice versa.
 
-Here are some additional vagrant commands that may be useful (which you can try later, do not run these commands right now). Proceed to [Install python-psycopg2 module](https://github.com/Nerdylicious/vms/wiki/VMS-Installation-Instructions#install-python-psycopg2-module).
+Here are some additional vagrant commands that may be useful (which you can try later, do not run these commands right now). Proceed to [Install python-psycopg2 module](#ppm).
 
 Once you are done with the VM, exit out of the ssh session by running:
 
@@ -124,7 +124,7 @@ To start up the VM again, run the command:
 
     vagrant up
 
-## Install python-psycopg2 module
+## <a name="ppm"></a>Install python-psycopg2 module
 
 To use Django with PostgreSQL, we will also need to install the python module python-psycopg2. Install it by running this command (this package is not installed by default on the VM):
 
