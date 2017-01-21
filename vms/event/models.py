@@ -56,6 +56,9 @@ class Event(models.Model):
         null=True,
     )
 
+    def __unicode__(self):
+        return self.name
+
     venue = models.CharField(
         max_length=30,
         validators=[
