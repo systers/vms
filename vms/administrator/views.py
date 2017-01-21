@@ -41,9 +41,10 @@ class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     template_name = "administrator/report.html"
     organization_list = get_organizations_ordered_by_name()
     job_list = get_jobs_ordered_by_title()
+    event_list = get_events_ordered_by_name()
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'administrator/report.html', {'job_list':self.job_list, 'organization_list':self.organization_list})
+        return render(request, 'administrator/report.html', {'job_list':self.job_list, 'organization_list':self.organization_list, 'event_list': self.event_list})
 
 
 

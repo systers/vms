@@ -11,11 +11,7 @@ from django.views.generic.edit import FormView, UpdateView
 from django.views.generic import DeleteView
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
-from shift.services import (add_shift_hours, cancel_shift_registration, clear_shift_hours, delete_shift, edit_shift_hours,
-			 get_shift_by_id, get_shifts_ordered_by_date, get_shift_slots_remaining,
-			get_shifts_with_open_slots_for_volunteer, get_unlogged_shifts_by_volunteer_id,
-			 get_volunteer_shift_by_id, get_volunteer_shifts_with_hours, get_volunteers_by_shift_id, 
-			get_logged_volunteers_by_shift_id)
+from shift.services import *
 from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers, get_volunteer_by_id
 from django.contrib import messages
