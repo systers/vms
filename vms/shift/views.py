@@ -78,7 +78,7 @@ class AddHoursView(LoginRequiredMixin, FormView):
                         {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id,}
                     )
             else:
-                messages.add_message(self.request, messages.INFO, 'End time should be greater than start time')
+                messages.add_message(self.request, messages.INFO, 'You can create shifts only for one date at a time')
                 return render(
                     self.request,
                     'shift/add_hours.html',
@@ -131,7 +131,7 @@ class AddHoursManagerView(AdministratorLoginRequiredMixin, FormView):
                     )
 
             else:
-                messages.add_message(self.request, messages.INFO, 'End time should be greater than start time')
+                messages.add_message(self.request, messages.INFO, 'You can create shifts only for one date at a time')
                 return render(
                     self.request,
                     'shift/add_hours_manager.html',
@@ -356,7 +356,7 @@ class ShiftUpdateView(AdministratorLoginRequiredMixin, UpdateView):
             if (shift_date < start_date_job or shift_date > end_date_job):
                 messages.add_message(self.request, messages.INFO, 'Shift date should lie within Job dates')
             if shift_end_time <= shift_start_time:
-                messages.add_message(self.request, messages.INFO, 'Shift end time should be greater than start time')
+                messages.add_message(self.request, messages.INFO, 'You can create shifts only for one date at a time')
             return render(
                 self.request,
                 'shift/edit.html',
@@ -403,7 +403,7 @@ class EditHoursView(LoginRequiredMixin, FormView):
                     )
 
             else:
-                messages.add_message(self.request, messages.INFO, 'End time should be greater than start time')
+                messages.add_message(self.request, messages.INFO, 'You can create shifts only for one date at a time')
                 return render(
                     self.request,
                     'shift/edit_hours.html',
@@ -447,7 +447,7 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
                     )
 
             else:
-                messages.add_message(self.request, messages.INFO, 'End time should be greater than start time')
+                messages.add_message(self.request, messages.INFO, 'You can create shifts only for one date at a time')
                 return render(
                     self.request,
                     'shift/edit_hours_manager.html',
