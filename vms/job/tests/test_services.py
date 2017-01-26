@@ -63,7 +63,7 @@ class JobTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.setup_test_data()
-        
+
     def test_get_job_by_id(self):
         """ Uses jobs j1,j2,j3 """
 
@@ -81,14 +81,14 @@ class JobTests(unittest.TestCase):
         self.assertIsNone(get_job_by_id(200))
 
     def test_job_not_empty(self):
-        """ Test job_not_empty(j_id) 
+        """ Test job_not_empty(j_id)
         Uses jobs j1,j2 """
         self.assertTrue(job_not_empty(self.j1.id))
         self.assertTrue(job_not_empty(self.j2.id))
         self.assertFalse(job_not_empty(100))
 
     def test_get_jobs_by_event_id(self):
-        """ Test get_jobs_by_event_id(e_id) 
+        """ Test get_jobs_by_event_id(e_id)
         Uses jobs j1,j2,j3 and event e1, e2 """
 
         # test typical case
@@ -123,7 +123,7 @@ class DeleteJobTest(unittest.TestCase):
 
     @classmethod
     def setup_test_data(cls):
-        event_1 = ["Software Conference","2012-10-3","2012-10-24"]
+        event_1 = ["Hardware Conference","2012-10-3","2012-10-24"]
         cls.e1 = create_event_with_details(event_1)
 
         job_1 = ["Software Developer","2012-10-22","2012-10-23","A software job",e1]
@@ -170,7 +170,7 @@ class JobWithShiftTests(unittest.TestCase):
         # job with shift which has no slot
         job_4 = ["Information Technologist","2012-11-2","2012-12-2","An IT job",e1]
         cls.j4 = create_job_with_details(job_4)
-        
+
         shift_1 = ["2012-10-23","1:00","3:00",1,cls.j1]
         shift_2 = ["2012-10-25","2:00","4:00",2,cls.j1]
         shift_3 = ["2012-10-24","12:00","18:00",4,cls.j3]
@@ -239,7 +239,7 @@ class JobWithShiftTests(unittest.TestCase):
         register(self.v1.id, self.s1.id)
         register(self.v1.id, self.s3.id)
         register(self.v1.id, self.s2.id)
-        
+
         # volunteer 2 registers for 2 shifts, where s1 has no available slots
         register(self.v2.id, self.s1.id)
         register(self.v2.id, self.s3.id)
@@ -265,11 +265,11 @@ class JobWithShiftTests(unittest.TestCase):
 
     def test_remove_empty_jobs_for_volunteer(self):
         """ Uses jobs j1,j2,j3,j4, shift s3 and volunteer v1 """
-        
+
         # volunteer registers for a shift with multiple slots
         register(self.v1.id, self.s3.id)
         register(self.v2.id, self.s4.id)
-        
+
         job_list = [self.j1, self.j2, self.j3, self.j4]
         job_list = remove_empty_jobs_for_volunteer(job_list, self.v1.id)
 
@@ -278,4 +278,4 @@ class JobWithShiftTests(unittest.TestCase):
         self.assertNotIn(self.j2, job_list)
         self.assertNotIn(self.j3, job_list)
         self.assertNotIn(self.j4, job_list)
-        
+

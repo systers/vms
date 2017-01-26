@@ -21,7 +21,7 @@ from event.services import (
         get_events_by_date,
         get_event_by_shift_id,
         get_signed_up_events_for_volunteer,
-        remove_empty_events_for_volunteer    
+        remove_empty_events_for_volunteer
         )
 
 def setUpModule():
@@ -114,12 +114,12 @@ class EventTests(unittest.TestCase):
         # test typical cases
         event_list = get_events_by_date('2015-07-01','2015-08-01')
         self.assertIsNotNone(event_list)
-        
+
         self.assertIn(self.e3, event_list)
         self.assertIn(self.e4, event_list)
         self.assertIn(self.e5, event_list)
         self.assertEqual(len(event_list), 3)
-        
+
         # test order
         self.assertEqual(event_list[0], self.e3)
         self.assertEqual(event_list[1], self.e5)
@@ -217,7 +217,7 @@ class DeleteEventTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        event_1 = ["Open Source Event","2012-10-22","2012-10-23"]
+        event_1 = ["Closed Source Event","2012-10-22","2012-10-23"]
         cls.e1 = create_event_with_details(event_1)
 
         # event with associated job/shift
@@ -266,7 +266,7 @@ class EventWithVolunteerTest(unittest.TestCase):
         cls.setup_test_data()
 
     def test_remove_empty_events_for_volunteer(self):
-        
+
         """
         Uses Events e1,e2,e3,e4,e5, shift s2 and volunteer v1 where
         with job that has shift with open slots - e2
@@ -275,10 +275,10 @@ class EventWithVolunteerTest(unittest.TestCase):
         Event with job that has no shifts - e3
         Event with no jobs - e5
         """
-        
+
         register(self.v1.id, self.s2.id)
         register(self.v2.id, self.s4.id)
-        
+
         event_list = [self.e1, self.e2, self.e3, self.e4, self.e5]
         event_list = remove_empty_events_for_volunteer(event_list, self.v1.id)
 
@@ -321,4 +321,4 @@ class EventWithVolunteerTest(unittest.TestCase):
         # test for returned events for unregistered volunteer 3
         self.assertEqual(len(event_list_for_vol_3), 0)
         VolunteerShift.objects.all().delete()
-        
+
