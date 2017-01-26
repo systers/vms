@@ -3,7 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from datetime import date
+from datetime import date, datetime
 from job.services import *
 from django.views.generic import TemplateView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
@@ -18,6 +18,9 @@ from django.contrib import messages
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
+from tzlocal import get_localzone
+import os
+from django.utils import timezone
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -149,6 +152,25 @@ def cancel(request, shift_id, volunteer_id):
         user = request.user
         admin = None
         volunteer = None
+        is_shift_running = False
+        shift = Shift.objects.get(id=shift_id)
+        try:
+            del os.environ['TZ']
+        except KeyError:
+            pass
+
+        now = timezone.now().astimezone(get_localzone())
+        shift_timings = timezone.make_aware(
+            timezone.datetime.combine(
+                shift.date, shift.start_time), get_localzone())
+        if shift_timings <= now:
+            is_shift_running = True
+            return render(
+                request,
+                'shift/cancel_shift.html',
+                {'shift_id': shift_id, 'volunteer_id': volunteer_id,
+                     'shift_running': is_shift_running,}
+                )
 
         try:
             admin = user.administrator
@@ -169,28 +191,37 @@ def cancel(request, shift_id, volunteer_id):
                 return HttpResponse(status=403)
 
         if request.method == 'POST':
-            try:
-                cancel_shift_registration(volunteer_id, shift_id)
-                if admin:
-                    return HttpResponseRedirect(reverse(
-                        'shift:manage_volunteer_shifts',
-                        args=(volunteer_id, )
+            # Check whether the shift is running.
+            if not is_shift_running:
+                try:
+                    cancel_shift_registration(volunteer_id, shift_id)
+                    if admin:
+                        return HttpResponseRedirect(reverse(
+                            'shift:manage_volunteer_shifts',
+                            args=(volunteer_id, )
                         ))
-                elif volunteer:
-                    return HttpResponseRedirect(reverse(
-                        'shift:view_volunteer_shifts',
-                        args=(volunteer_id, )
+                    elif volunteer:
+                        return HttpResponseRedirect(reverse(
+                            'shift:view_volunteer_shifts',
+                            args=(volunteer_id, )
                         ))
-                else:
+                    else:
+                        raise Http404
+                except:
                     raise Http404
-            except:
-                raise Http404
+            else:
+                return render(
+                    request,
+                    'shift/cancel_shift.html',
+                    {'shift_id': shift_id, 'volunteer_id': volunteer_id,
+                     'shift_running': is_shift_running,}
+                )
         else:
             return render(
                 request,
                 'shift/cancel_shift.html',
-                {'shift_id': shift_id, 'volunteer_id': volunteer_id}
-                )
+                {'shift_id': shift_id, 'volunteer_id': volunteer_id,}
+            )
     else:
         raise Http404
 
