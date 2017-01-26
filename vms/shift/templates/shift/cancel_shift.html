@@ -12,14 +12,21 @@
             </div>
             <div class="panel-body">
                 <br>
-                {% if user.administrator %}
-                    {% trans "Are you sure you want to cancel this registered shift?" %}
+                {% if error %}
+                    {{ error }}
+                    <br>
+                    <br>
                 {% else %}
-                    {% trans "Are you sure you want to cancel this shift you are signed up for?" %}
-                {% endif %}
+
+                    {% if user.administrator %}
+                        {% trans "Are you sure you want to cancel this registered shift?" %}
+                    {% else %}
+                        {% trans "Are you sure you want to cancel this shift you are signed up for?" %}
+                    {% endif %}
                 <br>
                 <br>
                 <button class="btn btn-danger" type="submit">{% trans "Yes, Cancel this Shift" %}</button>
+                {% endif %}
                 <input type="button" class="btn btn-default" value="{% blocktrans %}Return to Previous Page{% endblocktrans %}" onClick="javascript:history.go(-1);">
             </div>
         </div>

@@ -18,6 +18,7 @@ from django.contrib import messages
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse_lazy
+from django.utils import timezone
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -167,6 +168,17 @@ def cancel(request, shift_id, volunteer_id):
         if volunteer:
             if (int(volunteer.id) != int(volunteer_id)):
                 return HttpResponse(status=403)
+
+        shift = get_shift_by_id(shift_id)
+        shift_time = timezone.make_aware(datetime.datetime.combine(shift.job.start_date, 
+            shift.start_time), timezone.get_default_timezone())
+        if timezone.now() >= shift_time:
+            return render(
+                request,
+                'shift/cancel_shift.html',
+                {'shift_id': shift_id, 'volunteer_id': volunteer_id,
+                'error': 'This shift has already started.'}
+                )
 
         if request.method == 'POST':
             try:
