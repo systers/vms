@@ -1,6 +1,12 @@
 from django.conf.urls import patterns, url
+
+# vms stuff
 from shift import views
-from shift.views import *
+from shift.views import (
+    AddHoursManagerView, AddHoursView, ClearHoursManager, ClearHoursView, EditHoursManagerView, EditHoursView,
+    JobListView, ManageVolunteerShiftView, ShiftCreateView, ShiftDeleteView, ShiftListView, ShiftUpdateView,
+    ViewHoursView, VolunteerSearchView
+)
 
 urlpatterns = patterns('',
     url(r'^add_hours/(?P<shift_id>\d+)/(?P<volunteer_id>\d+)$', AddHoursView.as_view(), name='add_hours'),

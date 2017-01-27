@@ -1,16 +1,17 @@
-from django.contrib.staticfiles.testing import LiveServerTestCase
-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-
-from pom.pages.volunteerRegistrationPage import VolunteerRegistrationPage
-from pom.pageUrls import PageUrls
 import re
 
-from organization.models import Organization
 from django.contrib.auth.models import User
+from django.contrib.staticfiles.testing import LiveServerTestCase
+
+# third-party stuff
+from selenium import webdriver
+
+# vms stuff
+from pom.pages.volunteerRegistrationPage import VolunteerRegistrationPage
+from pom.pageUrls import PageUrls
+from shift.utils import create_country, create_organization
 from volunteer.models import Volunteer
-from shift.utils import create_organization, create_country
+
 
 class SignUpVolunteer(LiveServerTestCase):
     '''
@@ -360,7 +361,7 @@ class SignUpVolunteer(LiveServerTestCase):
         # verify that user wasn't registered and that field values are not erased
         self.assertEqual(self.driver.current_url, self.live_server_url + page.volunteer_registration_page)
         details = ['volunteer-username','volunteer-first-name-3','volunteer-last-name','volunteer-email@systers.org','volunteer-address','volunteer-city','volunteer-state!','volunteer-country','99999.!9999','@#volunteer-org']
-        self.verify_field_values(details) 
+        self.verify_field_values(details)
 
         # database check to verify that no user, volunteer created
         self.assertEqual(len(User.objects.all()),0)

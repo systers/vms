@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, url
+
+# vms stuff
 from event import views
-from event.views import *
+from event.views import EventCreateView, EventDeleteView, EventListView, EventUpdateView
 
 urlpatterns = patterns('',
     url(r'^create/$', EventCreateView.as_view(), name='create'),

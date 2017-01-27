@@ -1,5 +1,9 @@
 from django.conf.urls import patterns, url
-from organization.views import *
+
+# vms stuff
+from organization.views import (
+    OrganizationCreateView, OrganizationDeleteView, OrganizationListView, OrganizationUpdateView
+)
 
 urlpatterns = patterns('',
     url(r'^create/$', OrganizationCreateView.as_view(), name='create'),

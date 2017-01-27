@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, url
+
+# vms stuff
 from volunteer import views
-from volunteer.views import *
+from volunteer.views import GenerateReportView, ProfileView, VolunteerUpdateView
 
 urlpatterns = patterns('',
     url(r'^delete_resume/(?P<volunteer_id>\d+)$', views.delete_resume, name='delete_resume'),

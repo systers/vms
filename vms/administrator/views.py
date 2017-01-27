@@ -1,20 +1,23 @@
-from administrator.forms import ReportForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from shift.services import *
-from event.services import *
-from job.services import *
-from django.views.generic import TemplateView
-from django.views.generic import ListView
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from django.views.generic.edit import FormView, UpdateView
-from django.views.generic import View
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, View
+from django.views.generic.edit import FormView
+
+# third-party stuff
+from braces.views import LoginRequiredMixin
+
+# vms stuff
+from administrator.forms import ReportForm
 from administrator.models import Administrator
 from administrator.utils import admin_required
-from django.utils.decorators import method_decorator
+from event.services import get_events_ordered_by_name
+from job.services import get_jobs_ordered_by_title
+from organization.services import get_organizations_ordered_by_name
+from shift.services import calculate_total_report_hours, get_administrator_report
 
 
 class AdministratorLoginRequiredMixin(object):

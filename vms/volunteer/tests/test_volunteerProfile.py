@@ -1,21 +1,22 @@
+import re
+
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
+# third-party stuff
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
 
-from volunteer.models import Volunteer
-from shift.utils import create_volunteer_with_details
-
+# vms stuff
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.volunteerProfilePage import VolunteerProfilePage
+from shift.utils import create_volunteer_with_details
+from volunteer.models import Volunteer
 
-import re
 
 class VolunteerProfile(LiveServerTestCase):
     '''
     '''
     @classmethod
-    def setUpClass(cls):       
+    def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -134,4 +135,3 @@ class VolunteerProfile(LiveServerTestCase):
         profile_page.submit_form()
         self.assertEqual(profile_page.get_invalid_format_error(),'Uploaded file is invalid.')
         '''
-        

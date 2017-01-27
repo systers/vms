@@ -1,7 +1,9 @@
-from basePage import *
-from pom.locators.volunteerSearchPageLocators import *
+# vms stuff
+from basePage import BasePage
+from pom.locators.volunteerSearchPageLocators import VolunteerSearchPageLocators
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pageUrls import PageUrls
+
 
 class VolunteerSearchPage(BasePage):
 
