@@ -25,8 +25,8 @@ from volunteer.models import Volunteer
 from volunteer.services import (
     delete_volunteer_resume, get_volunteer_by_id, get_volunteer_resume_file_url, has_resume_file, search_volunteers
 )
-from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
+from volunteer.validation import validate_file
 
 
 @login_required

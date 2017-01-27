@@ -1,6 +1,6 @@
+from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 
 # vms stuff
 from vms import settings

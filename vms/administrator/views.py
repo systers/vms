@@ -11,9 +11,9 @@ from django.views.generic.edit import FormView
 from braces.views import LoginRequiredMixin
 
 # vms stuff
-from administrator.utils import admin_required
 from administrator.forms import ReportForm
 from administrator.models import Administrator
+from administrator.utils import admin_required
 from event.services import get_events_ordered_by_name
 from job.services import get_jobs_ordered_by_title
 from organization.services import get_organizations_ordered_by_name

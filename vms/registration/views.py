@@ -2,8 +2,8 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
 
 # vms stuff
 from administrator.forms import AdministratorForm
