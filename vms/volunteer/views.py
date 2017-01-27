@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from administrator.utils import admin_required
 from organization.services import *
 from shift.services import *
 from event.services import get_signed_up_events_for_volunteer
@@ -23,6 +24,7 @@ from django.views.generic import View
 from django.core.urlresolvers import reverse_lazy
 from vms.utils import check_correct_volunteer
 from django.utils.decorators import method_decorator
+from volunteer.utils import vol_id_check
 
 @login_required
 def download_resume(request, volunteer_id):
@@ -115,16 +117,15 @@ class ProfileView(LoginRequiredMixin, DetailView):
     template_name = 'volunteer/profile.html'
 
     @method_decorator(check_correct_volunteer)
+    @method_decorator(vol_id_check)
     def dispatch(self, *args, **kwargs):
         return super(ProfileView, self).dispatch(*args, **kwargs)
 
     def get_object(self, queryset=None):
         volunteer_id = self.kwargs['volunteer_id']
         obj = Volunteer.objects.get(id=self.kwargs['volunteer_id'])
-        if obj:
-            return obj
-        else:
-            return HttpResponse(status=403)
+        return obj
+
 
 '''
   The view generate Report.
@@ -134,6 +135,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 class GenerateReportView(LoginRequiredMixin, View):
 
     @method_decorator(check_correct_volunteer)
+    @method_decorator(vol_id_check)
     def dispatch(self, *args, **kwargs):
         return super(GenerateReportView, self).dispatch(*args, **kwargs)
 
@@ -176,6 +178,7 @@ class ShowReportListView(LoginRequiredMixin, ListView):
                        'job_list': job_list, 'event_list': event_list, 'selected_event': event_name,
                        'selected_job': job_name})
 @login_required
+@admin_required
 def search(request):
     if request.method == 'POST':
         form = SearchVolunteerForm(request.POST)

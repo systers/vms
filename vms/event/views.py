@@ -15,7 +15,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.shortcuts import render_to_response
 from django.http import Http404
+
 from vms.utils import check_correct_volunteer_shift_sign_up
+from volunteer.utils import vol_id_check
 
 class AdministratorLoginRequiredMixin(object):
 
@@ -112,7 +114,7 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Updat
                 return render(request, 'event/edit.html', {'form': form,})
 
 
-class EventListView(LoginRequiredMixin, ListView):
+class EventListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView):
     model_form = Event
     template_name = "event/list.html"
 
@@ -123,28 +125,19 @@ class EventListView(LoginRequiredMixin, ListView):
 
 @login_required
 @check_correct_volunteer_shift_sign_up
+@vol_id_check
 def list_sign_up(request, volunteer_id):
     if request.method == 'POST':
         form = EventDateForm(request.POST)
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
-
             event_list = get_events_by_date(start_date, end_date)
             event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
-
             return render(
                 request,
                 'event/list_sign_up.html',
                 {'form' : form, 'event_list': event_list, 'volunteer_id': volunteer_id}
-                )
-        else:
-            event_list = get_events_ordered_by_name()
-            event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
-            return render(
-                request,
-                'event/list_sign_up.html',
-                {'event_list': event_list, 'volunteer_id': volunteer_id}
                 )
     else:
         event_list = get_events_ordered_by_name()

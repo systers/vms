@@ -11,12 +11,13 @@ class Event(models.Model):
                 r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\.)|(,)|(\-)|(!)|(\')]+$',
             ),
         ],
+        unique=True
     )
     start_date = models.DateField()
     end_date = models.DateField()
 
     address = models.CharField(
-        max_length=30,
+        max_length=75,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(\')]+$',
@@ -26,7 +27,7 @@ class Event(models.Model):
         null=True,
     )
     city = models.CharField(
-        max_length=30,
+        max_length=75,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
@@ -36,7 +37,7 @@ class Event(models.Model):
         null=True,
     )
     state = models.CharField(
-        max_length=30,
+        max_length=50,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
@@ -46,7 +47,7 @@ class Event(models.Model):
         null=True,
     )
     country = models.CharField(
-        max_length=30,
+        max_length=75,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
