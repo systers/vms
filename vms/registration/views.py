@@ -3,12 +3,14 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
 
 # vms stuff
 from administrator.forms import AdministratorForm
 from organization.services import get_organization_by_id, get_organizations_ordered_by_name
 from registration.forms import UserForm
 from registration.phone_validate import validate_phone
+from registration.utils import volunteer_denied
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
 
@@ -26,6 +28,10 @@ class AdministratorSignupView(TemplateView):
     registered = False
     organization_list = get_organizations_ordered_by_name()
     phone_error = False
+
+    @method_decorator(volunteer_denied)
+    def dispatch(self, *args, **kwargs):
+      return super(AdministratorSignupView, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         user_form = UserForm(prefix="usr")

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import os
 
 from django.conf import settings
@@ -111,13 +112,15 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
 class ProfileView(LoginRequiredMixin, DetailView):
     template_name = 'volunteer/profile.html'
 
+    @method_decorator(vol_id_check)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfileView, self).dispatch(*args, **kwargs)
+
     def get_object(self, queryset=None):
         volunteer_id = self.kwargs['volunteer_id']
         obj = Volunteer.objects.get(id=self.kwargs['volunteer_id'])
-        if obj:
-            return obj
-        else:
-            return HttpResponse(status=403)
+        return obj
+
 
 '''
   The view generate Report.
@@ -125,6 +128,10 @@ class ProfileView(LoginRequiredMixin, DetailView):
 '''
 
 class GenerateReportView(LoginRequiredMixin, View):
+
+    @method_decorator(vol_id_check)
+    def dispatch(self, *args, **kwargs):
+        return super(GenerateReportView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         view = ShowFormView.as_view()
@@ -165,6 +172,7 @@ class ShowReportListView(LoginRequiredMixin, ListView):
                        'job_list': job_list, 'event_list': event_list, 'selected_event': event_name,
                        'selected_job': job_name})
 @login_required
+@admin_required
 def search(request):
     if request.method == 'POST':
         form = SearchVolunteerForm(request.POST)

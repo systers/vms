@@ -11,6 +11,7 @@ from django.views.generic.edit import FormView
 from braces.views import LoginRequiredMixin
 
 # vms stuff
+from administrator.utils import admin_required
 from administrator.forms import ReportForm
 from administrator.models import Administrator
 from event.services import get_events_ordered_by_name
@@ -23,14 +24,9 @@ class AdministratorLoginRequiredMixin(object):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        user = request.user
-        admin = None
-        try:
-            admin = user.administrator
-        except ObjectDoesNotExist:
-            pass
+        admin = hasattr(request.user, 'administrator')
         if not admin:
-            return render(request, 'vms/no_admin_rights.html')
+            return render(request, 'vms/no_admin_rights.html', status=403)
         else:
             return super(AdministratorLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
@@ -84,14 +80,6 @@ class GenerateReportView(LoginRequiredMixin, View):
 
 
 @login_required
+@admin_required
 def settings(request):
-    user = request.user
-    admin = None
-    try:
-        admin = user.administrator
-    except ObjectDoesNotExist:
-        pass
-    if not admin:
-        return HttpResponse(status=403)
-
     return HttpResponseRedirect(reverse('event:list'))
