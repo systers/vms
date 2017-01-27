@@ -26,6 +26,7 @@ from shift.services import (
 )
 from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, get_volunteer_by_id, search_volunteers
+from volunteer.utils import vol_id_check
 
 
 class AdministratorLoginRequiredMixin(object):

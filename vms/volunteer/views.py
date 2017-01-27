@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import os
 
 from django.conf import settings
@@ -7,6 +6,7 @@ from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, UpdateView
@@ -15,6 +15,7 @@ from django.views.generic.edit import FormView, UpdateView
 from braces.views import LoginRequiredMixin
 
 # vms stuff
+from administrator.utils import admin_required
 from event.services import get_signed_up_events_for_volunteer
 from job.services import get_signed_up_jobs_for_volunteer
 from organization.services import get_organization_by_id, get_organizations_ordered_by_name
@@ -25,6 +26,7 @@ from volunteer.services import (
     delete_volunteer_resume, get_volunteer_by_id, get_volunteer_resume_file_url, has_resume_file, search_volunteers
 )
 from volunteer.validation import validate_file
+from volunteer.utils import vol_id_check
 
 
 @login_required
