@@ -1,20 +1,18 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
+# third-party stuff
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
-from pom.pages.completedShiftsPage import CompletedShiftsPage
+# vms stuff
 from pom.pages.authenticationPage import AuthenticationPage
-
+from pom.pages.completedShiftsPage import CompletedShiftsPage
 from shift.models import VolunteerShift
-
 from shift.utils import (
-    create_volunteer,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details,
+    create_event_with_details, create_job_with_details, create_shift_with_details, create_volunteer,
     log_hours_with_details
-    )
+)
+
 
 class ShiftHours(LiveServerTestCase):
     '''
@@ -46,7 +44,7 @@ class ShiftHours(LiveServerTestCase):
         self.authentication_page.login({'username' : 'volunteer', 'password' : 'volunteer'})
 
     def register_dataset(self):
-        
+
         # create shift and log hours
         e1 = create_event_with_details(['event', '2017-06-15', '2017-06-17'])
         j1 = create_job_with_details(['job', '2017-06-15', '2017-06-15', 'job description', e1])
@@ -56,7 +54,7 @@ class ShiftHours(LiveServerTestCase):
     def test_view_with_unlogged_shift(self):
         completed_shifts_page = self.completed_shifts_page
         completed_shifts_page.go_to_completed_shifts()
-        self.assertEqual(self.driver.current_url, self.live_server_url + 
+        self.assertEqual(self.driver.current_url, self.live_server_url +
             completed_shifts_page.view_hours_page + str(self.v1.id))
 
         self.assertEqual(completed_shifts_page.get_info_box(),

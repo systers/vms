@@ -1,20 +1,25 @@
 import datetime
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+
 from django.contrib import messages
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from event.forms import EventForm, EventDateForm
-from django.views.generic.edit import FormView, UpdateView
-from django.views.generic.edit import DeleteView
-from django.views.generic import ListView
-from event.services import *
-from event.models import *
-from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.shortcuts import render_to_response
-from django.http import Http404
+from django.views.generic import ListView
+from django.views.generic.edit import DeleteView, FormView, UpdateView
+
+# third-party stuff
+from braces.views import LoginRequiredMixin
+
+# vms stuff
+from event.forms import EventDateForm, EventForm
+from event.models import Event
+from event.services import (
+    check_edit_event, get_event_by_id, get_events_by_date, get_events_ordered_by_name,
+    remove_empty_events_for_volunteer
+)
 from volunteer.utils import vol_id_check
 
 class AdministratorLoginRequiredMixin(object):

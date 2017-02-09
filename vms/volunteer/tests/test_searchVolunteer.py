@@ -1,15 +1,13 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
+# third-party stuff
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
+# vms stuff
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.volunteerSearchPage import VolunteerSearchPage
-
-from shift.utils import (
-    create_admin,
-    create_volunteer_with_details
-    )
+from shift.utils import create_admin, create_volunteer_with_details
 
 
 class SearchVolunteer(LiveServerTestCase):
@@ -56,7 +54,7 @@ class SearchVolunteer(LiveServerTestCase):
         self.authentication_page.server_url = self.live_server_url
         self.authentication_page.login({ 'username' : 'admin', 'password' : 'admin'})
 
-    def test_volunteer_first_name_field(self):         
+    def test_volunteer_first_name_field(self):
         credentials_1 = ['volunteer-username', 'VOLUNTEER-FIRST-NAME', 'volunteer-last-name',
                 'volunteer-address', 'volunteer-city', 'volunteer-state',
                 'volunteer-country', '9999999999', 'volunteer-email@systers.org',
@@ -72,7 +70,7 @@ class SearchVolunteer(LiveServerTestCase):
 
         expected_result_one = credentials_1[1:-1]
         expected_result_two = credentials_2[1:-1]
-        
+
         search_page = self.search_page
         search_page.search_first_name_field('volunteer')
         search_page.submit_form()
@@ -108,7 +106,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         self.assertNotEqual(search_page.get_help_block(),None)
 
-    def test_volunteer_last_name_field(self):            
+    def test_volunteer_last_name_field(self):
         credentials_1 = ['volunteer-username', 'volunteer-first-name', 'VOLUNTEER-LAST-NAME',
                 'volunteer-address', 'volunteer-city', 'volunteer-state', 'volunteer-country',
                 '9999999999', 'volunteer-email@systers.org','volunteer-organization']
@@ -157,7 +155,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         self.assertNotEqual(search_page.get_help_block(),None)
 
-    def test_volunteer_city_field(self):            
+    def test_volunteer_city_field(self):
         credentials_1 = ['volunteer-username', 'volunteer-first-name', 'volunteer-last-name',
                 'volunteer-address', 'VOLUNTEER-CITY', 'volunteer-state', 'volunteer-country',
                 '9999999999', 'volunteer-email@systers.org', 'volunteer-organization']
@@ -180,7 +178,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
         self.assertEqual(len(result), 2)
-        
+
         self.assertTrue(expected_result_one in result)
         self.assertTrue(expected_result_two in result)
 
@@ -209,7 +207,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         self.assertNotEqual(search_page.get_help_block(),None)
 
-    def test_volunteer_state_field(self):            
+    def test_volunteer_state_field(self):
         credentials_1 = ['volunteer-username', 'volunteer-first-name', 'volunteer-last-name',
                 'volunteer-address', 'volunteer-city', 'VOLUNTEER-STATE', 'volunteer-country',
                 '9999999999', 'volunteer-email@systers.org', 'volunteer-organization']
@@ -240,7 +238,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
-        
+
         self.assertEqual(len(result), 2)
         self.assertTrue(expected_result_two in result)
         self.assertTrue(expected_result_one in result)
@@ -261,7 +259,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         self.assertNotEqual(search_page.get_help_block(), None)
 
-    def test_volunteer_country_field(self):            
+    def test_volunteer_country_field(self):
         credentials_1 = ['volunteer-username', 'volunteer-first-name', 'volunteer-last-name',
                 'volunteer-address', 'volunteer-city', 'volunteer-state', 'VOLUNTEER-COUNTRY',
                 '9999999999', 'volunteer-email@systers.org', 'volunteer-organization']
@@ -283,7 +281,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
-        
+
         self.assertEqual(len(result), 2)
         self.assertTrue(expected_result_two in result)
         self.assertTrue(expected_result_one in result)
@@ -313,7 +311,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         self.assertNotEqual(search_page.get_help_block(), None)
 
-    def test_volunteer_organization_field(self):            
+    def test_volunteer_organization_field(self):
         credentials_1 = ['volunteer-username', 'volunteer-first-name', 'volunteer-last-name',
                 'volunteer-address', 'volunteer-city', 'volunteer-state', 'volunteer-country',
                 '9999999999', 'volunteer-email@systers.org']
@@ -377,7 +375,7 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.submit_form()
         self.assertNotEqual(search_page.get_help_block(),None)
 
-    def test_intersection_of_all_fields(self):            
+    def test_intersection_of_all_fields(self):
         credentials_1 = ['volunteer-username', 'volunteer-first-name', 'volunteer-last-name',
                 'volunteer-address', 'volunteer-city', 'volunteer-state', 'volunteer-country',
                 '9999999999', 'volunteer-email@systers.org']
@@ -428,7 +426,7 @@ class SearchVolunteer(LiveServerTestCase):
 
         with self.assertRaises(NoSuchElementException):
             search_results = search_page.get_search_results()
-        
+
         search_page.search_last_name_field('volunteer')
         search_page.search_city_field('wrong-city')
         search_page.submit_form()

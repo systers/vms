@@ -1,6 +1,10 @@
 import unittest
+
+# vms stuff
 from organization.models import Organization
-from organization.services import *
+from organization.services import (
+    delete_organization, get_organization_by_id, get_organization_by_name, get_organizations_ordered_by_name
+)
 from shift.utils import clear_objects, create_volunteer_with_details
 
 class OrganizationMethodTests(unittest.TestCase):
@@ -23,7 +27,7 @@ class OrganizationMethodTests(unittest.TestCase):
     def tearDownClass(cls):
         # Destroys all objects created
         clear_objects()
-		
+
     def test_get_organization_by_id(self):
 
         #test typical cases

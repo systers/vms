@@ -1,17 +1,16 @@
-from django.contrib.staticfiles.testing import LiveServerTestCase
-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-
-from pom.pages.adminRegistrationPage import AdminRegistrationPage
-from pom.pageUrls import PageUrls
 import re
 
-from organization.models import Organization
 from django.contrib.auth.models import User
-from administrator.models import Administrator
+from django.contrib.staticfiles.testing import LiveServerTestCase
 
-from shift.utils import create_organization, create_country
+# third-party stuff
+from selenium import webdriver
+
+# vms stuff
+from administrator.models import Administrator
+from pom.pages.adminRegistrationPage import AdminRegistrationPage
+from pom.pageUrls import PageUrls
+from shift.utils import create_country, create_organization
 
 class SignUpAdmin(LiveServerTestCase):
     '''

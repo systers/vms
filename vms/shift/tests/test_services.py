@@ -1,35 +1,23 @@
 import datetime
-from datetime import date, timedelta
-from django.core.exceptions import ObjectDoesNotExist
 import unittest
+from datetime import date, timedelta
 
+from django.core.exceptions import ObjectDoesNotExist
+
+# vms stuff
 from shift.models import VolunteerShift
-from shift.utils import *
-
 from shift.services import (
-            add_shift_hours,
-            calculate_duration,
-            calculate_total_report_hours,
-            cancel_shift_registration,
-            clear_shift_hours, delete_shift,
-            edit_shift_hours, generate_report,
-            get_all_volunteer_shifts_with_hours,
-            get_shift_by_id, get_shifts_by_job_id,
-            get_shifts_ordered_by_date,
-            get_shift_slots_remaining,
-            get_shifts_with_open_slots,
-            get_unlogged_shifts_by_volunteer_id,
-            get_volunteer_shift_by_id,
-            get_volunteer_shifts_with_hours,
-            get_volunteers_by_shift_id,
-            get_logged_volunteers_by_shift_id,
-            is_signed_up,
-            register,
-            send_reminder,
-            get_shifts_with_open_slots_for_volunteer,
-            get_volunteer_report,
-            get_administrator_report
-            )
+    add_shift_hours, calculate_duration, calculate_total_report_hours, cancel_shift_registration, clear_shift_hours,
+    delete_shift, edit_shift_hours, generate_report, get_administrator_report, get_all_volunteer_shifts_with_hours,
+    get_logged_volunteers_by_shift_id, get_shift_by_id, get_shift_slots_remaining, get_shifts_by_job_id,
+    get_shifts_ordered_by_date, get_shifts_with_open_slots, get_shifts_with_open_slots_for_volunteer,
+    get_unlogged_shifts_by_volunteer_id, get_volunteer_report, get_volunteer_shift_by_id,
+    get_volunteer_shifts_with_hours, get_volunteers_by_shift_id, is_signed_up, register, send_reminder
+)
+from shift.utils import (
+    clear_objects, create_event_with_details, create_job_with_details, create_shift_with_details,
+    create_volunteer_with_details, get_report_list, set_shift_location
+)
 
 def setUpModule():
     """
@@ -63,7 +51,7 @@ def tearDownModule():
 
 class ShiftTests(unittest.TestCase):
     '''
-    Contains tests which require 
+    Contains tests which require
     - only shift objects
     - no objects to be created
     '''
@@ -209,8 +197,8 @@ class ShiftTests(unittest.TestCase):
         self.assertIsNone(get_shift_by_id(200))
 
     def test_get_shifts_by_job_id(self):
-        """ 
-        Test get_shifts_by_job_id(j_id) 
+        """
+        Test get_shifts_by_job_id(j_id)
         Uses job j1
         """
         job_1_shifts = get_shifts_by_job_id(j1.id)
@@ -584,7 +572,7 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         self.assertIsNotNone(reports)
 
     def test_get_all_volunteer_shifts_with_hours(self):
-        #  Test get_all_volunteer_shifts_with_hours() 
+        #  Test get_all_volunteer_shifts_with_hours()
         register(self.v1.id, self.s1.id)
         register(self.v2.id, self.s2.id)
 
@@ -739,11 +727,11 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         # sign up
         register(self.v3.id, self.s1.id)
         register(self.v1.id, self.s1.id)
-        register(self.v1.id, self.s3.id) 
+        register(self.v1.id, self.s3.id)
         register(self.v3.id, self.s3.id)
         register(self.v2.id, self.s3.id)
 
-        # get volunteer lists 
+        # get volunteer lists
         volunteer_list_for_shift_1 = get_volunteers_by_shift_id(self.s1.id)
         volunteer_list_for_shift_2 = get_volunteers_by_shift_id(self.s2.id)
         volunteer_list_for_shift_3 = get_volunteers_by_shift_id(self.s3.id)
@@ -927,8 +915,8 @@ class ShiftReminderTest(unittest.TestCase):
         register(self.v2.id, self.s3.id)
 
         # test typical case
-        result = send_reminder()       
-               
+        result = send_reminder()
+
         self.assertEqual(result,2)
 
 class DeleteShiftTest(unittest.TestCase):
@@ -955,10 +943,10 @@ class DeleteShiftTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.s2.delete()
-        
+
         # remove all registered volunteers
         VolunteerShift.objects.all().delete()
-    
+
     def test_delete_shift(self):
         # Test delete_shift(shift_id)
 

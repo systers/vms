@@ -1,5 +1,6 @@
-from basePage import *
-from pom.locators.volunteerRegistrationPageLocators import *
+# vms stuff
+from basePage import BasePage
+from pom.locators.volunteerRegistrationPageLocators import VolunteerRegistrationPageLocators
 from pom.pageUrls import PageUrls
 
 class VolunteerRegistrationPage(BasePage):
@@ -44,7 +45,7 @@ class VolunteerRegistrationPage(BasePage):
         return values
 
     def submit_form(self):
-        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()   
+        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()
 
     def get_volunteer_registration_page(self):
         self.get_page(self.live_server_url, self.volunteer_registration_page)

@@ -1,4 +1,5 @@
-from basePage import *
+# vms stuff
+from basePage import BasePage
 from pom.locators.eventSignUpPageLocators import EventSignUpPageLocators
 from pom.locators.manageShiftPageLocators import ManageShiftPageLocators
 from pom.pages.homePage import HomePage

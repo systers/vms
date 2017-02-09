@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+# vms stuff
 from organization.models import Organization
 
 

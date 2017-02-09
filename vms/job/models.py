@@ -1,5 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
+
+# vms stuff
 from event.models import Event
 
 class Job(models.Model):

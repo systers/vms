@@ -1,4 +1,5 @@
-from basePage import *
+# vms stuff
+from basePage import BasePage
 from pom.locators.completedShiftsPageLocators import CompletedShiftsPageLocators
 from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls

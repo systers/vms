@@ -1,9 +1,11 @@
-from basePage import *
-from pom.locators.volunteerReportPageLocators import *
+# third-party stuff
 from selenium.webdriver.support.ui import Select
-from pom.pageUrls import PageUrls
-from pom.pages.homePage import HomePage
+
+# vms stuff
+from basePage import BasePage
+from pom.locators.volunteerReportPageLocators import VolunteerReportPageLocators
 from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.homePage import HomePage
 
 class VolunteerReportPage(BasePage):
 
@@ -35,7 +37,7 @@ class VolunteerReportPage(BasePage):
         self.submit_form()
 
     def submit_form(self):
-        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()   
+        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()
 
     def get_alert_box_text(self):
         return self.element_by_class_name(self.elements.NO_RESULT_BOX).text

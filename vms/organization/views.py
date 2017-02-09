@@ -1,16 +1,18 @@
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from django.views.generic.edit import FormView, UpdateView
-from django.views.generic.edit import DeleteView
-from django.views.generic import ListView
-from organization.forms import OrganizationForm
-from organization.services import *
-from organization.models import *
 from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse_lazy
+from django.views.generic import ListView
+from django.views.generic.edit import DeleteView, FormView, UpdateView
+
+# third-party stuff
+from braces.views import LoginRequiredMixin
+
+# vms stuff
+from organization.forms import OrganizationForm
+from organization.models import Organization
 
 
 

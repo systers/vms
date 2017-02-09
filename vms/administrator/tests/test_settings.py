@@ -1,26 +1,21 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
-from pom.pages.eventsPage import EventsPage
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.locators.eventsPageLocators import *
-
-from event.models import Event
-from job.models import Job
-from shift.models import Shift
-from organization.models import Organization
-
-from shift.utils import (
-    create_admin,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details,
-    create_volunteer,
-    register_volunteer_for_shift_utility,
-    create_organization
-    )
-
+# third-party stuff
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+
+# vms stuff
+from event.models import Event
+from job.models import Job
+from organization.models import Organization
+from pom.locators.eventsPageLocators import EventsPageLocators
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.eventsPage import EventsPage
+from shift.models import Shift
+from shift.utils import (
+    create_admin, create_event_with_details, create_job_with_details, create_organization, create_shift_with_details,
+    create_volunteer, register_volunteer_for_shift_utility
+)
 
 
 class Settings(LiveServerTestCase):
@@ -227,7 +222,7 @@ class Settings(LiveServerTestCase):
         self.assertNotEqual(len(Event.objects.filter(name=edited_event[0])), 0)
 
     def test_create_and_edit_event_with_invalid_start_date(self):
-        
+
         settings = self.settings
         settings.live_server_url = self.live_server_url
         settings.go_to_create_event_page()
@@ -907,7 +902,7 @@ class Settings(LiveServerTestCase):
 
         self.assertEqual(settings.get_help_block().text,
             'Organization with this Name already exists.')
-        
+
         # database check to ensure that duplicate organization is created
         self.assertEqual(len(Organization.objects.all()), 1)
 

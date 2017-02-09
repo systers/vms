@@ -1,5 +1,6 @@
-from cities_light.models import Country
+# third-party stuff
 import phonenumbers
+from cities_light.models import Country
 
 def validate_phone(my_country, my_phone):
 	try:
@@ -11,4 +12,4 @@ def validate_phone(my_country, my_phone):
 	print (country_code)
 	parsed_number = phonenumbers.parse( my_phone, country_code)
 	return (phonenumbers.is_valid_number(parsed_number) and phonenumbers.is_possible_number(parsed_number))
-	
+

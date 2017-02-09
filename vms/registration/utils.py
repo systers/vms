@@ -1,4 +1,5 @@
 from functools import wraps
+
 from django.shortcuts import render
 
 def volunteer_denied(func):
@@ -9,4 +10,4 @@ def volunteer_denied(func):
                 return render(request, 'vms/no_admin_rights.html', status=403)
         return func(request, *args, **kwargs)
     return wrapper
-    
+

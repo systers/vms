@@ -1,11 +1,8 @@
 from django.contrib.auth.models import User
-from django.core.validators import (
-            RegexValidator,
-            MaxValueValidator,
-            MinValueValidator
-            )
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 
+# vms stuff
 from organization.models import Organization
 
 

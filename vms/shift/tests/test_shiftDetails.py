@@ -1,22 +1,15 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
-from shift.models import VolunteerShift
 
-from pom.pages.shiftDetailsPage import ShiftDetailsPage
-from pom.pages.authenticationPage import AuthenticationPage
-
-from shift.utils import (
-    create_volunteer_with_details,
-    create_admin,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details,
-    log_hours_with_details,
-    register_volunteer_for_shift_utility
-    )
-
+# third-party stuff
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
 
+# vms stuff
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.shiftDetailsPage import ShiftDetailsPage
+from shift.utils import (
+    create_admin, create_event_with_details, create_job_with_details, create_shift_with_details,
+    create_volunteer_with_details, log_hours_with_details, register_volunteer_for_shift_utility
+)
 
 class ShiftDetails(LiveServerTestCase):
     '''

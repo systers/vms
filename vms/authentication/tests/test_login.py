@@ -1,17 +1,12 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
+# third-party stuff
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
+# vms stuff
 from pom.pages.authenticationPage import AuthenticationPage
-from pom.pageUrls import PageUrls
-
-from shift.utils import (
-    create_admin,
-    create_volunteer
-    )
-
-import re
+from shift.utils import create_admin, create_volunteer
 
 class TestAccessControl(LiveServerTestCase):
     '''
@@ -19,10 +14,10 @@ class TestAccessControl(LiveServerTestCase):
     Volunteer can access '/home' view of VMS. Following tests are included:
     Administrator:
         - Login admin with correct credentials
-        - Login admin with incorrect credentials 
+        - Login admin with incorrect credentials
     Volunteer:
         - Login volunteer with correct credentials
-        - Login volunteer with incorrect credentials 
+        - Login volunteer with incorrect credentials
     '''
     @classmethod
     def setUpClass(cls):
@@ -97,7 +92,7 @@ class TestAccessControl(LiveServerTestCase):
         authentication_page = self.authentication_page
         self.authentication_page.server_url = self.live_server_url
         authentication_page.login({ 'username' : 'volunteer', 'password' : 'wrong_password'})
-        
+
         self.assertNotEqual(self.driver.current_url, self.live_server_url +
                 authentication_page.homepage)
 

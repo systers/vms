@@ -1,28 +1,17 @@
-import unittest
 import datetime
-from datetime import date
+import unittest
 
+# vms stuff
+from event.services import (
+    check_edit_event, delete_event, event_not_empty, get_event_by_id, get_event_by_shift_id, get_events_by_date,
+    get_events_ordered_by_name, get_signed_up_events_for_volunteer, remove_empty_events_for_volunteer
+)
 from shift.models import VolunteerShift
-
 from shift.services import register
 from shift.utils import (
-        create_event_with_details,
-        create_job_with_details,
-        create_volunteer_with_details,
-        create_shift_with_details,
-        clear_objects
-        )
-from event.services import (
-        event_not_empty,
-        delete_event,
-        check_edit_event,
-        get_event_by_id,
-        get_events_ordered_by_name,
-        get_events_by_date,
-        get_event_by_shift_id,
-        get_signed_up_events_for_volunteer,
-        remove_empty_events_for_volunteer    
-        )
+    clear_objects, create_event_with_details, create_job_with_details, create_shift_with_details,
+    create_volunteer_with_details
+)
 
 def setUpModule():
     """
@@ -114,12 +103,12 @@ class EventTests(unittest.TestCase):
         # test typical cases
         event_list = get_events_by_date('2015-07-01','2015-08-01')
         self.assertIsNotNone(event_list)
-        
+
         self.assertIn(self.e3, event_list)
         self.assertIn(self.e4, event_list)
         self.assertIn(self.e5, event_list)
         self.assertEqual(len(event_list), 3)
-        
+
         # test order
         self.assertEqual(event_list[0], self.e3)
         self.assertEqual(event_list[1], self.e5)
@@ -266,7 +255,7 @@ class EventWithVolunteerTest(unittest.TestCase):
         cls.setup_test_data()
 
     def test_remove_empty_events_for_volunteer(self):
-        
+
         """
         Uses Events e1,e2,e3,e4,e5, shift s2 and volunteer v1 where
         with job that has shift with open slots - e2
@@ -275,10 +264,10 @@ class EventWithVolunteerTest(unittest.TestCase):
         Event with job that has no shifts - e3
         Event with no jobs - e5
         """
-        
+
         register(self.v1.id, self.s2.id)
         register(self.v2.id, self.s4.id)
-        
+
         event_list = [self.e1, self.e2, self.e3, self.e4, self.e5]
         event_list = remove_empty_events_for_volunteer(event_list, self.v1.id)
 
@@ -321,4 +310,4 @@ class EventWithVolunteerTest(unittest.TestCase):
         # test for returned events for unregistered volunteer 3
         self.assertEqual(len(event_list_for_vol_3), 0)
         VolunteerShift.objects.all().delete()
-        
+

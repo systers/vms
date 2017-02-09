@@ -1,4 +1,6 @@
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+
+# vms stuff
 from organization.models import Organization
 
 #need to check that this organization is not currently associated with a user (otherwise the user gets cascade deleted)
@@ -15,7 +17,7 @@ def delete_organization(organization_id):
         #this might be difficult to maintain as different types of users are added on
         volunteers_in_organization = organization.volunteer_set.all()
         administrators_in_organization = organization.administrator_set.all()
-    
+
         #can only delete an organization if no users are currently associated with it
         if organization and (not volunteers_in_organization) and (not administrators_in_organization):
             organization.delete()
@@ -25,7 +27,7 @@ def delete_organization(organization_id):
     return result
 
 def get_organization_by_id(organization_id):
-    
+
     is_valid = True
     result = None
 

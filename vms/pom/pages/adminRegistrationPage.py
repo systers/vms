@@ -1,5 +1,6 @@
-from basePage import *
-from pom.locators.adminRegistrationPageLocators import *
+# vms stuff
+from basePage import BasePage
+from pom.locators.adminRegistrationPageLocators import AdminRegistrationPageLocators
 from pom.pageUrls import PageUrls
 
 class AdminRegistrationPage(BasePage):
@@ -44,7 +45,7 @@ class AdminRegistrationPage(BasePage):
         return values
 
     def submit_form(self):
-        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()   
+        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()
 
     def get_admin_registration_page(self):
         self.get_page(self.live_server_url, self.admin_registration_page)

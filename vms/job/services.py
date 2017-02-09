@@ -1,7 +1,10 @@
 from django.core.exceptions import ObjectDoesNotExist
 
+# vms stuff
 from job.models import Job
-from shift.services import get_shifts_with_open_slots_for_volunteer, get_volunteer_shifts_with_hours, get_unlogged_shifts_by_volunteer_id
+from shift.services import (
+    get_shifts_with_open_slots_for_volunteer, get_unlogged_shifts_by_volunteer_id, get_volunteer_shifts_with_hours
+)
 
 def job_not_empty(job_id):
     """ Check if the job exists and is not empty """

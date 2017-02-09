@@ -1,24 +1,21 @@
+import re
+
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
-from pom.pages.upcomingShiftsPage import UpcomingShiftsPage
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.pages.manageShiftPage import ManageShiftPage
-
-from shift.models import VolunteerShift
-
-from shift.utils import (
-    create_volunteer,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details,
-    create_volunteer_with_details,
-    register_volunteer_for_shift_utility
-    )
-
+# third-party stuff
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
-import re
+# vms stuff
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.manageShiftPage import ManageShiftPage
+from pom.pages.upcomingShiftsPage import UpcomingShiftsPage
+from shift.models import VolunteerShift
+from shift.utils import (
+    create_event_with_details, create_job_with_details, create_shift_with_details, create_volunteer,
+    register_volunteer_for_shift_utility
+)
+
 
 class ViewVolunteerShift(LiveServerTestCase):
     '''
