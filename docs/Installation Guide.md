@@ -236,6 +236,13 @@ In addition to this, you would also have to populate the database for django-cit
 
     python manage.py migrate
     python manage.py cities_light
+    
+if ImportError: No module named cities_light ,this means cities_light has not installed properly.
+For this perform the following steps:
+
+    pip uninstall django-cities-light
+    pip install django-cities-light==3.2.0
+    pip install -r requirements.txt
 
 This might take a bit of time. You might get a message saying 'No handlers could be found for logger cities_light'. This is because a logging module hasn't been configured separately.
 
