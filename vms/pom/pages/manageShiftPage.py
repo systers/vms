@@ -4,6 +4,7 @@ from pom.locators.manageShiftPageLocators import ManageShiftPageLocators
 from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls
 
+
 class ManageShiftPage(BasePage):
 
     shift_page = PageUrls.manage_volunteer_shift_page

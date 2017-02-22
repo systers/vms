@@ -1,15 +1,13 @@
+import re
+
 from django.contrib.staticfiles.testing import LiveServerTestCase
-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-
-from volunteer.models import Volunteer
-from shift.utils import create_volunteer_with_details
-
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.volunteerProfilePage import VolunteerProfilePage
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from shift.utils import create_volunteer_with_details
+from volunteer.models import Volunteer
 
-import re
 
 class VolunteerProfile(LiveServerTestCase):
     '''
@@ -134,4 +132,3 @@ class VolunteerProfile(LiveServerTestCase):
         profile_page.submit_form()
         self.assertEqual(profile_page.get_invalid_format_error(),'Uploaded file is invalid.')
         '''
-        

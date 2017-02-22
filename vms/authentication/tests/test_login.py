@@ -1,17 +1,12 @@
+import re
+
 from django.contrib.staticfiles.testing import LiveServerTestCase
-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pageUrls import PageUrls
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from shift.utils import create_admin, create_volunteer
 
-from shift.utils import (
-    create_admin,
-    create_volunteer
-    )
-
-import re
 
 class TestAccessControl(LiveServerTestCase):
     '''

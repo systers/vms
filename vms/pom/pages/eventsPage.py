@@ -1,8 +1,9 @@
 from basePage import *
 from pom.locators.eventsPageLocators import *
-from selenium.webdriver.support.ui import Select
 from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls
+from selenium.webdriver.support.ui import Select
+
 
 class EventsPage(BasePage):
 

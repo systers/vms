@@ -1,26 +1,22 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
-
-from pom.pages.eventsPage import EventsPage
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.locators.eventsPageLocators import *
-
 from event.models import Event
 from job.models import Job
-from shift.models import Shift
 from organization.models import Organization
-
+from pom.locators.eventsPageLocators import *
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.eventsPage import EventsPage
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from shift.models import Shift
 from shift.utils import (
     create_admin,
     create_event_with_details,
     create_job_with_details,
+    create_organization,
     create_shift_with_details,
     create_volunteer,
-    register_volunteer_for_shift_utility,
-    create_organization
-    )
-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+    register_volunteer_for_shift_utility
+)
 
 
 class Settings(LiveServerTestCase):

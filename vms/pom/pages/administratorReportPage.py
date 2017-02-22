@@ -1,7 +1,8 @@
 from basePage import *
 from pom.locators.administratorReportPageLocators import *
-from selenium.webdriver.support.ui import Select
 from pom.pages.homePage import HomePage
+from selenium.webdriver.support.ui import Select
+
 
 class AdministratorReportPage(BasePage):
 

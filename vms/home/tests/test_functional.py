@@ -1,18 +1,13 @@
-from django.contrib.staticfiles.testing import LiveServerTestCase
+import re
 
+from django.contrib.staticfiles.testing import LiveServerTestCase
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.homePage import HomePage
+from pom.pageUrls import PageUrls
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from shift.utils import create_admin, create_volunteer
 
-from pom.pages.homePage import HomePage
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.pageUrls import PageUrls
-
-from shift.utils import (
-    create_admin,
-    create_volunteer
-    )
-
-import re
 
 # Class contains failing test cases which have been documented
 # Test class commented out to prevent travis build failure

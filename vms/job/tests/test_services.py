@@ -1,27 +1,27 @@
-import unittest
 import datetime
+import unittest
 from datetime import date
 
+from job.services import (
+    check_edit_job,
+    delete_job,
+    get_job_by_id,
+    get_jobs_by_event_id,
+    get_jobs_ordered_by_title,
+    get_signed_up_jobs_for_volunteer,
+    job_not_empty,
+    remove_empty_jobs_for_volunteer
+)
 from shift.models import VolunteerShift
 from shift.services import register
 from shift.utils import (
-        create_event_with_details,
-        create_job_with_details,
-        create_volunteer_with_details,
-        create_shift_with_details,
-        clear_objects
-        )
+    clear_objects,
+    create_event_with_details,
+    create_job_with_details,
+    create_shift_with_details,
+    create_volunteer_with_details
+)
 
-from job.services import (
-                            delete_job,
-                            check_edit_job,
-                            get_job_by_id,
-                            get_jobs_by_event_id,
-                            get_jobs_ordered_by_title,
-                            get_signed_up_jobs_for_volunteer,
-                            remove_empty_jobs_for_volunteer,
-                            job_not_empty
-                            )
 
 def setUpModule():
     """
@@ -278,4 +278,3 @@ class JobWithShiftTests(unittest.TestCase):
         self.assertNotIn(self.j2, job_list)
         self.assertNotIn(self.j3, job_list)
         self.assertNotIn(self.j4, job_list)
-        
