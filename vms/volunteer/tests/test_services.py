@@ -1,16 +1,18 @@
 import unittest
-from organization.models import Organization
-from volunteer.models import Volunteer
-from shift.utils import create_volunteer_with_details, clear_objects
 
-from volunteer.services import (delete_volunteer,
-                                delete_volunteer_resume,
-                                get_all_volunteers,
-                                get_volunteer_by_id,
-                                get_volunteer_resume_file_url,
-                                get_volunteers_ordered_by_first_name,
-                                has_resume_file,
-                                search_volunteers)
+from organization.models import Organization
+from shift.utils import clear_objects, create_volunteer_with_details
+from volunteer.models import Volunteer
+from volunteer.services import (
+    delete_volunteer,
+    delete_volunteer_resume,
+    get_all_volunteers,
+    get_volunteer_by_id,
+    get_volunteer_resume_file_url,
+    get_volunteers_ordered_by_first_name,
+    has_resume_file,
+    search_volunteers
+)
 
 
 class VolunteerMethodTests(unittest.TestCase):

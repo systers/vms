@@ -3,6 +3,7 @@ from pom.locators.completedShiftsPageLocators import CompletedShiftsPageLocators
 from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls
 
+
 class CompletedShiftsPage(BasePage):
 
     view_hours_page = PageUrls.completed_shifts_page

@@ -6,4 +6,3 @@ class JobDetailsPageLocators(object):
 	JOB_START_DATE = '//table[1]//tr//td[3]'
 	JOB_END_DATE = '//table[1]//tr//td[4]'
 	VIEW_DETAILS = '//table[1]//tr//td[5]'
-	

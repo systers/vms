@@ -1,23 +1,15 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
-
-from pom.pages.eventsPage import EventsPage
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.locators.eventsPageLocators import *
-
 from event.models import Event
 from job.models import Job
-from shift.models import Shift
-
-from shift.utils import (
-    create_admin,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details
-    )
-
+from pom.locators.eventsPageLocators import *
+from pom.pages.authenticationPage import AuthenticationPage
+from pom.pages.eventsPage import EventsPage
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
+from shift.models import Shift
+from shift.utils import create_admin, create_event_with_details, create_job_with_details, create_shift_with_details
+
 
 class FormFields(LiveServerTestCase):
     '''
@@ -444,4 +436,3 @@ class FormFields(LiveServerTestCase):
         select.select_by_visible_text('event')
         self.assertEqual(settings.get_job_event_start_date(), 'June 15, 2017')
         self.assertEqual(settings.get_job_event_end_date(), 'June 17, 2017')"""
-    

@@ -1,6 +1,7 @@
 from basePage import *
 from pom.locators.homePageLocators import *
 
+
 class HomePage(BasePage):
 
     def __init__(self, driver):

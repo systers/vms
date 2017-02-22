@@ -1,6 +1,5 @@
 from django.contrib import admin
-from shift.models import Shift
-from shift.models import VolunteerShift
+from shift.models import Shift, VolunteerShift
 
 
 class ShiftAdmin(admin.ModelAdmin):

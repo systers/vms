@@ -1,24 +1,20 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
-
 from django.db import IntegrityError
-
 from pom.locators.administratorReportPageLocators import *
 from pom.pages.administratorReportPage import AdministratorReportPage
 from pom.pages.authenticationPage import AuthenticationPage
-
-from shift.utils import (
-    create_admin,
-    create_volunteer,
-    create_organization_with_details,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details,
-    log_hours_with_details,
-    register_volunteer_for_shift_utility
-    )
-
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from shift.utils import (
+    create_admin,
+    create_event_with_details,
+    create_job_with_details,
+    create_organization_with_details,
+    create_shift_with_details,
+    create_volunteer,
+    log_hours_with_details,
+    register_volunteer_for_shift_utility
+)
 
 
 class Report(LiveServerTestCase):

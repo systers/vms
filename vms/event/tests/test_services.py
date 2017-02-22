@@ -1,28 +1,28 @@
-import unittest
 import datetime
+import unittest
 from datetime import date
 
+from event.services import (
+    check_edit_event,
+    delete_event,
+    event_not_empty,
+    get_event_by_id,
+    get_event_by_shift_id,
+    get_events_by_date,
+    get_events_ordered_by_name,
+    get_signed_up_events_for_volunteer,
+    remove_empty_events_for_volunteer
+)
 from shift.models import VolunteerShift
-
 from shift.services import register
 from shift.utils import (
-        create_event_with_details,
-        create_job_with_details,
-        create_volunteer_with_details,
-        create_shift_with_details,
-        clear_objects
-        )
-from event.services import (
-        event_not_empty,
-        delete_event,
-        check_edit_event,
-        get_event_by_id,
-        get_events_ordered_by_name,
-        get_events_by_date,
-        get_event_by_shift_id,
-        get_signed_up_events_for_volunteer,
-        remove_empty_events_for_volunteer    
-        )
+    clear_objects,
+    create_event_with_details,
+    create_job_with_details,
+    create_shift_with_details,
+    create_volunteer_with_details
+)
+
 
 def setUpModule():
     """
@@ -321,4 +321,3 @@ class EventWithVolunteerTest(unittest.TestCase):
         # test for returned events for unregistered volunteer 3
         self.assertEqual(len(event_list_for_vol_3), 0)
         VolunteerShift.objects.all().delete()
-        

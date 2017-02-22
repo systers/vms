@@ -1,15 +1,9 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
-
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.volunteerSearchPage import VolunteerSearchPage
-
-from shift.utils import (
-    create_admin,
-    create_volunteer_with_details
-    )
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from shift.utils import create_admin, create_volunteer_with_details
 
 
 class SearchVolunteer(LiveServerTestCase):

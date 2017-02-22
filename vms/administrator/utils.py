@@ -1,5 +1,7 @@
 from functools import wraps
+
 from django.shortcuts import render
+
 
 def admin_required(func):
     @wraps(func)

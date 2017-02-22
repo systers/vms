@@ -1,12 +1,7 @@
-from django.core.validators import (
-    MaxValueValidator,
-    MinValueValidator,
-    RegexValidator
-)
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
-
-from job.models import Job
 from event.models import Event
+from job.models import Job
 from volunteer.models import Volunteer
 
 
