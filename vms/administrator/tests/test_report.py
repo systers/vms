@@ -1,4 +1,6 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
+from django.utils import timezone
+from django.utils.timezone import timedelta
 
 from django.db import IntegrityError
 
@@ -114,15 +116,15 @@ class Report(LiveServerTestCase):
         volunteer.save()
 
         # register event first to create job
-        event = ['Hackathon', '2017-08-21', '2017-09-28']
+        event = ['Hackathon', timezone.now(), timezone.now() + timedelta(7).date()]
         created_event = create_event_with_details(event)
 
         # create job
-        job = ['Developer', '2017-08-21', '2017-08-30', '',created_event]
+        job = ['Developer', timezone.now(), timezone.now() + timedelta(9).date(), '',created_event]
         created_job = create_job_with_details(job)
 
         # create shift
-        shift = ['2017-08-21', '09:00', '15:00', '10', created_job]
+        shift = [timezone.now() + timedelta(1).date(), '9:00', '15:00', '10', created_job]
         created_shift = create_shift_with_details(shift)
 
         # shift is assigned to volunteer-one, but hours have not been logged
