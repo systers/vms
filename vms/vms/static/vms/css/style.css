@@ -23,6 +23,10 @@ body {
   margin-top: 40px;
 }
 
+.medium {
+  font-size: 16px;
+}
+
 /* Custom page CSS
 -------------------------------------------------- */
 body > .container {

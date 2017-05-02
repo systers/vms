@@ -6,6 +6,9 @@ from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
 from organization.models import Organization
 from cities_light.models import Country
+from django.conf import settings
+import twilio
+import twilio.rest
 
 # Contains common functions which need to be frequently called by tests
 
