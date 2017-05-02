@@ -28,6 +28,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'administrator',
     'authentication',
     'event',
@@ -67,6 +68,7 @@ DATABASES = {
         'USER': 'vmsadmin',
         'PASSWORD': '0xdeadbeef',
         'HOST': 'localhost',
+        'TEST_NAME': 'auto_tests',
     }
 }
 
@@ -123,3 +125,10 @@ LOGIN_REDIRECT_URL = reverse_lazy('home:index')
 RECOVER_ONLY_ACTIVE_USERS = False
 ACCOUNT_ACTIVATION_DAYS = 2
 ANONYMOUS_USER_ID = -1
+
+SITE_ID = 1
+
+# Configure sms
+TWILIO_ACCOUNT_SID = 'ACc83fb17966f04f5bee2181a9384e7316'
+TWILIO_AUTH_TOKEN = '144aff56fc5555cd296ca7bfb313a37d'
+TWILIO_PHONE_NUMBER = '+44 7481 345962'

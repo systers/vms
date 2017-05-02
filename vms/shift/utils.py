@@ -6,6 +6,9 @@ from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
 from organization.models import Organization
 from cities_light.models import Country
+from django.conf import settings
+import twilio
+import twilio.rest
 
 # Contains common functions which need to be frequently called by tests
 
@@ -231,3 +234,16 @@ def log_hours_utility():
         start_time = '09:00',
         end_time = '12:00'
         )
+
+def send_twilio_message(to_number, body):
+    """
+    Sends sms to a number
+    """
+    client = twilio.rest.TwilioRestClient(
+        settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+ 
+    return client.messages.create(
+        body=body,
+        to=to_number,
+        from_=settings.TWILIO_PHONE_NUMBER
+    )
