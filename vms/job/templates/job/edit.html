@@ -98,6 +98,18 @@
                             </div>
                         </div>
                     {% endif %}
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">
+                            {% trans "Shifts" %}
+                        </label>
+                        <div class="col-md-8">
+                                {% for shift_date in shift_list %}
+                                  <p class="form-control-static" id="Shift_date_here">
+                                    {{shift_date}}
+                                  </p>
+                                {% endfor %}
+                        </div>
+                    </div>
                     {% if form.start_date.errors %}
                         <div class="form-group has-error">
                             <label class="col-md-2 control-label">{% trans "Start Date" %}<span class="asteriskField">*</span></label>

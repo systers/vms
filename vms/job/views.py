@@ -92,12 +92,12 @@ class JobUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, UpdateV
     template_name = 'job/edit.html'
     success_url = reverse_lazy('job:list')
     def get_object(self, queryset=None):
-        job_id = self.kwargs['job_id']
-        obj = Job.objects.get(pk=job_id)
+        obj = get_job_by_id(self.kwargs['job_id'])
         return obj
     def get_context_data(self, **kwargs):
         context = super(JobUpdateView, self).get_context_data(**kwargs)
         context['event_list'] = get_events_ordered_by_name()
+        context['shift_list'] = get_job_shift_dates_distinct(self.kwargs['job_id'])
         return context
     def form_valid(self, form):
         job_id = self.kwargs['job_id']
