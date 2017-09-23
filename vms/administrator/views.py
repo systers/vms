@@ -35,6 +35,12 @@ class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     model = Administrator
     form_class = ReportForm
     template_name = "administrator/report.html"
+    job_list = get_jobs_ordered_by_title()
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'administrator/report.html',
+                  { 'job_list': self.job_list})
+
 
 
 
