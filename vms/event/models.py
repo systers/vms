@@ -67,3 +67,6 @@ class Event(models.Model):
         blank=True,
         null=True,
     )
+    
+    def __unicode__(self):
+        return self.name
