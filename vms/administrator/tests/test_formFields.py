@@ -1,4 +1,6 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
+from django.utils.timezone import timedelta
+from django.utils import timezone
 
 from pom.pages.eventsPage import EventsPage
 from pom.pages.authenticationPage import AuthenticationPage
@@ -93,7 +95,7 @@ class FormFields(LiveServerTestCase):
 
     # Parts of test commented out, as they are throwing server error
     def test_null_values_in_edit_event(self):
-        event = ['event-name', '2017-08-21', '2017-09-28']
+        event = ['event-name', timezone.now().now(), (timezone.now() + timedelta(7)).date()]
         created_event = create_event_with_details(event)
 
         settings = self.settings
@@ -122,7 +124,7 @@ class FormFields(LiveServerTestCase):
     def test_null_values_in_create_job(self):
 
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
+        event = ['event-name', timezone.now().date(), (timezone.now() + timedelta(7)).date()]
         created_event = create_event_with_details(event)
 
         # create job with null values
@@ -149,11 +151,11 @@ class FormFields(LiveServerTestCase):
     def test_null_values_in_edit_job(self):
 
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
+        event = ['event-name', timezone.now().date(), (timezone.now() + timedelta(7)).date()]
         created_event = create_event_with_details(event)
 
         # create job with values
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', timezone.now().date(), (timezone.now() + timedelta(7)).date(), '',created_event]
         created_job = create_job_with_details(job)
 
         # verify the job was created and proceed to edit it
@@ -182,11 +184,11 @@ class FormFields(LiveServerTestCase):
     def test_null_values_in_create_shift(self):
 
         # register event to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
+        event = ['event-name', timezone.now().date(), (timezone.now() + timedelta(7)).date()]
         created_event = create_event_with_details(event)
 
         # create job with values
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', timezone.now().date(), (timezone.now() + timedelta(7)).date(), '',created_event]
         created_job = create_job_with_details(job)
 
         settings = self.settings
@@ -212,15 +214,15 @@ class FormFields(LiveServerTestCase):
 
     def test_null_values_in_edit_shift(self):
         # register event to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
+        event = ['event-name', timezone,now().date(), (timezone.now() + timedelta(7)).date()]
         created_event = create_event_with_details(event)
 
         # create job with values
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', timezone.now().date(), (timezone.now() + timedelta(7)).date(), '',created_event]
         created_job = create_job_with_details(job)
 
         # create shift
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        shift = [timezone,now().date(), '09:00', '12:00', '10', created_job]
         created_shift = create_shift_with_details(shift)
 
         settings = self.settings
@@ -266,7 +268,7 @@ class FormFields(LiveServerTestCase):
         # now create an event and edit it
         # verify that event was not edited and that field values are not
         # erased
-        event = ['event-name', '2017-08-21', '2017-09-28']
+        event = ['event-name', timezone.now().date(), (timezone.now() + timedelta(7)).date()]
         created_event = create_event_with_details(event)
         settings.navigate_to_event_list_view()
         settings.go_to_edit_event_page()
@@ -381,7 +383,7 @@ class FormFields(LiveServerTestCase):
             'Ensure this value is greater than or equal to 1.')
 
         # Create shift and try editing it with 0 value
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        shift = [timezone.now(), '09:00', '12:00', '10', created_job]
         created_shift = create_shift_with_details(shift)
 
         settings.navigate_to_shift_list_view()
@@ -393,9 +395,9 @@ class FormFields(LiveServerTestCase):
             'Ensure this value is greater than or equal to 1.')
 
     def test_simplify_shift(self):
-        event = ['event-name', '2017-08-21', '2017-09-28']
+        event = ['event-name', timezone.now(), timezone.now() + timedelta(7).date()]
         created_event = create_event_with_details(event)
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', timezone.now(), timezone.now(), '',created_event]
         created_job = create_job_with_details(job)
 
         settings = self.settings
@@ -409,7 +411,7 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(settings.get_shift_job_end_date(), 'Aug. 21, 2017')
 
         # Create shift and check job details in edit form
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        shift = [timezone.now(), '09:00', '12:00', '10', created_job]
         created_shift = create_shift_with_details(shift)
         settings.navigate_to_shift_list_view()
         settings.go_to_edit_shift_page()
