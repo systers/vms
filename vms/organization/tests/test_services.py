@@ -1,7 +1,11 @@
+# standard library
 import unittest
+
+# local Django
 from organization.models import Organization
 from organization.services import *
 from shift.utils import clear_objects, create_volunteer_with_details
+
 
 class OrganizationMethodTests(unittest.TestCase):
 

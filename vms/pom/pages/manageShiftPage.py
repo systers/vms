@@ -1,3 +1,4 @@
+# local Django
 from basePage import *
 from pom.locators.eventSignUpPageLocators import EventSignUpPageLocators
 from pom.locators.manageShiftPageLocators import ManageShiftPageLocators

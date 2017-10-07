@@ -1,5 +1,7 @@
-from cities_light.models import Country
+# third party
 import phonenumbers
+from cities_light.models import Country
+
 
 def validate_phone(my_country, my_phone):
 	try:
