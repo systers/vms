@@ -9,9 +9,11 @@ our vision and projects. The **Volunteer Management System** (VMS) will
 be useful for volunteer coordinators, volunteer sign-up, tracking hours, and 
 reporting.
 
-Systers is participating in [Google Code In 2016](https://developers.google.com/open-source/gci/). The issues labelled as [gci16](https://github.com/systers/vms/issues?q=is%3Aissue+is%3Aopen+label%3Agci16) are open for GCI'16 participants only. If you want to contribute to VMS, pick any issue other than these.
-
 **This project is under active development.** 
+
+VMS is live [here](http://52.8.110.63/).
+
+If you are an Outreachy Applicant, start with reading [this](https://github.com/systers/ossprojects/wiki/Volunteer-Management-System).
 
 Features
 --------
@@ -31,6 +33,42 @@ The VMS project uses the [Django](https://www.djangoproject.com/) web
 framework and [Python](https://www.python.org/).
 
 To get started, read the [Installation Guide](https://github.com/systers/vms/blob/develop/docs/Installation%20Guide.md).
+
+
+Run VMS in a Docker Container
+-----------------------------
+
+If you wish to view a speak peek of the Systers VMS, you may use Docker to
+preview the VMS.
+Note: The following Docker configuration is not intended to be run in
+production at the moment. It may be configured to do so in the future.
+
+1. Install [Docker](https://docs.docker.com/installation/).
+   Follow the installation steps for your specific operating system:
+     * Docker runs natively on a Linux-based system.
+     * For Windows and Mac OS X, you should follow instructions for installing
+       boot2docker which also installs VirtualBox.
+1. Install [docker-compose](http://docs.docker.com/compose/install/).
+   Note: fig has been deprecated. Docker-compose replaces fig.
+1. Create a new directory on your local system.
+1. Enter `git clone git@github.com:systers/vms.git` to clone the Systers
+   VMS repository. After the clone is done, change directory (cd) to the
+   `vms` directory.
+1. Run `docker-compose build`. This pulls the Docker images required to run the
+   project and installs the necessary dependencies.
+1. Run `docker-compose run web python vms/manage.py migrate`.
+1. *Optional:*
+   Run `docker-compose run web python vms/manage.py createsuperuser`
+   if you wish to create a superuser to access the admin panel.
+1. Run `docker-compose up` to start the webserver for the Django Systers VMS
+   project.
+1. Systers VMS should be running on port 8000.
+     * If you are on Linux, enter `http://0.0.0.0:8000` in your browser.
+     * If you are using boot2docker on Windows or Mac OS X, enter
+       `http://192.168.59.103:8000/` in your browser. If this IP address
+       doesn't work, run `boot2docker ip` from the command line and replace
+       the previous IP address in the HTTP request with the IP returned by
+       boot2docker.
 
 
 Contribute
