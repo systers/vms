@@ -1,7 +1,9 @@
+# Django
 from django.contrib import admin
-from shift.models import Shift
-from shift.models import VolunteerShift
 
+# local Django
+from shift.models import Shift, VolunteerShift
+ 
 
 class ShiftAdmin(admin.ModelAdmin):
     pass

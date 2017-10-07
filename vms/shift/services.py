@@ -1,9 +1,12 @@
+# standard library
 import datetime
 from datetime import date
 
+# Django
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 
+# local Django
 from organization.services import (
                             get_organization_by_name,
                             get_organizations_ordered_by_name
@@ -11,6 +14,7 @@ from organization.services import (
 from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
 from volunteer.services import get_volunteer_by_id, get_all_volunteers
+
 
 def add_shift_hours(v_id, s_id, start_time, end_time):
 
