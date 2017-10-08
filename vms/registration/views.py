@@ -8,6 +8,8 @@ from django.views.generic import TemplateView
 from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from administrator.forms import AdministratorForm
+#django-cities-light
+from cities_light.models import City,Country
 from organization.services import (get_organizations_ordered_by_name,
                                    get_organization_by_id)
 from volunteer.forms import VolunteerForm
@@ -113,6 +115,9 @@ class VolunteerSignupView(TemplateView):
     def get(self, request):
         user_form = UserForm(prefix="usr")
         volunteer_form = VolunteerForm(prefix="vol")
+        #added django-cities-light
+        cities=City.objects.all()
+        countries=Country.objects.all()
         return render(request,
                       'registration/signup_volunteer.html',
                       {'user_form': user_form,
@@ -120,6 +125,9 @@ class VolunteerSignupView(TemplateView):
                        'registered': self.registered,
                        'phone_error': self.phone_error,
                        'organization_list': self.organization_list,
+                       #added django-cities-light
+                       'countries': countries,
+                       'cities': cities,
                        })
 
     def post(self,request):
