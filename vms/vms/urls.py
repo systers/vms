@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-
+from volunteer import views
 
 admin.autodiscover()
 
@@ -17,3 +17,6 @@ urlpatterns = patterns('',
     url(r'^shift/', include('shift.urls', namespace='shift')),
     url(r'^volunteer/', include('volunteer.urls', namespace="volunteer")),
 )
+handler404 = 'volunteer.views.not_found'
+handler500 = 'volunteer.views.server_error'
+handler403 = 'volunteer.views.permission_denied'
