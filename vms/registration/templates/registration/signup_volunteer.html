@@ -214,7 +214,18 @@
                     {% trans "City" %}<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
+<!--
                     <input id="id_city" class="textinput textInput form-control" type="text" placeholder="{% blocktrans %}City{% endblocktrans %}" name="vol-city" value="{% if volunteer_form.city.value %}{{ volunteer_form.city.value }}{% endif %}">
+-->
+
+		<select id="id_city" class="form-control" name="vol-city" onchange="hide_organization()">
+
+                <option value="0">-- {% trans "Select City" %} --</option>
+                {% for city in cities %}
+                    <option value="{{city.codes2}}">{{city.name}}</option>
+                {% endfor %}
+            </select>
+
                 </div>
             </div>
         {% endif %}
@@ -266,10 +277,22 @@
                     {% trans "Country" %}<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
-                    <input id="id_country" class="textinput textInput form-control" type="text" placeholder="{% blocktrans %}Country{% endblocktrans %}" name="vol-country" value="{% if volunteer_form.country.value %}{{ volunteer_form.country.value }}{% endif %}">
+		<!--
+                    <input id="id_country" class="textinput textInput form-control" type="text" placeholder="{% blocktrans %}Country{% endblocktrans %}"  value="{% if volunteer_form.country.value %}{{ volunteer_form.country.value }}{% endif %}">-->
+		<select id="id_country" class="form-control" name="vol-country" onchange="hide_organization()">
+
+                <option value="0">-- {% trans "Select Country" %} --</option>
+                {% for country in countries %}
+                    <option value="{{country.codes2}}">{{country.name}}</option>
+                {% endfor %}
+            </select>
+
                 </div>
             </div>
         {% endif %}
+
+	
+	
         {% if volunteer_form.phone_number.errors %}
             <div id="div_id_phone_number" class="form-group has-error">
                 <label class="control-label requiredField" for="id_phone_number">
@@ -315,6 +338,7 @@
                 {% trans "Organization" %}
             </label>
             <select id="select" class="form-control" name="organization_name" onchange="hide_organization()">
+
                 <option value="0">-- {% trans "Select Organization" %} --</option>
                 {% for organization in organization_list %}
                     <option value="{{ organization.id }}">{{ organization.name }}</option>
@@ -409,4 +433,5 @@
             {% trans "Already have an account? Then please "%}<a href="{% url 'authentication:login_process' %}">{% trans "sign in" %}</a>.
         </p>
     </form>
+
 {% endblock %}

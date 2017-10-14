@@ -5,7 +5,7 @@ from django.core.validators import (
             MinValueValidator
             )
 from django.db import models
-
+from cities_light.models import City,Country
 from organization.models import Organization
 
 
@@ -35,14 +35,16 @@ class Volunteer(models.Model):
             ),
         ],
     )
-    city = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
-            ),
-        ],
-    )
+    #city = models.CharField(
+        #max_length=75,
+        #validators=[
+            #RegexValidator(
+                #r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
+            #),
+        #],
+      #)"""
+    # city to Volunteer is a one-to-many relationship
+    city=models.ForeignKey(City,null=True)
     state = models.CharField(
         max_length=50,
         validators=[
@@ -51,14 +53,16 @@ class Volunteer(models.Model):
             ),
         ],
     )
-    country = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
-            ),
-        ],
-    )
+   #country = models.CharField(
+        #max_length=75,
+        #validators=[
+            #RegexValidator(
+                #r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
+            #),
+        #],
+    #)"""
+    # country to Volunteer is a one-to-many relationship
+    country = models.ForeignKey(Country,null=True)
     phone_number = models.CharField(
         max_length=20,
         validators=[
