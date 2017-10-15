@@ -21,6 +21,7 @@ from django.core.urlresolvers import reverse_lazy
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer, check_correct_volunteer_shift
 
+
 class AdministratorLoginRequiredMixin(object):
 
     @method_decorator(login_required)
@@ -180,6 +181,16 @@ def cancel(request, shift_id, volunteer_id):
                     'vms/no_volunteer_rights.html',
                     status=403
                 )
+        shift = get_shift_by_id(shift_id)
+        shift_time = datetime.datetime.combine(shift.job.start_date, shift.start_time)
+        if shift.job.start_date <= datetime.date.today() and shift.job.end_date >= datetime.date.today():
+            if datetime.datetime.utcnow().time() >= shift.start_time :
+                return render(
+                    request,
+                    'shift/cancel_shift.html',
+                    {'shift_id': shift_id, 'volunteer_id': volunteer_id, 
+                    'error': 'This shift has already started.'}
+                    )
 
         if request.method == 'POST':
             try:
