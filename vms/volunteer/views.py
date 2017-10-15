@@ -40,11 +40,11 @@ def download_resume(request, volunteer_id):
                 response['Content-Length'] = os.path.getsize(filename)
                 return response
             else:
-                #raise Http404
-                return not_found(request)
+                raise Http404
+                
     else:
-        #return HttpResponse(status=403)
-        return permission_denied(request)
+        return HttpResponse(status=403)
+       
 @login_required
 def delete_resume(request, volunteer_id):
     user = request.user
@@ -54,13 +54,11 @@ def delete_resume(request, volunteer_id):
                 delete_volunteer_resume(volunteer_id)
                 return HttpResponseRedirect(reverse('volunteer:profile', args=(volunteer_id,)))
             except:
-                #raise Http404
-                return not_found(request)
+                raise Http404
+             
     else:
-        #return HttpResponse(status=403)
-         return permission_denied(request)
-
-'''
+        return HttpResponse(status=403)
+'''         
  The View to edit Volunteer Profile
 '''
 
@@ -92,8 +90,8 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
                     try:
                         delete_volunteer_resume(volunteer_id)
                     except:
-                        #raise Http404
-                         return not_found(request)
+                        raise Http404
+                         
                         
             else:
                 return render(self.request, 'volunteer/edit.html',
@@ -202,14 +200,5 @@ def search(request):
         form = SearchVolunteerForm()
 
     return render(request, 'volunteer/search.html', {'form' : form, 'has_searched' : False})
-
-def server_error(request):
-    return render(request, 'templates/500.html')
-
-def not_found(request):
-    return render(request, 'templates/404.html')
-
-def permission_denied(request):
-     return render(request, 'templates/403.html')
 
        
