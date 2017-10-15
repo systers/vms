@@ -12,8 +12,10 @@ before_script:
   - sleep 3
 script:
   - cd vms
+  - flake8 cmdbox
   - python manage.py syncdb --noinput
   - python manage.py migrate --noinput --traceback --settings=vms.settings
   - coverage run --source='.' manage.py test
+  - coverage run manage.py test --settings=cmdbox.vms_settings
 after_success:
     coveralls --rcfile=.coveragerc
