@@ -1,10 +1,14 @@
-from django.shortcuts import redirect
+# Django
+from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
+from django.shortcuts import redirect
+
+# local Django
 from vms import settings
 
 
 def index(request):
-    return HttpResponse("Hello world")
+    return redirect(reverse('authentication:login_process'))
 
 
 def anonymous_required(func):

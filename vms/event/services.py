@@ -1,10 +1,13 @@
+# Django
 from django.core.exceptions import ObjectDoesNotExist
 
+#local Django
 from event.models import Event
 from job.models import Job
-from shift.models import Shift
 from job.services import get_jobs_by_event_id, remove_empty_jobs_for_volunteer
+from shift.models import Shift
 from shift.services import get_volunteer_shifts_with_hours, get_unlogged_shifts_by_volunteer_id
+
 
 def event_not_empty(event_id):
     """ Checks if the event exists and is not empty """
@@ -100,10 +103,14 @@ def get_event_by_id(event_id):
 def get_events_by_date(start_date, end_date):
     is_valid = True
     result = None
+    kwargs = {}
+    if start_date:
+        kwargs['start_date__gte'] = start_date
+    if end_date:
+        kwargs['start_date__lte'] = end_date
     try:
         event_list = Event.objects.filter(
-                start_date__gte=start_date,
-                start_date__lte=end_date
+                **kwargs
                 ).order_by('start_date')
     except ObjectDoesNotExist:
         is_valid = False

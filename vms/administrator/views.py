@@ -1,33 +1,33 @@
-from administrator.forms import ReportForm
+# third-party
+from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+
+# Django
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from shift.services import *
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
+from django.views.generic import TemplateView
+from django.views.generic import View
+from django.views.generic.edit import FormView, UpdateView
+
+# local Django
+from administrator.forms import ReportForm
+from administrator.models import Administrator
+from administrator.utils import admin_required
 from event.services import *
 from job.services import *
-from django.views.generic import TemplateView
-from django.views.generic import ListView
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from django.views.generic.edit import FormView, UpdateView
-from django.views.generic import View
-from administrator.models import Administrator
-from django.utils.decorators import method_decorator
+from shift.services import *
 
 
 class AdministratorLoginRequiredMixin(object):
-
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        user = request.user
-        admin = None
-        try:
-            admin = user.administrator
-        except ObjectDoesNotExist:
-            pass
+        admin = hasattr(request.user, 'administrator')
         if not admin:
-            return render(request, 'vms/no_admin_rights.html')
+            return render(request, 'vms/no_admin_rights.html', status=403)
         else:
             return super(AdministratorLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
@@ -39,7 +39,11 @@ class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     model = Administrator
     form_class = ReportForm
     template_name = "administrator/report.html"
+    event_list = get_events_ordered_by_name()
 
+    def get(self, request, *args, **kwargs):
+        return render(request, 'administrator/report.html',
+                      {'event_list': self.event_list})
 
 
 class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView):
@@ -65,15 +69,15 @@ class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Li
         event_name = self.request.POST['event_name']
         total_hours = calculate_total_report_hours(report_list)
         return render(request, 'administrator/report.html',
-                      { 'report_list': report_list, 'total_hours': total_hours, 'notification': True,
+                      {'report_list': report_list, 'total_hours': total_hours, 'notification': True,
                        'organization_list': self.organization_list, 'selected_organization': organization,
                        'event_list': self.event_list, 'selected_event': event_name, 'job_list': self.job_list})
 
-class GenerateReportView(LoginRequiredMixin, View):
 
+class GenerateReportView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         view = ShowFormView.as_view()
-        return view(request, *args,**kwargs)
+        return view(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         view = ShowReportListView.as_view()
@@ -81,14 +85,6 @@ class GenerateReportView(LoginRequiredMixin, View):
 
 
 @login_required
+@admin_required
 def settings(request):
-    user = request.user
-    admin = None
-    try:
-        admin = user.administrator
-    except ObjectDoesNotExist:
-        pass
-    if not admin:
-        return HttpResponse(status=403)
-
     return HttpResponseRedirect(reverse('event:list'))

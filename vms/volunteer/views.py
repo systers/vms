@@ -1,26 +1,34 @@
+# standard library
 import os
 
+# third party
+from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+
+# Django
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.servers.basehttp import FileWrapper
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.detail import DetailView
-from django.views.generic import ListView
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
-from organization.services import *
-from shift.services import *
+from django.views.generic import ListView, View
+from django.views.generic.edit import FormView, UpdateView
+from django.utils.decorators import method_decorator
+
+# local Django
+from administrator.utils import admin_required
 from event.services import get_signed_up_events_for_volunteer
 from job.services import get_signed_up_jobs_for_volunteer
+from organization.services import *
+from shift.services import *
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
-from django.views.generic.edit import FormView, UpdateView
 from volunteer.models import Volunteer
 from volunteer.services import *
 from volunteer.validation import validate_file
-from django.views.generic import View
-from django.core.urlresolvers import reverse_lazy
+from volunteer.utils import vol_id_check
+from vms.utils import check_correct_volunteer
 
 
 @login_required
@@ -59,6 +67,11 @@ def delete_resume(request, volunteer_id):
 '''
 
 class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
+
+    @method_decorator(check_correct_volunteer)
+    def dispatch(self, *args, **kwargs):
+        return super(VolunteerUpdateView, self).dispatch(*args, **kwargs)
+
     form_class = VolunteerForm
     template_name = 'volunteer/edit.html'
     success_url = reverse_lazy('volunteer:profile')
@@ -108,13 +121,16 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
 class ProfileView(LoginRequiredMixin, DetailView):
     template_name = 'volunteer/profile.html'
 
+    @method_decorator(check_correct_volunteer)
+    @method_decorator(vol_id_check)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfileView, self).dispatch(*args, **kwargs)
+
     def get_object(self, queryset=None):
         volunteer_id = self.kwargs['volunteer_id']
         obj = Volunteer.objects.get(id=self.kwargs['volunteer_id'])
-        if obj:
-            return obj
-        else:
-            return HttpResponse(status=403)
+        return obj
+
 
 '''
   The view generate Report.
@@ -122,6 +138,11 @@ class ProfileView(LoginRequiredMixin, DetailView):
 '''
 
 class GenerateReportView(LoginRequiredMixin, View):
+
+    @method_decorator(check_correct_volunteer)
+    @method_decorator(vol_id_check)
+    def dispatch(self, *args, **kwargs):
+        return super(GenerateReportView, self).dispatch(*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         view = ShowFormView.as_view()
@@ -162,6 +183,7 @@ class ShowReportListView(LoginRequiredMixin, ListView):
                        'job_list': job_list, 'event_list': event_list, 'selected_event': event_name,
                        'selected_job': job_name})
 @login_required
+@admin_required
 def search(request):
     if request.method == 'POST':
         form = SearchVolunteerForm(request.POST)

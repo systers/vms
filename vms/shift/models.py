@@ -1,3 +1,4 @@
+# Django
 from django.core.validators import (
     MaxValueValidator,
     MinValueValidator,
@@ -5,8 +6,9 @@ from django.core.validators import (
 )
 from django.db import models
 
-from job.models import Job
+# local Django
 from event.models import Event
+from job.models import Job
 from volunteer.models import Volunteer
 
 
@@ -22,7 +24,7 @@ class Shift(models.Model):
         ]
     )
     address = models.CharField(
-        max_length=30,
+        max_length=75,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(\')]+$',
@@ -32,7 +34,7 @@ class Shift(models.Model):
         null=True,
     )
     city = models.CharField(
-        max_length=30,
+        max_length=75,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
@@ -42,7 +44,7 @@ class Shift(models.Model):
         null=True,
     )
     state = models.CharField(
-        max_length=30,
+        max_length=50,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
@@ -52,7 +54,7 @@ class Shift(models.Model):
         null=True,
     )
     country = models.CharField(
-        max_length=30,
+        max_length=75,
         validators=[
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',

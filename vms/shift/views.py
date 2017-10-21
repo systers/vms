@@ -1,23 +1,29 @@
+# standard library
+from datetime import date
+
+# third party
+from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+
+# Django
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from datetime import date
-from job.services import *
-from django.views.generic import TemplateView
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from django.views.generic import TemplateView, DeleteView, ListView
 from django.views.generic.edit import FormView, UpdateView
-from django.views.generic import DeleteView
+from django.utils.decorators import method_decorator
+
+# local Django
+from job.services import *
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
 from shift.services import *
 from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers
-from django.contrib import messages
-from django.views.generic import ListView
-from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse_lazy
+from volunteer.utils import vol_id_check
+from vms.utils import check_correct_volunteer, check_correct_volunteer_shift
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -39,6 +45,10 @@ class AdministratorLoginRequiredMixin(object):
 class AddHoursView(LoginRequiredMixin, FormView):
     template_name = 'shift/add_hours.html'
     form_class = HoursForm
+
+    @method_decorator(check_correct_volunteer_shift)
+    def dispatch(self, *args, **kwargs):
+        return super(AddHoursView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(AddHoursView, self).get_context_data(**kwargs)
@@ -75,14 +85,14 @@ class AddHoursView(LoginRequiredMixin, FormView):
                     return render(
                         self.request,
                         'shift/add_hours.html',
-                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id,}
+                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
                     )
             else:
                 messages.add_message(self.request, messages.INFO, 'End time should be greater than start time')
                 return render(
                     self.request,
                     'shift/add_hours.html',
-                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id,}
+                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
                 )
         except:
             raise Http404
@@ -127,7 +137,7 @@ class AddHoursManagerView(AdministratorLoginRequiredMixin, FormView):
                     return render(
                         self.request,
                         'shift/add_hours_manager.html',
-                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id,}
+                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
                     )
 
             else:
@@ -135,7 +145,7 @@ class AddHoursManagerView(AdministratorLoginRequiredMixin, FormView):
                 return render(
                     self.request,
                     'shift/add_hours_manager.html',
-                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id,}
+                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
                 )
         except:
             raise Http404
@@ -161,12 +171,20 @@ def cancel(request, shift_id, volunteer_id):
 
         # check that either an admin or volunteer is logged in
         if not admin and not volunteer:
-            return HttpResponse(status=403)
+            return render(
+                request,
+                'vms/no_volunteer_rights.html',
+                status=403
+            )
 
         # if a volunteer is logged in, verify that they are canceling their own shift
         if volunteer:
             if (int(volunteer.id) != int(volunteer_id)):
-                return HttpResponse(status=403)
+                return render(
+                    request,
+                    'vms/no_volunteer_rights.html',
+                    status=403
+                )
 
         if request.method == 'POST':
             try:
@@ -345,9 +363,11 @@ class ShiftUpdateView(AdministratorLoginRequiredMixin, UpdateView):
         shift_date = form.cleaned_data['date']
         shift_start_time = form.cleaned_data['start_time']
         shift_end_time = form.cleaned_data['end_time']
+        max_vols = form.cleaned_data['max_volunteers']
 
         # save when all conditions satisfied
-        if (shift_date >= start_date_job and shift_date <= end_date_job and shift_end_time > shift_start_time):
+        if (shift_date >= start_date_job and shift_date <= end_date_job and shift_end_time > shift_start_time \
+            and max_vols >= len(shift.volunteers.all())):
             shift_to_edit = form.save(commit=False)
             shift_to_edit.job = job
             shift_to_edit.save()
@@ -357,6 +377,9 @@ class ShiftUpdateView(AdministratorLoginRequiredMixin, UpdateView):
                 messages.add_message(self.request, messages.INFO, 'Shift date should lie within Job dates')
             if shift_end_time <= shift_start_time:
                 messages.add_message(self.request, messages.INFO, 'Shift end time should be greater than start time')
+            if max_vols < len(shift.volunteers.all()):
+                messages.add_message(self.request, messages.INFO, 'Max volunteers should be greater than or equal to'
+                    ' the already assigned volunteers.')
             return render(
                 self.request,
                 'shift/edit.html',
@@ -367,6 +390,10 @@ class ShiftUpdateView(AdministratorLoginRequiredMixin, UpdateView):
 class EditHoursView(LoginRequiredMixin, FormView):
     template_name = 'shift/edit_hours.html'
     form_class = HoursForm
+
+    @method_decorator(check_correct_volunteer_shift)
+    def dispatch(self, *args, **kwargs):
+        return super(EditHoursView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(EditHoursView, self).get_context_data(**kwargs)
@@ -380,6 +407,7 @@ class EditHoursView(LoginRequiredMixin, FormView):
         volunteer_id = self.kwargs['volunteer_id']
         shift_id = self.kwargs['shift_id']
         shift = get_shift_by_id(shift_id)
+        volunteer_shift = get_volunteer_shift_by_id(volunteer_id, shift_id)
         start_time = form.cleaned_data['start_time']
         end_time = form.cleaned_data['end_time']
         shift_start_time = shift.start_time
@@ -399,7 +427,7 @@ class EditHoursView(LoginRequiredMixin, FormView):
                     return render(
                         self.request,
                         'shift/edit_hours.html',
-                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift, 'volunteer_shift':volunteer_shift,}
                     )
 
             else:
@@ -407,7 +435,7 @@ class EditHoursView(LoginRequiredMixin, FormView):
                 return render(
                     self.request,
                     'shift/edit_hours.html',
-                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift, 'volunteer_shift':volunteer_shift,}
                 )
         except:
             raise Http404
@@ -429,6 +457,7 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
         volunteer_id = self.kwargs['volunteer_id']
         shift_id = self.kwargs['shift_id']
         shift = get_shift_by_id(shift_id)
+        volunteer_shift = get_volunteer_shift_by_id(volunteer_id, shift_id)
         start_time = form.cleaned_data['start_time']
         end_time = form.cleaned_data['end_time']
         shift_start_time = shift.start_time
@@ -443,7 +472,7 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
                     return render(
                         self.request,
                         'shift/edit_hours_manager.html',
-                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift, 'volunteer_shift':volunteer_shift,}
                     )
 
             else:
@@ -451,7 +480,7 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
                 return render(
                     self.request,
                     'shift/edit_hours_manager.html',
-                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id}
+                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift, 'volunteer_shift':volunteer_shift,}
                 )
 
         except:
@@ -568,6 +597,11 @@ def sign_up(request, shift_id, volunteer_id):
 class ViewHoursView(LoginRequiredMixin, FormView, TemplateView):
     template_name = 'shift/hours_list.html'
 
+    @method_decorator(check_correct_volunteer)
+    @method_decorator(vol_id_check)
+    def dispatch(self, *args, **kwargs):
+        return super(ViewHoursView, self).dispatch(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(ViewHoursView, self).get_context_data(**kwargs)
         volunteer_id = self.kwargs['volunteer_id']
@@ -577,36 +611,16 @@ class ViewHoursView(LoginRequiredMixin, FormView, TemplateView):
 
 
 @login_required
+@check_correct_volunteer
+@vol_id_check
 def view_volunteer_shifts(request, volunteer_id):
-    user = request.user
-    vol = None
+    shift_list = get_unlogged_shifts_by_volunteer_id(volunteer_id)
+    return render(
+        request,
+        'shift/volunteer_shifts.html',
+        {'shift_list': shift_list, 'volunteer_id': volunteer_id, }
+        )
 
-    try:
-        vol = user.volunteer
-    except ObjectDoesNotExist:
-        pass
-
-    # check that a volunteer is logged in
-    if vol:
-        if volunteer_id:
-            volunteer = get_volunteer_by_id(volunteer_id)
-            if volunteer:
-                user = request.user
-                if int(user.volunteer.id) == int(volunteer_id):
-                    shift_list = get_unlogged_shifts_by_volunteer_id(volunteer_id)
-                    return render(
-                        request,
-                        'shift/volunteer_shifts.html',
-                        {'shift_list': shift_list, 'volunteer_id': volunteer_id, }
-                        )
-                else:
-                    return HttpResponse(status=403)
-            else:
-                raise Http404
-        else:
-            raise Http404
-    else:
-        return HttpResponse(status=403)
 
 
 class VolunteerSearchView(AdministratorLoginRequiredMixin, FormView):

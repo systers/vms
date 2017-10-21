@@ -1,7 +1,9 @@
+# Django
 from django import forms
 from django.db import models
 from django.forms import ModelForm
 
+# local Django
 from event.models import Event
 
 
@@ -20,8 +22,9 @@ class EventForm(ModelForm):
             ]
 
     def clean(self):
-        start_date = self.cleaned_data.get('start_date')
-        end_date = self.cleaned_data.get('end_date')
+        cleaned_data = super(EventForm, self).clean()
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
 
         if start_date and end_date:
             if start_date > end_date:
@@ -32,5 +35,5 @@ class EventForm(ModelForm):
 
 
 class EventDateForm(forms.Form):
-    start_date = forms.DateField(required=True)
-    end_date = forms.DateField(required=True)
+    start_date = forms.DateField(required=False)
+    end_date = forms.DateField(required=False)
