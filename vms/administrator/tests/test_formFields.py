@@ -18,7 +18,7 @@ from shift.utils import (
     create_event_with_details,
     create_job_with_details,
     create_shift_with_details
-    )
+)
 
 
 class FormFields(LiveServerTestCase):
@@ -53,13 +53,13 @@ class FormFields(LiveServerTestCase):
 
     def check_event_form_values(self, event):
         settings = self.settings
-        self.assertEqual(settings.get_event_name_value(),event[0])
-        self.assertEqual(settings.get_event_start_date_value(),event[1])
-        self.assertEqual(settings.get_event_end_date_value(),event[2])
+        self.assertEqual(settings.get_event_name_value(), event[0])
+        self.assertEqual(settings.get_event_start_date_value(), event[1])
+        self.assertEqual(settings.get_event_end_date_value(), event[2])
 
     def check_job_form_values(self, job):
         settings = self.settings
-        self.assertEqual(settings.get_job_name_value(),job[1])
+        self.assertEqual(settings.get_job_name_value(), job[1])
         self.assertEqual(settings.get_job_description_value(), job[2])
         self.assertEqual(settings.get_job_start_date_value(), job[3])
         self.assertEqual(settings.get_job_end_date_value(), job[4])
@@ -73,7 +73,8 @@ class FormFields(LiveServerTestCase):
 
     def login_admin(self):
         self.authentication_page.server_url = self.live_server_url
-        self.authentication_page.login({'username': 'admin', 'password': 'admin'})
+        self.authentication_page.login(
+            {'username': 'admin', 'password': 'admin'})
 
     def test_null_values_in_create_event(self):
         event = ['', '', '']
@@ -83,12 +84,15 @@ class FormFields(LiveServerTestCase):
 
         # check that event was not created and that error messages appear as
         # expected
-        self.assertEqual(self.driver.current_url,self.live_server_url +
-            settings.create_event_page)
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         settings.create_event_page)
         self.assertEqual(len(settings.get_help_blocks()), 3)
-        self.assertEqual(settings.get_event_name_error(), 'This field is required.')
-        self.assertEqual(settings.get_event_start_date_error(), 'This field is required.')
-        self.assertEqual(settings.get_event_end_date_error(), 'This field is required.')
+        self.assertEqual(settings.get_event_name_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_event_start_date_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_event_end_date_error(),
+                         'This field is required.')
 
         # database check to ensure that event not created
         self.assertEqual(len(Event.objects.all()), 0)
@@ -108,8 +112,8 @@ class FormFields(LiveServerTestCase):
 
         # check that event was not edited and that error messages appear as
         # expected
-        self.assertNotEqual(self.driver.current_url,self.live_server_url +
-            settings.event_list_page)
+        self.assertNotEqual(self.driver.current_url, self.live_server_url +
+                            settings.event_list_page)
 
         """self.assertEqual(len(settings.get_help_blocks()),3)
 
@@ -137,13 +141,16 @@ class FormFields(LiveServerTestCase):
 
         # check that job was not created and that error messages appear as
         # expected
-        self.assertEqual(self.driver.current_url,self.live_server_url +
-            settings.create_job_page)
+        self.assertEqual(self.driver.current_url, self.live_server_url +
+                         settings.create_job_page)
         self.assertEqual(len(settings.get_help_blocks()), 3)
 
-        self.assertEqual(settings.get_job_name_error(), 'This field is required.')
-        self.assertEqual(settings.get_job_start_date_error(), 'This field is required.')
-        self.assertEqual(settings.get_job_end_date_error(), 'This field is required.')
+        self.assertEqual(settings.get_job_name_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_job_start_date_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_job_end_date_error(),
+                         'This field is required.')
 
         # database check to ensure that job not created
         self.assertEqual(len(Job.objects.all()), 0)
@@ -155,7 +162,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
 
         # create job with values
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
         created_job = create_job_with_details(job)
 
         # verify the job was created and proceed to edit it
@@ -165,17 +172,20 @@ class FormFields(LiveServerTestCase):
         settings.go_to_edit_job_page()
 
         # send null values to fields
-        settings.fill_job_form([created_event.id,'','','',''])
+        settings.fill_job_form([created_event.id, '', '', '', ''])
 
         # check that job was not edited and that error messages appear as
         # expected
-        self.assertNotEqual(self.driver.current_url, 
-            self.live_server_url + settings.job_list_page)
+        self.assertNotEqual(self.driver.current_url,
+                            self.live_server_url + settings.job_list_page)
         self.assertEqual(len(settings.get_help_blocks()), 3)
 
-        self.assertEqual(settings.get_job_name_error(), 'This field is required.')
-        self.assertEqual(settings.get_job_start_date_error(), 'This field is required.')
-        self.assertEqual(settings.get_job_end_date_error(), 'This field is required.')
+        self.assertEqual(settings.get_job_name_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_job_start_date_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_job_end_date_error(),
+                         'This field is required.')
 
         # database check to ensure that job not edited
         self.assertEqual(len(Job.objects.all()), 1)
@@ -188,7 +198,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
 
         # create job with values
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
         created_job = create_job_with_details(job)
 
         settings = self.settings
@@ -204,10 +214,14 @@ class FormFields(LiveServerTestCase):
         # expected
         self.assertEqual(len(settings.get_help_blocks()), 4)
 
-        self.assertEqual(settings.get_shift_date_error(), 'This field is required.')
-        self.assertEqual(settings.get_shift_start_time_error(), 'This field is required.')
-        self.assertEqual(settings.get_shift_end_time_error(), 'This field is required.')
-        self.assertEqual(settings.get_shift_max_volunteer_error(), 'This field is required.')
+        self.assertEqual(settings.get_shift_date_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_shift_start_time_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_shift_end_time_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_shift_max_volunteer_error(),
+                         'This field is required.')
 
         # database check to ensure that shift was not created
         self.assertEqual(len(Shift.objects.all()), 0)
@@ -218,7 +232,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
 
         # create job with values
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
         created_job = create_job_with_details(job)
 
         # create shift
@@ -238,14 +252,19 @@ class FormFields(LiveServerTestCase):
         # expected
         self.assertEqual(len(settings.get_help_blocks()), 4)
 
-        self.assertEqual(settings.get_shift_date_error(), 'This field is required.')
-        self.assertEqual(settings.get_shift_start_time_error(), 'This field is required.')
-        self.assertEqual(settings.get_shift_end_time_error(), 'This field is required.')
-        self.assertEqual(settings.get_shift_max_volunteer_error(), 'This field is required.')
+        self.assertEqual(settings.get_shift_date_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_shift_start_time_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_shift_end_time_error(),
+                         'This field is required.')
+        self.assertEqual(settings.get_shift_max_volunteer_error(),
+                         'This field is required.')
 
         # database check to ensure that shift was not edited
         self.assertEqual(len(Shift.objects.all()), 1)
-        self.assertNotEqual(len(Shift.objects.filter(date=created_shift.date)), 0)
+        self.assertNotEqual(
+            len(Shift.objects.filter(date=created_shift.date)), 0)
 
     def test_field_value_retention_for_event(self):
         settings = self.settings
@@ -259,7 +278,7 @@ class FormFields(LiveServerTestCase):
         # verify that event was not created and that field values are not
         # erased
         self.assertEqual(self.driver.current_url, self.live_server_url +
-            settings.create_event_page)
+                         settings.create_event_page)
         self.check_event_form_values(invalid_event)
 
         # database check to ensure that event not created
@@ -274,7 +293,7 @@ class FormFields(LiveServerTestCase):
         settings.go_to_edit_event_page()
         settings.fill_event_form(invalid_event)
         self.assertNotEqual(self.driver.current_url, self.live_server_url +
-            settings.create_event_page)
+                            settings.create_event_page)
         # self.check_event_form_values(invalid_event)
 
         # database check to ensure that event not edited
@@ -301,7 +320,7 @@ class FormFields(LiveServerTestCase):
         # verify that job was not created and that field values are not
         # erased
         self.assertEqual(self.driver.current_url, self.live_server_url +
-            settings.create_job_page)
+                         settings.create_job_page)
         self.check_job_form_values(invalid_job)
 
         # database check to ensure that job not created
@@ -310,7 +329,7 @@ class FormFields(LiveServerTestCase):
         # now create job and edit it
         # verify that job was not edited and that field values are not
         # erased
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
         created_job = create_job_with_details(job)
         settings.navigate_to_job_list_view()
 
@@ -320,7 +339,7 @@ class FormFields(LiveServerTestCase):
         # erased
         self.assertNotEqual(self.driver.current_url, self.live_server_url +
                             settings.job_list_page)
-        #self.check_job_form_values(invalid_job)
+        # self.check_job_form_values(invalid_job)
 
         # database check to ensure that job not edited
         self.assertEqual(len(Job.objects.all()), 1)
@@ -329,7 +348,7 @@ class FormFields(LiveServerTestCase):
     def test_field_value_retention_for_shift(self):
         event = ['event-name', '2017-08-21', '2017-09-28']
         created_event = create_event_with_details(event)
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
         created_job = create_job_with_details(job)
 
         settings = self.settings
@@ -362,12 +381,13 @@ class FormFields(LiveServerTestCase):
 
         # database check to ensure that shift was not edited
         self.assertEqual(len(Shift.objects.all()), 1)
-        self.assertNotEqual(len(Shift.objects.filter(date=created_shift.date)), 0)
+        self.assertNotEqual(
+            len(Shift.objects.filter(date=created_shift.date)), 0)
 
     def test_max_volunteer_field(self):
         event = ['event-name', '2017-08-21', '2017-09-28']
         created_event = create_event_with_details(event)
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
         created_job = create_job_with_details(job)
 
         settings = self.settings
@@ -375,12 +395,12 @@ class FormFields(LiveServerTestCase):
         settings.navigate_to_shift_list_view()
         settings.go_to_create_shift_page()
 
-        invalid_shift = ['01/01/2016','12:00','11:00','0']
+        invalid_shift = ['01/01/2016', '12:00', '11:00', '0']
         settings.fill_shift_form(invalid_shift)
 
         # verify that error message displayed
         self.assertEqual(settings.get_shift_max_volunteer_error(),
-            'Ensure this value is greater than or equal to 1.')
+                         'Ensure this value is greater than or equal to 1.')
 
         # Create shift and try editing it with 0 value
         shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
@@ -392,12 +412,12 @@ class FormFields(LiveServerTestCase):
 
         # verify that error message displayed
         self.assertEqual(settings.get_shift_max_volunteer_error(),
-            'Ensure this value is greater than or equal to 1.')
+                         'Ensure this value is greater than or equal to 1.')
 
     def test_simplify_shift(self):
         event = ['event-name', '2017-08-21', '2017-09-28']
         created_event = create_event_with_details(event)
-        job = ['job', '2017-08-21', '2017-08-21', '',created_event]
+        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
         created_job = create_job_with_details(job)
 
         settings = self.settings
@@ -446,4 +466,3 @@ class FormFields(LiveServerTestCase):
         select.select_by_visible_text('event')
         self.assertEqual(settings.get_job_event_start_date(), 'June 15, 2017')
         self.assertEqual(settings.get_job_event_end_date(), 'June 17, 2017')"""
-    

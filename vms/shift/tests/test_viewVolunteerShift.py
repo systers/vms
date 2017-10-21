@@ -21,7 +21,7 @@ from shift.utils import (
     create_shift_with_details,
     create_volunteer_with_details,
     register_volunteer_for_shift_utility
-    )
+)
 
 
 class ViewVolunteerShift(LiveServerTestCase):
@@ -50,7 +50,7 @@ class ViewVolunteerShift(LiveServerTestCase):
         super(ViewVolunteerShift, cls).tearDownClass()
 
     def login_volunteer(self):
-        credentials = {'username' : 'volunteer', 'password' : 'volunteer'}
+        credentials = {'username': 'volunteer', 'password': 'volunteer'}
         self.authentication_page.server_url = self.live_server_url
         self.authentication_page.login(credentials)
 
@@ -70,23 +70,30 @@ class ViewVolunteerShift(LiveServerTestCase):
 
     def test_access_another_nonexisting_volunteer_view(self):
         upcoming_shift_page = self.upcoming_shift_page
-        upcoming_shift_page.get_page(self.live_server_url, upcoming_shift_page.view_shift_page + '65459')
-        found = re.search('You don\'t have the required rights', self.driver.page_source)
+        upcoming_shift_page.get_page(
+            self.live_server_url, upcoming_shift_page.view_shift_page + '65459')
+        found = re.search('You don\'t have the required rights',
+                          self.driver.page_source)
         self.assertNotEqual(found, None)
 
     def test_view_without_any_assigned_shift(self):
         upcoming_shift_page = self.upcoming_shift_page
         upcoming_shift_page.view_upcoming_shifts()
-        self.assertEqual(upcoming_shift_page.get_info_box(), upcoming_shift_page.no_shift_message)
+        self.assertEqual(upcoming_shift_page.get_info_box(),
+                         upcoming_shift_page.no_shift_message)
 
     def register_dataset(self):
 
-        created_event = create_event_with_details(['event-four', '2017-06-01', '2017-06-10'])
+        created_event = create_event_with_details(
+            ['event-four', '2017-06-01', '2017-06-10'])
         created_job = create_job_with_details(
-            ['jobOneInEventFour', '2017-06-01', '2017-06-10', 'job description', created_event]
-            )
-        created_shift = create_shift_with_details(['2017-06-01', '09:00', '15:00', '10', created_job])
-        registered_shift = register_volunteer_for_shift_utility(created_shift, self.v1)
+            ['jobOneInEventFour', '2017-06-01', '2017-06-10',
+                'job description', created_event]
+        )
+        created_shift = create_shift_with_details(
+            ['2017-06-01', '09:00', '15:00', '10', created_job])
+        registered_shift = register_volunteer_for_shift_utility(
+            created_shift, self.v1)
 
     def test_view_with_assigned_and_unlogged_shift(self):
 
@@ -94,7 +101,8 @@ class ViewVolunteerShift(LiveServerTestCase):
         upcoming_shift_page = self.upcoming_shift_page
         upcoming_shift_page.view_upcoming_shifts()
 
-        self.assertEqual(upcoming_shift_page.get_shift_job(), 'jobOneInEventFour')
+        self.assertEqual(upcoming_shift_page.get_shift_job(),
+                         'jobOneInEventFour')
         self.assertEqual(upcoming_shift_page.get_shift_date(), 'June 1, 2017')
         self.assertEqual(upcoming_shift_page.get_shift_start_time(), '9 a.m.')
         self.assertEqual(upcoming_shift_page.get_shift_end_time(), '3 p.m.')
@@ -112,7 +120,8 @@ class ViewVolunteerShift(LiveServerTestCase):
 
         # check logged shift does not appear in Upcoming Shifts
         upcoming_shift_page.view_upcoming_shifts()
-        self.assertEqual(upcoming_shift_page.get_info_box(), upcoming_shift_page.no_shift_message)
+        self.assertEqual(upcoming_shift_page.get_info_box(),
+                         upcoming_shift_page.no_shift_message)
         with self.assertRaises(NoSuchElementException):
             upcoming_shift_page.get_result_container()
 
@@ -130,20 +139,21 @@ class ViewVolunteerShift(LiveServerTestCase):
         manage_shift_page = self.manage_shift_page
         upcoming_shift_page.view_upcoming_shifts()
 
-        self.assertEqual(upcoming_shift_page.get_cancel_shift().text, 'Cancel Shift Registration')
+        self.assertEqual(upcoming_shift_page.get_cancel_shift(
+        ).text, 'Cancel Shift Registration')
         upcoming_shift_page.cancel_shift()
 
-        self.assertNotEqual(manage_shift_page.get_cancellation_box(),None)
+        self.assertNotEqual(manage_shift_page.get_cancellation_box(), None)
         self.assertEqual(manage_shift_page.get_cancellation_header(),
-            'Cancel Shift Confirmation')
+                         'Cancel Shift Confirmation')
         self.assertEqual(manage_shift_page.get_cancellation_message(),
-                'Yes, Cancel this Shift')
+                         'Yes, Cancel this Shift')
         manage_shift_page.submit_form()
 
         # check shift removed from upcoming shifts
         upcoming_shift_page.view_upcoming_shifts()
         self.assertEqual(upcoming_shift_page.get_info_box(),
-            upcoming_shift_page.no_shift_message)
+                         upcoming_shift_page.no_shift_message)
         with self.assertRaises(NoSuchElementException):
             upcoming_shift_page.get_result_container()
 

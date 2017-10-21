@@ -32,13 +32,16 @@ class AdministratorLoginRequiredMixin(object):
         else:
             return super(AdministratorLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
 
+
 class CreateJobView(LoginRequiredMixin, AdministratorLoginRequiredMixin, FormView):
     template_name = 'job/create.html'
     form_class = JobForm
+
     def get_context_data(self, **kwargs):
         context = super(CreateJobView, self).get_context_data(**kwargs)
         context['event_list'] = get_events_ordered_by_name()
         return context
+
     def form_valid(self, form):
         event_id = self.request.POST.get('event_id')
         event = get_event_by_id(event_id)
@@ -56,22 +59,26 @@ class CreateJobView(LoginRequiredMixin, AdministratorLoginRequiredMixin, FormVie
             job.save()
             return HttpResponseRedirect(reverse('job:list'))
         else:
-            messages.add_message(self.request, messages.INFO, 'Job dates should lie within Event dates')
+            messages.add_message(self.request, messages.INFO,
+                                 'Job dates should lie within Event dates')
             return render(
                 self.request,
                 'job/create.html',
                 {'form': form, 'event_list': event_list}
             )
 
+
 class JobDeleteView(LoginRequiredMixin, AdministratorLoginRequiredMixin, DeleteView):
     model_form = Job
     template_name = 'job/delete.html'
     success_url = reverse_lazy('job:list')
+
     def get_object(self, queryset=None):
         job_id = self.kwargs['job_id']
         job = Job.objects.get(pk=job_id)
         if job:
             return job
+
     def delete(self, request, *args, **kwargs):
         job = self.get_object()
         shifts_in_job = job.shift_set.all()
@@ -81,26 +88,32 @@ class JobDeleteView(LoginRequiredMixin, AdministratorLoginRequiredMixin, DeleteV
         else:
             return render(request, 'job/delete_error.html')
 
+
 class JobDetailView(LoginRequiredMixin, DetailView):
     template_name = 'job/details.html'
+
     def get_object(self, queryset=None):
         job_id = self.kwargs['job_id']
         obj = Job.objects.get(pk=job_id)
         return obj
+
 
 class JobUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, UpdateView, FormView):
     model_form = Job
     form_class = JobForm
     template_name = 'job/edit.html'
     success_url = reverse_lazy('job:list')
+
     def get_object(self, queryset=None):
         job_id = self.kwargs['job_id']
         obj = Job.objects.get(pk=job_id)
         return obj
+
     def get_context_data(self, **kwargs):
         context = super(JobUpdateView, self).get_context_data(**kwargs)
         context['event_list'] = get_events_ordered_by_name()
         return context
+
     def form_valid(self, form):
         job_id = self.kwargs['job_id']
         event_id = self.request.POST.get('event_id')
@@ -127,19 +140,23 @@ class JobUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, UpdateV
             job_to_edit.save()
             return HttpResponseRedirect(reverse('job:list'))
         else:
-            messages.add_message(self.request, messages.INFO, 'Job dates should lie within Event dates')
+            messages.add_message(self.request, messages.INFO,
+                                 'Job dates should lie within Event dates')
             return render(
                 self.request,
                 'job/edit.html',
                 {'form': form, 'event_list': event_list, 'job': job}
             )
 
+
 class JobListView(LoginRequiredMixin, ListView):
     model_form = Job
     template_name = "job/list.html"
+
     def get_queryset(self):
         jobs = Job.objects.all().order_by('name')
         return jobs
+
 
 @login_required
 def list_sign_up(request, event_id, volunteer_id):

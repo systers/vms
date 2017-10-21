@@ -49,8 +49,9 @@ class EventCreateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, FormV
     def form_valid(self, form):
         start_date = form.cleaned_data['start_date']
         if start_date < (datetime.date.today() - datetime.timedelta(days=1)):
-            messages.add_message(self.request, messages.INFO, 'Start date should be today\'s date or later.')
-            return render(self.request, 'event/create.html', {'form': form,})
+            messages.add_message(self.request, messages.INFO,
+                                 'Start date should be today\'s date or later.')
+            return render(self.request, 'event/create.html', {'form': form, })
         else:
             form.save()
             return HttpResponseRedirect(reverse('event:list'))
@@ -90,7 +91,8 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Updat
     def get_context_data(self, **kwargs):
         context = super(EventUpdateView, self).get_context_data(**kwargs)
         job_obj = get_jobs_by_event_id(self.kwargs['event_id'])
-        context['job_list'] = job_obj.values_list('start_date', 'end_date').distinct()
+        context['job_list'] = job_obj.values_list(
+            'start_date', 'end_date').distinct()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -101,19 +103,22 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Updat
             if form.is_valid():
                 start_date_event = form.cleaned_data['start_date']
                 end_date_event = form.cleaned_data['end_date']
-                event_edit = check_edit_event(event_id, start_date_event, end_date_event)
+                event_edit = check_edit_event(
+                    event_id, start_date_event, end_date_event)
                 if not event_edit['result']:
                     return render(
                         request,
                         'event/edit_error.html',
-                        {'count': event_edit['invalid_count'], 'jobs': event_edit['invalid_jobs']}
+                        {'count': event_edit['invalid_count'],
+                            'jobs': event_edit['invalid_jobs']}
                     )
                 if start_date_event < datetime.date.today():
                     data = request.POST.copy()
                     data['end_date'] = end_date_event
-                    messages.add_message(request, messages.INFO, 'Start date should be today\'s date or later.')
+                    messages.add_message(
+                        request, messages.INFO, 'Start date should be today\'s date or later.')
                     form = EventForm(data)
-                    return render(request, 'event/edit.html', {'form': form,})
+                    return render(request, 'event/edit.html', {'form': form, })
                 else:
                     form.save()
                     return HttpResponseRedirect(reverse('event:list'))
@@ -124,7 +129,7 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Updat
                 except KeyError:
                     data['end_date'] = ''
                 form = EventForm(data)
-                return render(request, 'event/edit.html', {'form': form,})
+                return render(request, 'event/edit.html', {'form': form, })
 
 
 class EventListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView):
@@ -146,17 +151,20 @@ def list_sign_up(request, volunteer_id):
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
             event_list = get_events_by_date(start_date, end_date)
-            event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
+            event_list = remove_empty_events_for_volunteer(
+                event_list, volunteer_id)
             return render(
                 request,
                 'event/list_sign_up.html',
-                {'form' : form, 'event_list': event_list, 'volunteer_id': volunteer_id}
-                )
+                {'form': form, 'event_list': event_list,
+                    'volunteer_id': volunteer_id}
+            )
     else:
         event_list = get_events_ordered_by_name()
-        event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
+        event_list = remove_empty_events_for_volunteer(
+            event_list, volunteer_id)
         return render(
             request,
             'event/list_sign_up.html',
             {'event_list': event_list, 'volunteer_id': volunteer_id}
-            )
+        )

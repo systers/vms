@@ -40,10 +40,10 @@ def check_correct_volunteer(func):
                 status=403
             )
         return render(
-                request,
-                "vms/no_volunteer_rights.html",
-                status=403
-            )
+            request,
+            "vms/no_volunteer_rights.html",
+            status=403
+        )
     return wrapped_view
 
 
@@ -78,10 +78,10 @@ def check_correct_volunteer_shift(func):
                 status=403
             )
         return render(
-                request,
-                "vms/no_volunteer_rights.html",
-                status=403
-            )
+            request,
+            "vms/no_volunteer_rights.html",
+            status=403
+        )
     return wrapped_view
 
 
@@ -118,8 +118,8 @@ def check_correct_volunteer_shift_sign_up(func):
                 status=403
             )
         return render(
-                request,
-                "vms/no_volunteer_rights.html",
-                status=403
-            )
+            request,
+            "vms/no_volunteer_rights.html",
+            status=403
+        )
     return wrapped_view

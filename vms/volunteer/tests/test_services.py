@@ -19,9 +19,12 @@ class VolunteerMethodTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        volunteer_1 = ['Yoshi',"Yoshi","Turtle","Mario Land","Nintendo Land","Nintendo State","Nintendo Nation","2374983247","yoshi@nintendo.com"]
-        volunteer_2 = ['John',"John","Doe","7 Alpine Street","Maplegrove","Wyoming","USA","23454545","john@test.com"]
-        volunteer_3 = ['Ash',"Ash","Doe","Pallet Town","Kanto","Gameboy","Japan","23454545","ash@pikachu.com"]
+        volunteer_1 = ['Yoshi', "Yoshi", "Turtle", "Mario Land", "Nintendo Land",
+                       "Nintendo State", "Nintendo Nation", "2374983247", "yoshi@nintendo.com"]
+        volunteer_2 = ['John', "John", "Doe", "7 Alpine Street",
+                       "Maplegrove", "Wyoming", "USA", "23454545", "john@test.com"]
+        volunteer_3 = ['Ash', "Ash", "Doe", "Pallet Town", "Kanto",
+                       "Gameboy", "Japan", "23454545", "ash@pikachu.com"]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)
         cls.v2 = create_volunteer_with_details(volunteer_2)
@@ -35,7 +38,7 @@ class VolunteerMethodTests(unittest.TestCase):
     def test_delete_volunteer_resume(self):
         """ Tests delete_volunteer_resume(volunteer_id) """
 
-        self.v1.resume_file="MyResume.pdf"
+        self.v1.resume_file = "MyResume.pdf"
         self.v1.save()
 
         self.assertTrue(delete_volunteer_resume(self.v1.id))
@@ -76,7 +79,7 @@ class VolunteerMethodTests(unittest.TestCase):
 
     def test_get_volunteer_resume_file_url(self):
 
-        self.v1.resume_file="MyResume.pdf"
+        self.v1.resume_file = "MyResume.pdf"
         self.v1.save()
 
         # test typical cases
@@ -84,7 +87,7 @@ class VolunteerMethodTests(unittest.TestCase):
         self.assertEqual(
             get_volunteer_resume_file_url(self.v1.id),
             self.v1.resume_file.url
-            )
+        )
 
         # test non-existant cases
         self.assertNotEqual(get_volunteer_resume_file_url(self.v1.id),
@@ -111,8 +114,8 @@ class VolunteerMethodTests(unittest.TestCase):
 
     def test_has_resume_file(self):
 
-        self.v1.resume_file="MyResume.pdf"
-        self.v3.resume_file=""
+        self.v1.resume_file = "MyResume.pdf"
+        self.v3.resume_file = ""
         self.v1.save()
         self.v3.save()
 
@@ -131,9 +134,9 @@ class VolunteerMethodTests(unittest.TestCase):
         o1.save()
         o2.save()
 
-        self.v1.organization=o1
-        self.v2.organization=o2
-        self.v3.unlisted_organization="Government of Canada"
+        self.v1.organization = o1
+        self.v2.organization = o2
+        self.v3.unlisted_organization = "Government of Canada"
 
         self.v1.save()
         self.v2.save()
@@ -157,13 +160,13 @@ class VolunteerMethodTests(unittest.TestCase):
 
         # test exact search
         search_list = search_volunteers(
-                                        "Yoshi",
-                                        "Turtle",
-                                        "Nintendo Land",
-                                        "Nintendo State",
-                                        "Nintendo Nation",
-                                        "Apple"
-                                        )
+            "Yoshi",
+            "Turtle",
+            "Nintendo Land",
+            "Nintendo State",
+            "Nintendo Nation",
+            "Apple"
+        )
         self.assertNotEqual(search_list, False)
         self.assertEqual(len(search_list), 1)
         self.assertIn(self.v1, search_list)
@@ -186,25 +189,29 @@ class VolunteerMethodTests(unittest.TestCase):
 
         # test no search matches
         search_list = search_volunteers(
-                                        "Billy",
-                                        "Doe",
-                                        "Montreal",
-                                        "Quebec",
-                                        "Canada",
-                                        "Ubisoft"
-                                        )
+            "Billy",
+            "Doe",
+            "Montreal",
+            "Quebec",
+            "Canada",
+            "Ubisoft"
+        )
         self.assertEqual(len(search_list), 0)
         self.assertNotIn(self.v1, search_list)
         self.assertNotIn(self.v2, search_list)
         self.assertNotIn(self.v3, search_list)
 
+
 class DeleteVolunteerTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        volunteer_1 = ['Margaret',"Yoshi","Turtle","Mario Land","Nintendo Land","Nintendo State","Nintendo Nation","2374983247","yoshi1@nintendo.com"]
-        volunteer_2 = ['Miu',"John","Doe","7 Alpine Street","Maplegrove","Wyoming","USA","23454545","john1@test.com"]
-        volunteer_3 = ['Brock',"Ash","Ketchum","Pallet Town","Kanto","Gameboy","Japan","23454545","ash1@pikachu.com"]
+        volunteer_1 = ['Margaret', "Yoshi", "Turtle", "Mario Land", "Nintendo Land",
+                       "Nintendo State", "Nintendo Nation", "2374983247", "yoshi1@nintendo.com"]
+        volunteer_2 = ['Miu', "John", "Doe", "7 Alpine Street",
+                       "Maplegrove", "Wyoming", "USA", "23454545", "john1@test.com"]
+        volunteer_3 = ['Brock', "Ash", "Ketchum", "Pallet Town",
+                       "Kanto", "Gameboy", "Japan", "23454545", "ash1@pikachu.com"]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)
         cls.v2 = create_volunteer_with_details(volunteer_2)

@@ -19,7 +19,7 @@ class EventForm(ModelForm):
             'city',
             'address',
             'venue'
-            ]
+        ]
 
     def clean(self):
         cleaned_data = super(EventForm, self).clean()
