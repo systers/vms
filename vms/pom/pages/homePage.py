@@ -1,13 +1,17 @@
-# local Django
 from basePage import *
 from pom.locators.homePageLocators import *
-
 
 class HomePage(BasePage):
 
     def __init__(self, driver):
         self.elements = HomePageLocators()
         super(HomePage, self).__init__(driver)
+
+    def get_about_link(self):
+        return self.find_link(self.elements.ABOUT_TEXT)
+
+    def get_systers_link(self):
+        return self.find_link(self.elements.SYSTERS_TEXT)
 
     def get_admin_report_link(self):
         return self.find_link(self.elements.ADMIN_REPORT_TEXT)

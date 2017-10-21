@@ -1,16 +1,10 @@
-# standard library
-import re
+from django.contrib.staticfiles.testing import LiveServerTestCase
 
-# third party
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
-# Django
-from django.contrib.staticfiles.testing import LiveServerTestCase
-
-#local Django
-from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.homePage import HomePage
+from pom.pages.authenticationPage import AuthenticationPage
 from pom.pageUrls import PageUrls
 
 from shift.utils import (
@@ -18,6 +12,7 @@ from shift.utils import (
     create_volunteer
     )
 
+import re
 
 # Class contains failing test cases which have been documented
 # Test class commented out to prevent travis build failure
@@ -244,6 +239,15 @@ class CheckContentAndRedirection(LiveServerTestCase):
         self.assertEqual(logout_link, self.live_server_url + 
                 PageUrls.logout_page)
 
+        systers_link = home_page.get_systers_link().get_attribute('href')
+        self.assertEqual(systers_link, self.live_server_url + 
+                PageUrls.homepage)
+
+        about_link = home_page.get_about_link().get_attribute('href')
+        self.assertEqual(about_link, self.live_server_url + 
+                PageUrls.homepage)
+
+
     def test_volunteer_page_redirection(self):
         home_page = self.home_page
         authentication_page = self.authentication_page
@@ -279,3 +283,11 @@ class CheckContentAndRedirection(LiveServerTestCase):
         logout_link = home_page.get_logout_link().get_attribute('href')
         self.assertEqual(logout_link, self.live_server_url + 
                 PageUrls.logout_page)
+
+        systers_link = home_page.get_systers_link().get_attribute('href')
+        self.assertEqual(systers_link, self.live_server_url + 
+                PageUrls.homepage)
+
+        about_link = home_page.get_about_link().get_attribute('href')
+        self.assertEqual(about_link, self.live_server_url + 
+                PageUrls.homepage)
