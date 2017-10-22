@@ -19,7 +19,7 @@ from shift.utils import (
     create_job_with_details,
     create_shift_with_details,
     create_volunteer,
-    register_volunteer_for_shift_utility,
+    # register_volunteer_for_shift_utility,
     create_organization
 )
 
@@ -302,8 +302,8 @@ class Settings(LiveServerTestCase):
         created_event = create_event_with_details(event)
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -354,8 +354,8 @@ class Settings(LiveServerTestCase):
         created_event = create_event_with_details(event)
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -436,12 +436,12 @@ class Settings(LiveServerTestCase):
 
     def test_edit_job(self):
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -464,8 +464,8 @@ class Settings(LiveServerTestCase):
     def test_create_job_with_invalid_event_date(self):
 
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
         settings = self.settings
         settings.live_server_url = self.live_server_url
 
@@ -507,12 +507,12 @@ class Settings(LiveServerTestCase):
     def test_edit_job_with_invalid_event_date(self):
 
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         invalid_job_one = ['event-name', 'changed job name', 'job description',
                            '2017-05-03', '2017-11-09']
@@ -561,8 +561,8 @@ class Settings(LiveServerTestCase):
         created_job = create_job_with_details(job)
 
         # create shift
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
-        created_shift = create_shift_with_details(shift)
+        # shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        # created_shift = create_shift_with_details(shift)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -588,12 +588,12 @@ class Settings(LiveServerTestCase):
 
     def test_delete_job_without_associated_shift(self):
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -624,8 +624,8 @@ class Settings(LiveServerTestCase):
         created_job = create_job_with_details(job)
 
         # create shift
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
-        created_shift = create_shift_with_details(shift)
+        # shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        # created_shift = create_shift_with_details(shift)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -676,15 +676,15 @@ class Settings(LiveServerTestCase):
 
     def test_create_shift_with_invalid_timings(self):
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-30', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-30', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings.navigate_to_shift_list_view()
         settings.go_to_create_shift_page()
@@ -733,12 +733,12 @@ class Settings(LiveServerTestCase):
 
     def test_create_shift_with_invalid_date(self):
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-30', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-30', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -821,16 +821,16 @@ class Settings(LiveServerTestCase):
 
     def test_delete_shift(self):
         # register event first to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         # create job
-        job = ['job', '2017-08-21', '2017-08-30', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-30', '', created_event]
+        # created_job = create_job_with_details(job)
 
         # create shift
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
-        created_shift = create_shift_with_details(shift)
+        # shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        # created_shift = create_shift_with_details(shift)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -862,9 +862,9 @@ class Settings(LiveServerTestCase):
         created_shift = create_shift_with_details(shift)
 
         # create volunteer for shift
-        volunteer = create_volunteer()
-        shift_volunteer = register_volunteer_for_shift_utility(
-            created_shift, volunteer)
+        # volunteer = create_volunteer()
+        # shift_volunteer = register_volunteer_for_shift_utility(
+        #                    created_shift, volunteer)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -883,7 +883,6 @@ class Settings(LiveServerTestCase):
             len(Shift.objects.filter(date=created_shift.date)), 0)
 
     def test_organization(self):
-
         settings = self.settings
         settings.live_server_url = self.live_server_url
         settings.click_link(settings.organization_tab)
@@ -925,7 +924,7 @@ class Settings(LiveServerTestCase):
 
     def test_edit_org(self):
         # create org
-        org = create_organization()
+        # org = create_organization()
         settings = self.settings
         settings.live_server_url = self.live_server_url
         settings.navigate_to_organization_view()
@@ -950,7 +949,7 @@ class Settings(LiveServerTestCase):
 
     def test_delete_org_without_associated_users(self):
         # create org
-        org = create_organization()
+        # org = create_organization()
         settings = self.settings
         settings.live_server_url = self.live_server_url
         settings.navigate_to_organization_view()

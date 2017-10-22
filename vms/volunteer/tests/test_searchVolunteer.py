@@ -66,13 +66,13 @@ class SearchVolunteer(LiveServerTestCase):
                          'volunteer-country', '9999999999', 'volunteer-email@systers.org',
                          'volunteer-organization']
 
-        v1 = create_volunteer_with_details(credentials_1)
+        # v1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = ['volunteer-usernameq', 'volunteer-first-name', 'volunteer-last-nameq',
                          'volunteer-addressq', 'volunteer-cityq', 'volunteer-stateq', 'volunteer-countryq',
                          '9999999999', 'volunteer-email2@systers.orgq', 'volunteer-organizationq']
 
-        v2 = create_volunteer_with_details(credentials_2)
+        # v2 = create_volunteer_with_details(credentials_2)
 
         expected_result_one = credentials_1[1:-1]
         expected_result_two = credentials_2[1:-1]
@@ -116,12 +116,12 @@ class SearchVolunteer(LiveServerTestCase):
         credentials_1 = ['volunteer-username', 'volunteer-first-name', 'VOLUNTEER-LAST-NAME',
                          'volunteer-address', 'volunteer-city', 'volunteer-state', 'volunteer-country',
                          '9999999999', 'volunteer-email@systers.org', 'volunteer-organization']
-        v1 = create_volunteer_with_details(credentials_1)
+        # v1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = ['volunteer-usernameq', 'volunteer-first-nameq', 'volunteer-last-name',
                          'volunteer-addressq', 'volunteer-cityq', 'volunteer-stateq', 'volunteer-countryq',
                          '9999999999', 'volunteer-email2@systers.orgq', 'volunteer-organizationq']
-        v2 = create_volunteer_with_details(credentials_2)
+        # v2 = create_volunteer_with_details(credentials_2)
 
         expected_result_one = credentials_1[1:-1]
         expected_result_two = credentials_2[1:-1]
@@ -166,13 +166,13 @@ class SearchVolunteer(LiveServerTestCase):
                          'volunteer-address', 'VOLUNTEER-CITY', 'volunteer-state', 'volunteer-country',
                          '9999999999', 'volunteer-email@systers.org', 'volunteer-organization']
 
-        v1 = create_volunteer_with_details(credentials_1)
+        # v1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = ['volunteer-usernameq', 'volunteer-first-nameq', 'volunteer-last-nameq',
                          'volunteer-addressq', 'volunteer-city', 'volunteer-stateq', 'volunteer-countryq',
                          '9999999999', 'volunteer-email2@systers.orgq', 'volunteer-organizationq']
 
-        v2 = create_volunteer_with_details(credentials_2)
+        # v2 = create_volunteer_with_details(credentials_2)
 
         search_page = self.search_page
 
@@ -218,13 +218,13 @@ class SearchVolunteer(LiveServerTestCase):
                          'volunteer-address', 'volunteer-city', 'VOLUNTEER-STATE', 'volunteer-country',
                          '9999999999', 'volunteer-email@systers.org', 'volunteer-organization']
 
-        v1 = create_volunteer_with_details(credentials_1)
+        # v1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = ['volunteer-usernameq', 'volunteer-first-nameq', 'volunteer-last-nameq',
                          'volunteer-addressq', 'volunteer-cityq', 'volunteer-state', 'volunteer-countryq',
                          '9999999999', 'volunteer-email2@systers.orgq', 'volunteer-organizationq']
 
-        v2 = create_volunteer_with_details(credentials_2)
+        # v2 = create_volunteer_with_details(credentials_2)
 
         search_page = self.search_page
 
@@ -270,13 +270,13 @@ class SearchVolunteer(LiveServerTestCase):
                          'volunteer-address', 'volunteer-city', 'volunteer-state', 'VOLUNTEER-COUNTRY',
                          '9999999999', 'volunteer-email@systers.org', 'volunteer-organization']
 
-        v1 = create_volunteer_with_details(credentials_1)
+        # v1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = ['volunteer-usernameq', 'volunteer-first-nameq', 'volunteer-last-nameq',
                          'volunteer-addressq', 'volunteer-cityq', 'volunteer-stateq', 'volunteer-country',
                          '9999999999', 'volunteer-email2@systers.orgq', 'volunteer-organizationq']
 
-        v2 = create_volunteer_with_details(credentials_2)
+        # v2 = create_volunteer_with_details(credentials_2)
 
         search_page = self.search_page
 

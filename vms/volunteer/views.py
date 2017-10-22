@@ -2,11 +2,11 @@
 import os
 
 # third party
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from braces.views import LoginRequiredMixin  # , AnonymousRequiredMixin
 
 # Django
 from django.conf import settings
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -133,7 +133,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
         return super(ProfileView, self).dispatch(*args, **kwargs)
 
     def get_object(self, queryset=None):
-        volunteer_id = self.kwargs['volunteer_id']
+        # volunteer_id = self.kwargs['volunteer_id']
         obj = Volunteer.objects.get(id=self.kwargs['volunteer_id'])
         return obj
 

@@ -3,7 +3,7 @@ import re
 
 # third party
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.common.exceptions import NoSuchElementException
 
 # Django
 from django.contrib.staticfiles.testing import LiveServerTestCase
@@ -50,7 +50,7 @@ class VolunteerProfile(LiveServerTestCase):
             {'username': "Sherlock", 'password': "volunteer"})
 
     def test_details_tab(self):
-        profile_page = self.profile_page
+        # profile_page = self.profile_page
         page_source = self.driver.page_source
 
         found_email = re.search(self.v1.email, page_source)

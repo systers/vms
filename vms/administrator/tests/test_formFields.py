@@ -1,7 +1,7 @@
 # third party
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.ui import Select
+# from selenium.common.exceptions import NoSuchElementException
+# from selenium.webdriver.support.ui import Select
 
 # Django
 from django.contrib.staticfiles.testing import LiveServerTestCase
@@ -9,7 +9,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from event.models import Event
 from job.models import Job
-from pom.locators.eventsPageLocators import *
+# from pom.locators.eventsPageLocators import *
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventsPage import EventsPage
 from shift.models import Shift
@@ -194,12 +194,12 @@ class FormFields(LiveServerTestCase):
     def test_null_values_in_create_shift(self):
 
         # register event to create job
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         # create job with values
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -287,8 +287,8 @@ class FormFields(LiveServerTestCase):
         # now create an event and edit it
         # verify that event was not edited and that field values are not
         # erased
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
         settings.navigate_to_event_list_view()
         settings.go_to_edit_event_page()
         settings.fill_event_form(invalid_event)
@@ -329,8 +329,8 @@ class FormFields(LiveServerTestCase):
         # now create job and edit it
         # verify that job was not edited and that field values are not
         # erased
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
         settings.navigate_to_job_list_view()
 
         settings.go_to_edit_job_page()
@@ -385,10 +385,10 @@ class FormFields(LiveServerTestCase):
             len(Shift.objects.filter(date=created_shift.date)), 0)
 
     def test_max_volunteer_field(self):
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -403,8 +403,8 @@ class FormFields(LiveServerTestCase):
                          'Ensure this value is greater than or equal to 1.')
 
         # Create shift and try editing it with 0 value
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
-        created_shift = create_shift_with_details(shift)
+        # shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        # created_shift = create_shift_with_details(shift)
 
         settings.navigate_to_shift_list_view()
         settings.go_to_edit_shift_page()
@@ -415,10 +415,10 @@ class FormFields(LiveServerTestCase):
                          'Ensure this value is greater than or equal to 1.')
 
     def test_simplify_shift(self):
-        event = ['event-name', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
-        job = ['job', '2017-08-21', '2017-08-21', '', created_event]
-        created_job = create_job_with_details(job)
+        # event = ['event-name', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
+        # job = ['job', '2017-08-21', '2017-08-21', '', created_event]
+        # created_job = create_job_with_details(job)
 
         settings = self.settings
         settings.live_server_url = self.live_server_url
@@ -431,8 +431,8 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(settings.get_shift_job_end_date(), 'Aug. 21, 2017')
 
         # Create shift and check job details in edit form
-        shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
-        created_shift = create_shift_with_details(shift)
+        # shift = ['2017-08-21', '09:00', '12:00', '10', created_job]
+        # created_shift = create_shift_with_details(shift)
         settings.navigate_to_shift_list_view()
         settings.go_to_edit_shift_page()
 

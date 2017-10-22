@@ -4,7 +4,7 @@ import unittest
 # local Django
 from organization.models import Organization
 from shift.utils import create_volunteer_with_details, clear_objects
-from volunteer.models import Volunteer
+# from volunteer.models import Volunteer
 from volunteer.services import (delete_volunteer,
                                 delete_volunteer_resume,
                                 get_all_volunteers,

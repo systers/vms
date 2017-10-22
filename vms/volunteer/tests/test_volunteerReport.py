@@ -1,6 +1,6 @@
 # third party
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.common.exceptions import NoSuchElementException
 
 # Django
 from django.contrib.staticfiles.testing import LiveServerTestCase
@@ -11,8 +11,8 @@ from shift.utils import (
     create_volunteer,
     register_event_utility,
     register_job_utility,
-    register_shift_utility,
-    log_hours_utility
+    register_shift_utility
+    # log_hours_utility
 )
 
 
