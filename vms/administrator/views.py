@@ -61,7 +61,7 @@ class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Li
             self.request.POST['last_name'],
             self.request.POST['organization'],
             self.request.POST['event_name'],
-            self.request.POST['job_name'],
+            self.request.POST['job_id'],
             self.request.POST['start_date'],
             self.request.POST['end_date'],
         )

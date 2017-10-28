@@ -67,7 +67,7 @@ def tearDownModule():
 
 class ShiftTests(unittest.TestCase):
     '''
-    Contains tests which require 
+    Contains tests which require
     - only shift objects
     - no objects to be created
     '''
@@ -213,8 +213,8 @@ class ShiftTests(unittest.TestCase):
         self.assertIsNone(get_shift_by_id(200))
 
     def test_get_shifts_by_job_id(self):
-        """ 
-        Test get_shifts_by_job_id(j_id) 
+        """
+        Test get_shifts_by_job_id(j_id)
         Uses job j1
         """
         job_1_shifts = get_shifts_by_job_id(j1.id)
@@ -300,8 +300,12 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         end_time = datetime.time(hour=10, minute=0)
         add_shift_hours(self.v1.id, self.s1.id, start_time, end_time)
 
-        report_1 = get_volunteer_report(self.v1.id, self.e1.name, self.j1.name, "2012-10-22", "2012-10-30")
-        report_2 = get_volunteer_report(self.v1.id, self.e1.name, self.j2.name, "2012-9-1", "2012-10-26")
+        report_1 = get_volunteer_report(
+            self.v1.id, self.e1.name, self.j1.id, "2012-10-22", "2012-10-30"
+        )
+        report_2 = get_volunteer_report(
+            self.v1.id, self.e1.name, self.j2.id, "2012-9-1", "2012-10-26"
+        )
 
         # verify that report for logged shift appears
         self.assertEqual(len(report_1), 1)
@@ -588,7 +592,7 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         self.assertIsNotNone(reports)
 
     def test_get_all_volunteer_shifts_with_hours(self):
-        #  Test get_all_volunteer_shifts_with_hours() 
+        #  Test get_all_volunteer_shifts_with_hours()
         register(self.v1.id, self.s1.id)
         register(self.v2.id, self.s2.id)
 
@@ -743,11 +747,11 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         # sign up
         register(self.v3.id, self.s1.id)
         register(self.v1.id, self.s1.id)
-        register(self.v1.id, self.s3.id) 
+        register(self.v1.id, self.s3.id)
         register(self.v3.id, self.s3.id)
         register(self.v2.id, self.s3.id)
 
-        # get volunteer lists 
+        # get volunteer lists
         volunteer_list_for_shift_1 = get_volunteers_by_shift_id(self.s1.id)
         volunteer_list_for_shift_2 = get_volunteers_by_shift_id(self.s2.id)
         volunteer_list_for_shift_3 = get_volunteers_by_shift_id(self.s3.id)
@@ -931,8 +935,8 @@ class ShiftReminderTest(unittest.TestCase):
         register(self.v2.id, self.s3.id)
 
         # test typical case
-        result = send_reminder()       
-               
+        result = send_reminder()
+
         self.assertEqual(result,2)
 
 class DeleteShiftTest(unittest.TestCase):
@@ -959,10 +963,10 @@ class DeleteShiftTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.s2.delete()
-        
+
         # remove all registered volunteers
         VolunteerShift.objects.all().delete()
-    
+
     def test_delete_shift(self):
         # Test delete_shift(shift_id)
 

@@ -4,8 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 # local Django
 from job.models import Job
 from shift.services import (
-    get_shifts_with_open_slots_for_volunteer, 
-    get_volunteer_shifts_with_hours, 
+    get_shifts_with_open_slots_for_volunteer,
+    get_volunteer_shifts_with_hours,
     get_unlogged_shifts_by_volunteer_id
     )
 
@@ -87,6 +87,7 @@ def get_jobs_ordered_by_title():
     job_list = Job.objects.all().order_by('name')
     return job_list
 
+
 def get_signed_up_jobs_for_volunteer(volunteer_id):
     """ Gets sorted list of signed up jobs for a volunteer """
 
@@ -97,16 +98,21 @@ def get_signed_up_jobs_for_volunteer(volunteer_id):
 
     for shift_with_hours in shift_list_with_hours:
         job_name = str(shift_with_hours.shift.job.name)
-        if job_name not in unsorted_jobs:
-            unsorted_jobs.append(job_name)
+        job_id = shift_with_hours.shift.job.id
+        job_data = {'name': job_name, 'id': job_id}
+
+        if not job_data in unsorted_jobs:
+            unsorted_jobs.append(job_data)
+
     for shift in shift_list_without_hours:
         job_name = str(shift.job.name)
         if job_name not in unsorted_jobs:
             unsorted_jobs.append(job_name)
 
     #to sort jobs as per name
-    for job in sorted(unsorted_jobs, key=str.lower):
+    for job in sorted(unsorted_jobs, key=lambda k: k['name']):
         job_list.append(job)
+
     return job_list
 
 def remove_empty_jobs_for_volunteer(job_list, volunteer_id):
