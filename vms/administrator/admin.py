@@ -1,5 +1,5 @@
 #Django
-from administrator.models import Administrator
+from vms.administrator.models import Administrator
 
 # local Django
 from django.contrib import admin
