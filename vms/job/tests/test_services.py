@@ -269,7 +269,9 @@ class JobWithShiftTests(unittest.TestCase):
         self.assertEqual(len(job_list_for_vol_2), 1)
         self.assertEqual(
             job_list_for_vol_2,
-            [{'name': 'Project Manager', 'id': 4}]
+            [
+                {'name': self.j3.name, 'id': self.j3.id}
+            ]
         )
         # test for returned jobs for unregistered volunteer 3
         self.assertEqual(len(job_list_for_vol_3), 0)
