@@ -254,16 +254,23 @@ class JobWithShiftTests(unittest.TestCase):
 
         # tests for returned jobs, their order and duplication for volunteer 1
         self.assertEqual(len(job_list_for_vol_1), 2)
-        self.assertIn(self.j1.name, job_list_for_vol_1)
-        self.assertIn(self.j3.name, job_list_for_vol_1)
-        self.assertEqual(job_list_for_vol_1[0], self.j3.name)
-        self.assertEqual(job_list_for_vol_1[1], self.j1.name)
+        self.assertEqual(
+            job_list_for_vol_1,
+            [
+                {'name': self.j3.name, 'id': self.j3.id},
+                {'name': self.j1.name, 'id': self.j1.id}
 
+            ]
+        )
+        # self.assertIn(self.j1.name, job_list_for_vol_1)
+        # self.assertIn(self.j3.name, job_list_for_vol_1)
         # tests for returned jobs for volunteer 2
-        self.assertEqual(len(job_list_for_vol_2), 1)
-        self.assertIn(self.j3.name, job_list_for_vol_2)
-        self.assertNotIn(self.j1.name, job_list_for_vol_2)
 
+        self.assertEqual(len(job_list_for_vol_2), 1)
+        self.assertEqual(
+            job_list_for_vol_2,
+            [{'name': 'Project Manager', 'id': 4}]
+        )
         # test for returned jobs for unregistered volunteer 3
         self.assertEqual(len(job_list_for_vol_3), 0)
 

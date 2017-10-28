@@ -90,24 +90,29 @@ def get_jobs_ordered_by_title():
 
 def get_signed_up_jobs_for_volunteer(volunteer_id):
     """ Gets sorted list of signed up jobs for a volunteer """
-
     unsorted_jobs = []
     job_list = []
     shift_list_without_hours = get_unlogged_shifts_by_volunteer_id(volunteer_id)
     shift_list_with_hours = get_volunteer_shifts_with_hours(volunteer_id)
 
     for shift_with_hours in shift_list_with_hours:
-        job_name = str(shift_with_hours.shift.job.name)
-        job_id = shift_with_hours.shift.job.id
-        job_data = {'name': job_name, 'id': job_id}
+        curr_job = shift_with_hours.shift.job
+        job_data = {
+            'name': str(curr_job.name),
+            'id': curr_job.id
+        }
 
         if not job_data in unsorted_jobs:
             unsorted_jobs.append(job_data)
 
     for shift in shift_list_without_hours:
-        job_name = str(shift.job.name)
-        if job_name not in unsorted_jobs:
-            unsorted_jobs.append(job_name)
+        curr_job = shift.job
+        job_data = {
+            'name': str(curr_job.name),
+            'id': curr_job.id
+        }
+        if job_data not in unsorted_jobs:
+            unsorted_jobs.append(job_data)
 
     #to sort jobs as per name
     for job in sorted(unsorted_jobs, key=lambda k: k['name']):
