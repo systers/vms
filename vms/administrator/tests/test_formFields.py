@@ -7,18 +7,18 @@ from selenium.webdriver.support.ui import Select
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
 # local Django
-from event.models import Event
-from job.models import Job
-from pom.locators.eventsPageLocators import *
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.pages.eventsPage import EventsPage
-from shift.models import Shift
-from shift.utils import (
+from vms.event.models import Event
+from vms.job.models import Job
+from vms.pom.locators.eventsPageLocators import *
+from vms.pom.pages.authenticationPage import AuthenticationPage
+from vms.pom.pages.eventsPage import EventsPage
+from vms.shift.models import Shift
+from vms.shift.utils import (
     create_admin,
     create_event_with_details,
     create_job_with_details,
     create_shift_with_details
-    )
+)
 
 
 class FormFields(LiveServerTestCase):
@@ -169,7 +169,7 @@ class FormFields(LiveServerTestCase):
 
         # check that job was not edited and that error messages appear as
         # expected
-        self.assertNotEqual(self.driver.current_url, 
+        self.assertNotEqual(self.driver.current_url,
             self.live_server_url + settings.job_list_page)
         self.assertEqual(len(settings.get_help_blocks()), 3)
 
@@ -446,4 +446,3 @@ class FormFields(LiveServerTestCase):
         select.select_by_visible_text('event')
         self.assertEqual(settings.get_job_event_start_date(), 'June 15, 2017')
         self.assertEqual(settings.get_job_event_end_date(), 'June 17, 2017')"""
-    

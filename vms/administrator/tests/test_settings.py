@@ -6,14 +6,14 @@ from selenium.common.exceptions import NoSuchElementException
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
 # local Django
-from event.models import Event
-from job.models import Job
-from organization.models import Organization
-from pom.pages.eventsPage import EventsPage
-from pom.pages.authenticationPage import AuthenticationPage
-from pom.locators.eventsPageLocators import *
-from shift.models import Shift
-from shift.utils import (
+from vms.event.models import Event
+from vms.job.models import Job
+from vms.organization.models import Organization
+from vms.pom.pages.eventsPage import EventsPage
+from vms.pom.pages.authenticationPage import AuthenticationPage
+from vms.pom.locators.eventsPageLocators import *
+from vms.shift.models import Shift
+from vms.shift.utils import (
     create_admin,
     create_event_with_details,
     create_job_with_details,
@@ -21,7 +21,7 @@ from shift.utils import (
     create_volunteer,
     register_volunteer_for_shift_utility,
     create_organization
-    )
+)
 
 
 class Settings(LiveServerTestCase):
@@ -228,7 +228,7 @@ class Settings(LiveServerTestCase):
         self.assertNotEqual(len(Event.objects.filter(name=edited_event[0])), 0)
 
     def test_create_and_edit_event_with_invalid_start_date(self):
-        
+
         settings = self.settings
         settings.live_server_url = self.live_server_url
         settings.go_to_create_event_page()
@@ -908,7 +908,7 @@ class Settings(LiveServerTestCase):
 
         self.assertEqual(settings.get_help_block().text,
             'Organization with this Name already exists.')
-        
+
         # database check to ensure that duplicate organization is created
         self.assertEqual(len(Organization.objects.all()), 1)
 

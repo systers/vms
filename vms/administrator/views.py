@@ -14,12 +14,14 @@ from django.views.generic import View
 from django.views.generic.edit import FormView, UpdateView
 
 # local Django
-from administrator.forms import ReportForm
-from administrator.models import Administrator
-from administrator.utils import admin_required
-from event.services import *
-from job.services import *
-from shift.services import *
+from vms.administrator.forms import ReportForm
+from vms.administrator.models import Administrator
+from vms.administrator.utils import admin_required
+from vms.event.services import *
+from vms.job.services import *
+from vms.shift.services import *
+from vms.shift.services import calculate_total_report_hours
+from vms.organization.services import get_organizations_ordered_by_name
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -29,31 +31,43 @@ class AdministratorLoginRequiredMixin(object):
         if not admin:
             return render(request, 'vms/no_admin_rights.html', status=403)
         else:
-            return super(AdministratorLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+            return super(
+                AdministratorLoginRequiredMixin, self
+            ).dispatch(request, *args, **kwargs)
 
 
 class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     """
-    Displays the form
+    Displays the Administration form
     """
     model = Administrator
     form_class = ReportForm
     template_name = "administrator/report.html"
-    event_list = get_events_ordered_by_name()
 
-    def get(self, request, *args, **kwargs):
-        return render(request, 'administrator/report.html',
-                      {'event_list': self.event_list})
+    def get_context_data(self, **kwargs):
+        context = super(ShowFormView, self).get_context_data(
+            self, **kwargs
+        )
+        context['event_list'] = get_events_ordered_by_name()
+        return context
 
 
-class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView):
+class ShowReportListView(
+    LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView
+):
     """
     Generate the report using ListView
     """
     template_name = "administrator/report.html"
-    organization_list = get_organizations_ordered_by_name()
-    event_list = get_events_ordered_by_name()
-    job_list = get_jobs_ordered_by_title()
+
+    def get_context_data(self, **kwargs):
+        context = super(ShowReportListView, self).get_context_data(
+            self, **kwargs
+        )
+        context['event_list'] = get_events_ordered_by_name()
+        context['job_list'] = get_jobs_ordered_by_title()
+        context['organization_list'] = get_organizations_ordered_by_name()
+        return context
 
     def post(self, request, *args, **kwargs):
         report_list = get_administrator_report(
@@ -68,10 +82,14 @@ class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Li
         organization = self.request.POST['organization']
         event_name = self.request.POST['event_name']
         total_hours = calculate_total_report_hours(report_list)
-        return render(request, 'administrator/report.html',
-                      {'report_list': report_list, 'total_hours': total_hours, 'notification': True,
-                       'organization_list': self.organization_list, 'selected_organization': organization,
-                       'event_list': self.event_list, 'selected_event': event_name, 'job_list': self.job_list})
+        return render(
+            request, 'administrator/report.html',
+            {
+                'report_list': report_list, 'total_hours': total_hours,
+                'notification': True, 'selected_organization': organization,
+                'selected_event': event_name,
+            }
+        )
 
 
 class GenerateReportView(LoginRequiredMixin, View):

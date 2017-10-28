@@ -7,9 +7,9 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 from django.db import IntegrityError
 
 # local Django
-from pom.locators.administratorReportPageLocators import *
-from pom.pages.administratorReportPage import AdministratorReportPage
-from pom.pages.authenticationPage import AuthenticationPage
+from vms.pom.locators.administratorReportPageLocators import *
+from vms.pom.pages.administratorReportPage import AdministratorReportPage
+from vms.pom.pages.authenticationPage import AuthenticationPage
 from shift.utils import (
     create_admin,
     create_volunteer,
@@ -19,7 +19,7 @@ from shift.utils import (
     create_shift_with_details,
     log_hours_with_details,
     register_volunteer_for_shift_utility
-    )
+)
 
 
 class Report(LiveServerTestCase):
