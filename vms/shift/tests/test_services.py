@@ -301,10 +301,10 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         add_shift_hours(self.v1.id, self.s1.id, start_time, end_time)
 
         report_1 = get_volunteer_report(
-            self.v1.id, self.e1.name, self.j1.id, "2012-10-22", "2012-10-30"
+            self.v1.id, self.e1.id, self.j1.id, "2012-10-22", "2012-10-30"
         )
         report_2 = get_volunteer_report(
-            self.v1.id, self.e1.name, self.j2.id, "2012-9-1", "2012-10-26"
+            self.v1.id, self.e1.id, self.j2.id, "2012-9-1", "2012-10-26"
         )
 
         # verify that report for logged shift appears
@@ -328,8 +328,8 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         add_shift_hours(self.v1.id, self.s1.id, start_time, end_time)
         add_shift_hours(self.v2.id, self.s3.id, start_time, end_time)
 
-        report_1 = get_administrator_report(self.v1.first_name,"","",self.e1.name,self.j1.id,"2012-10-22", "2012-10-30")
-        report_2 = get_administrator_report(self.v1.first_name,"","",self.e1.name,self.j2.id,"2012-9-1", "2012-10-26")
+        report_1 = get_administrator_report(self.v1.first_name,"","",self.e1.id,self.j1.id,"2012-10-22", "2012-10-30")
+        report_2 = get_administrator_report(self.v1.first_name,"","",self.e1.id,self.j2.id,"2012-9-1", "2012-10-26")
         report_3 = get_administrator_report("","","",self.e1.name,self.j2.id,"", "")
 
         # verify that report for logged shift appears

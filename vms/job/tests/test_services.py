@@ -113,14 +113,35 @@ class JobTests(unittest.TestCase):
         self.assertIsNotNone(job_list)
         self.assertNotEqual(job_list, False)
         self.assertEqual(len(job_list), 3)
-        self.assertIn(self.j1, job_list)
-        self.assertIn(self.j2, job_list)
-        self.assertIn(self.j3, job_list)
+        self.assertIn(
+            {
+                'id': self.j1.id,
+                'event': self.j1.event.id,
+                'name': self.j1.name
+            },
+            job_list
+        )
+        self.assertIn(
+            {
+                'id': self.j2.id,
+                'event': self.j2.event.id,
+                'name': self.j2.name
+            },
+            job_list
+        )
+        self.assertIn(
+            {
+                'id': self.j3.id,
+                'event': self.j3.event.id,
+                'name': self.j3.name
+            },
+            job_list
+        )
 
         # test order
-        self.assertEqual(job_list[0].name, self.j3.name)
-        self.assertEqual(job_list[1].name, self.j1.name)
-        self.assertEqual(job_list[2].name, self.j2.name)
+        self.assertEqual(job_list[0]['name'], self.j3.name)
+        self.assertEqual(job_list[1]['name'], self.j1.name)
+        self.assertEqual(job_list[2]['name'], self.j2.name)
 
 class DeleteJobTest(unittest.TestCase):
 
@@ -257,9 +278,16 @@ class JobWithShiftTests(unittest.TestCase):
         self.assertEqual(
             job_list_for_vol_1,
             [
-                {'name': self.j3.name, 'id': self.j3.id},
-                {'name': self.j1.name, 'id': self.j1.id}
-
+                {
+                    'name': self.j3.name,
+                    'id': self.j3.id,
+                    'event': self.j3.event.id
+                },
+                {
+                    'name': self.j1.name,
+                    'id': self.j1.id,
+                    'event': self.j1.event.id
+                }
             ]
         )
         # self.assertIn(self.j1.name, job_list_for_vol_1)
@@ -270,7 +298,11 @@ class JobWithShiftTests(unittest.TestCase):
         self.assertEqual(
             job_list_for_vol_2,
             [
-                {'name': self.j3.name, 'id': self.j3.id}
+                {
+                    'name': self.j3.name,
+                    'id': self.j3.id,
+                    'event': self.j3.event.id
+                }
             ]
         )
         # test for returned jobs for unregistered volunteer 3
