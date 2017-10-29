@@ -161,6 +161,16 @@ class ShowFormView(LoginRequiredMixin, FormView):
     form_class = ReportForm
     template_name = "volunteer/report.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(ShowFormView, self).get_context_data(
+            **kwargs
+        )
+        volunteer_id = self.kwargs['volunteer_id']
+        context['event_list'] = get_signed_up_events_for_volunteer(
+            volunteer_id
+        )
+        context['job_list'] = get_signed_up_jobs_for_volunteer(volunteer_id)
+        return context
 
 
 class ShowReportListView(LoginRequiredMixin, ListView):
@@ -173,12 +183,12 @@ class ShowReportListView(LoginRequiredMixin, ListView):
         volunteer_id = self.kwargs['volunteer_id']
         event_list = get_signed_up_events_for_volunteer(volunteer_id)
         job_list = get_signed_up_jobs_for_volunteer(volunteer_id)
-        event_name = self.request.POST['event_name']
-        job_id = self.request.POST['job_id']
+        event_id = int(self.request.POST['event_id'])
+        job_id = int(self.request.POST['job_id'])
         start_date = self.request.POST['start_date']
         end_date = self.request.POST['end_date']
         report_list = get_volunteer_report(
-            volunteer_id, event_name, job_id, start_date, end_date
+            volunteer_id, event_id, job_id, start_date, end_date
         )
         total_hours = calculate_total_report_hours(report_list)
         return render(
@@ -186,7 +196,7 @@ class ShowReportListView(LoginRequiredMixin, ListView):
             {
                 'report_list': report_list, 'total_hours': total_hours,
                 'notification': True, 'job_list': job_list,
-                'event_list': event_list, 'selected_event': event_name,
+                'event_list': event_list, 'selected_event': event_id,
                 'selected_job': job_id
             }
         )

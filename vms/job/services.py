@@ -118,11 +118,12 @@ def get_signed_up_jobs_for_volunteer(volunteer_id):
         if job_data not in unsorted_jobs:
             unsorted_jobs.append(job_data)
 
-    #to sort jobs as per name
-    for job in sorted(unsorted_jobs, key=lambda k: k['name']):
+    # to sort jobs as per name
+    for job in sorted(unsorted_jobs, key=lambda k: str.lower(k['name'])):
         job_list.append(job)
 
     return job_list
+
 
 def remove_empty_jobs_for_volunteer(job_list, volunteer_id):
     """ Removes all jobs from a job list without shifts """

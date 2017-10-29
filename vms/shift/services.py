@@ -368,14 +368,14 @@ def get_unlogged_shifts_by_volunteer_id(v_id):
     return shift_signed_up_list
 
 
-def get_volunteer_report(v_id, event_name, job_id, start_date, end_date):
+def get_volunteer_report(v_id, event_id, job_id, start_date, end_date):
 
     volunteer_shift_list = get_volunteer_shifts_with_hours(v_id)
 
     # filter based on criteria provided
-    if event_name:
+    if event_id:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__event__name__icontains=event_name
+            shift__job__event__id=event_id
             )
     if job_id:
         volunteer_shift_list = volunteer_shift_list.filter(
