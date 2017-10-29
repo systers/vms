@@ -85,7 +85,9 @@ def get_jobs_by_event_id(e_id):
 
 def get_jobs_ordered_by_title():
     job_list = Job.objects.all().order_by('name')
-    return job_list
+    return [
+        {'id': job.id, 'name': job.name, 'event': job.event.id} for job in job_list
+    ]
 
 
 def get_signed_up_jobs_for_volunteer(volunteer_id):
@@ -99,7 +101,8 @@ def get_signed_up_jobs_for_volunteer(volunteer_id):
         curr_job = shift_with_hours.shift.job
         job_data = {
             'name': str(curr_job.name),
-            'id': curr_job.id
+            'id': curr_job.id,
+            'event': curr_job.event.id
         }
 
         if not job_data in unsorted_jobs:
@@ -109,7 +112,8 @@ def get_signed_up_jobs_for_volunteer(volunteer_id):
         curr_job = shift.job
         job_data = {
             'name': str(curr_job.name),
-            'id': curr_job.id
+            'id': curr_job.id,
+            'event': curr_job.event.id
         }
         if job_data not in unsorted_jobs:
             unsorted_jobs.append(job_data)

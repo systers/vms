@@ -37,7 +37,7 @@ def get_event_by_shift_id(shift_id):
     return result
 
 def delete_event(event_id):
-    """ 
+    """
     Deletes an event if no jobs are associated with it
     """
 
@@ -122,7 +122,9 @@ def get_events_by_date(start_date, end_date):
 
 def get_events_ordered_by_name():
     event_list = Event.objects.all().order_by('name')
-    return event_list
+    return [
+        {'id': event.id, 'name': event.name } for event in event_list
+    ]
 
 def get_signed_up_events_for_volunteer(volunteer_id):
     """ Gets sorted list of signed up events for a volunteer """

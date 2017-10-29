@@ -196,7 +196,7 @@ def generate_report(volunteer_shift_list):
 
 
 def get_administrator_report(
-    first_name, last_name, organization, event_name, job_id, start_date,
+    first_name, last_name, organization, event_id, job_id, start_date,
     end_date
 ):
 
@@ -232,10 +232,11 @@ def get_administrator_report(
                 volunteer__unlisted_organization__exact='').filter(
                 volunteer__unlisted_organization__icontains=organization
                 )
-    if event_name:
+    if event_id:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__event__name__icontains=event_name
+            shift__job__event__id=event_id
             )
+
     if job_id:
         volunteer_shift_list = volunteer_shift_list.filter(
             shift__job__id=job_id

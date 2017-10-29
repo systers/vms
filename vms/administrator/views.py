@@ -39,39 +39,53 @@ class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     model = Administrator
     form_class = ReportForm
     template_name = "administrator/report.html"
-    event_list = get_events_ordered_by_name()
 
-    def get(self, request, *args, **kwargs):
-        return render(request, 'administrator/report.html',
-                      {'event_list': self.event_list})
+    def get_context_data(self, **kwargs):
+        context = super(ShowFormView, self).get_context_data(
+            **kwargs
+        )
+        context['event_list'] = get_events_ordered_by_name()
+        context['job_list'] = get_jobs_ordered_by_title()
+        context['organization_list'] = get_organizations_ordered_by_name()
+        return context
 
 
-class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView):
+class ShowReportListView(
+    LoginRequiredMixin, AdministratorLoginRequiredMixin, TemplateView
+):
     """
     Generate the report using ListView
     """
     template_name = "administrator/report.html"
-    organization_list = get_organizations_ordered_by_name()
-    event_list = get_events_ordered_by_name()
-    job_list = get_jobs_ordered_by_title()
 
     def post(self, request, *args, **kwargs):
         report_list = get_administrator_report(
             self.request.POST['first_name'],
             self.request.POST['last_name'],
             self.request.POST['organization'],
-            self.request.POST['event_name'],
-            self.request.POST['job_id'],
+            int(self.request.POST['event_id']),
+            int(self.request.POST['job_id']),
             self.request.POST['start_date'],
             self.request.POST['end_date'],
         )
-        organization = self.request.POST['organization']
-        event_name = self.request.POST['event_name']
+        selected_organization = self.request.POST['organization']
+        selected_event_id = int(self.request.POST['event_id'])
+        selected_job_id = int(self.request.POST['job_id'])
+
         total_hours = calculate_total_report_hours(report_list)
-        return render(request, 'administrator/report.html',
-                      {'report_list': report_list, 'total_hours': total_hours, 'notification': True,
-                       'organization_list': self.organization_list, 'selected_organization': organization,
-                       'event_list': self.event_list, 'selected_event': event_name, 'job_list': self.job_list})
+        return render(
+            request, 'administrator/report.html',
+            {
+                'report_list': report_list, 'total_hours': total_hours,
+                'notification': True,
+                'selected_organization': selected_organization,
+                'selected_event': selected_event_id,
+                'selected_job': selected_job_id,
+                'event_list': get_events_ordered_by_name(),
+                'job_list': get_jobs_ordered_by_title(),
+                'organization_list': get_organizations_ordered_by_name()
+            }
+        )
 
 
 class GenerateReportView(LoginRequiredMixin, View):
@@ -86,5 +100,6 @@ class GenerateReportView(LoginRequiredMixin, View):
 
 @login_required
 @admin_required
+
 def settings(request):
     return HttpResponseRedirect(reverse('event:list'))

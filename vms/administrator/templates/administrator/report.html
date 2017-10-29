@@ -1,5 +1,6 @@
 {% extends "vms/base.html" %}
 {% load i18n %}
+{% load filter_dropdowns %}
 {% block content %}
 <div class="spacer"></div>
 <div class="alert alert-info">
@@ -95,7 +96,7 @@
                     <select id="select" class="form-control" name="event_name">
                         <option value="">-- {% trans "Select Event" %} --</option>
                         {% for event in event_list %}
-                        <option value="{{ event.name }}" {% if selected_event == event.name %}selected{% endif %}>{{ event.name }}</option>
+                        <option value="{{ event.id }}" {% if selected_event == event.id %}selected{% endif %}>{{ event.name }}</option>
                         {% endfor %}
                     </select>
                     <p class="help-block">
@@ -111,10 +112,10 @@
             <div class="form-group">
                 <label class="col-md-3 control-label">{% trans "Event Name" %}</label>
                 <div class="col-md-8">
-                    <select id="select" class="form-control" name="event_name">
-                        <option value="">-- {% trans "Select Event" %} --</option>
+                    <select id="select" class="form-control" name="event_id">
+                        <option value="0">-- {% trans "Select Event" %} --</option>
                         {% for event in event_list %}
-                        <option value="{{ event.name }}" {% if selected_event == event.name %}selected{% endif %}>{{ event.name }}</option>
+                        <option value="{{ event.id }}" {% if selected_event == event.id %} selected {% endif %}>{{ event.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -125,7 +126,7 @@
                 <label class="col-md-3 control-label">{% trans "Job Name" %}</label>
                 <div class="col-md-8">
                     <select id="select_job" class="form-control" name="job_id">
-                        <option value="">-- {% trans "Select Job" %} --</option>
+                        <option value="0">-- {% trans "Select Job" %} --</option>
                         {% for job in job_list %}
                         <option value="{{ job.id }}">{{ job.name }}</option>
                         {% endfor %}
@@ -144,14 +145,15 @@
                 <label class="col-md-3 control-label">{% trans "Job Name" %}</label>
                 <div class="col-md-8">
                     <select id="select_job" class="form-control" name="job_id">
-                        <option value="">-- {% trans "Select Job" %} --</option>
+                        <option value="0">-- {% trans "Select Job" %} --</option>
                         {% for job in job_list %}
-                        <option value="{{ job.id }}">{{ job.name }}</option>
+                        <option value="{{ job.id }}" {% if selected_job == job.id %} selected {% endif %}>{{ job.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
             {% endif %}
+
             <div class="form-group">
                 <label class="col-md-3 control-label">{% trans "Start Date" %}</label>
                 <div class="col-md-8">
@@ -218,4 +220,42 @@
 </div>
 {% endif %}
 {% endif %}
+
+<script type="text/javascript">
+    function resetSelectWithJobs($jobs, $jobListSelect) {
+        // Replace it with original values
+        $jobListSelect.html(''); // Clear
+        $jobListSelect.append(
+            $('<option>').attr('value', 0).text('-- Select Jobs --').attr('selected', true)
+        );
+        for(var k=0; k<$jobs.length; k++) {
+            $jobListSelect.append(
+                $('<option>').
+                attr('value', $jobs[k]['id']).
+                text($jobs[k]['name'])
+            )
+        }
+    }
+    $('select[name=event_id]').change(function () {
+        var $jobListSelect = $('select[name=job_id]');
+        //[{"event": 3, "id": 3, "name": "another"},
+        // {"event": 3, "id": 5, "name": "another"}]
+        var $jobs = JSON.parse('{{job_list | js}}');
+        // [{"id": 2, "name": "New event"},
+        // {"id": 3, "name": "anotherevent"}, {"id": 1, "name": "testevent"}]
+        var $event = '{{event_list |js}}';
+
+        var $selectedEvent = parseInt($(this).find('option:selected').val());
+        if (!$selectedEvent) {
+            return resetSelectWithJobs($jobs, $jobListSelect);
+        }
+
+        var $eventJobsList = $.grep($jobs, function (data, index) {
+            return data.event ===  $selectedEvent;
+        });
+
+        return resetSelectWithJobs($eventJobsList, $jobListSelect);
+    })
+
+</script>
 {% endblock %}
