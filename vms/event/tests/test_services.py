@@ -13,7 +13,7 @@ from event.services import (
         get_events_by_date,
         get_event_by_shift_id,
         get_signed_up_events_for_volunteer,
-        remove_empty_events_for_volunteer    
+        remove_empty_events_for_volunteer
         )
 from shift.models import VolunteerShift
 from shift.services import register
@@ -116,12 +116,12 @@ class EventTests(unittest.TestCase):
         # test typical cases
         event_list = get_events_by_date('2015-07-01','2015-08-01')
         self.assertIsNotNone(event_list)
-        
+
         self.assertIn(self.e3, event_list)
         self.assertIn(self.e4, event_list)
         self.assertIn(self.e5, event_list)
         self.assertEqual(len(event_list), 3)
-        
+
         # test order
         self.assertEqual(event_list[0], self.e3)
         self.assertEqual(event_list[1], self.e5)
@@ -133,19 +133,19 @@ class EventTests(unittest.TestCase):
         # test typical cases
         event_list = get_events_ordered_by_name()
         self.assertIsNotNone(event_list)
-        self.assertIn(self.e1, event_list)
-        self.assertIn(self.e2, event_list)
-        self.assertIn(self.e3, event_list)
-        self.assertIn(self.e4, event_list)
-        self.assertIn(self.e5, event_list)
+        self.assertIn({'id': self.e1.id, 'name': self.e1.name},event_list)
+        self.assertIn({'id': self.e2.id, 'name': self.e2.name}, event_list)
+        self.assertIn({'id': self.e3.id, 'name': self.e3.name}, event_list)
+        self.assertIn({'id': self.e4.id, 'name': self.e4.name}, event_list)
+        self.assertIn({'id': self.e5.id, 'name': self.e5.name}, event_list)
         self.assertEqual(len(event_list), 5)
 
         # test order
-        self.assertEqual(event_list[0], self.e5)
-        self.assertEqual(event_list[1], self.e3)
-        self.assertEqual(event_list[2], self.e1)
-        self.assertEqual(event_list[3], self.e2)
-        self.assertEqual(event_list[4], self.e4)
+        self.assertEqual(event_list[0]['id'], self.e5.id)
+        self.assertEqual(event_list[1]['id'], self.e3.id)
+        self.assertEqual(event_list[2]['id'], self.e1.id)
+        self.assertEqual(event_list[3]['id'], self.e2.id)
+        self.assertEqual(event_list[4]['id'], self.e4.id)
 
 class EventWithJobTests(unittest.TestCase):
     '''
@@ -268,7 +268,7 @@ class EventWithVolunteerTest(unittest.TestCase):
         cls.setup_test_data()
 
     def test_remove_empty_events_for_volunteer(self):
-        
+
         """
         Uses Events e1,e2,e3,e4,e5, shift s2 and volunteer v1 where
         with job that has shift with open slots - e2
@@ -277,10 +277,10 @@ class EventWithVolunteerTest(unittest.TestCase):
         Event with job that has no shifts - e3
         Event with no jobs - e5
         """
-        
+
         register(self.v1.id, self.s2.id)
         register(self.v2.id, self.s4.id)
-        
+
         event_list = [self.e1, self.e2, self.e3, self.e4, self.e5]
         event_list = remove_empty_events_for_volunteer(event_list, self.v1.id)
 
@@ -310,17 +310,23 @@ class EventWithVolunteerTest(unittest.TestCase):
 
         # tests for returned events, their order and duplication for volunteer 1
         self.assertEqual(len(event_list_for_vol_1), 2)
-        self.assertIn(self.e1.name, event_list_for_vol_1)
-        self.assertIn(self.e2.name, event_list_for_vol_1)
-        self.assertEqual(event_list_for_vol_1[0], self.e1.name)
-        self.assertEqual(event_list_for_vol_1[1], self.e2.name)
+        self.assertIn(
+            {'name': self.e1.name, 'id': self.e1.id}, event_list_for_vol_1
+        )
+        self.assertIn(
+            {'name': self.e2.name, 'id': self.e2.id}, event_list_for_vol_1)
+        self.assertEqual(event_list_for_vol_1[0]['name'], self.e1.name)
+        self.assertEqual(event_list_for_vol_1[1]['name'], self.e2.name)
 
         # tests for returned events for volunteer 2
         self.assertEqual(len(event_list_for_vol_2), 1)
-        self.assertIn(self.e2.name, event_list_for_vol_2)
-        self.assertNotIn(self.e1.name, event_list_for_vol_2)
+        self.assertIn(
+            {'name': self.e2.name, 'id': self.e2.id}, event_list_for_vol_2
+        )
+        self.assertNotIn(
+            {'name': self.e1.name, 'id': self.e1.id}, event_list_for_vol_2
+        )
 
         # test for returned events for unregistered volunteer 3
         self.assertEqual(len(event_list_for_vol_3), 0)
         VolunteerShift.objects.all().delete()
-        
