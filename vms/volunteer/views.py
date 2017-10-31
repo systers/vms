@@ -46,9 +46,10 @@ def download_resume(request, volunteer_id):
                 return response
             else:
                 raise Http404
+                
     else:
         return HttpResponse(status=403)
-
+       
 @login_required
 def delete_resume(request, volunteer_id):
     user = request.user
@@ -59,10 +60,10 @@ def delete_resume(request, volunteer_id):
                 return HttpResponseRedirect(reverse('volunteer:profile', args=(volunteer_id,)))
             except:
                 raise Http404
+             
     else:
         return HttpResponse(status=403)
-
-'''
+'''         
  The View to edit Volunteer Profile
 '''
 
@@ -95,6 +96,8 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
                         delete_volunteer_resume(volunteer_id)
                     except:
                         raise Http404
+                         
+                        
             else:
                 return render(self.request, 'volunteer/edit.html',
                               {'form': form, 'organization_list': organization_list, 'volunteer': volunteer,
@@ -202,3 +205,5 @@ def search(request):
         form = SearchVolunteerForm()
 
     return render(request, 'volunteer/search.html', {'form' : form, 'has_searched' : False})
+
+       
