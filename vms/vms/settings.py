@@ -75,9 +75,11 @@ DATABASES = {
 }
 
 
+#Instead of sending out real email, during development the emails will be sent
+# to stdout, where from they can be inspected.
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
