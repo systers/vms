@@ -5,12 +5,12 @@ services: postgresql
 install:
   - pip install -r requirements.txt
 before_script:
+  - export DJANGO_SECRET_KEY=foobarbaz
   - psql -c "create role vmsadmin with createrole createdb login password '0xdeadbeef';" -U postgres
   - psql -c "CREATE DATABASE vms;" -U postgres
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
-  - export DJANGO_SECRET_KEY=foobarbaz
 script:
   - cd vms
   - flake8 . 
