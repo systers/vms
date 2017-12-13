@@ -34,9 +34,12 @@ class ManageShiftPage(BasePage):
         self.element_by_xpath(link_path).click()
 
     def navigate_to_shift_assignment_page(self):
-        self.element_by_xpath(self.sign_up_elements.VIEW_JOBS_PATH + "//a").click()
-        self.element_by_xpath(self.sign_up_elements.VIEW_SHIFTS_PATH + "//a").click()
-        self.element_by_xpath(self.sign_up_elements.ASSIGN_SHIFTS_PATH + "//a").click()
+        self.element_by_xpath(
+            self.sign_up_elements.VIEW_JOBS_PATH + "//a").click()
+        self.element_by_xpath(
+            self.sign_up_elements.VIEW_SHIFTS_PATH + "//a").click()
+        self.element_by_xpath(
+            self.sign_up_elements.ASSIGN_SHIFTS_PATH + "//a").click()
 
     def get_info_box(self):
         return self.element_by_class_name(self.manage_elements.INFO_BOX).text
@@ -48,7 +51,8 @@ class ManageShiftPage(BasePage):
         return self.element_by_xpath(self.manage_elements.CANCEL_SHIFT_PATH)
 
     def cancel_shift(self):
-        self.element_by_xpath(self.manage_elements.CANCEL_SHIFT_PATH + "//a").click()
+        self.element_by_xpath(
+            self.manage_elements.CANCEL_SHIFT_PATH + "//a").click()
 
     def get_cancellation_box(self):
         return self.element_by_class_name(self.manage_elements.CANCELLATION_PANEL)

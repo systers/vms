@@ -1,6 +1,6 @@
 # third party
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.common.exceptions import NoSuchElementException
 
 # Django
 from django.contrib.staticfiles.testing import LiveServerTestCase
@@ -11,9 +11,9 @@ from shift.utils import (
     create_volunteer,
     register_event_utility,
     register_job_utility,
-    register_shift_utility,
-    log_hours_utility
-    )
+    register_shift_utility
+    # log_hours_utility
+)
 
 
 class VolunteerReport(LiveServerTestCase):
@@ -39,8 +39,10 @@ class VolunteerReport(LiveServerTestCase):
         super(VolunteerReport, cls).tearDownClass()
 
     def verify_shift_details(self, total_shifts, hours):
-        total_no_of_shifts = self.report_page.get_shift_summary().split(' ')[10].strip('\nTotal')
-        total_no_of_hours = self.report_page.get_shift_summary().split(' ')[-1].strip('\n')
+        total_no_of_shifts = self.report_page.get_shift_summary().split(' ')[
+            10].strip('\nTotal')
+        total_no_of_hours = self.report_page.get_shift_summary().split(
+            ' ')[-1].strip('\n')
         self.assertEqual(total_no_of_shifts, total_shifts)
         self.assertEqual(total_no_of_hours, hours)
 
@@ -49,10 +51,11 @@ class VolunteerReport(LiveServerTestCase):
         report_page.live_server_url = self.live_server_url
         report_page.login_and_navigate_to_report_page()
         report_page.submit_form()
-        self.assertEqual(report_page.get_alert_box_text(),report_page.no_results_message)
+        self.assertEqual(report_page.get_alert_box_text(),
+                         report_page.no_results_message)
 
-#Failing test case which has been documented as per bug #327
-#Test commented out to prevent travis build failure
+# Failing test case which has been documented as per bug #327
+# Test commented out to prevent travis build failure
 
     """def test_report_with_empty_fields(self):
         report_page = self.report_page
@@ -76,10 +79,11 @@ class VolunteerReport(LiveServerTestCase):
 
         report_page.login_and_navigate_to_report_page()
         report_page.submit_form()
-        self.assertEqual(report_page.get_alert_box_text(),report_page.no_results_message)
+        self.assertEqual(report_page.get_alert_box_text(),
+                         report_page.no_results_message)
 
-#Failing test cases which have been documented
-#Tests commented out to prevent travis build failure
+# Failing test cases which have been documented
+# Tests commented out to prevent travis build failure
 
     """def test_date_field(self):
         report_page = self.report_page

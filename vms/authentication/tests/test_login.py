@@ -15,7 +15,7 @@ from pom.pageUrls import PageUrls
 from shift.utils import (
     create_admin,
     create_volunteer
-    )
+)
 
 
 class TestAccessControl(LiveServerTestCase):
@@ -55,9 +55,9 @@ class TestAccessControl(LiveServerTestCase):
         '''
         authentication_page = self.authentication_page
         self.authentication_page.server_url = self.live_server_url
-        authentication_page.login({ 'username' : 'admin', 'password' : 'admin'})
+        authentication_page.login({'username': 'admin', 'password': 'admin'})
         self.assertEqual(self.driver.current_url, self.live_server_url +
-                authentication_page.homepage)
+                         authentication_page.homepage)
 
         with self.assertRaises(NoSuchElementException):
             authentication_page.get_incorrect_login_message()
@@ -70,14 +70,16 @@ class TestAccessControl(LiveServerTestCase):
         '''
         authentication_page = self.authentication_page
         self.authentication_page.server_url = self.live_server_url
-        authentication_page.login({ 'username' : 'admin', 'password' : 'wrong_password'})
+        authentication_page.login(
+            {'username': 'admin', 'password': 'wrong_password'})
         self.assertNotEqual(self.driver.current_url, self.live_server_url +
-                authentication_page.homepage)
+                            authentication_page.homepage)
 
         self.assertEqual(self.driver.current_url, self.live_server_url +
-                authentication_page.url)
+                         authentication_page.url)
 
-        self.assertNotEqual(authentication_page.get_incorrect_login_message(), None)
+        self.assertNotEqual(
+            authentication_page.get_incorrect_login_message(), None)
 
     def test_correct_volunteer_credentials(self):
         '''
@@ -86,9 +88,10 @@ class TestAccessControl(LiveServerTestCase):
         '''
         authentication_page = self.authentication_page
         self.authentication_page.server_url = self.live_server_url
-        authentication_page.login({ 'username' : 'volunteer', 'password' : 'volunteer'})
+        authentication_page.login(
+            {'username': 'volunteer', 'password': 'volunteer'})
         self.assertEqual(self.driver.current_url, self.live_server_url +
-                authentication_page.homepage)
+                         authentication_page.homepage)
 
         with self.assertRaises(NoSuchElementException):
             authentication_page.get_incorrect_login_message()
@@ -101,12 +104,14 @@ class TestAccessControl(LiveServerTestCase):
         '''
         authentication_page = self.authentication_page
         self.authentication_page.server_url = self.live_server_url
-        authentication_page.login({ 'username' : 'volunteer', 'password' : 'wrong_password'})
-        
+        authentication_page.login(
+            {'username': 'volunteer', 'password': 'wrong_password'})
+
         self.assertNotEqual(self.driver.current_url, self.live_server_url +
-                authentication_page.homepage)
+                            authentication_page.homepage)
 
         self.assertEqual(self.driver.current_url, self.live_server_url +
-                authentication_page.url)
+                         authentication_page.url)
 
-        self.assertNotEqual(authentication_page.get_incorrect_login_message(), None)
+        self.assertNotEqual(
+            authentication_page.get_incorrect_login_message(), None)

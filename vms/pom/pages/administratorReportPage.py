@@ -38,13 +38,16 @@ class AdministratorReportPage(BasePage):
         self.submit_form()
 
     def get_event_job_organization_selectors(self):
-        select1 = Select(self.element_by_xpath(self.elements.REPORT_EVENT_SELECTOR))
-        select2 = Select(self.element_by_xpath(self.elements.REPORT_JOB_SELECTOR))
-        select3 = Select(self.element_by_xpath(self.elements.REPORT_ORG_SELECTOR))
+        select1 = Select(self.element_by_xpath(
+            self.elements.REPORT_EVENT_SELECTOR))
+        select2 = Select(self.element_by_xpath(
+            self.elements.REPORT_JOB_SELECTOR))
+        select3 = Select(self.element_by_xpath(
+            self.elements.REPORT_ORG_SELECTOR))
         return (select1, select2, select3)
 
     def submit_form(self):
-        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()   
+        self.element_by_xpath(self.elements.SUBMIT_PATH).submit()
 
     def get_alert_box_text(self):
         return self.element_by_class_name(self.elements.NO_RESULT_BOX).text

@@ -17,7 +17,7 @@ from shift.utils import (
     create_shift_with_details,
     log_hours_with_details,
     register_volunteer_for_shift_utility
-    )
+)
 
 
 class ShiftDetails(LiveServerTestCase):
@@ -33,8 +33,8 @@ class ShiftDetails(LiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         cls.volunteer_detail = ['volunteer-usernameq', 'Michael', 'Reed',
-                'address', 'city', 'state', 'country', '9999999999',
-                'volunteer@volunteer.com', 'organization']
+                                'address', 'city', 'state', 'country', '9999999999',
+                                'volunteer@volunteer.com', 'organization']
 
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
@@ -63,8 +63,10 @@ class ShiftDetails(LiveServerTestCase):
 
     def register_dataset(self):
         e1 = create_event_with_details(['event', '2017-06-15', '2017-06-17'])
-        j1 = create_job_with_details(['job', '2017-06-15', '2017-06-15', 'job description', e1])
-        s1 = create_shift_with_details(['2017-06-15', '09:00', '15:00', '6', j1])
+        j1 = create_job_with_details(
+            ['job', '2017-06-15', '2017-06-15', 'job description', e1])
+        s1 = create_shift_with_details(
+            ['2017-06-15', '09:00', '15:00', '6', j1])
         return s1
 
     def test_view_with_unregistered_volunteers(self):
@@ -81,7 +83,7 @@ class ShiftDetails(LiveServerTestCase):
 
         # verify that there are no registered shifts or logged hours
         self.assertEqual(shift_details_page.get_message_box(),
-            'There are currently no volunteers assigned to this shift. Please assign volunteers to view more details')
+                         'There are currently no volunteers assigned to this shift. Please assign volunteers to view more details')
 
     def test_view_with_only_registered_volunteers(self):
 
@@ -97,10 +99,14 @@ class ShiftDetails(LiveServerTestCase):
         self.assertEqual(shift_details_page.get_max_shift_volunteer(), '5')
 
         # verify that assigned volunteers shows up but no logged hours yet
-        self.assertEqual(len(shift_details_page.get_registered_volunteers()), 1)
-        self.assertEqual(shift_details_page.get_registered_volunteer_name(), 'Michael')
-        self.assertEqual(shift_details_page.get_registered_volunteer_email(), 'volunteer@volunteer.com')
-        self.assertEqual(shift_details_page.get_message_box(),'There are no logged hours at the moment')
+        self.assertEqual(
+            len(shift_details_page.get_registered_volunteers()), 1)
+        self.assertEqual(
+            shift_details_page.get_registered_volunteer_name(), 'Michael')
+        self.assertEqual(
+            shift_details_page.get_registered_volunteer_email(), 'volunteer@volunteer.com')
+        self.assertEqual(shift_details_page.get_message_box(),
+                         'There are no logged hours at the moment')
 
     def test_view_with_logged_hours(self):
         shift_details_page = self.shift_details_page
@@ -114,11 +120,14 @@ class ShiftDetails(LiveServerTestCase):
         self.assertEqual(shift_details_page.get_max_shift_volunteer(), '5')
 
         # verify that assigned volunteers shows up
-        self.assertEqual(len(shift_details_page.get_registered_volunteers()), 1)
-        self.assertEqual(shift_details_page.get_registered_volunteer_email(), 'volunteer@volunteer.com')
+        self.assertEqual(
+            len(shift_details_page.get_registered_volunteers()), 1)
+        self.assertEqual(
+            shift_details_page.get_registered_volunteer_email(), 'volunteer@volunteer.com')
 
         # verify that hours are logged by volunteer
         self.assertEqual(len(shift_details_page.get_logged_volunteers()), 1)
-        self.assertEqual(shift_details_page.get_logged_volunteer_name(), 'Michael')
+        self.assertEqual(
+            shift_details_page.get_logged_volunteer_name(), 'Michael')
         self.assertEqual(shift_details_page.get_logged_start_time(), '1 p.m.')
         self.assertEqual(shift_details_page.get_logged_end_time(), '2 p.m.')

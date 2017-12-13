@@ -1,10 +1,10 @@
 # Django
 from django.contrib.auth.models import User
 from django.core.validators import (
-            RegexValidator,
-            MaxValueValidator,
-            MinValueValidator
-            )
+    RegexValidator,
+    MaxValueValidator,
+    MinValueValidator
+)
 from django.db import models
 
 # local Django
@@ -112,11 +112,11 @@ class Volunteer(models.Model):
         upload_to='vms/resume/',
         max_length=75,
         blank=True
-        )
+    )
     reminder_days = models.IntegerField(
         default=1,
         validators=[MaxValueValidator(50), MinValueValidator(1)],
         blank=True
-        )
+    )
 
     user = models.OneToOneField(User)

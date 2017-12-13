@@ -38,7 +38,7 @@ class AdministratorSignupView(TemplateView):
 
     @method_decorator(volunteer_denied)
     def dispatch(self, *args, **kwargs):
-      return super(AdministratorSignupView, self).dispatch(*args, **kwargs)
+        return super(AdministratorSignupView, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         user_form = UserForm(prefix="usr")
@@ -93,7 +93,8 @@ class AdministratorSignupView(TemplateView):
 
                     administrator.save()
                     registered = True
-                    messages.success(request, 'You have successfully registered!')
+                    messages.success(
+                        request, 'You have successfully registered!')
                     return HttpResponseRedirect(reverse('home:index'))
                 else:
                     print(user_form.errors, administrator_form.errors)
@@ -126,7 +127,7 @@ class VolunteerSignupView(TemplateView):
                        'organization_list': self.organization_list,
                        })
 
-    def post(self,request):
+    def post(self, request):
         organization_list = get_organizations_ordered_by_name()
         if organization_list:
             if request.method == 'POST':
@@ -183,7 +184,8 @@ class VolunteerSignupView(TemplateView):
                     volunteer.save()
                     registered = True
 
-                    messages.success(request, 'You have successfully registered!')
+                    messages.success(
+                        request, 'You have successfully registered!')
                     return HttpResponseRedirect(reverse('home:index'))
                 else:
                     print(user_form.errors, volunteer_form.errors)
@@ -192,6 +194,6 @@ class VolunteerSignupView(TemplateView):
                                    'volunteer_form': volunteer_form,
                                    'registered': self.registered,
                                    'phone_error': self.phone_error,
-                                   'organization_list': self.organization_list,})
+                                   'organization_list': self.organization_list, })
         else:
             return render(request, 'home/home.html', {'error': True})

@@ -46,7 +46,8 @@ class UpcomingShiftsPage(BasePage):
         return self.element_by_xpath(self.elements.LOG_SHIFT_HOURS_PATH).text
 
     def click_to_log_hours(self):
-        self.element_by_xpath(self.elements.LOG_SHIFT_HOURS_PATH + "//a").click()
+        self.element_by_xpath(
+            self.elements.LOG_SHIFT_HOURS_PATH + "//a").click()
 
     def log_shift_timings(self, stime, etime):
         self.completed_shifts_page.log_shift_timings(stime, etime)

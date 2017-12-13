@@ -12,13 +12,14 @@ from shift.utils import (
     create_admin,
     create_event_with_details,
     create_job_with_details
-    )
+)
 
 
 class JobDetails(LiveServerTestCase):
     '''
     Contains Tests for View Job Details Page
     '''
+
     def setUp(self):
         create_admin()
         self.job_list_page = '/job/list/'
@@ -36,8 +37,10 @@ class JobDetails(LiveServerTestCase):
 
     def register_job(self):
         # create shift and log hours
-        created_event = create_event_with_details(['event', '2017-06-15', '2017-06-17'])
-        created_job = create_job_with_details(['job', '2017-06-15', '2017-06-18', '', created_event])
+        created_event = create_event_with_details(
+            ['event', '2017-06-15', '2017-06-17'])
+        created_job = create_job_with_details(
+            ['job', '2017-06-15', '2017-06-18', '', created_event])
         return created_job
 
     def login_admin(self):

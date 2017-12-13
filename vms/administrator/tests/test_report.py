@@ -1,10 +1,10 @@
 # third party
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.common.exceptions import NoSuchElementException
 
 # Django
 from django.contrib.staticfiles.testing import LiveServerTestCase
-from django.db import IntegrityError
+# from django.db import IntegrityError
 
 # local Django
 from pom.locators.administratorReportPageLocators import AdministratorReportPageLocators
@@ -13,13 +13,13 @@ from pom.pages.authenticationPage import AuthenticationPage
 from shift.utils import (
     create_admin,
     create_volunteer,
-    create_organization_with_details,
-    create_event_with_details,
-    create_job_with_details,
-    create_shift_with_details,
-    log_hours_with_details,
-    register_volunteer_for_shift_utility
-    )
+    create_organization_with_details
+    # create_event_with_details,
+    # create_job_with_details,
+    # create_shift_with_details
+    # log_hours_with_details,
+    # register_volunteer_for_shift_utility
+)
 
 
 class Report(LiveServerTestCase):
@@ -51,16 +51,19 @@ class Report(LiveServerTestCase):
 
     def login_admin(self):
         self.authentication_page.server_url = self.live_server_url
-        self.authentication_page.login({ 'username' : 'admin', 'password' : 'admin'})
+        self.authentication_page.login(
+            {'username': 'admin', 'password': 'admin'})
 
     def verify_shift_details(self, total_shifts, hours):
-        total_no_of_shifts = self.report_page.get_shift_summary().split(' ')[10].strip('\nTotal')
-        total_no_of_hours = self.report_page.get_shift_summary().split(' ')[-1].strip('\n')
+        total_no_of_shifts = self.report_page.get_shift_summary().split(' ')[
+            10].strip('\nTotal')
+        total_no_of_hours = self.report_page.get_shift_summary().split(
+            ' ')[-1].strip('\n')
         self.assertEqual(total_no_of_shifts, total_shifts)
         self.assertEqual(total_no_of_hours, hours)
 
-#Failing test case which has been documented
-#Test commented out to prevent travis build failure - bug #327
+# Failing test case which has been documented
+# Test commented out to prevent travis build failure - bug #327
 
     """def test_null_values_with_dataset(self):
         # register dataset
@@ -104,8 +107,9 @@ class Report(LiveServerTestCase):
     def test_null_values_with_empty_dataset(self):
         # should return no entries
         report_page = self.report_page
-        report_page.fill_report_form(['','','','',''])
-        self.assertEqual(report_page.get_alert_box_text(),report_page.no_results_message)
+        report_page.fill_report_form(['', '', '', '', ''])
+        self.assertEqual(report_page.get_alert_box_text(),
+                         report_page.no_results_message)
 
     def test_only_logged_shifts_are_reported(self):
         # register dataset
@@ -115,27 +119,29 @@ class Report(LiveServerTestCase):
         volunteer.save()
 
         # register event first to create job
-        event = ['Hackathon', '2017-08-21', '2017-09-28']
-        created_event = create_event_with_details(event)
+        # event = ['Hackathon', '2017-08-21', '2017-09-28']
+        # created_event = create_event_with_details(event)
 
         # create job
-        job = ['Developer', '2017-08-21', '2017-08-30', '',created_event]
-        created_job = create_job_with_details(job)
+        # job = ['Developer', '2017-08-21', '2017-08-30', '', created_event]
+        # created_job = create_job_with_details(job)
 
         # create shift
-        shift = ['2017-08-21', '09:00', '15:00', '10', created_job]
-        created_shift = create_shift_with_details(shift)
+        # shift = ['2017-08-21', '09:00', '15:00', '10', created_job]
+        # created_shift = create_shift_with_details(shift)
 
         # shift is assigned to volunteer-one, but hours have not been logged
-        volunteer_shift = register_volunteer_for_shift_utility(created_shift, volunteer)
+        # volunteer_shift = register_volunteer_for_shift_utility(
+        #    created_shift, volunteer)
 
         report_page = self.report_page
         # check admin report with null fields, should not return the above shift
-        report_page.fill_report_form(['','','','',''])
-        self.assertEqual(report_page.get_alert_box_text(),report_page.no_results_message)
+        report_page.fill_report_form(['', '', '', '', ''])
+        self.assertEqual(report_page.get_alert_box_text(),
+                         report_page.no_results_message)
 
-#Failing test case which has been documented - bug #327
-#Test commented out to prevent travis build failure
+# Failing test case which has been documented - bug #327
+# Test commented out to prevent travis build failure
 
     """def test_check_intersection_of_fields(self):
 
@@ -174,8 +180,8 @@ class Report(LiveServerTestCase):
     def create_dataset(self):
         parameters = {'org' : 'org-one',
                 'volunteer' : {
-                    'username' : 'uname1', 
-                    'password' : 'uname1', 
+                    'username' : 'uname1',
+                    'password' : 'uname1',
                     'email' : 'email1@email.com',
                     'first_name' : 'tom-fname',
                     'last_name' : 'tom-lname',
@@ -204,8 +210,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-one',
                 'volunteer' : {
-                    'username' : 'uname2', 
-                    'password' : 'uname2', 
+                    'username' : 'uname2',
+                    'password' : 'uname2',
                     'email' : 'email2@email.com',
                     'first_name' : 'peter-fname',
                     'last_name' : 'peter-lname',
@@ -234,8 +240,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-one',
                 'volunteer' : {
-                    'username' : 'uname3', 
-                    'password' : 'uname3', 
+                    'username' : 'uname3',
+                    'password' : 'uname3',
                     'email' : 'email3@email.com',
                     'first_name' : 'tom-fname',
                     'last_name' : 'tom-lname',
@@ -264,8 +270,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-two',
                 'volunteer' : {
-                    'username' : 'uname4', 
-                    'password' : 'uname4', 
+                    'username' : 'uname4',
+                    'password' : 'uname4',
                     'email' : 'email4@email.com',
                     'first_name' : 'harry-fname',
                     'last_name' : 'harry-lname',
@@ -294,8 +300,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-two',
                 'volunteer' : {
-                    'username' : 'uname5', 
-                    'password' : 'uname5', 
+                    'username' : 'uname5',
+                    'password' : 'uname5',
                     'email' : 'email5@email.com',
                     'first_name' : 'harry-fname',
                     'last_name' : 'harry-lname',
@@ -324,8 +330,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-three',
                 'volunteer' : {
-                    'username' : 'uname6', 
-                    'password' : 'uname6', 
+                    'username' : 'uname6',
+                    'password' : 'uname6',
                     'email' : 'email6@email.com',
                     'first_name' : 'sherlock-fname',
                     'last_name' : 'sherlock-lname',
@@ -354,8 +360,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-four',
                 'volunteer' : {
-                    'username' : 'uname7', 
-                    'password' : 'uname7', 
+                    'username' : 'uname7',
+                    'password' : 'uname7',
                     'email' : 'email7@email.com',
                     'first_name' : 'harvey-fname',
                     'last_name' : 'harvey-lname',
@@ -384,8 +390,8 @@ class Report(LiveServerTestCase):
 
         parameters = {'org' : 'org-four',
                 'volunteer' : {
-                    'username' : 'uname8', 
-                    'password' : 'uname8', 
+                    'username' : 'uname8',
+                    'password' : 'uname8',
                     'email' : 'email8@email.com',
                     'first_name' : 'mike-fname',
                     'last_name' : 'mike-lname',
