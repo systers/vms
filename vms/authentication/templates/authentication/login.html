@@ -8,6 +8,7 @@
         {% if is_invalid_credentials %}
             <div class="alert alert-danger">
                 {% trans "The username and/or password you specified are not correct." %}
+              
             </div>
         {% endif %}
         {% if authentication_form.username.errors %}
@@ -67,7 +68,9 @@
             "Your username and password didn't match. Please try again."
         </div> <!-- alert alert-danger -->
         {% endif %}
-        <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit">
+        
+      <a class="button secondaryAction" href="{% url 'authentication:password_reset' %}">Forgot password</a>
+<button class="primaryAction btn btn-lg btn-primary btn-block" type="submit">
             {% trans "Sign In" %}
         </button>
     </form>
