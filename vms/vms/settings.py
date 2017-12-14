@@ -20,6 +20,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = (
+    'authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,7 +28,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'administrator',
-    'authentication',
     'event',
     'home',
     'job',
@@ -122,6 +122,14 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o600
 LOGIN_URL = reverse_lazy('authentication:login_process')
 
 STATIC_ROOT = './static/'
+
+
+#Instead of sending out real email, during development the emails will be sent
+# to stdout, where from they can be inspected.
+if DEBUG:
+    EMAIL_HOST = os.getenv('HOST','localhost')
+    EMAIL_PORT = os.getenv('PORT','1025')
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_REDIRECT_URL = reverse_lazy('home:index')
 RECOVER_ONLY_ACTIVE_USERS = False
