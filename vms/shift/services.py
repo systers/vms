@@ -74,7 +74,7 @@ def send_reminder():
     A volunteer can specify days in the profile
     !This function should be run on the server once a day!
     """
-    notifications_number = 0    
+    notifications_number = 0
     for volunteer in get_all_volunteers():
         days = volunteer.reminder_days
         if days == 1:
@@ -196,14 +196,9 @@ def generate_report(volunteer_shift_list):
 
 
 def get_administrator_report(
-                            first_name,
-                            last_name,
-                            organization,
-                            event_name,
-                            job_name,
-                            start_date,
-                            end_date
-                            ):
+    first_name, last_name, organization, event_id, job_id, start_date,
+    end_date
+):
 
     volunteer_shift_list = get_all_volunteer_shifts_with_hours()
 
@@ -237,13 +232,14 @@ def get_administrator_report(
                 volunteer__unlisted_organization__exact='').filter(
                 volunteer__unlisted_organization__icontains=organization
                 )
-    if event_name:
+    if event_id:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__event__name__icontains=event_name
+            shift__job__event__id=event_id
             )
-    if job_name:
+
+    if job_id:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__name__icontains=job_name
+            shift__job__id=job_id
             )
     if (start_date and end_date):
         volunteer_shift_list = volunteer_shift_list.filter(
@@ -372,18 +368,18 @@ def get_unlogged_shifts_by_volunteer_id(v_id):
     return shift_signed_up_list
 
 
-def get_volunteer_report(v_id, event_name, job_name, start_date, end_date):
+def get_volunteer_report(v_id, event_id, job_id, start_date, end_date):
 
     volunteer_shift_list = get_volunteer_shifts_with_hours(v_id)
 
     # filter based on criteria provided
-    if event_name:
+    if event_id:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__event__name__icontains=event_name
+            shift__job__event__id=event_id
             )
-    if job_name:
+    if job_id:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__name__icontains=job_name
+            shift__job__id=job_id
             )
     if (start_date and end_date):
         volunteer_shift_list = volunteer_shift_list.filter(

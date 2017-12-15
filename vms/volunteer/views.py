@@ -29,6 +29,7 @@ from volunteer.services import *
 from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
+from shift.services import get_volunteer_report
 
 
 @login_required
@@ -160,6 +161,16 @@ class ShowFormView(LoginRequiredMixin, FormView):
     form_class = ReportForm
     template_name = "volunteer/report.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(ShowFormView, self).get_context_data(
+            **kwargs
+        )
+        volunteer_id = self.kwargs['volunteer_id']
+        context['event_list'] = get_signed_up_events_for_volunteer(
+            volunteer_id
+        )
+        context['job_list'] = get_signed_up_jobs_for_volunteer(volunteer_id)
+        return context
 
 
 class ShowReportListView(LoginRequiredMixin, ListView):
@@ -172,16 +183,23 @@ class ShowReportListView(LoginRequiredMixin, ListView):
         volunteer_id = self.kwargs['volunteer_id']
         event_list = get_signed_up_events_for_volunteer(volunteer_id)
         job_list = get_signed_up_jobs_for_volunteer(volunteer_id)
-        event_name = self.request.POST['event_name']
-        job_name = self.request.POST['job_name']
+        event_id = int(self.request.POST['event_id'])
+        job_id = int(self.request.POST['job_id'])
         start_date = self.request.POST['start_date']
         end_date = self.request.POST['end_date']
-        report_list = get_volunteer_report(volunteer_id, event_name, job_name, start_date, end_date)
+        report_list = get_volunteer_report(
+            volunteer_id, event_id, job_id, start_date, end_date
+        )
         total_hours = calculate_total_report_hours(report_list)
-        return render(request, 'volunteer/report.html',
-                      {'report_list': report_list, 'total_hours': total_hours, 'notification': True,
-                       'job_list': job_list, 'event_list': event_list, 'selected_event': event_name,
-                       'selected_job': job_name})
+        return render(
+            request, 'volunteer/report.html',
+            {
+                'report_list': report_list, 'total_hours': total_hours,
+                'notification': True, 'job_list': job_list,
+                'event_list': event_list, 'selected_event': event_id,
+                'selected_job': job_id
+            }
+        )
 @login_required
 @admin_required
 def search(request):

@@ -37,7 +37,7 @@ def get_event_by_shift_id(shift_id):
     return result
 
 def delete_event(event_id):
-    """ 
+    """
     Deletes an event if no jobs are associated with it
     """
 
@@ -122,29 +122,42 @@ def get_events_by_date(start_date, end_date):
 
 def get_events_ordered_by_name():
     event_list = Event.objects.all().order_by('name')
-    return event_list
+    return [
+        {'id': event.id, 'name': event.name } for event in event_list
+    ]
+
 
 def get_signed_up_events_for_volunteer(volunteer_id):
     """ Gets sorted list of signed up events for a volunteer """
-
     event_list = []
     unsorted_events = []
+
     shift_list_without_hours = get_unlogged_shifts_by_volunteer_id(volunteer_id)
     shift_list_with_hours = get_volunteer_shifts_with_hours(volunteer_id)
 
     for shift_with_hours in shift_list_with_hours:
-        event_name = str(shift_with_hours.shift.job.event.name)
-        if event_name not in unsorted_events:
-            unsorted_events.append(event_name)
+        current_event = shift_with_hours.shift.job.event
+        current_event_data = {
+            'name': str(current_event.name),
+            'id':  current_event.id
+        }
+        if current_event_data not in unsorted_events:
+            unsorted_events.append(current_event_data)
     for shift in shift_list_without_hours:
-        event_name = str(shift.job.event.name)
-        if event_name not in unsorted_events:
-            unsorted_events.append(event_name)
+        current_event = shift.job.event
+        current_event_data = {
+            'name': str(current_event.name),
+            'id':  current_event.id
+        }
+        if current_event_data not in unsorted_events:
+            unsorted_events.append(current_event_data)
 
-    #for sorting events alphabetically
-    for event in sorted(unsorted_events, key=str.lower):
+    # for sorting events alphabetically
+    for event in sorted(unsorted_events, key=lambda k: str.lower(k['name'])):
         event_list.append(event)
+
     return event_list
+
 
 def remove_empty_events_for_volunteer(event_list, volunteer_id):
     """ Removes all events from an event list without jobs or shifts """
