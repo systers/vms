@@ -80,7 +80,7 @@ class Volunteer(models.Model):
         ],
     )
     # Organization to Volunteer is a one-to-many relationship
-    organization = models.ForeignKey(Organization, null=True)
+    organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)
     # EmailField automatically checks if email address is a valid format
     email = models.EmailField(max_length=45, unique=True)
     websites = models.TextField(
@@ -119,4 +119,4 @@ class Volunteer(models.Model):
         blank=True
         )
 
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
