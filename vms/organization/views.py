@@ -3,7 +3,7 @@ from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 
 # Django
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView

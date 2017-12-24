@@ -7,8 +7,8 @@ from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 # Django
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.shortcuts import render_to_response

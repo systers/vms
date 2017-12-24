@@ -1,16 +1,16 @@
 # Django
-from django.conf.urls import patterns, url
+from django.urls import path
 
 # local Django
 from volunteer import views
 from volunteer.views import *
 
-
-urlpatterns = patterns('',
-    url(r'^delete_resume/(?P<volunteer_id>\d+)$', views.delete_resume, name='delete_resume'),
-    url(r'^download_resume/(?P<volunteer_id>\d+)$', views.download_resume, name='download_resume'),
-    url(r'^edit/(?P<volunteer_id>\d+)$', VolunteerUpdateView.as_view(), name='edit'),
-    url(r'^profile/(?P<volunteer_id>\d+)$', ProfileView.as_view(), name='profile'),
-    url(r'^report/(?P<volunteer_id>\d+)$', GenerateReportView.as_view(), name='report'),
-    url(r'^search/$', views.search, name='search'),
-)
+app_name='volunteer'
+urlpatterns = [
+    path('delete_resume/<int:volunteer_id>/', views.delete_resume, name='delete_resume'),
+    path('download_resume/<int:volunteer_id>/', views.download_resume, name='download_resume'),
+    path('edit/<int:volunteer_id>/', VolunteerUpdateView.as_view(), name='edit'),
+    path('profile/<int:volunteer_id>/', ProfileView.as_view(), name='profile'),
+    path('report/<int:volunteer_id>/', GenerateReportView.as_view(), name='report'),
+    path('search/', views.search, name='search'),
+]
