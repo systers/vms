@@ -7,6 +7,6 @@ from administrator.views import GenerateReportView
 
 app_name='administrator'
 urlpatterns = [
-                       path('report/', GenerateReportView.as_view(), name='report'),
-                       path('settings/', views.settings, name='settings'),
-                       ]
+             path('report/', GenerateReportView.as_view(), name='report'),
+             path('settings/', views.settings, name='settings'),
+              ]
