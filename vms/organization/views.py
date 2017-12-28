@@ -17,7 +17,6 @@ from organization.services import *
 
 
 class AdministratorLoginRequiredMixin(object):
-
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         user = request.user
@@ -29,10 +28,12 @@ class AdministratorLoginRequiredMixin(object):
         if not admin:
             return render(request, 'vms/no_admin_rights.html')
         else:
-            return super(AdministratorLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+            return super(AdministratorLoginRequiredMixin, self).dispatch(
+                request, *args, **kwargs)
 
 
-class OrganizationCreateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, FormView):
+class OrganizationCreateView(LoginRequiredMixin,
+                             AdministratorLoginRequiredMixin, FormView):
     template_name = 'organization/create.html'
     form_class = OrganizationForm
 
@@ -41,7 +42,8 @@ class OrganizationCreateView(LoginRequiredMixin, AdministratorLoginRequiredMixin
         return HttpResponseRedirect(reverse('organization:list'))
 
 
-class OrganizationDeleteView(LoginRequiredMixin, AdministratorLoginRequiredMixin, DeleteView):
+class OrganizationDeleteView(LoginRequiredMixin,
+                             AdministratorLoginRequiredMixin, DeleteView):
     template_name = 'organization/delete.html'
     success_url = reverse_lazy('organization:list')
     model = Organization
@@ -56,14 +58,16 @@ class OrganizationDeleteView(LoginRequiredMixin, AdministratorLoginRequiredMixin
         org = self.get_object()
         volunteers_in_organization = org.volunteer_set.all()
         administrators_in_organization = org.administrator_set.all()
-        if org and (not volunteers_in_organization) and (not administrators_in_organization):
+        if org and (not volunteers_in_organization) and (
+                not administrators_in_organization):
             org.delete()
             return HttpResponseRedirect(self.success_url)
         else:
             return render(request, 'organization/delete_error.html')
 
 
-class OrganizationUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, UpdateView):
+class OrganizationUpdateView(LoginRequiredMixin,
+                             AdministratorLoginRequiredMixin, UpdateView):
     model_form = Organization
     template_name = 'organization/edit.html'
     success_url = reverse_lazy('organization:list')

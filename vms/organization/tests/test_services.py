@@ -6,13 +6,13 @@ from organization.models import Organization
 from organization.services import *
 from shift.utils import clear_objects, create_volunteer_with_details
 
-class OrganizationMethodTests(unittest.TestCase):
 
+class OrganizationMethodTests(unittest.TestCase):
     @classmethod
     def setup_test_data(cls):
-        cls.o1 = Organization(name = "Google")
-        cls.o2 = Organization(name = "Yahoo")
-        cls.o3 = Organization(name = "Ubisoft")
+        cls.o1 = Organization(name="Google")
+        cls.o2 = Organization(name="Yahoo")
+        cls.o3 = Organization(name="Ubisoft")
 
         cls.o1.save()
         cls.o2.save()
@@ -26,7 +26,7 @@ class OrganizationMethodTests(unittest.TestCase):
     def tearDownClass(cls):
         # Destroys all objects created
         clear_objects()
-		
+
     def test_get_organization_by_id(self):
 
         #test typical cases
@@ -96,17 +96,21 @@ class OrganizationMethodTests(unittest.TestCase):
         self.assertEqual(organization_list[1], self.o3)
         self.assertEqual(organization_list[2], self.o2)
 
-class DeleteOrganizationTests(unittest.TestCase):
 
+class DeleteOrganizationTests(unittest.TestCase):
     @classmethod
     def setup_test_data(cls):
-        cls.o1 = Organization(name = "Google")
-        cls.o2 = Organization(name = "Yahoo")
+        cls.o1 = Organization(name="Google")
+        cls.o2 = Organization(name="Yahoo")
 
         cls.o1.save()
         cls.o2.save()
 
-        volunteer_1 = ['Yoshi',"Yoshi","Turtle","Mario Land","Nintendo Land","Nintendo State","Nintendo Nation","2374983247","yoshi@nintendo.com"]
+        volunteer_1 = [
+            'Yoshi', "Yoshi", "Turtle", "Mario Land", "Nintendo Land",
+            "Nintendo State", "Nintendo Nation", "2374983247",
+            "yoshi@nintendo.com"
+        ]
         cls.v1 = create_volunteer_with_details(volunteer_1)
         cls.v1.organization = cls.o2
         cls.v1.save()
