@@ -4,7 +4,6 @@ from pom.locators.homePageLocators import *
 
 
 class HomePage(BasePage):
-
     def __init__(self, driver):
         self.elements = HomePageLocators()
         super(HomePage, self).__init__(driver)
@@ -49,4 +48,5 @@ class HomePage(BasePage):
         return self.elements_by_class_name(self.elements.NO_ADMIN_RIGHT_HEAD)
 
     def get_no_admin_right_content(self):
-        return self.elements_by_class_name(self.elements.NO_ADMIN_RIGHT_CONTENT)
+        return self.elements_by_class_name(
+            self.elements.NO_ADMIN_RIGHT_CONTENT)
