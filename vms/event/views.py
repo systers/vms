@@ -27,7 +27,6 @@ from vms.utils import check_correct_volunteer_shift_sign_up
 
 
 class AdministratorLoginRequiredMixin(object):
-
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         user = request.user
@@ -39,24 +38,31 @@ class AdministratorLoginRequiredMixin(object):
         if not admin:
             return render(request, 'vms/no_admin_rights.html')
         else:
-            return super(AdministratorLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+            return super(AdministratorLoginRequiredMixin, self).dispatch(
+                request, *args, **kwargs)
 
 
-class EventCreateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, FormView):
+class EventCreateView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
+                      FormView):
     template_name = 'event/create.html'
     form_class = EventForm
 
     def form_valid(self, form):
         start_date = form.cleaned_data['start_date']
         if start_date < (datetime.date.today() - datetime.timedelta(days=1)):
-            messages.add_message(self.request, messages.INFO, 'Start date should be today\'s date or later.')
-            return render(self.request, 'event/create.html', {'form': form,})
+            messages.add_message(
+                self.request, messages.INFO,
+                'Start date should be today\'s date or later.')
+            return render(self.request, 'event/create.html', {
+                'form': form,
+            })
         else:
             form.save()
             return HttpResponseRedirect(reverse('event:list'))
 
 
-class EventDeleteView(LoginRequiredMixin, AdministratorLoginRequiredMixin, DeleteView):
+class EventDeleteView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
+                      DeleteView):
     template_name = 'event/delete.html'
     success_url = reverse_lazy('event:list')
     model = Event
@@ -77,7 +83,8 @@ class EventDeleteView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Delet
             return render(request, 'event/delete_error.html')
 
 
-class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, UpdateView, FormView):
+class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
+                      UpdateView, FormView):
     form_class = EventForm
     template_name = 'event/edit.html'
     success_url = reverse_lazy('event:list')
@@ -90,7 +97,8 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Updat
     def get_context_data(self, **kwargs):
         context = super(EventUpdateView, self).get_context_data(**kwargs)
         job_obj = get_jobs_by_event_id(self.kwargs['event_id'])
-        context['job_list'] = job_obj.values_list('start_date', 'end_date').distinct()
+        context['job_list'] = job_obj.values_list('start_date',
+                                                  'end_date').distinct()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -101,19 +109,24 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Updat
             if form.is_valid():
                 start_date_event = form.cleaned_data['start_date']
                 end_date_event = form.cleaned_data['end_date']
-                event_edit = check_edit_event(event_id, start_date_event, end_date_event)
+                event_edit = check_edit_event(event_id, start_date_event,
+                                              end_date_event)
                 if not event_edit['result']:
                     return render(
-                        request,
-                        'event/edit_error.html',
-                        {'count': event_edit['invalid_count'], 'jobs': event_edit['invalid_jobs']}
-                    )
+                        request, 'event/edit_error.html', {
+                            'count': event_edit['invalid_count'],
+                            'jobs': event_edit['invalid_jobs']
+                        })
                 if start_date_event < datetime.date.today():
                     data = request.POST.copy()
                     data['end_date'] = end_date_event
-                    messages.add_message(request, messages.INFO, 'Start date should be today\'s date or later.')
+                    messages.add_message(
+                        request, messages.INFO,
+                        'Start date should be today\'s date or later.')
                     form = EventForm(data)
-                    return render(request, 'event/edit.html', {'form': form,})
+                    return render(request, 'event/edit.html', {
+                        'form': form,
+                    })
                 else:
                     form.save()
                     return HttpResponseRedirect(reverse('event:list'))
@@ -124,10 +137,13 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Updat
                 except KeyError:
                     data['end_date'] = ''
                 form = EventForm(data)
-                return render(request, 'event/edit.html', {'form': form,})
+                return render(request, 'event/edit.html', {
+                    'form': form,
+                })
 
 
-class EventListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView):
+class EventListView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
+                    ListView):
     model_form = Event
     template_name = "event/list.html"
 
@@ -146,17 +162,19 @@ def list_sign_up(request, volunteer_id):
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
             event_list = get_events_by_date(start_date, end_date)
-            event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
+            event_list = remove_empty_events_for_volunteer(
+                event_list, volunteer_id)
             return render(
-                request,
-                'event/list_sign_up.html',
-                {'form' : form, 'event_list': event_list, 'volunteer_id': volunteer_id}
-                )
+                request, 'event/list_sign_up.html', {
+                    'form': form,
+                    'event_list': event_list,
+                    'volunteer_id': volunteer_id
+                })
     else:
         event_list = get_events_ordered_by_name()
-        event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
-        return render(
-            request,
-            'event/list_sign_up.html',
-            {'event_list': event_list, 'volunteer_id': volunteer_id}
-            )
+        event_list = remove_empty_events_for_volunteer(event_list,
+                                                       volunteer_id)
+        return render(request, 'event/list_sign_up.html', {
+            'event_list': event_list,
+            'volunteer_id': volunteer_id
+        })

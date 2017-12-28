@@ -11,15 +11,9 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = [
-            'name',
-            'start_date',
-            'end_date',
-            'country',
-            'state',
-            'city',
-            'address',
-            'venue'
-            ]
+            'name', 'start_date', 'end_date', 'country', 'state', 'city',
+            'address', 'venue'
+        ]
 
     def clean(self):
         cleaned_data = super(EventForm, self).clean()
