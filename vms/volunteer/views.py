@@ -41,7 +41,9 @@ def download_resume(request, volunteer_id):
                 filename = settings.MEDIA_ROOT + basename
                 wrapper = FileWrapper(file(filename))
                 response = HttpResponse(wrapper)
-                response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filename)
+                response[
+                    'Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(
+                        filename)
                 response['Content-Length'] = os.path.getsize(filename)
                 return response
             else:
@@ -57,7 +59,8 @@ def delete_resume(request, volunteer_id):
         if request.method == 'POST':
             try:
                 delete_volunteer_resume(volunteer_id)
-                return HttpResponseRedirect(reverse('volunteer:profile', args=(volunteer_id,)))
+                return HttpResponseRedirect(
+                    reverse('volunteer:profile', args=(volunteer_id, )))
             except:
                 raise Http404
     else:
@@ -70,7 +73,6 @@ def delete_resume(request, volunteer_id):
 
 
 class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
-
     @method_decorator(check_correct_volunteer)
     def dispatch(self, *args, **kwargs):
         return super(VolunteerUpdateView, self).dispatch(*args, **kwargs)
@@ -99,9 +101,13 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
                     except:
                         raise Http404
             else:
-                return render(self.request, 'volunteer/edit.html',
-                              {'form': form, 'organization_list': organization_list, 'volunteer': volunteer,
-                               'resume_invalid': True, })
+                return render(
+                    self.request, 'volunteer/edit.html', {
+                        'form': form,
+                        'organization_list': organization_list,
+                        'volunteer': volunteer,
+                        'resume_invalid': True,
+                    })
 
         volunteer_to_edit = form.save(commit=False)
 
@@ -114,7 +120,8 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
 
         # update the volunteer
         volunteer_to_edit.save()
-        return HttpResponseRedirect(reverse('volunteer:profile', args=(volunteer_id,)))
+        return HttpResponseRedirect(
+            reverse('volunteer:profile', args=(volunteer_id, )))
 
 
 '''
@@ -144,7 +151,6 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 
 class GenerateReportView(LoginRequiredMixin, View):
-
     @method_decorator(check_correct_volunteer)
     @method_decorator(vol_id_check)
     def dispatch(self, *args, **kwargs):
@@ -170,8 +176,9 @@ class ShowFormView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         volunteer_id = self.kwargs['volunteer_id']
         event_list = get_signed_up_events_for_volunteer(volunteer_id)
-        return render(request, 'volunteer/report.html',
-                      {'event_list': event_list})
+        return render(request, 'volunteer/report.html', {
+            'event_list': event_list
+        })
 
 
 class ShowReportListView(LoginRequiredMixin, ListView):
@@ -188,12 +195,19 @@ class ShowReportListView(LoginRequiredMixin, ListView):
         job_name = self.request.POST['job_name']
         start_date = self.request.POST['start_date']
         end_date = self.request.POST['end_date']
-        report_list = get_volunteer_report(volunteer_id, event_name, job_name, start_date, end_date)
+        report_list = get_volunteer_report(volunteer_id, event_name, job_name,
+                                           start_date, end_date)
         total_hours = calculate_total_report_hours(report_list)
-        return render(request, 'volunteer/report.html',
-                      {'report_list': report_list, 'total_hours': total_hours, 'notification': True,
-                       'job_list': job_list, 'event_list': event_list, 'selected_event': event_name,
-                       'selected_job': job_name})
+        return render(
+            request, 'volunteer/report.html', {
+                'report_list': report_list,
+                'total_hours': total_hours,
+                'notification': True,
+                'job_list': job_list,
+                'event_list': event_list,
+                'selected_event': event_name,
+                'selected_job': job_name
+            })
 
 
 @login_required
@@ -210,10 +224,21 @@ def search(request):
             country = form.cleaned_data['country']
             organization = form.cleaned_data['organization']
 
-            search_result_list = search_volunteers(first_name, last_name, city, state, country, organization)
-            return render(request, 'volunteer/search.html', {'form': form, 'has_searched': True, 'search_result_list': search_result_list})
+            search_result_list = search_volunteers(
+                first_name, last_name, city, state, country, organization)
+            return render(
+                request, 'volunteer/search.html', {
+                    'form': form,
+                    'has_searched': True,
+                    'search_result_list': search_result_list
+                })
     else:
-        organizations_list = get_organizations_ordered_by_name();
+        organizations_list = get_organizations_ordered_by_name()
         form = SearchVolunteerForm()
 
-    return render(request, 'volunteer/search.html', {'organizations_list' : organizations_list, 'form' : form, 'has_searched' : False})
+    return render(
+        request, 'volunteer/search.html', {
+            'organizations_list': organizations_list,
+            'form': form,
+            'has_searched': False
+        })
