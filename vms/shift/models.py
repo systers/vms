@@ -1,9 +1,6 @@
 # Django
-from django.core.validators import (
-    MaxValueValidator,
-    MinValueValidator,
-    RegexValidator
-)
+from django.core.validators import (MaxValueValidator, MinValueValidator,
+                                    RegexValidator)
 from django.db import models
 
 # local Django
@@ -18,17 +15,12 @@ class Shift(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     max_volunteers = models.IntegerField(
-        validators=[
-            MinValueValidator(1),
-            MaxValueValidator(5000)
-        ]
-    )
+        validators=[MinValueValidator(1),
+                    MaxValueValidator(5000)])
     address = models.CharField(
         max_length=75,
         validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(\')]+$',
-            ),
+            RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(\')]+$', ),
         ],
         blank=True,
         null=True,
@@ -36,9 +28,7 @@ class Shift(models.Model):
     city = models.CharField(
         max_length=75,
         validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
-            ),
+            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$', ),
         ],
         blank=True,
         null=True,
@@ -46,9 +36,7 @@ class Shift(models.Model):
     state = models.CharField(
         max_length=50,
         validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)]+$',
-            ),
+            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', ),
         ],
         blank=True,
         null=True,
@@ -56,9 +44,7 @@ class Shift(models.Model):
     country = models.CharField(
         max_length=75,
         validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
-            ),
+            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$', ),
         ],
         blank=True,
         null=True,
@@ -67,9 +53,7 @@ class Shift(models.Model):
     venue = models.CharField(
         max_length=30,
         validators=[
-            RegexValidator(
-                r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
-            ),
+            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$', ),
         ],
         blank=True,
         null=True,
