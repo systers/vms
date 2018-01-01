@@ -152,5 +152,5 @@ class VolunteerReport(LiveServerTestCase):
         select1.select_by_visible_text('event')
         select2.select_by_visible_text('job')
         report_page.fill_report_form({ 'start' : '2015-05-10', 'end' : '2015-06-01'})
-        self.assertEqual(report_page.get_alert_box_text(),report_page.no_results_message)"""
+        self.assertEqual(report_page.get_alert_box_text(),report_page.no_results_message)
 """

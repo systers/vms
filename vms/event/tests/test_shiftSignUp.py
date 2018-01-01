@@ -241,5 +241,5 @@ class ShiftSignUp(LiveServerTestCase):
         date = ['', '06/15/2017']
         sign_up_page.fill_search_form(date)
         # verify that the event shows up
-        self.assertEqual(sign_up_page.get_event_name(), 'event')"""
+        self.assertEqual(sign_up_page.get_event_name(), 'event')
 """
