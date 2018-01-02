@@ -1,6 +1,6 @@
 # local Django
-from basePage import *
-from pom.locators.adminRegistrationPageLocators import *
+from basePage import BasePage
+from pom.locators.adminRegistrationPageLocators import AdminRegistrationPageLocators
 from pom.pageUrls import PageUrls
 
 

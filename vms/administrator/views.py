@@ -1,17 +1,15 @@
 # third-party
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from braces.views import LoginRequiredMixin
 
 # Django
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
-from django.views.generic import TemplateView
 from django.views.generic import View
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView
 
 # local Django
 from administrator.forms import ReportForm

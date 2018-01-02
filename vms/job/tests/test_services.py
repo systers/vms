@@ -1,7 +1,7 @@
 # standard library
 import datetime
 import unittest
-from datetime import date
+# from datetime import date
 
 # local Django
 from job.services import (delete_job, check_edit_job, get_job_by_id,
@@ -295,7 +295,7 @@ class JobWithShiftTests(unittest.TestCase):
         job_list = [self.j1, self.j2, self.j3, self.j4]
         job_list = remove_empty_jobs_for_volunteer(job_list, self.v1.id)
 
-        #Only open and non empty jobs should be left
+        # Only open and non empty jobs should be left
         self.assertIn(self.j1, job_list)
         self.assertNotIn(self.j2, job_list)
         self.assertNotIn(self.j3, job_list)

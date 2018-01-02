@@ -1,9 +1,8 @@
 # Django
 from django.core.exceptions import ObjectDoesNotExist
 
-#local Django
+# local Django
 from event.models import Event
-from job.models import Job
 from job.services import get_jobs_by_event_id, remove_empty_jobs_for_volunteer
 from shift.models import Shift
 from shift.services import get_volunteer_shifts_with_hours, get_unlogged_shifts_by_volunteer_id
@@ -149,7 +148,7 @@ def get_signed_up_events_for_volunteer(volunteer_id):
         if event_name not in unsorted_events:
             unsorted_events.append(event_name)
 
-    #for sorting events alphabetically
+    # for sorting events alphabetically
     for event in sorted(unsorted_events, key=str.lower):
         event_list.append(event)
     return event_list

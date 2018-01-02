@@ -2,11 +2,10 @@
 from selenium.webdriver.support.ui import Select
 
 # local Django
-from basePage import *
-from pom.locators.volunteerReportPageLocators import *
+from basePage import BasePage
 from pom.pages.authenticationPage import AuthenticationPage
+from pom.locators.volunteerReportPageLocators import VolunteerReportPageLocators
 from pom.pages.homePage import HomePage
-from pom.pageUrls import PageUrls
 
 
 class VolunteerReportPage(BasePage):

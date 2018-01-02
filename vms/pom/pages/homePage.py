@@ -1,6 +1,6 @@
 # local Django
-from basePage import *
-from pom.locators.homePageLocators import *
+from basePage import BasePage 
+from pom.locators.homePageLocators import HomePageLocators 
 
 
 class HomePage(BasePage):

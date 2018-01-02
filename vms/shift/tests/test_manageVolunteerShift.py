@@ -9,7 +9,7 @@ from selenium.common.exceptions import NoSuchElementException
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventSignUpPage import EventSignUpPage
 from pom.pages.manageShiftPage import ManageShiftPage
-from shift.models import VolunteerShift, Shift
+from shift.models import VolunteerShift
 from shift.utils import (create_admin, create_volunteer_with_details,
                          create_event_with_details, create_job_with_details,
                          create_shift_with_details)
@@ -316,7 +316,7 @@ class ManageVolunteerShift(LiveServerTestCase):
 
         manage_shift_page.assign_shift()
 
-        #no events shown in table
+        # no events shown in table
         self.assertEqual(sign_up_page.get_info_box().text,
                          sign_up_page.no_event_message)
 

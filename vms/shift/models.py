@@ -4,7 +4,6 @@ from django.core.validators import (MaxValueValidator, MinValueValidator,
 from django.db import models
 
 # local Django
-from event.models import Event
 from job.models import Job
 from volunteer.models import Volunteer
 

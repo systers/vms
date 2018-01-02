@@ -1,21 +1,23 @@
 # third party
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from braces.views import LoginRequiredMixin
 
 # Django
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # local Django
-from event.services import *
+from event.services import get_events_ordered_by_name, get_event_by_id
 from job.forms import JobForm
-from job.models import *
-from job.services import *
+from job.models import Job
+from job.services import get_job_by_id, check_edit_job, get_jobs_by_event_id, remove_empty_jobs_for_volunteer
 
 
 class AdministratorLoginRequiredMixin(object):

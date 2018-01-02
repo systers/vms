@@ -19,7 +19,7 @@ from shift.services import (
     get_logged_volunteers_by_shift_id, is_signed_up, register, send_reminder,
     get_shifts_with_open_slots_for_volunteer, get_volunteer_report,
     get_administrator_report)
-from shift.utils import *
+from shift.utils import create_event_with_details, create_job_with_details, create_shift_with_details, clear_objects, get_report_list, create_volunteer_with_details, set_shift_location
 
 
 def setUpModule():
@@ -708,7 +708,7 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         self.assertIn(self.v2, volunteer_list_for_shift_3)
         self.assertIn(self.v3, volunteer_list_for_shift_3)
 
-        #test order
+        # test order
         self.assertEqual(volunteer_list_for_shift_3[0], self.v3)
         self.assertEqual(volunteer_list_for_shift_3[1], self.v2)
         self.assertEqual(volunteer_list_for_shift_3[2], self.v1)
@@ -831,9 +831,9 @@ class ShiftReminderTest(unittest.TestCase):
 
         shift_1 = ["2015-08-23", "9:00", "15:00", 1, cls.j1]
         shift_2 = [date.today() + timedelta(7), "10:00", "16:00", 2,
-                   cls.j1]  #one week date
+                   cls.j1]  # one week date
         shift_3 = [date.today() + timedelta(1), "12:00", "18:00", 2,
-                   cls.j2]  #tomorrow date
+                   cls.j2]  # tomorrow date
 
         cls.s1 = create_shift_with_details(shift_1)
         cls.s2 = create_shift_with_details(shift_2)

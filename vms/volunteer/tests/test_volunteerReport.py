@@ -53,8 +53,8 @@ class VolunteerReport(LiveServerTestCase):
         self.assertEqual(report_page.get_alert_box_text(),
                          report_page.no_results_message)
 
-#Failing test case which has been documented as per bug #327
-#Test commented out to prevent travis build failure
+# Failing test case which has been documented as per bug #327
+# Test commented out to prevent travis build failure
 
     def test_report_with_empty_fields(self):
         report_page = self.report_page
@@ -82,8 +82,8 @@ class VolunteerReport(LiveServerTestCase):
                          report_page.no_results_message)
 
 
-#Failing test cases which have been documented
-#Tests commented out to prevent travis build failure
+# Failing test cases which have been documented
+# Tests commented out to prevent travis build failure
 
     def test_date_field(self):
         report_page = self.report_page

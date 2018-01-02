@@ -1,7 +1,6 @@
 # standard library
 import datetime
 import unittest
-from datetime import date
 
 # local Django
 from event.services import (
@@ -229,7 +228,7 @@ class DeleteEventTest(unittest.TestCase):
         pass
 
     def test_delete_event(self):
-        #Test delete_event(event_id)
+        # Test delete_event(event_id)
 
         self.assertTrue(delete_event(self.e1.id))
         self.assertFalse(delete_event(self.e2.id))
@@ -293,7 +292,7 @@ class EventWithVolunteerTest(unittest.TestCase):
         event_list = [self.e1, self.e2, self.e3, self.e4, self.e5]
         event_list = remove_empty_events_for_volunteer(event_list, self.v1.id)
 
-        #Only events with jobs that have open slots should remain
+        # Only events with jobs that have open slots should remain
         self.assertIn(self.e1, event_list)
         self.assertIn(self.e2, event_list)
         self.assertNotIn(self.e3, event_list)

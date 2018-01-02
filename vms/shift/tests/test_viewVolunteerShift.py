@@ -16,7 +16,6 @@ from shift.models import VolunteerShift
 
 from shift.utils import (create_volunteer, create_event_with_details,
                          create_job_with_details, create_shift_with_details,
-                         create_volunteer_with_details,
                          register_volunteer_for_shift_utility)
 
 # Class contains failing test cases which have been documented

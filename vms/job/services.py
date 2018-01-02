@@ -104,7 +104,7 @@ def get_signed_up_jobs_for_volunteer(volunteer_id):
         if job_name not in unsorted_jobs:
             unsorted_jobs.append(job_name)
 
-    #to sort jobs as per name
+    # to sort jobs as per name
     for job in sorted(unsorted_jobs, key=str.lower):
         job_list.append(job)
     return job_list

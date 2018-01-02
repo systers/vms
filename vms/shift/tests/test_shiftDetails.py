@@ -8,7 +8,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.shiftDetailsPage import ShiftDetailsPage
-from shift.models import VolunteerShift
+# from shift.models import VolunteerShift
 from shift.utils import (create_volunteer_with_details, create_admin,
                          create_event_with_details, create_job_with_details,
                          create_shift_with_details, log_hours_with_details,

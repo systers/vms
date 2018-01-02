@@ -1,18 +1,16 @@
 # third party
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
 
 # Django
 from django.contrib import messages
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 
 # local Django
 from administrator.forms import AdministratorForm
-from administrator.models import *
+from administrator.models import Administrator 
 from organization.services import (get_organizations_ordered_by_name,
                                    get_organization_by_id)
 from registration.forms import UserForm

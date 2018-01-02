@@ -9,7 +9,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from event.models import Event
 from job.models import Job
-from pom.locators.eventsPageLocators import *
+# from pom.locators.eventsPageLocators import EventsPageLocators
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventsPage import EventsPage
 from shift.models import Shift
@@ -338,7 +338,7 @@ class FormFields(LiveServerTestCase):
         # erased
         self.assertNotEqual(self.driver.current_url,
                             self.live_server_url + settings.job_list_page)
-        #self.check_job_form_values(invalid_job)
+        # self.check_job_form_values(invalid_job)
 
         # database check to ensure that job not edited
         self.assertEqual(len(Job.objects.all()), 1)

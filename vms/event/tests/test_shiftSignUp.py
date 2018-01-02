@@ -6,14 +6,13 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 
 # local Django
-from job.models import Job
+# from job.models import Job
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventSignUpPage import EventSignUpPage
 from shift.models import VolunteerShift
 from shift.utils import (
     create_volunteer, register_event_utility, register_job_utility,
-    register_shift_utility, create_volunteer_with_details,
-    create_shift_with_details, register_volunteer_for_shift_utility)
+    register_shift_utility)
 
 # Class contains failing test cases which have been documented
 # Test class commented out to prevent travis build failure

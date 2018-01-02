@@ -1,6 +1,3 @@
-# standard library
-import re
-
 # third party
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -8,7 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 # Django
 from django.contrib.staticfiles.testing import LiveServerTestCase
 
-#local Django
+# local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls

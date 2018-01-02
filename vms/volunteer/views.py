@@ -2,11 +2,11 @@
 import os
 
 # third party
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from braces.views import LoginRequiredMixin
 
 # Django
 from django.conf import settings
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -21,11 +21,11 @@ from django.utils.decorators import method_decorator
 from administrator.utils import admin_required
 from event.services import get_signed_up_events_for_volunteer
 from job.services import get_signed_up_jobs_for_volunteer
-from organization.services import *
-from shift.services import *
+from organization.services import get_organization_by_id, get_organizations_ordered_by_name
+from shift.services import get_volunteer_report, calculate_total_report_hours
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from volunteer.models import Volunteer
-from volunteer.services import *
+from volunteer.services import delete_volunteer_resume, search_volunteers, get_volunteer_resume_file_url
 from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
@@ -41,9 +41,7 @@ def download_resume(request, volunteer_id):
                 filename = settings.MEDIA_ROOT + basename
                 wrapper = FileWrapper(file(filename))
                 response = HttpResponse(wrapper)
-                response[
-                    'Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(
-                        filename)
+                response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filename)
                 response['Content-Length'] = os.path.getsize(filename)
                 return response
             else:

@@ -1,6 +1,6 @@
 # local Django
-from basePage import *
-from pom.locators.shiftDetailsPageLocators import *
+from basePage import BasePage
+from pom.locators.shiftDetailsPageLocators import ShiftDetailsPageLocators 
 from pom.pages.eventsPage import EventsPage
 from pom.pageUrls import PageUrls
 

@@ -103,7 +103,7 @@ def send_reminder():
                     'noreply@systers.org', [volunteer.email],
                     fail_silently=False)
                 notifications_number += 1
-                #print(message)
+                # print(message)
     return notifications_number
 
 

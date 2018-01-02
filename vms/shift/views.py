@@ -2,7 +2,7 @@
 from datetime import date
 
 # third party
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from braces.views import LoginRequiredMixin
 
 # Django
 from django.contrib import messages
@@ -16,10 +16,11 @@ from django.views.generic.edit import FormView, UpdateView
 from django.utils.decorators import method_decorator
 
 # local Django
-from job.services import *
+from job.models import Job
+from job.services import get_job_by_id 
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
-from shift.services import *
+from shift.services import get_shift_by_id, add_shift_hours, cancel_shift_registration, clear_shift_hours, edit_shift_hours, get_unlogged_shifts_by_volunteer_id, get_logged_volunteers_by_shift_id, get_shift_slots_remaining, get_volunteers_by_shift_id, get_volunteer_by_id, get_volunteer_shifts_with_hours, get_shifts_ordered_by_date, get_shifts_with_open_slots_for_volunteer, register, get_volunteer_shift_by_id, get_shifts_by_job_id, delete_shift
 from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers
 from volunteer.utils import vol_id_check
@@ -520,7 +521,7 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
 
 
 class JobListView(AdministratorLoginRequiredMixin,
-                  ListView):  #Replaced by list_jobs
+                  ListView):  # Replaced by list_jobs
     template_name = 'shift/list_jobs.html'
     model_form = Job
 
@@ -530,7 +531,7 @@ class JobListView(AdministratorLoginRequiredMixin,
 
 
 class ShiftListView(AdministratorLoginRequiredMixin,
-                    TemplateView):  #Replaced by list_shifts
+                    TemplateView):  # Replaced by list_shifts
     template_name = 'shift/list_shifts.html'
 
     def get_context_data(self, **kwargs):

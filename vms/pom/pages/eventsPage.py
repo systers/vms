@@ -2,8 +2,8 @@
 from selenium.webdriver.support.ui import Select
 
 # local Django
-from basePage import *
-from pom.locators.eventsPageLocators import *
+from basePage import BasePage
+from pom.locators.eventsPageLocators import EventsPageLocators 
 from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls
 

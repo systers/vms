@@ -243,7 +243,7 @@ class SignUpAdmin(LiveServerTestCase):
         self.assertEqual(self.driver.current_url,
                          self.live_server_url + page.admin_registration_page)
 
-        #verify that messages are displayed for city, state and country but not address
+        # verify that messages are displayed for city, state and country but not address
         self.assertEqual(len(page.get_help_blocks()), 3)
         self.assertEqual(page.get_city_error_text(), 'Enter a valid value.')
         self.assertEqual(page.get_state_error_text(), 'Enter a valid value.')

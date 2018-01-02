@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 
 # local Django
 from volunteer import views
-from volunteer.views import *
+from volunteer.views import VolunteerUpdateView, ProfileView, GenerateReportView
 
 urlpatterns = patterns(
     '',

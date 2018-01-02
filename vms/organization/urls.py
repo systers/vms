@@ -2,7 +2,7 @@
 from django.conf.urls import patterns, url
 
 # local Django
-from organization.views import *
+from organization.views import OrganizationCreateView, OrganizationDeleteView, OrganizationListView, OrganizationUpdateView
 
 urlpatterns = patterns(
     '',

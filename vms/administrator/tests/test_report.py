@@ -61,8 +61,8 @@ class Report(LiveServerTestCase):
         self.assertEqual(total_no_of_shifts, total_shifts)
         self.assertEqual(total_no_of_hours, hours)
 
-#Failing test case which has been documented
-#Test commented out to prevent travis build failure - bug #327
+# Failing test case which has been documented
+# Test commented out to prevent travis build failure - bug #327
 
     def test_null_values_with_dataset(self):
         # register dataset
@@ -140,8 +140,8 @@ class Report(LiveServerTestCase):
                          report_page.no_results_message)
 
 
-#Failing test case which has been documented - bug #327
-#Test commented out to prevent travis build failure
+# Failing test case which has been documented - bug #327
+# Test commented out to prevent travis build failure
 
     def test_check_intersection_of_fields(self):
 

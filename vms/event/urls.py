@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 
 # local Django
 from event import views
-from event.views import *
+from event.views import EventCreateView, EventDeleteView, EventUpdateView, EventListView
 
 urlpatterns = patterns(
     '',
