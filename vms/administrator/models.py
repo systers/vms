@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
-
+from cities_light.models import City, Country, Region
 from organization.models import Organization
 
 
@@ -24,6 +24,7 @@ class Administrator(models.Model):
             RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)]+$', ),
         ],
     )
+<<<<<<< 244758948f038652171e45bf3da919d73da4a355
     city = models.CharField(
         max_length=75,
         validators=[
@@ -42,6 +43,14 @@ class Administrator(models.Model):
             RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', ),
         ],
     )
+=======
+    city = models.ForeignKey(City)
+
+    state = models.ForeignKey(Region)
+
+    country = models.ForeignKey(Country)
+
+>>>>>>> drop downs added in admin view
     phone_number = models.CharField(
         max_length=20,
         validators=[

@@ -4,6 +4,7 @@ from django.core.validators import (RegexValidator, MaxValueValidator,
                                     MinValueValidator)
 from django.db import models
 
+from cities_light.models import City, Country, Region
 # local Django
 from organization.models import Organization
 
@@ -28,24 +29,9 @@ class Volunteer(models.Model):
             RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)]+$', ),
         ],
     )
-    city = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', ),
-        ],
-    )
-    state = models.CharField(
-        max_length=50,
-        validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', ),
-        ],
-    )
-    country = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', ),
-        ],
-    )
+    city = models.ForeignKey(City)
+    state = models.ForeignKey(State)
+    country = models.ForeignKey(Country)
     phone_number = models.CharField(
         max_length=20,
         validators=[
