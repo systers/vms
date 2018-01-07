@@ -1,5 +1,6 @@
 # Django
 from django.core.validators import RegexValidator
+from cities_light.models import City, Country, Region
 from django.db import models
 
 
@@ -23,30 +24,11 @@ class Event(models.Model):
         blank=True,
         null=True,
     )
-    city = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$', ),
-        ],
-        blank=True,
-        null=True,
-    )
-    state = models.CharField(
-        max_length=50,
-        validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', ),
-        ],
-        blank=True,
-        null=True,
-    )
-    country = models.CharField(
-        max_length=75,
-        validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$', ),
-        ],
-        blank=True,
-        null=True,
-    )
+    city = models.ForeignKey(City)
+
+    state = models.ForeignKey(Region)
+
+    country = models.ForeignKey(Country)
 
     venue = models.CharField(
         max_length=30,
