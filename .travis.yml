@@ -14,7 +14,7 @@ before_script:
 script:
   - cd vms
   - flake8 . 
-  - python3.6 -m manage.py syncdb --noinput
+  - python3.6 -m manage.py makemigrations --noinput --traceback --settings=vms.settings
   - python3.6 -m manage.py migrate --noinput --traceback --settings=vms.settings
   - coverage run --source='.' manage.py test
 after_success:
