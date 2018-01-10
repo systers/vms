@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 
 # local Django
 from administrator.forms import AdministratorForm
-from administrator.models import Administrator 
+from administrator.models import Administrator
 from organization.services import (get_organizations_ordered_by_name,
                                    get_organization_by_id)
 from registration.forms import UserForm
@@ -18,7 +18,8 @@ from registration.phone_validate import validate_phone
 from registration.utils import volunteer_denied
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
-
+from volunteer.models import Volunteer
+from cities_light.models import City, Region, Country
 
 class AdministratorSignupView(TemplateView):
     """
@@ -114,21 +115,25 @@ class AdministratorSignupView(TemplateView):
 class VolunteerSignupView(TemplateView):
     registered = False
     organization_list = get_organizations_ordered_by_name()
+    city_list = City.objects.all()
+    state_list = Region.objects.all()
+    country_list = Country.objects.all()
     phone_error = False
 
     def get(self, request):
         user_form = UserForm(prefix="usr")
         volunteer_form = VolunteerForm(prefix="vol")
-        return render(
-            request, 'registration/signup_volunteer.html', {
-                'user_form': user_form,
-                'volunteer_form': volunteer_form,
-                'registered': self.registered,
-                'phone_error': self.phone_error,
-                'organization_list': self.organization_list,
-            })
+        return render(request,
+                      'registration/signup_volunteer.html',
+                      {'user_form': user_form,
+                       'volunteer_form': volunteer_form,
+                       'registered': self.registered,
+                       'phone_error': self.phone_error,
+                       'organization_list': self.organization_list,
+                       'city_list': self.city_list,
+                       })
 
-    def post(self, request):
+    def post(self,request):
         organization_list = get_organizations_ordered_by_name()
         if organization_list:
             if request.method == 'POST':

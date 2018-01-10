@@ -6,7 +6,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from organization.services import (get_organization_by_name,
                                    get_organizations_ordered_by_name)
 from volunteer.models import Volunteer
+from volunteer.models import City
 
+def get_cities():
+    
+    city_list = City.objects.all()    
+    print city_list
 
 def delete_volunteer(volunteer_id):
     result = False
