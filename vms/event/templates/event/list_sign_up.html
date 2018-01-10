@@ -22,6 +22,11 @@
 		<div class="col-md-2">
 		<input type="text" class="form-control" id="to" name="end_date" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
 		</div>
+
+        <label class="col-md-1 control-label">{% trans "Location:" %}</label>
+        <div class="col-md-2">
+        <input type="text" class="form-control" id="location" name="location" value="{% if form.location.value %}{{ form.location.value }}{% endif %}">
+        </div>
 	
 		<button class="btn btn-primary" type="submit">{% trans "Search" %}</button> 
 	</div>

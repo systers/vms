@@ -145,7 +145,9 @@ def list_sign_up(request, volunteer_id):
         if form.is_valid():
             start_date = form.cleaned_data['start_date']
             end_date = form.cleaned_data['end_date']
+            location = form.cleaned_data['location']
             event_list = get_events_by_date(start_date, end_date)
+            event_list = get_events_by_location(event_list, location)
             event_list = remove_empty_events_for_volunteer(event_list, volunteer_id)
             return render(
                 request,
