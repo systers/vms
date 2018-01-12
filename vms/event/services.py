@@ -120,6 +120,13 @@ def get_events_by_date(start_date, end_date):
 
     return result
 
+def get_events_by_location(event_list, location):
+    new_event_list = []
+    for event in event_list:
+        if (event.address in location or event.city in location or event.country in location):
+            new_event_list.append(event)
+    return new_event_list
+
 def get_events_ordered_by_name():
     event_list = Event.objects.all().order_by('name')
     return event_list
