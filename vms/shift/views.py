@@ -185,6 +185,16 @@ def cancel(request, shift_id, volunteer_id):
                     'vms/no_volunteer_rights.html',
                     status=403
                 )
+        shift = get_shift_by_id(shift_id)
+        shift_time = datetime.datetime.combine(shift.job.start_date, shift.start_time)
+        if shift.job.start_date <= datetime.date.today() and shift.job.end_date >= datetime.date.today():
+            if datetime.datetime.utcnow().time() >= shift.start_time :
+                return render(
+                    request,
+                    'shift/cancel_shift.html',
+                    {'shift_id': shift_id, 'volunteer_id': volunteer_id, 
+                    'error': 'This shift has already started.'}
+                    )
 
         if request.method == 'POST':
             try:

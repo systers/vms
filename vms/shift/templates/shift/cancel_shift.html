@@ -7,21 +7,32 @@
     <form action="{% url 'shift:cancel' shift_id volunteer_id %}" method="post">
         {% csrf_token %}
         <div class="panel panel-danger">
-            <div class="panel-heading">
-                <h3 class="panel-title">{% trans "Cancel Shift Confirmation" %}</h3>
-            </div>
-            <div class="panel-body">
                 <br>
-                {% if user.administrator %}
-                    {% trans "Are you sure you want to cancel this registered shift?" %}
+                {% if error %}
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Can't Cancel Shift" %}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ error }}
+                        <br>
+                        <br>
+                    </div>
                 {% else %}
-                    {% trans "Are you sure you want to cancel this shift you are signed up for?" %}
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Cancel Shift Confirmation" %}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% if user.administrator %}
+                            {% trans "Are you sure you want to cancel this registered shift?" %}
+                        {% else %}
+                            {% trans "Are you sure you want to cancel this shift you are signed up for?" %}
+                        {% endif %}
+                        <br>
+                        <br>
+                        <button class="btn btn-danger" type="submit">{% trans "Yes, Cancel this Shift" %}</button>
+                        <input type="button" class="btn btn-default" value="{% blocktrans %}Return to Previous Page{% endblocktrans %}" onClick="javascript:history.go(-1);">
+                    </div>
                 {% endif %}
-                <br>
-                <br>
-                <button class="btn btn-danger" type="submit">{% trans "Yes, Cancel this Shift" %}</button>
-                <input type="button" class="btn btn-default" value="{% blocktrans %}Return to Previous Page{% endblocktrans %}" onClick="javascript:history.go(-1);">
-            </div>
         </div>
     </form>
 {% endblock %}
