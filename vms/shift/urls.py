@@ -26,4 +26,5 @@ urlpatterns = patterns('',
     url(r'^view_hours/(?P<volunteer_id>\d+)$', ViewHoursView.as_view(), name='view_hours'),
     url(r'^view_volunteer_shifts/(?P<volunteer_id>\d+)$', views.view_volunteer_shifts, name='view_volunteer_shifts'),
     url(r'^volunteer_search/$', VolunteerSearchView.as_view(), name='volunteer_search'),
+    url(r'^set_timezone/$', views.set_timezone, name='set_timezone'),
 )
