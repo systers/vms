@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'vms.middleware.TimezoneMiddleware',
 )
 
 ROOT_URLCONF = 'vms.urls'
@@ -81,6 +82,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 # Internationalization
 LANGUAGE_CODE = 'en-us'
+
+USE_TZ = True
 
 TIME_ZONE = 'UTC'
 

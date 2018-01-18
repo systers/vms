@@ -1,8 +1,10 @@
 # standard library
-from datetime import date
+# from datetime import date
+from django.utils import timezone
 
 # third party
 from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+import pytz 
 
 # Django
 from django.contrib import messages
@@ -10,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, DeleteView, ListView
 from django.views.generic.edit import FormView, UpdateView
 from django.utils.decorators import method_decorator
@@ -25,6 +27,12 @@ from volunteer.services import get_all_volunteers, search_volunteers
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer, check_correct_volunteer_shift
 
+def set_timezone(request):
+    if request.method == 'POST':
+        request.session['django_timezone'] = request.POST['timezone']
+        return HttpResponseRedirect(reverse('shift:list_jobs'))
+    else:
+        return render(request, 'shift/timezonetemplate.html', {'timezones': pytz.common_timezones})
 
 class AdministratorLoginRequiredMixin(object):
 
