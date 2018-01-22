@@ -2,9 +2,9 @@
 from django.conf.urls import url
 
 # local Django
-from administrator.views import *
-from registration import views
-from registration.views import *
+# from administrator.views import AdministratorSignUpView
+# from registration import views
+from registration.views import AdministratorSignupView, VolunteerSignupView
 
 urlpatterns = [
     url(r'^signup_administrator/$', AdministratorSignupView.as_view(), name='signup_administrator'),
