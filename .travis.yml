@@ -1,6 +1,6 @@
 language: python
 python:
-  - "2.7"
+  - "3.6"
 services: postgresql
 install:
   - pip install -r requirements.txt
@@ -13,8 +13,8 @@ before_script:
   - export DJANGO_SECRET_KEY=foobarbaz
 script:
   - cd vms
-  - python manage.py syncdb --noinput
-  - python manage.py migrate --noinput --traceback --settings=vms.settings
+  - python3.6 -m manage.py makemigrations --noinput --traceback --settings=vms.settings
+  - python3.6 -m manage.py migrate --noinput --traceback --settings=vms.settings
   - coverage run --source='.' manage.py test
 after_success:
     coveralls --rcfile=.coveragerc
