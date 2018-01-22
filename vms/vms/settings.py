@@ -5,7 +5,6 @@ Note: Currently development settings. Not suitable as is for production.
 """
 from django.core.urlresolvers import reverse_lazy
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -56,7 +55,6 @@ ROOT_URLCONF = 'vms.urls'
 
 WSGI_APPLICATION = 'vms.wsgi.application'
 
-
 # Database
 # Change these database settings if your database engine, database name,
 # username or password changes
@@ -98,9 +96,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale/'),
-)
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale/'), )
 
 LANGUAGES = (
     ('en-us', 'English'),
@@ -125,7 +121,6 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o600
 LOGIN_URL = reverse_lazy('authentication:login_process')
 
 STATIC_ROOT = './static/'
-
 
 LOGIN_REDIRECT_URL = reverse_lazy('home:index')
 RECOVER_ONLY_ACTIVE_USERS = False
