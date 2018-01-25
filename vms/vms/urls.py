@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^registration/',
         include('registration.urls', namespace='registration')),
     url(r'^shift/', include('shift.urls', namespace='shift')),
-    url(r'^volunteer/', include('volunteer.urls', namespace="volunteer")),
+    url(r'^volunteer/', include('volunteer.urls', namespace='volunteer')),
 ]
