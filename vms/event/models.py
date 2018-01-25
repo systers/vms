@@ -25,11 +25,8 @@ class Event(models.Model):
         null=True,
     )
     city = models.ForeignKey(City)
-
     state = models.ForeignKey(Region)
-
     country = models.ForeignKey(Country)
-
     venue = models.CharField(
         max_length=30,
         validators=[
