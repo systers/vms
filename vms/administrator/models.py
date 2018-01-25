@@ -26,11 +26,8 @@ class Administrator(models.Model):
         ],
     )
     city = models.ForeignKey(City)
-
     state = models.ForeignKey(Region)
-
     country = models.ForeignKey(Country)
-
     phone_number = models.CharField(
         max_length=20,
         validators=[
