@@ -10,6 +10,7 @@ from django.db import models
 # local Django
 from organization.models import Organization
 
+from volunteer.validators import validate_file_extension
 
 class Volunteer(models.Model):
     id = models.AutoField(primary_key=True)
@@ -111,6 +112,7 @@ class Volunteer(models.Model):
     resume_file = models.FileField(
         upload_to='vms/resume/',
         max_length=75,
+        validators=[validate_file_extension],
         blank=True
         )
     reminder_days = models.IntegerField(
