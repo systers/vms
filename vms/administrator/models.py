@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
-
+from django.conf import settings
 from organization.models import Organization
 
 
@@ -62,7 +62,7 @@ class Administrator(models.Model):
     organization = models.ForeignKey(Organization, null=True)
     # EmailField automatically checks if email address is a valid format
     email = models.EmailField(max_length=45, unique=True)
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
 
     def __unicode__(self):
         return self.user.username
