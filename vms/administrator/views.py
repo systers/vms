@@ -1,21 +1,19 @@
 # third-party
-from braces.views import LoginRequiredMixin, AnonymousRequiredMixin
+from braces.views import LoginRequiredMixin
 
 # Django
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from organization.services import get_organization_by_id
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
-from django.views.generic import TemplateView
 from django.views.generic import View
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import FormView
 
 
 # local Django
+from organization.services import get_organization_by_id
 from administrator.forms import ReportForm
 from administrator.models import Administrator
 from administrator.utils import admin_required
@@ -34,7 +32,8 @@ class AdministratorLoginRequiredMixin(object):
         if not admin:
             return render(request, 'vms/no_admin_rights.html', status=403)
         else:
-            return super(AdministratorLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+            return super(AdministratorLoginRequiredMixin, self).dispatch(
+                request, *args, **kwargs)
 
 
 class ShowFormView(AdministratorLoginRequiredMixin, FormView):
@@ -49,11 +48,16 @@ class ShowFormView(AdministratorLoginRequiredMixin, FormView):
     organization_list = get_organizations_ordered_by_name()
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'administrator/report.html',
-                      {'event_list': self.event_list , 'organization_list' : self.organization_list , 'job_list' : self.job_list})
+        return render(
+            request, 'administrator/report.html', {
+                'event_list': self.event_list,
+                'organization_list': self.organization_list,
+                'job_list': self.job_list
+            })
 
 
-class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, ListView):
+class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
+                         ListView):
     """
     Generate the report using ListView
     """
@@ -75,10 +79,17 @@ class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin, Li
         organization = self.request.POST['organization']
         event_name = self.request.POST['event_name']
         total_hours = calculate_total_report_hours(report_list)
-        return render(request, 'administrator/report.html',
-                      {'report_list': report_list, 'total_hours': total_hours, 'notification': True,
-                       'organization_list': self.organization_list, 'selected_organization': organization,
-                       'event_list': self.event_list, 'selected_event': event_name, 'job_list': self.job_list})
+        return render(
+            request, 'administrator/report.html', {
+                'report_list': report_list,
+                'total_hours': total_hours,
+                'notification': True,
+                'organization_list': self.organization_list,
+                'selected_organization': organization,
+                'event_list': self.event_list,
+                'selected_event': event_name,
+                'job_list': self.job_list
+            })
 
 
 class GenerateReportView(LoginRequiredMixin, View):
