@@ -6,6 +6,7 @@ from organization.models import Organization
 
 
 class Administrator(models.Model):
+    id = models.AutoField(primary_key=True)
     first_name = models.CharField(
         max_length=30,
         validators=[

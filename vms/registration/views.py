@@ -126,7 +126,7 @@ class VolunteerSignupView(TemplateView):
                        'organization_list': self.organization_list,
                        })
 
-    def post(self,request):
+    def post(self, request):
         organization_list = get_organizations_ordered_by_name()
         if organization_list:
             if request.method == 'POST':

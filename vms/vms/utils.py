@@ -26,6 +26,7 @@ def check_correct_volunteer(func):
                     status=403
                 )
             if volunteer.id == req_volunteer.id:
+                print volunteer.id
                 return func(request, volunteer_id=volunteer_id)
             else:
                 return render(

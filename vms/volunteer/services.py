@@ -60,7 +60,6 @@ def get_volunteer_by_id(volunteer_id):
 
     if is_valid:
         result = volunteer
-
     return result
 
 

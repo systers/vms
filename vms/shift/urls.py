@@ -1,12 +1,12 @@
 # Django
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 # local Django
 from shift import views
 from shift.views import *
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^add_hours/(?P<shift_id>\d+)/(?P<volunteer_id>\d+)$', AddHoursView.as_view(), name='add_hours'),
     url(r'^add_hours_manager/(?P<shift_id>\d+)/(?P<volunteer_id>\d+)$', AddHoursManagerView.as_view(), name='add_hours_manager'),
     url(r'^create/(?P<job_id>\d+)$', ShiftCreateView.as_view(), name='create'),
@@ -26,4 +26,4 @@ urlpatterns = patterns('',
     url(r'^view_hours/(?P<volunteer_id>\d+)$', ViewHoursView.as_view(), name='view_hours'),
     url(r'^view_volunteer_shifts/(?P<volunteer_id>\d+)$', views.view_volunteer_shifts, name='view_volunteer_shifts'),
     url(r'^volunteer_search/$', VolunteerSearchView.as_view(), name='volunteer_search'),
-)
+]
