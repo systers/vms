@@ -67,33 +67,40 @@ class AddHoursView(LoginRequiredMixin, FormView):
         end_time = form.cleaned_data['end_time']
         shift_start_time = shift.start_time
         shift_end_time = shift.end_time
+        shift_date = shift.date
         try:
-            if (end_time > start_time):
-                if (start_time >= shift_start_time and end_time <= shift_end_time):
-                    add_shift_hours(
-                        volunteer_id,
-                        shift_id,
-                        start_time,
-                        end_time
-                    )
-                    return HttpResponseRedirect(reverse(
-                        'shift:view_hours',
-                        args=(volunteer_id,)
-                    ))
-                else:
-                    messages.add_message(self.request, messages.INFO, 'Logged hours should be between shift hours')
-                    return render(
-                        self.request,
-                        'shift/add_hours.html',
-                        {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
-                    )
-            else:
+            if (not end_time > start_time):
                 messages.add_message(self.request, messages.INFO, 'End time should be greater than start time')
                 return render(
                     self.request,
                     'shift/add_hours.html',
                     {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
                 )
+            if (not (start_time >= shift_start_time and end_time <= shift_end_time)):
+                messages.add_message(self.request, messages.INFO, 'Logged hours should be between shift hours')
+                return render(
+                    self.request,
+                    'shift/add_hours.html',
+                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
+                )
+            if (not shift_date < date.today()):
+                messages.add_message(self.request, messages.INFO, 'Shift hours can be logged only after the shift date expires.')
+                return render(
+                    self.request,
+                    'shift/add_hours.html',
+                    {'form': form, 'shift_id': shift_id, 'volunteer_id': volunteer_id, 'shift':shift,}
+                    )
+
+            add_shift_hours(
+                volunteer_id,
+                shift_id,
+                start_time,
+                end_time
+            )
+            return HttpResponseRedirect(reverse(
+                'shift:view_hours',
+                args=(volunteer_id,)
+                ))
         except:
             raise Http404
 
