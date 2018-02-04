@@ -8,7 +8,8 @@ from braces.views import LoginRequiredMixin
 from django.conf import settings
 # from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.core.servers.basehttp import FileWrapper
+# from django.core.servers.basehttp import FileWrapper
+from wsgiref.util import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -25,7 +26,8 @@ from organization.services import get_organization_by_id, get_organizations_orde
 from shift.services import get_volunteer_report, calculate_total_report_hours
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from volunteer.models import Volunteer
-from volunteer.services import delete_volunteer_resume, search_volunteers, get_volunteer_resume_file_url
+from volunteer.services import delete_volunteer_resume, search_volunteers, get_volunteer_resume_file_url, \
+    get_volunteer_by_id, has_resume_file
 from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
@@ -88,6 +90,7 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
         volunteer_id = self.kwargs['volunteer_id']
         volunteer = get_volunteer_by_id(volunteer_id)
         organization_list = get_organizations_ordered_by_name()
+        print form
         if 'resume_file' in self.request.FILES:
             my_file = form.cleaned_data['resume_file']
             if validate_file(my_file):

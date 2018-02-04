@@ -23,6 +23,7 @@ def check_correct_volunteer(func):
                 return render(
                     request, "vms/no_volunteer_rights.html", status=403)
             if volunteer.id == req_volunteer.id:
+                print volunteer.id
                 return func(request, volunteer_id=volunteer_id)
             else:
                 return render(

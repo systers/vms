@@ -643,9 +643,11 @@ class ViewHoursView(LoginRequiredMixin, FormView, TemplateView):
     @method_decorator(check_correct_volunteer)
     @method_decorator(vol_id_check)
     def dispatch(self, *args, **kwargs):
+        print super(ViewHoursView, self)
         return super(ViewHoursView, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        print super(ViewHoursView, self)
         context = super(ViewHoursView, self).get_context_data(**kwargs)
         volunteer_id = self.kwargs['volunteer_id']
         context['volunteer'] = get_volunteer_by_id(volunteer_id)
@@ -663,7 +665,6 @@ def view_volunteer_shifts(request, volunteer_id):
         'shift_list': shift_list,
         'volunteer_id': volunteer_id,
     })
-
 
 class VolunteerSearchView(AdministratorLoginRequiredMixin, FormView):
     template_name = 'shift/volunteer_search.html'

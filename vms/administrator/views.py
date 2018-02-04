@@ -3,15 +3,17 @@ from braces.views import LoginRequiredMixin
 
 # Django
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic import View
 from django.views.generic.edit import FormView
 
+
 # local Django
+from organization.services import get_organization_by_id
 from administrator.forms import ReportForm
 from administrator.models import Administrator
 from administrator.utils import admin_required
@@ -19,6 +21,8 @@ from event.services import get_events_ordered_by_name
 from job.services import get_jobs_ordered_by_title
 from shift.services import calculate_total_report_hours, get_administrator_report
 from organization.services import get_organizations_ordered_by_name
+from administrator.services import get_administrator_by_id
+from administrator.forms import AdministratorForm
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -102,3 +106,42 @@ class GenerateReportView(LoginRequiredMixin, View):
 @admin_required
 def settings(request):
     return HttpResponseRedirect(reverse('event:list'))
+
+
+@login_required
+@admin_required
+def profile(request, admin_id):
+    admin = Administrator.objects.all().filter(id=admin_id)[0]
+    response = {"admin": admin}
+    return render(request, "administrator/profile.html", response)
+
+
+@login_required
+@admin_required
+def edit_profile(request, admin_id):
+    admin = get_administrator_by_id(admin_id)
+    organization_list = get_organizations_ordered_by_name()
+    if not admin:
+        return render(request, 'administrator/404.html')
+    else:
+        print request.POST
+        administrator_form = AdministratorForm(request.POST or None, instance=admin)
+        if administrator_form.is_valid():
+            admin_to_edit = administrator_form.save(commit=False)
+            organization_id = request.POST.get('organization_name')
+            organization = get_organization_by_id(organization_id)
+            if organization:
+                admin_to_edit.organization = organization
+            else:
+                admin_to_edit.organization = None
+
+            # update the volunteer
+            admin_to_edit.save()
+            print admin_id
+            return redirect(reverse('administrator:admin_profile', args=[admin_id]))
+        else:
+            print "Form not valid"
+
+        return render(request, 'administrator/edit.html', {"administrator": admin, "organization_list": organization_list,
+                                                           "administrator_form": administrator_form})
+
