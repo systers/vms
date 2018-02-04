@@ -3,7 +3,7 @@ from django.urls import path
 
 # local Django
 from shift import views
-from shift.views import *
+from shift.views import AddHoursView, AddHoursManagerView, ShiftCreateView, ShiftDeleteView, ClearHoursView, EditHoursView, ShiftUpdateView, ClearHoursManager, EditHoursManagerView, JobListView, ShiftListView, ManageVolunteerShiftView, ViewHoursView, VolunteerSearchView    
 
 app_name='shift'
 urlpatterns = [

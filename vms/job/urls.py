@@ -3,7 +3,7 @@ from django.urls import path
 
 # local Django
 from job import views
-from job.views import *
+from job.views import CreateJobView, JobDeleteView, JobDetailView, JobUpdateView, JobListView
 
 app_name='job'
 urlpatterns = [

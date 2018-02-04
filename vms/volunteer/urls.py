@@ -3,7 +3,7 @@ from django.urls import path
 
 # local Django
 from volunteer import views
-from volunteer.views import *
+from volunteer.views import VolunteerUpdateView, ProfileView, GenerateReportView
 
 app_name='volunteer'
 urlpatterns = [

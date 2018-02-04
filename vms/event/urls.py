@@ -3,8 +3,7 @@ from django.urls import path
 
 # local Django
 from event import views
-from event.views import *
-
+from event.views import EventCreateView, EventDeleteView, EventUpdateView, EventListView
 app_name='event'
 urlpatterns = [
     path('create/', EventCreateView.as_view(), name='create'),
