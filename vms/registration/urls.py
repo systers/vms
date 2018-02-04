@@ -2,10 +2,9 @@
 from django.urls import path
 
 # local Django
-from administrator.views import *
-from registration import views
-from registration.views import *
-
+# from administrator.views import AdministratorSignUpView
+# from registration import views
+from registration.views import AdministratorSignupView, VolunteerSignupView
 app_name='registration'
 urlpatterns = [
     path('signup_administrator/', AdministratorSignupView.as_view(), name='signup_administrator'),

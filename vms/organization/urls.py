@@ -2,7 +2,7 @@
 from django.urls import path
 
 # local Django
-from organization.views import *
+from organization.views import OrganizationCreateView, OrganizationDeleteView, OrganizationListView, OrganizationUpdateView
 
 app_name='organization'
 urlpatterns = [
@@ -11,3 +11,4 @@ urlpatterns = [
     path('edit/<int:organization_id>/', OrganizationUpdateView.as_view(), name='edit'),
     path('list/', OrganizationListView.as_view(), name='list'),
 ]
+

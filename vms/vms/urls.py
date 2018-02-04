@@ -2,9 +2,7 @@
 from django.urls import include, path
 from django.contrib import admin
 
-
 admin.autodiscover()
-
 urlpatterns = [
     path('', include('home.urls', namespace='home')),
     path('admin/', admin.site.urls),
@@ -18,3 +16,5 @@ urlpatterns = [
     path('shift/', include('shift.urls', namespace='shift')),
     path('volunteer/', include('volunteer.urls', namespace="volunteer")),
 ]
+
+        
