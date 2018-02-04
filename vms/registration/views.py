@@ -15,7 +15,6 @@ from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 
-
 # local Django
 from administrator.forms import AdministratorForm
 from administrator.models import Administrator 
@@ -147,7 +146,7 @@ class VolunteerSignupView(TemplateView):
                 if user_form.is_valid() and volunteer_form.is_valid():
 
                     vol_country = request.POST.get('vol-country')
-                    vol_phone = request.POST.get('vol-phone_number') 
+                    vol_phone = request.POST.get('vol-phone_number')
                     if (vol_country and vol_phone):
                         if not validate_phone(vol_country, vol_phone):
                             self.phone_error = True
@@ -191,24 +190,25 @@ class VolunteerSignupView(TemplateView):
 
                     if organization:
                         volunteer.organization = organization
-                    
+
                     volunteer.reminder_days = 1
                     volunteer.save()
-                    user.is_active = False                    
+                    user.is_active = False
                     current_site = get_current_site(request)
                     mail_subject = 'Activate your blog account.'
-                    message = render_to_string('registration/acc_active_email.html', {
-                        'user': user,
-                        'domain': current_site.domain,
-                        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                        'token':account_activation_token.make_token(user),
-                    })
+                    message = render_to_string(
+                        'registration/acc_active_email.html', {
+                            'user': user,
+                            'domain': current_site.domain,
+                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                            'token': account_activation_token.make_token(user),
+                        })
                     to_email = volunteer_form.cleaned_data.get('email')
-                    email = EmailMessage(
-                        mail_subject, message, to=[to_email]
-                     )
+                    email = EmailMessage(mail_subject, message, to=[to_email])
                     email.send()
-                    return HttpResponse('Please confirm your email address to complete the registration')
+                    return HttpResponse(
+                        'Please confirm your email address to complete the registration'
+                    )
                 else:
                     print(user_form.errors, volunteer_form.errors)
                     return render(
@@ -222,15 +222,18 @@ class VolunteerSignupView(TemplateView):
         else:
             return render(request, 'home/home.html', {'error': True})
 
+
 def activate(request, uidb64, token):
-   try:
-      uid = force_text(urlsafe_base64_decode(uidb64))
-      user = User.objects.get(pk=uid)
-   except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-      user = None
-   if user is not None and account_activation_token.check_token(user, token):
-      user.is_active = True
-      user.save()
-      return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
-   else:
-      return HttpResponse('Activation link is invalid!')
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse(
+            'Thank you for your email confirmation. Now you can login your account.'
+        )
+    else:
+        return HttpResponse('Activation link is invalid!')
