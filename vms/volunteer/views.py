@@ -25,8 +25,7 @@ from organization.services import get_organization_by_id, get_organizations_orde
 from shift.services import get_volunteer_report, calculate_total_report_hours
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from volunteer.models import Volunteer
-from volunteer.services import (delete_volunteer_resume, search_volunteers, get_volunteer_resume_file_url,
-get_volunteer_by_id,delete_volunteer_resume, has_resume_file)
+from volunteer.services import delete_volunteer_resume, search_volunteers, get_volunteer_resume_file_url
 from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
