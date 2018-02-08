@@ -52,12 +52,53 @@ In order to suggest a feature, you should create a [new issue](https://github.co
 
 ##Creating pull requests
 
-If you find there is a bug/issue/feature in the [issue list](https://github.com/systers/vms/issues) that you want to tackle, just clone the VMS repository and make the necessary changes. If you have a working solution, push your changes to your forked VMS repository, and then make a [pull request](https://github.com/systers/vms/compare). Please try to push ONLY the relevant changes, which also means you will only need to add one new commit. You should also reference the issue you are addressing in the body of the pull request by adding something like "closes #X" where X is the number of the issue. This will auto close the issue if your code gets merged.
+If you find there is a bug/issue/feature in the [issue list](https://github.com/systers/vms/issues) that you want to tackle, just clone the VMS repository and make the necessary changes. If you have a working solution, push your changes to your forked VMS repository, and then make a [pull request](https://github.com/systers/vms/compare). Please try to push ONLY the relevant changes, which also means you will only need to add one new commit. Please create a separate branch for each issue you solve and follow the commit guidelines below for creating pull requests.
+
+
+
+## Writing good commits
+
+A good commit is atomic. It should describe one change and not more.
+A good commit message consits of 3 parts:
+
+* shortlog - This should describe the change - the action being done in the commit in not more than 50 characters and in imperative present tense.
+
+* commit message - This should describe the reasoning for your changes. This is especially important for complex changes that are not self explanatory and can be ignored otherwise. Limit the subject line to 72 characters. 
+
+* issue reference - This should use `Fixes` keyword if your commit fixes a bug or typo, or `Closes` if it adds a feature/enhancement and a full URL to the issue.
+
+Example of a good commit:
+
+	Example 1 (Add feature)
+	shifts_views.py: Log shift hours
+
+	This allows the volunteers to log shift hours
+	only after the shift date has expired and displays
+	proper message otherwise.
+
+	Closes #502
+
+	Example 2 (Fix typo)
+	Getting_Help.md: Fix docstring typo
+
+	wether --> whether.
+
+	Fixes #101
+
+## Editing commit messages
+
+If you have previously made a commit and update it on a later date, it is advisable to also update the commit message accordingly.
+
+If you need to modify your code, you can simply edit it again, add it and commit it using:
+
+`$ git commit -a --amend`
+
+This will edit your last commit message.
+
 
 For more information on push and pull requests [click here](http://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/)
 
 For more information on how to write a good commit [click here](http://chris.beams.io/posts/git-commit/).
-
 
 
 **Note:** You should only focus on ONE thing in your bug/issue/feature/pull request submission. If you have more things to contribute, fantastic! Just make a new submission for each.
