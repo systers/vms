@@ -105,6 +105,21 @@ def get_event_by_id(event_id):
 
     return result
 
+def get_event_by_name(event_name):
+
+    is_valid = True
+    result = None
+
+    try:
+        event = Event.objects.get(name = event_name)
+    except ObjectDoesNotExist:
+        is_valid = False
+
+    if is_valid:
+        result = event
+
+    return result
+
 
 def get_events_by_date(start_date, end_date):
     is_valid = True

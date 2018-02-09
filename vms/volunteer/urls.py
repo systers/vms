@@ -23,4 +23,5 @@ urlpatterns = patterns(
         GenerateReportView.as_view(),
         name='report'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^report/get_job_list/$', views.get_job_list, name='get_job_list'),
 )
