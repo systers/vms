@@ -11,7 +11,7 @@ $(document).ready(function(){
             success (data) {
                 $("#job-select")
                     .empty()
-                    .append("<option value=''>- Select Job --</option>");
+                    .append("<option value=''>-- Select Job --</option>");
                 for(var i=0; i< data.length; i++){
                     value = data[i].fields.name;
                     $("#job-select")

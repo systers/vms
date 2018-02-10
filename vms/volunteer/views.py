@@ -65,20 +65,23 @@ def delete_resume(request, volunteer_id):
     else:
         return HttpResponse(status=403)
 
+@login_required
 def get_job_list(request):
     result = []
     user = request.user
     volunteer_id = user.volunteer.id
     event_name = request.GET.get('event_name', None)
+    if not event_name:
+        return HttpResponse(result, content_type ="application/json")
     event = get_event_by_name(event_name)
-    event_id = event.id
-    jobs = get_jobs_by_event_id(event_id)
+    print(event)
+    event_jobs = get_jobs_by_event_id(event.id)
     job_list = get_signed_up_jobs_for_volunteer(volunteer_id)
-    for j in jobs:
-        if(any(j.name == job for job in job_list)):
-            result.append(j)
-    serialized_obj = serializers.serialize('json', result)
-    return HttpResponse(serialized_obj, content_type ="application/json")
+    for event_job in event_jobs:
+        if(any(event_job.name == job for job in job_list)):
+            result.append(event_job)
+    serialized_jobs = serializers.serialize('json', result)
+    return HttpResponse(serialized_jobs, content_type ="application/json")
 
 '''
  The View to edit Volunteer Profile
