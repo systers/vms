@@ -92,7 +92,7 @@
 				
 				{% if form.country.errors %}
                     <div class="form-group has-error">
-                        <label class="col-md-2 control-label">{% trans "Country" %}</label>
+                        <label class="col-md-2 control-label">{% trans "Country" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="{% blocktrans %}Event Country{% endblocktrans %}" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}">
                             <p class="help-block">
@@ -106,7 +106,7 @@
                     </div>
                 {% else %}
                     <div class="form-group">
-                        <label class="col-md-2 control-label">{% trans "Country" %}</label>
+                        <label class="col-md-2 control-label">{% trans "Country" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="{% blocktrans %}Event Country{% endblocktrans %}" type="text" name="country" value="{% if form.country.value %}{{ form.country.value }}{% endif %}">
                         </div>
@@ -138,7 +138,7 @@
 				
 				{% if form.city.errors %}
                     <div class="form-group has-error">
-                        <label class="col-md-2 control-label">{% trans "City" %}</label>
+                        <label class="col-md-2 control-label">{% trans "City" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="{% blocktrans %}Event City{% endblocktrans %}" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}">
                             <p class="help-block">
@@ -152,7 +152,7 @@
                     </div>
                 {% else %}
                     <div class="form-group">
-                        <label class="col-md-2 control-label">{% trans "City" %}</label>
+                        <label class="col-md-2 control-label">{% trans "City" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
                             <input class="form-control" placeholder="{% blocktrans %}Event City{% endblocktrans %}" type="text" name="city" value="{% if form.city.value %}{{ form.city.value }}{% endif %}">
                         </div>

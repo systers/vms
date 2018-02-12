@@ -34,8 +34,6 @@ class Event(models.Model):
                 r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
             ),
         ],
-        blank=True,
-        null=True,
     )
     state = models.CharField(
         max_length=50,
@@ -54,8 +52,6 @@ class Event(models.Model):
                 r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$',
             ),
         ],
-        blank=True,
-        null=True,
     )
 
     venue = models.CharField(

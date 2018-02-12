@@ -34,6 +34,7 @@ class EventForm(ModelForm):
         return self.cleaned_data
 
 
-class EventDateForm(forms.Form):
-    start_date = forms.DateField(required=False)
-    end_date = forms.DateField(required=False)
+class EventSearchForm(forms.Form):
+    start_date = forms.DateField(required=True)
+    end_date = forms.DateField(required=True)
+    location = forms.CharField(required=True)

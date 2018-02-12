@@ -100,7 +100,7 @@ def get_event_by_id(event_id):
     return result
 
 
-def get_events_by_date(start_date, end_date):
+def get_events_by_date_and_city(start_date, end_date, location):
     is_valid = True
     result = None
     kwargs = {}
@@ -108,6 +108,8 @@ def get_events_by_date(start_date, end_date):
         kwargs['start_date__gte'] = start_date
     if end_date:
         kwargs['start_date__lte'] = end_date
+    if location:
+        kwargs['city'] = location
     try:
         event_list = Event.objects.filter(
                 **kwargs
