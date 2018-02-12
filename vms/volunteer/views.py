@@ -84,6 +84,11 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
         obj = Volunteer.objects.get(pk=volunteer_id)
         return obj
 
+    def get_context_data(self,**kwargs):
+        context = super(VolunteerUpdateView, self).get_context_data(**kwargs)
+        context['organization_list']=get_organizations_ordered_by_name()
+        return context
+
     def form_valid(self, form):
         volunteer_id = self.kwargs['volunteer_id']
         volunteer = get_volunteer_by_id(volunteer_id)
