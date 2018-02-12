@@ -6,7 +6,7 @@ from django.db import models
 
 # local Django
 from organization.models import Organization
-
+from volunteer.validators import validate_file_extension
 
 class Volunteer(models.Model):
     id = models.AutoField(primary_key=True)
@@ -88,7 +88,7 @@ class Volunteer(models.Model):
     )
     # all resumes are stored in /srv/vms/resume/
     resume_file = models.FileField(
-        upload_to='vms/resume/', max_length=75, blank=True)
+        upload_to='vms/resume/',validators=[validate_file_extension], max_length=75, blank=True)
     reminder_days = models.IntegerField(
         default=1,
         validators=[MaxValueValidator(50),
