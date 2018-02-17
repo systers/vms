@@ -2,7 +2,7 @@
 
 # Django
 from django.contrib import messages
-from django.core.urlresolvers import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView

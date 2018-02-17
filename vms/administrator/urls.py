@@ -1,12 +1,11 @@
 # Django
-from django.conf.urls import patterns, url
+from django.urls import path
 
 # local Django
 from administrator import views
 from administrator.views import GenerateReportView
-
-urlpatterns = patterns(
-    '',
-    url(r'^report/$', GenerateReportView.as_view(), name='report'),
-    url(r'^settings/$', views.settings, name='settings'),
-)
+app_name='administrator'
+urlpatterns = [
+             path('report/', GenerateReportView.as_view(), name='report'),
+             path('settings/', views.settings, name='settings'),
+              ]

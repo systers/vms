@@ -58,7 +58,7 @@ class Shift(models.Model):
         null=True,
     )
     # Job to Shift is a one-to-many relationship
-    job = models.ForeignKey(Job)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
     # VolunteerShift is the intermediary model
     # for the many-to-many relationship between Volunteer and Shift
     volunteers = models.ManyToManyField(Volunteer, through='VolunteerShift')
@@ -66,9 +66,9 @@ class Shift(models.Model):
 
 class VolunteerShift(models.Model):
     # Volunteer  to VolunteerShift is a one-to-many relationship
-    volunteer = models.ForeignKey(Volunteer)
+    volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
     # Shift to VolunteerShift is a one-to-many relationship
-    shift = models.ForeignKey(Shift)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     start_time = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     # assigned_by_manager = models.BooleanField()

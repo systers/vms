@@ -4,8 +4,8 @@ from braces.views import LoginRequiredMixin
 # Django
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import Http404, HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, UpdateView, DeleteView
