@@ -25,7 +25,9 @@ from organization.services import get_organization_by_id, get_organizations_orde
 from shift.services import get_volunteer_report, calculate_total_report_hours
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from volunteer.models import Volunteer
-from volunteer.services import delete_volunteer_resume, search_volunteers, get_volunteer_resume_file_url
+from volunteer.services import (delete_volunteer_resume, search_volunteers,
+                                get_volunteer_resume_file_url, has_resume_file,
+                                get_volunteer_by_id)
 from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
@@ -79,6 +81,12 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
     template_name = 'volunteer/edit.html'
     success_url = reverse_lazy('volunteer:profile')
 
+    def get_context_data(self, **kwargs):
+        context = super(VolunteerUpdateView,self).get_context_data(**kwargs)
+        organization_list = get_organizations_ordered_by_name()
+        context['organization_list'] = organization_list
+        return context
+
     def get_object(self, queryset=None):
         volunteer_id = self.kwargs['volunteer_id']
         obj = Volunteer.objects.get(pk=volunteer_id)
@@ -123,7 +131,7 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
 
 
 '''
-  The view to diaplay Volunteer profile.
+  The view to display Volunteer profile.
   It uses DetailView which is a generic class-based views are designed to display data.
 '''
 
@@ -143,7 +151,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 
 '''
-  The view generate Report.
+  The view generates Report.
   GenerateReportView calls two other views(ShowFormView, ShowReportListView) within it.
 '''
 
@@ -174,8 +182,11 @@ class ShowFormView(LoginRequiredMixin, FormView):
     def get(self, request, *args, **kwargs):
         volunteer_id = self.kwargs['volunteer_id']
         event_list = get_signed_up_events_for_volunteer(volunteer_id)
+        job_list = get_signed_up_jobs_for_volunteer(volunteer_id)
+
         return render(request, 'volunteer/report.html', {
-            'event_list': event_list
+            'event_list': event_list,
+            'job_list':job_list,
         })
 
 
@@ -221,11 +232,13 @@ def search(request):
             state = form.cleaned_data['state']
             country = form.cleaned_data['country']
             organization = form.cleaned_data['organization']
+            organizations_list = get_organizations_ordered_by_name()
 
             search_result_list = search_volunteers(
                 first_name, last_name, city, state, country, organization)
             return render(
                 request, 'volunteer/search.html', {
+                    'organizations_list': organizations_list,
                     'form': form,
                     'has_searched': True,
                     'search_result_list': search_result_list
