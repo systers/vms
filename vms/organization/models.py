@@ -13,5 +13,5 @@ class Organization(models.Model):
         ],
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

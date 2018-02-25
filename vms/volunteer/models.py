@@ -96,6 +96,5 @@ class Volunteer(models.Model):
         blank=True)
 
     user = models.OneToOneField(User)
-
-    def __unicode__(self):
-        return "{0} {1}".format(self.first_name, self.last_name)
+    def __str__(self):
+        return '{0} {1}'.format(self.first_name, self.last_name)

@@ -57,5 +57,5 @@ class Event(models.Model):
         null=True,
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
