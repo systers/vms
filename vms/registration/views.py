@@ -236,4 +236,4 @@ def activate(request, uidb64, token):
             'Thank you for your confirming your email. Now you can login your account.'
         )
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponseBadRequest('Activation link is invalid!')
