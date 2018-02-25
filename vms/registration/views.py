@@ -3,6 +3,7 @@
 # Django
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -210,7 +211,6 @@ class VolunteerSignupView(TemplateView):
                         'Please confirm your email address to complete the registration'
                     )
                 else:
-                    print(user_form.errors, volunteer_form.errors)
                     return render(
                         request, 'registration/signup_volunteer.html', {
                             'user_form': user_form,
@@ -233,7 +233,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         return HttpResponse(
-            'Thank you for your email confirmation. Now you can login your account.'
+            'Thank you for your confirming your email. Now you can login your account.'
         )
     else:
         return HttpResponse('Activation link is invalid!')
