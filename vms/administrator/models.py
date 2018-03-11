@@ -62,7 +62,7 @@ class Administrator(models.Model):
     organization = models.ForeignKey(Organization, null=True)
     # EmailField automatically checks if email address is a valid format
     email = models.EmailField(max_length=45, unique=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(User)
 
     def __unicode__(self):
         return self.user.username
