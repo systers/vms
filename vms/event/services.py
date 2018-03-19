@@ -1,6 +1,9 @@
 # Django
 from django.core.exceptions import ObjectDoesNotExist
 
+#standard library
+from datetime import date
+
 # local Django
 from event.models import Event
 from job.services import get_jobs_by_event_id, remove_empty_jobs_for_volunteer
@@ -37,7 +40,7 @@ def get_event_by_shift_id(shift_id):
 
 
 def delete_event(event_id):
-    """ 
+    """
     Deletes an event if no jobs are associated with it
     """
 
@@ -161,5 +164,13 @@ def remove_empty_events_for_volunteer(event_list, volunteer_id):
         job_list = get_jobs_by_event_id(event.id)
         job_list = remove_empty_jobs_for_volunteer(job_list, volunteer_id)
         if job_list:
+            new_event_list.append(event)
+    return new_event_list
+
+def remove_invalid_events(event_list):
+    """Removes all the events from an event list which have been occured already(expired)"""
+    new_event_list = []
+    for event in event_list:
+        if event.start_date <= date.today() and date.today() <= event.end_date:
             new_event_list.append(event)
     return new_event_list
