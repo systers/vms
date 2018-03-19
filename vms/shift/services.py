@@ -342,7 +342,15 @@ def get_unlogged_shifts_by_volunteer_id(v_id):
     # order the list by date in ascending order
     shift_signed_up_list = shift_signed_up_list.order_by('date')
 
-    return shift_signed_up_list
+    #sometimes a volunteer might have signed for a shift
+    #but couldn't attend it and now that shift is over
+    #so only upcoming unlogged shifts should be displayed
+    upcoming_shift_signed_up_list = []
+    for shift in shift_signed_up_list:
+        if shift.date >= date.today():
+            upcoming_shift_signed_up_list.append(shift)
+
+    return upcoming_shift_signed_up_list
 
 
 def get_volunteer_report(v_id, event_name, job_name, start_date, end_date):

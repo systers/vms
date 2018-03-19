@@ -17,7 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from event.services import get_events_ordered_by_name, get_event_by_id
 from job.forms import JobForm
 from job.models import Job
-from job.services import get_job_by_id, check_edit_job, get_jobs_by_event_id, remove_empty_jobs_for_volunteer
+from job.services import get_job_by_id, check_edit_job, get_jobs_by_event_id, remove_empty_jobs_for_volunteer,remove_invalid_jobs
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -170,6 +170,8 @@ def list_sign_up(request, event_id, volunteer_id):
         if event:
             job_list = get_jobs_by_event_id(event_id)
             job_list = remove_empty_jobs_for_volunteer(job_list, volunteer_id)
+            job_list = remove_invalid_jobs(job_list)
+            
             return render(request, 'job/list_sign_up.html', {
                 'event': event,
                 'job_list': job_list,
