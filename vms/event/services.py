@@ -171,6 +171,6 @@ def remove_invalid_events(event_list):
     """Removes all the events from an event list which have been occured already(expired)"""
     new_event_list = []
     for event in event_list:
-        if event.start_date <= date.today() and date.today() <= event.end_date:
+        if date.today() <= event.end_date:
             new_event_list.append(event)
     return new_event_list

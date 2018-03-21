@@ -127,6 +127,6 @@ def remove_invalid_jobs(job_list):
     """ Removes all jobs from a job list which have already ended """
     new_job_list = []
     for job in job_list:
-        if job.start_date <= date.today() and date.today() <= job.end_date:
+        if date.today() <= job.end_date:
             new_job_list.append(job)
     return new_job_list
