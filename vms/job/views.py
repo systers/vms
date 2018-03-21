@@ -17,7 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from event.services import get_events_ordered_by_name, get_event_by_id
 from job.forms import JobForm
 from job.models import Job
-from job.services import get_job_by_id, check_edit_job, get_jobs_by_event_id, remove_empty_jobs_for_volunteer,remove_invalid_jobs
+from job.services import get_job_by_id, check_edit_job, get_jobs_by_event_id, remove_empty_jobs_for_volunteer, remove_invalid_jobs
 
 
 class AdministratorLoginRequiredMixin(object):

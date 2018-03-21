@@ -168,9 +168,13 @@ def remove_empty_events_for_volunteer(event_list, volunteer_id):
     return new_event_list
 
 def remove_invalid_events(event_list):
-    """Removes all the events from an event list which have been occured already(expired)"""
+    """
+    Removes all the events from an event list which
+    have been occured already(expired)
+    """
     new_event_list = []
+    current_date = date.today()
     for event in event_list:
-        if date.today() <= event.end_date:
+        if current_date <= event.end_date:
             new_event_list.append(event)
     return new_event_list

@@ -19,7 +19,7 @@ from django.views.generic import ListView
 # local Django
 from event.forms import EventForm, EventDateForm
 from event.models import Event
-from event.services import check_edit_event, get_event_by_id, get_events_by_date, get_events_ordered_by_name, remove_empty_events_for_volunteer,remove_invalid_events
+from event.services import check_edit_event, get_event_by_id, get_events_by_date, get_events_ordered_by_name, remove_empty_events_for_volunteer, remove_invalid_events
 from job.services import get_jobs_by_event_id
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer_shift_sign_up

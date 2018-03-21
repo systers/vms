@@ -126,7 +126,8 @@ def remove_empty_jobs_for_volunteer(job_list, volunteer_id):
 def remove_invalid_jobs(job_list):
     """ Removes all jobs from a job list which have already ended """
     new_job_list = []
+    current_date = date.today()
     for job in job_list:
-        if date.today() <= job.end_date:
+        if current_date <= job.end_date:
             new_job_list.append(job)
     return new_job_list
