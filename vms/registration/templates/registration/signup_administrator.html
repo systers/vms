@@ -52,6 +52,20 @@
                     </p>
                 </div>
             </div>
+        {% elif password_error %}
+            <div id="div_id_password" class="form-group has-error">
+                <label class="control-label requiredField" for="id_password">
+                    Password <span class="asteriskField">*</span>
+                </label>
+                <div class="controls">
+                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password{% endblocktrans %}"  name="usr-password">
+                    <p class="help-block">
+                        <strong>
+                            Passwords must use at least three of the following: lowercase characters, uppercase characters, numbers, and symbols.
+                        </strong>
+                    </p>
+                </div>
+            </div>       
         {% else %}
             <div id="div_id_password" class="form-group">
                 <label class="control-label requiredField" for="id_password">

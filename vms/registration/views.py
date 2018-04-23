@@ -15,6 +15,7 @@ from organization.services import (get_organizations_ordered_by_name,
                                    get_organization_by_id)
 from registration.forms import UserForm
 from registration.phone_validate import validate_phone
+from registration.password_validate import validate_password
 from registration.utils import volunteer_denied
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
@@ -33,6 +34,7 @@ class AdministratorSignupView(TemplateView):
     registered = False
     organization_list = get_organizations_ordered_by_name()
     phone_error = False
+    password_error=False
 
     @method_decorator(volunteer_denied)
     def dispatch(self, *args, **kwargs):
@@ -47,6 +49,7 @@ class AdministratorSignupView(TemplateView):
                 'administrator_form': administrator_form,
                 'registered': self.registered,
                 'phone_error': self.phone_error,
+                'password_error':self.password_error,
                 'organization_list': self.organization_list
             })
 
@@ -62,6 +65,7 @@ class AdministratorSignupView(TemplateView):
 
                     ad_country = request.POST.get('admin-country')
                     ad_phone = request.POST.get('admin-phone_number')
+                    ad_password=request.POST.get('usr-password')
 
                     if (ad_country and ad_phone):
                         if not validate_phone(ad_country, ad_phone):
@@ -73,10 +77,22 @@ class AdministratorSignupView(TemplateView):
                                     'administrator_form': administrator_form,
                                     'registered': self.registered,
                                     'phone_error': self.phone_error,
+                                    'password_error':self.password_error,
                                     'organization_list':
                                     self.organization_list,
                                 })
-
+                    if(ad_password):
+                        if not validate_password(ad_password):
+                            self.password_error=True
+                            return render(
+                                request,
+                                'registration/signup_administrator.html',{
+                                'user_form':user_form,
+                                'administrator_form':administrator_form,
+                                'registered':self.registered,
+                                'password_error':self.password_error,
+                                'organization_list':self.organization_list,
+                                })
                     user = user_form.save()
                     user.set_password(user.password)
                     user.save()
@@ -105,6 +121,7 @@ class AdministratorSignupView(TemplateView):
                             'administrator_form': administrator_form,
                             'registered': self.registered,
                             'phone_error': self.phone_error,
+                            'password_error':self.password_error,
                             'organization_list': self.organization_list,
                         })
         else:
@@ -115,6 +132,7 @@ class VolunteerSignupView(TemplateView):
     registered = False
     organization_list = get_organizations_ordered_by_name()
     phone_error = False
+    password_error=False
 
     def get(self, request):
         user_form = UserForm(prefix="usr")
@@ -125,6 +143,7 @@ class VolunteerSignupView(TemplateView):
                 'volunteer_form': volunteer_form,
                 'registered': self.registered,
                 'phone_error': self.phone_error,
+                'password_error':self.password_error,
                 'organization_list': self.organization_list,
             })
 
@@ -140,6 +159,7 @@ class VolunteerSignupView(TemplateView):
 
                     vol_country = request.POST.get('vol-country')
                     vol_phone = request.POST.get('vol-phone_number')
+                    vol_password=request.POST.get('usr-password')
                     if (vol_country and vol_phone):
                         if not validate_phone(vol_country, vol_phone):
                             self.phone_error = True
@@ -150,6 +170,7 @@ class VolunteerSignupView(TemplateView):
                                     'volunteer_form': volunteer_form,
                                     'registered': self.registered,
                                     'phone_error': self.phone_error,
+                                    'password_error':self.password_error,
                                     'organization_list':
                                     self.organization_list,
                                 })
@@ -164,12 +185,27 @@ class VolunteerSignupView(TemplateView):
                                     'volunteer_form': volunteer_form,
                                     'registered': self.registered,
                                     'phone_error': self.phone_error,
+                                    'password_error':self.password_error,
+                                    'organization_list':
+                                    self.organization_list,
+                                })
+
+                    if(vol_password):
+                        if not validate_password(vol_password):
+                            self.password_error=True
+                            return render(
+                                request, 'registration/signup_volunteer.html',
+                                {
+                                    'user_form': user_form,
+                                    'volunteer_form': volunteer_form,
+                                    'registered': self.registered,
+                                    'phone_error': self.phone_error,
+                                    'password_error':self.password_error,
                                     'organization_list':
                                     self.organization_list,
                                 })
 
                     user = user_form.save()
-
                     user.set_password(user.password)
                     user.save()
 
@@ -199,6 +235,7 @@ class VolunteerSignupView(TemplateView):
                             'volunteer_form': volunteer_form,
                             'registered': self.registered,
                             'phone_error': self.phone_error,
+                            'password_error':self.password_error,
                             'organization_list': self.organization_list,
                         })
         else:
