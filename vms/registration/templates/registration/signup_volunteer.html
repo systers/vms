@@ -42,7 +42,7 @@
                     {% trans "Password" %}<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
-                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" name="usr-password">
+                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password ( password length should be at least 8 characters long){% endblocktrans %}" name="usr-password">
                     <p class="help-block">
                         <strong>
                             {% for error in user_form.password.errors %}
@@ -58,7 +58,7 @@
                     {% trans "Password" %}<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
-                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" name="usr-password">
+                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password ( password length should be at least 8 characters long){% endblocktrans %}" name="usr-password">
                 </div>
             </div>
         {% endif %}
