@@ -105,6 +105,8 @@ def get_event_by_id(event_id):
 
     return result
 
+def get_event_by_name(event_name):
+    return Event.objects.get(name = event_name)
 
 def get_events_by_date(start_date, end_date):
     is_valid = True

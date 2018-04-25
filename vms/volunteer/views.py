@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.servers.basehttp import FileWrapper
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.core import serializers
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.detail import DetailView
@@ -19,8 +20,8 @@ from django.utils.decorators import method_decorator
 
 # local Django
 from administrator.utils import admin_required
-from event.services import get_signed_up_events_for_volunteer
-from job.services import get_signed_up_jobs_for_volunteer
+from event.services import get_signed_up_events_for_volunteer, get_event_by_name
+from job.services import get_signed_up_jobs_for_volunteer, get_jobs_by_event_id
 from organization.services import get_organization_by_id, get_organizations_ordered_by_name
 from shift.services import get_volunteer_report, calculate_total_report_hours
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
@@ -66,6 +67,23 @@ def delete_resume(request, volunteer_id):
     else:
         return HttpResponse(status=403)
 
+@login_required
+def get_job_list(request):
+    result = []
+    user = request.user
+    volunteer_id = user.volunteer.id
+    event_name = request.GET.get('event_name', None)
+    if not event_name:
+        return HttpResponse(result, content_type ="application/json")
+    event = get_event_by_name(event_name)
+    print(event)
+    event_jobs = get_jobs_by_event_id(event.id)
+    job_list = get_signed_up_jobs_for_volunteer(volunteer_id)
+    for event_job in event_jobs:
+        if(any(event_job.name == job for job in job_list)):
+            result.append(event_job)
+    serialized_jobs = serializers.serialize('json', result)
+    return HttpResponse(serialized_jobs, content_type ="application/json")
 
 '''
  The View to edit Volunteer Profile
