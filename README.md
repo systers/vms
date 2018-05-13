@@ -32,7 +32,7 @@ Installation
 The VMS project uses the [Django](https://www.djangoproject.com/) web
 framework and [Python](https://www.python.org/).
 
-To get started, read the [Installation Guide](https://github.com/systers/vms/blob/develop/docs/Installation%20Guide.md).
+To get started, read the [Installation Guide](https://github.com/systers/vms/blob/develop/docs/Installation_Guide.md).
 
 If you face some issues while installing and making VMS up in your local, have a look at issues labelled as [While Setting up VMS](https://github.com/systers/vms/labels/While%20Setting%20up%20VMS).
 
@@ -58,7 +58,7 @@ production at the moment. It may be configured to do so in the future.
    `vms` directory.
 1. Run `docker-compose build`. This pulls the Docker images required to run the
    project and installs the necessary dependencies.
-1. Run `docker run -e SECRET_KEY=foobarbaz vms`
+1. Run `docker run -e SECRET_KEY=foobarbaz vms_web`
 1. Run `docker-compose run web python vms/manage.py migrate`.
 1. Run `docker-compose run web python vms/manage.py cities_light` for downloading and importing data for django-cities-light.
 1. *Optional:*

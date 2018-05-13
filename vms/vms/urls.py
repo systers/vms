@@ -1,11 +1,17 @@
 # Django
 from django.conf.urls import include, url
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 
 admin.autodiscover()
 
 
-urlpatterns = [
+
+
+
+urlpatterns = i18n_patterns(
+ 
+
     url(r'^$', include('home.urls', namespace='home')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^administrator/',
@@ -21,4 +27,4 @@ urlpatterns = [
         include('registration.urls', namespace='registration')),
     url(r'^shift/', include('shift.urls', namespace='shift')),
     url(r'^volunteer/', include('volunteer.urls', namespace='volunteer')),
-]
+)

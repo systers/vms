@@ -25,7 +25,7 @@ class Volunteer(models.Model):
     address = models.CharField(
         max_length=75,
         validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)]+$', ),
+            RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(\.)|(,)|(\:)]+$', ),
         ],
     )
     city = models.CharField(
@@ -97,4 +97,4 @@ class Volunteer(models.Model):
 
     user = models.OneToOneField(User)
     def __str__(self):
-        return self.first_name
+        return '{0} {1}'.format(self.first_name, self.last_name)

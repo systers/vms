@@ -11,7 +11,7 @@ class Event(models.Model):
             RegexValidator(
                 r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\.)|(,)|(\-)|(!)|(\')]+$', ),
         ],
-        unique=True)
+        )
     start_date = models.DateField()
     end_date = models.DateField()
 
@@ -56,3 +56,6 @@ class Event(models.Model):
         blank=True,
         null=True,
     )
+
+    def __str__(self):
+        return self.name
