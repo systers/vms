@@ -37,5 +37,5 @@ class DummyTesting(LiveServerTestCase):
         element.clear()
         element.send_keys('pycon')
         element.send_keys(Keys.RETURN)
-        self.assertNotIn('No results found.', self.driver.page_source
+        self.assertNotIn('No results found.', self.driver.page_source)
 
