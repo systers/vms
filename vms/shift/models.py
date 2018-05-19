@@ -6,7 +6,6 @@ from django.db import models
 # local Django
 from job.models import Job
 from volunteer.models import Volunteer
-from cities_light.models import City, Country, Region
 
 
 class Shift(models.Model):
@@ -28,6 +27,7 @@ class Shift(models.Model):
     city = models.ForeignKey(City)
     state = models.ForeignKey(Region)
     country = models.ForeignKey(Country)
+
     venue = models.CharField(
         max_length=30,
         validators=[
@@ -42,6 +42,9 @@ class Shift(models.Model):
     # for the many-to-many relationship between Volunteer and Shift
     volunteers = models.ManyToManyField(Volunteer, through='VolunteerShift')
 
+    def __str__(self):
+        return '{0} - {1}'.format(self.job.name, self.date)
+
 
 class VolunteerShift(models.Model):
     # Volunteer  to VolunteerShift is a one-to-many relationship
@@ -51,3 +54,6 @@ class VolunteerShift(models.Model):
     start_time = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     # assigned_by_manager = models.BooleanField()
+
+    def __str__(self):
+

@@ -21,7 +21,7 @@ class Administrator(models.Model):
     address = models.CharField(
         max_length=75,
         validators=[
-            RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)]+$', ),
+            RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(\.)|(,)|(\:)]+$', ),
         ],
     )
     city = models.ForeignKey(City)
@@ -49,5 +49,5 @@ class Administrator(models.Model):
     email = models.EmailField(max_length=45, unique=True)
     user = models.OneToOneField(User)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
