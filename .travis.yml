@@ -31,7 +31,8 @@ script:
   - cd vms
   - python manage.py syncdb --noinput
   - python manage.py migrate --noinput --traceback --settings=vms.settings
-  - coverage run --source='.' manage.py test ../tests/
+  - coverage run --source='.' manage.py test tests/ -v 2
+  - coverage report -m
 
 after_success:
     coveralls --rcfile=.coveragerc

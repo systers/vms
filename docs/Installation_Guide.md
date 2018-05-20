@@ -315,32 +315,32 @@ sudo mv geckodriver /usr/local/bin
 You can also run unit and functional tests by running the command:
 
 ```
-    python manage.py test ../tests/<name_of_app_here>/
+    python manage.py test tests/<name_of_app_here>/
 ```
 
 
 For example, in the project, there are Django apps called volunteer, job, shift and organization. You can run tests for these apps individually by running these commands separately:
 
 ```
-python manage.py test ../tests/volunteer/
+python manage.py test tests/volunteer/
 ```
 
 ```
-python manage.py test ../tests/job/
+python manage.py test tests/job/
 ```
 
 ```
-python manage.py test ../tests/shift/
+python manage.py test tests/shift/
 ```
 
 ```
-python manage.py test ../tests/organization/
+python manage.py test tests/organization/
 ```
 
 If you want to run all unit tests, run this command:
 
 ```
-    python manage.py test ../tests/
+    python manage.py test tests/
 ```
 
 Once you are done with testing out and running the project, you may want to exit the VM and suspend or shut it down by running these commands:
