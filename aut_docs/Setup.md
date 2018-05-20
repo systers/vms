@@ -10,9 +10,9 @@
 - To run, `python manage.py runserver`. Browse 
   `http://127.0.0.1:8000`
 - Before running tests, make sure to download the latest geckodriver. Unpack and move the binary to `/usr/local/bin`
-- To execute tests `python manage.py test tests/`. This will run all selenium tests, unit-tests and
+- To execute tests `python manage.py test`. This will run all selenium tests, unit-tests and
   all functional-tests across all apps. To execute tests of only a particular
-  app, run `python manage.py test tests/<app_name>/`
+  app, run `python manage.py test <app_name>`
 - If all tests pass, `OK` will be received at the end.
 - For functional tests, a firefox window for each test will open up
   automatically and close after simulation of tests.

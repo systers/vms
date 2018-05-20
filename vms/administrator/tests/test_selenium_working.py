@@ -10,7 +10,9 @@ from selenium.webdriver.common.keys import Keys
 
 class DummyTesting(LiveServerTestCase):
     """
-    Dummy Test Class to check the tests are working correctly.
+    Dummy Test Class to check the selenium is working correctly.
+    Delete this file after uncommenting the selenium tests
+    currently present.
     """
 
     @classmethod
