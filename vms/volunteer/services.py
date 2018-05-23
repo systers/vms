@@ -11,7 +11,6 @@ from volunteer.models import City
 def get_cities():
     
     city_list = City.objects.all()    
-    print city_list
 
 def delete_volunteer(volunteer_id):
     result = False
