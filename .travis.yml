@@ -7,7 +7,7 @@ addons:
   firefox: "55.0"
 
 python:
-  - "2.7"
+  - "3.6.5"
 
 services: postgresql
 
@@ -29,7 +29,7 @@ before_script:
 
 script:
   - cd vms
-  - python manage.py syncdb --noinput
+  - python manage.py makemigrations auth volunteer administrator organization event job shift registration
   - python manage.py migrate --noinput --traceback --settings=vms.settings
   - coverage run --source='.' manage.py test -v 2
   - coverage report -m
