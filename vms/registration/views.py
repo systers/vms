@@ -137,6 +137,10 @@ class VolunteerSignupView(TemplateView):
 
     def post(self,request):
         organization_list = get_organizations_ordered_by_name()
+        city_list = City.objects.all()
+        state_list = Region.objects.all()
+        country_list = Country.objects.all()
+   
         if organization_list:
             if request.method == 'POST':
                 user_form = UserForm(request.POST, prefix="usr")
@@ -207,6 +211,9 @@ class VolunteerSignupView(TemplateView):
                             'registered': self.registered,
                             'phone_error': self.phone_error,
                             'organization_list': self.organization_list,
+                            'city_list': city_list,
+                            'state_list': state_list,
+                            'country_list': country_list,
                         })
         else:
             return render(request, 'home/home.html', {'error': True})
