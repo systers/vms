@@ -13,9 +13,9 @@ before_script:
   - export DJANGO_SECRET_KEY=foobarbaz
 script:
   - cd vms
-  - python manage.py makemigrations auth volunteer administrator organization event job shift registration
+  - python manage.py makemigrations cities_light auth volunteer administrator organization event job shift registration
+  - python manage.py migrate --noinput --traceback --settings=vms.settings 
   - python manage.py cities_light
-  - python manage.py migrate --noinput --traceback --settings=vms.settings
   - coverage run --source='.' manage.py test
 after_success:
     coveralls --rcfile=.coveragerc
