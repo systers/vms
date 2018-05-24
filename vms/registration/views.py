@@ -154,6 +154,7 @@ class VolunteerSignupView(TemplateView):
                     if (vol_country and vol_phone):
                         if not validate_phone(vol_country, vol_phone):
                             self.phone_error = True
+                            print(self.phone_error)
                             return render(
                                 request, 'registration/signup_volunteer.html',
                                 {
@@ -163,6 +164,9 @@ class VolunteerSignupView(TemplateView):
                                     'phone_error': self.phone_error,
                                     'organization_list':
                                     self.organization_list,
+                                    'city_list': self.city_list,
+                                    'country_list': self.countrylist,
+                                    'state_list': self.state_list,
                                 })
 
                     if 'resume_file' in request.FILES:
@@ -177,6 +181,9 @@ class VolunteerSignupView(TemplateView):
                                     'phone_error': self.phone_error,
                                     'organization_list':
                                     self.organization_list,
+                                    'city_list': self.city_list,
+                                    'state_list': self.state_list,
+                                    'country_list': self.country_list,
                                 })
 
                     user = user_form.save()
