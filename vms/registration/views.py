@@ -32,7 +32,10 @@ class AdministratorSignupView(TemplateView):
     admin user, he/she is allowed to register others as an admin user.
     """
     registered = False
-    organization_list = get_organizations_ordered_by_name()
+    organization_list = get_organizations_ordered_by_name() 
+    city_list = City.objects.all()
+    state_list = Region.objects.all()
+    country_list = Country.objects.all()
     phone_error = False
 
     @method_decorator(volunteer_denied)
@@ -48,11 +51,18 @@ class AdministratorSignupView(TemplateView):
                 'administrator_form': administrator_form,
                 'registered': self.registered,
                 'phone_error': self.phone_error,
-                'organization_list': self.organization_list
+                'organization_list': self.organization_list, 
+                'city_list': self.city_list,
+                'state_list': self.state_list,
+                'country_list': self.country_list,
             })
 
     def post(self, request):
-        organization_list = get_organizations_ordered_by_name()
+        organization_list = get_organizations_ordered_by_name() 
+        city_list = City.objects.all()
+        state_list = Region.objects.all()
+        country_list = Country.objects.all()
+
         if organization_list:
             if request.method == 'POST':
                 user_form = UserForm(request.POST, prefix="usr")
@@ -75,7 +85,10 @@ class AdministratorSignupView(TemplateView):
                                     'registered': self.registered,
                                     'phone_error': self.phone_error,
                                     'organization_list':
-                                    self.organization_list,
+                                    self.organization_list, 
+                                    'city_list': self.city_list,
+                                    'country_list': self.countrylist,
+                                    'state_list': self.state_list,
                                 })
 
                     user = user_form.save()
@@ -106,7 +119,10 @@ class AdministratorSignupView(TemplateView):
                             'administrator_form': administrator_form,
                             'registered': self.registered,
                             'phone_error': self.phone_error,
-                            'organization_list': self.organization_list,
+                            'organization_list': self.organization_list, 
+                            'city_list': self.city_list,
+                            'country_list': self.countrylist,
+                            'state_list': self.state_list,
                         })
         else:
             return render(request, 'home/home.html', {'error': True})
