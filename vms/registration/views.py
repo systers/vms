@@ -131,6 +131,8 @@ class VolunteerSignupView(TemplateView):
                        'phone_error': self.phone_error,
                        'organization_list': self.organization_list,
                        'city_list': self.city_list,
+                       'state_list': self.state_list,
+                       'country_list': self.country_list,
                        })
 
     def post(self,request):
