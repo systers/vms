@@ -101,10 +101,11 @@
                     </div>
 
                     
-            <div id="div_id_country" class="form-group">
-                <label class="control-label">
+            <div class="form-group">
+                <label class="col-md-2 control-label">
                     {% trans "Country" %}
                 </label>
+                <div class="col-md-8">
                  <select id="select" class="form-control" name="country_name">
                 <option value="0">-- {% trans "Select country" %} --</option>
                 {% for country in country_list %}
@@ -112,11 +113,13 @@
                 {% endfor %}
             </select>
             </div>
+            </div>
 
-            <div id="div_id_state" class="form-group">
-                <label class="control-label">
+            <div class="form-group">
+                <label class="col-md-2 control-label">
                     {% trans "State/Province" %}
                 </label>
+                <div class="col-md-8">
                 <select id="select" class="form-control" name="state_name">
                 <option value="0">-- {% trans "Select state" %} --</option>
                 {% for state in state_list %}
@@ -124,12 +127,14 @@
                 {% endfor %}
             </select>
             </div>
+            </div>
 
-
-        <div id="div_id_city" class="form-group">
-        <label class="control-label">
+                
+            <div class="form-group">
+            <label class="col-md-2 control-label">
         {% trans "City" %}
         </label>
+        <div class="col-md-8">
         <select id="select" class="form-control" name="city_name">
          <option value="0">-- {% trans "Select city" %} --</option>
                 {% for city in city_list %}
@@ -137,7 +142,8 @@
                 {% endfor %}
             </select>
             </div>
-				{% if form.address.errors %}
+	        </div>
+    			{% if form.address.errors %}
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">{% trans "Address" %}</label>
                         <div class="col-md-8">

@@ -167,6 +167,7 @@ class VolunteerSignupView(TemplateView):
 
                     vol_country = request.POST.get('vol-country')
                     vol_phone = request.POST.get('vol-phone_number')
+                    print("anjali")
                     if (vol_country and vol_phone):
                         if not validate_phone(vol_country, vol_phone):
                             self.phone_error = True
