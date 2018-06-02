@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 # local Django
 from administrator.forms import AdministratorForm
 from administrator.models import Administrator 
+from organization.models import Organization
 from organization.services import (get_organizations_ordered_by_name,
                                    get_organization_by_id)
 from registration.forms import UserForm
@@ -18,7 +19,7 @@ from registration.phone_validate import validate_phone
 from registration.utils import volunteer_denied
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
-
+import ipdb
 
 class AdministratorSignupView(TemplateView):
     """
@@ -176,13 +177,18 @@ class VolunteerSignupView(TemplateView):
                     volunteer = volunteer_form.save(commit=False)
                     volunteer.user = user
 
+                    ipdb.set_trace()
                     # if an organization isn't chosen from the dropdown,
                     # then organization_id will be 0
                     organization_id = request.POST.get('organization_name')
                     organization = get_organization_by_id(organization_id)
-
+                    
                     if organization:
                         volunteer.organization = organization
+                    else:
+                        unlisted_org=request.POST.get('vol-unlisted_organization')
+                        org=Organization.objects.create(name=unlisted_org, approved_status=False)
+                        org.save()
 
                     volunteer.reminder_days = 1
                     volunteer.save()

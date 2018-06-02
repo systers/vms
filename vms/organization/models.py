@@ -10,8 +10,8 @@ class Organization(models.Model):
         max_length=75,
         validators=[
             RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(:)|(\')]+$', ),
-        ],
-    )
+        ],)
+    approved_status = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
