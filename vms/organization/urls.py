@@ -2,7 +2,7 @@
 from django.conf.urls import url
 
 # local Django
-from organization.views import OrganizationCreateView, OrganizationDeleteView, OrganizationListView, OrganizationUpdateView
+from organization.views import approve, reject, OrganizationCreateView, OrganizationDeleteView, OrganizationListView, OrganizationUpdateView
 
 urlpatterns = [
     url(r'^create/$', OrganizationCreateView.as_view(), name='create'),
@@ -13,5 +13,7 @@ urlpatterns = [
         OrganizationUpdateView.as_view(),
         name='edit'),
     url(r'^list/$', OrganizationListView.as_view(), name='list'),
+    url(r'^approve/(?P<id>\d+)$', approve, name='approve'),
+    url(r'^reject/(?P<id>\d+)$', reject, name='reject'), 
 ]
 

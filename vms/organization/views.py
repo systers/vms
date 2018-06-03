@@ -85,3 +85,15 @@ class OrganizationListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         organizations = Organization.objects.order_by('name')
         return organizations
+
+def approve(request, id):
+    unlisted_org=Organization.objects.get(pk=id) 
+    unlisted_org.approved_status = 1
+    unlisted_org.save()
+    return HttpResponseRedirect('/organization/list') 
+
+def reject(request, id):
+    unlisted_org=Organization.objects.get(pk=id)
+    unlisted_org.approved_status = 2
+    unlisted_org.save()
+    return HttpResponseRedirect('/organization/list') 

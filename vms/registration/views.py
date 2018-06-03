@@ -19,7 +19,6 @@ from registration.phone_validate import validate_phone
 from registration.utils import volunteer_denied
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
-import ipdb
 
 class AdministratorSignupView(TemplateView):
     """
@@ -177,7 +176,6 @@ class VolunteerSignupView(TemplateView):
                     volunteer = volunteer_form.save(commit=False)
                     volunteer.user = user
 
-                    ipdb.set_trace()
                     # if an organization isn't chosen from the dropdown,
                     # then organization_id will be 0
                     organization_id = request.POST.get('organization_name')
