@@ -165,9 +165,16 @@ class VolunteerSignupView(TemplateView):
 
                 if user_form.is_valid() and volunteer_form.is_valid():
 
-                    vol_country = request.POST.get('vol-country')
+                    vol_country_id = request.POST.get('country')
+                    vol_country = Country.objects.get(pk=vol_country_id)
+                                         
+                    vol_state_id = request.POST.get('state')
+                    vol_state = Region.objects.get(pk=vol_state_id)
+
+                    vol_city_id = request.POST.get('city')
+                    vol_city = City.objects.get(pk=vol_city_id)
+
                     vol_phone = request.POST.get('vol-phone_number')
-                    print("anjali")
                     if (vol_country and vol_phone):
                         if not validate_phone(vol_country, vol_phone):
                             self.phone_error = True
@@ -218,6 +225,13 @@ class VolunteerSignupView(TemplateView):
 
                     if organization:
                         volunteer.organization = organization
+                    if vol_country:
+                        volunteer.country = vol_country
+                    if vol_city:
+                        volunteer.city = vol_city
+                    if vol_state:
+                        volunteer.state = vol_state
+
 
                     volunteer.reminder_days = 1
                     volunteer.save()
