@@ -192,12 +192,12 @@
                 </div>
             </div>
         {% endif %}
-        
+
         <div id="div_id_city" class="form-group">
         <label class="control-label">
         {% trans "City" %}
         </label>
-        <select id="select" class="form-control" name="city_name">
+        <select id="select" class="form-control" name="city">
          <option value="0">-- {% trans "Select city" %} --</option>
                 {% for city in city_list %}
                     <option value="{{ city.id }}">{{ city.name }}</option>
@@ -209,7 +209,7 @@
                 <label class="control-label">
                     {% trans "State/Province" %}
                 </label>
-                <select id="select" class="form-control" name="state_name">
+                <select id="select" class="form-control" name="state">
                 <option value="0">-- {% trans "Select state" %} --</option>
                 {% for state in state_list %}
                     <option value="{{ state.id }}">{{ state.name }}</option>
@@ -221,7 +221,7 @@
                 <label class="control-label">
                     {% trans "Country" %}
                 </label>
-                 <select id="select" class="form-control" name="country_name">
+                 <select id="select" class="form-control" name="country">
                 <option value="0">-- {% trans "Select country" %} --</option>
                 {% for country in country_list %}
                     <option value="{{ country.id }}">{{ country.name }}</option>
