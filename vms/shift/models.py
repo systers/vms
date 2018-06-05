@@ -24,11 +24,12 @@ class Shift(models.Model):
         ],
         blank=True,
         null=True,
-    )    
+    )
+
     city = models.ForeignKey(City)
     state = models.ForeignKey(Region)
     country = models.ForeignKey(Country)
-    venue = models.CharField(
+     venue = models.CharField(
         max_length=30,
         validators=[
             RegexValidator(r'^[(A-Z)|(a-z)|(\s)|(\-)|(\')]+$', ),
