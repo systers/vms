@@ -171,7 +171,7 @@
                 <label class="control-label">
                     {% trans "Country" %}
                 </label>
-                 <select id="select" class="form-control" name="country">
+                 <select id="select_country" class="form-control" name="country">
                 <option value="0">-- {% trans "Select country" %} --</option>
                 {% for country in country_list %}
                     <option value="{{ country.id }}">{{ country.name }}</option>
@@ -183,22 +183,15 @@
                 <label class="control-label">
                     {% trans "State/Province" %}
                 </label>
-                <select id="select" class="form-control" name="state">
-                <option value="0">-- {% trans "Select state" %} --</option>
-                {% for state in state_list %}
-                    <option value="{{ state.id }}">{{ state.name }}</option>
-                {% endfor %}
+                <select id="select_state" class="form-control" name="state">
             </select>
             </div>
+
             <div id="div_id_city" class="form-group">
         <label class="control-label">
         {% trans "City" %}
         </label>
-        <select id="select" class="form-control" name="city">
-         <option value="0">-- {% trans "Select city" %} --</option>
-                {% for city in city_list %}
-                    <option value="{{ city.id }}">{{ city.name }}</option>
-                {% endfor %}
+        <select id="select_city" class="form-control" name="city">
             </select>
             </div>
 

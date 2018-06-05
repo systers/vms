@@ -36,8 +36,6 @@ class AdministratorSignupView(TemplateView):
     """
     registered = False
     organization_list = get_organizations_ordered_by_name()
-    city_list = City.objects.all()
-    state_list = Region.objects.all()
     country_list = Country.objects.all()
     phone_error = False
 
@@ -55,15 +53,11 @@ class AdministratorSignupView(TemplateView):
                 'registered': self.registered,
                 'phone_error': self.phone_error,
                 'organization_list': self.organization_list,
-                'city_list': self.city_list,
-                'state_list': self.state_list,
                 'country_list': self.country_list,
             })
 
     def post(self, request):
         organization_list = get_organizations_ordered_by_name()
-        city_list = City.objects.all()
-        state_list = Region.objects.all()
         country_list = Country.objects.all()
 
         if organization_list:
@@ -96,9 +90,7 @@ class AdministratorSignupView(TemplateView):
                                     'phone_error': self.phone_error,
                                     'organization_list':
                                     self.organization_list,
-                                    'city_list': self.city_list,
-                                    'country_list': self.countrylist,
-                                    'state_list': self.state_list,
+                                    'country_list': self.country_list,
                                 })
 
                     user = user_form.save()
@@ -137,9 +129,7 @@ class AdministratorSignupView(TemplateView):
                             'registered': self.registered,
                             'phone_error': self.phone_error,
                             'organization_list': self.organization_list,
-                            'city_list': self.city_list,
                             'country_list': self.country_list,
-                            'state_list': self.state_list,
                         })
         else:
             return render(request, 'home/home.html', {'error': True})
@@ -148,7 +138,6 @@ class AdministratorSignupView(TemplateView):
 class VolunteerSignupView(TemplateView):
     registered = False
     organization_list = get_organizations_ordered_by_name()
-    state_list = Region.objects.all()
     country_list = Country.objects.all()
     phone_error = False
 
@@ -162,13 +151,11 @@ class VolunteerSignupView(TemplateView):
                        'registered': self.registered,
                        'phone_error': self.phone_error,
                        'organization_list': self.organization_list,
-                       'state_list': self.state_list,
                        'country_list': self.country_list,
                        })
 
     def post(self,request):
         organization_list = get_organizations_ordered_by_name()
-        state_list = Region.objects.all()
         country_list = Country.objects.all()
 
         if organization_list:
@@ -203,7 +190,6 @@ class VolunteerSignupView(TemplateView):
                                     'organization_list':
                                     self.organization_list,
                                     'country_list': self.countrylist,
-                                    'state_list': self.state_list,
                                 })
 
                     if 'resume_file' in request.FILES:
@@ -218,7 +204,6 @@ class VolunteerSignupView(TemplateView):
                                     'phone_error': self.phone_error,
                                     'organization_list':
                                     self.organization_list,
-                                    'state_list': self.state_list,
                                     'country_list': self.country_list,
                                 })
 
@@ -261,7 +246,6 @@ class VolunteerSignupView(TemplateView):
                             'registered': self.registered,
                             'phone_error': self.phone_error,
                             'organization_list': self.organization_list,
-                            'state_list': state_list,
                             'country_list': country_list,
                         })
         else:
