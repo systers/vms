@@ -3,7 +3,7 @@
 # Django
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
@@ -21,6 +21,8 @@ from volunteer.validation import validate_file
 from volunteer.models import Volunteer
 from cities_light.models import City, Region, Country
 import ipdb
+
+
 
 class AdministratorSignupView(TemplateView):
     """
@@ -146,7 +148,6 @@ class AdministratorSignupView(TemplateView):
 class VolunteerSignupView(TemplateView):
     registered = False
     organization_list = get_organizations_ordered_by_name()
-    city_list = City.objects.all()
     state_list = Region.objects.all()
     country_list = Country.objects.all()
     phone_error = False
@@ -161,14 +162,12 @@ class VolunteerSignupView(TemplateView):
                        'registered': self.registered,
                        'phone_error': self.phone_error,
                        'organization_list': self.organization_list,
-                       'city_list': self.city_list,
                        'state_list': self.state_list,
                        'country_list': self.country_list,
                        })
 
     def post(self,request):
         organization_list = get_organizations_ordered_by_name()
-        city_list = City.objects.all()
         state_list = Region.objects.all()
         country_list = Country.objects.all()
 
@@ -203,7 +202,6 @@ class VolunteerSignupView(TemplateView):
                                     'phone_error': self.phone_error,
                                     'organization_list':
                                     self.organization_list,
-                                    'city_list': self.city_list,
                                     'country_list': self.countrylist,
                                     'state_list': self.state_list,
                                 })
@@ -215,12 +213,11 @@ class VolunteerSignupView(TemplateView):
                                 request, 'registration/signup_volunteer.html',
                                 {
                                     'user_form': user_form,
-                                    'volunteer_form': volunteer_form,
+                                    'volunteer_fo-rm': volunteer_form,
                                     'registered': self.registered,
                                     'phone_error': self.phone_error,
                                     'organization_list':
                                     self.organization_list,
-                                    'city_list': self.city_list,
                                     'state_list': self.state_list,
                                     'country_list': self.country_list,
                                 })
@@ -264,15 +261,19 @@ class VolunteerSignupView(TemplateView):
                             'registered': self.registered,
                             'phone_error': self.phone_error,
                             'organization_list': self.organization_list,
-                            'city_list': city_list,
                             'state_list': state_list,
                             'country_list': country_list,
                         })
         else:
             return render(request, 'home/home.html', {'error': True})
 
+def load_states(request):
+    country_id = request.GET.get('country')
+    states = Region.objects.filter(country_id=country_id).order_by('name')
+    return render(request, 'registration/state_dropdown_list_options.html',{'states':states})
+
 def load_cities(request):
-    ipdb.set_trace()
     country_id = request.GET.get('country')
     cities = City.objects.filter(country_id=country_id).order_by('name')
-    return JsonResponse(cities, safe=False)
+    return render(request, 'registration/city_dropdown_list_options.html', {'cities': cities})
+
