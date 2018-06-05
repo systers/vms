@@ -23,7 +23,7 @@ from event.services import check_edit_event, get_event_by_id, get_events_by_date
 from job.services import get_jobs_by_event_id
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer_shift_sign_up
-
+from cities_light.models import City, Region, Country
 
 class AdministratorLoginRequiredMixin(object):
     @method_decorator(login_required)
@@ -45,6 +45,14 @@ class EventCreateView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
                       FormView):
     template_name = 'event/create.html'
     form_class = EventForm
+
+    def get_context_data(self,**kwargs):
+        context = super(EventCreateView, self).get_context_data(**kwargs)
+        context['city_list'] = City.objects.all()
+        context['state_list'] = Region.objects.all()
+        context['country_list'] = Country.objects.all()
+        return context
+
 
     def form_valid(self, form):
         start_date = form.cleaned_data['start_date']
@@ -98,6 +106,9 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
         job_obj = get_jobs_by_event_id(self.kwargs['event_id'])
         context['job_list'] = job_obj.values_list('start_date',
                                                   'end_date').distinct()
+        context['city_list'] = City.objects.all()
+        context['state_list'] = Region.objects.all()
+        context['country_list'] = Country.objects.all()
         return context
 
     def post(self, request, *args, **kwargs):
