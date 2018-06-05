@@ -274,6 +274,7 @@ def load_states(request):
 
 def load_cities(request):
     country_id = request.GET.get('country')
-    cities = City.objects.filter(country_id=country_id).order_by('name')
+    state_id = request.GET.get('state')
+    cities = City.objects.filter(country_id=country_id,region_id=state_id).order_by('name')
     return render(request, 'registration/city_dropdown_list_options.html', {'cities': cities})
 

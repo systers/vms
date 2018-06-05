@@ -1,0 +1,16 @@
+$(document).ready(function(){
+$("#select_state").change(function(){
+ var countryId = $("#select_country").val() 
+var stateId = $(this).val();
+  $.ajax({
+  	url: City_Url,
+  	data: {
+          'country': countryId, 
+          'state': stateId
+        },
+         success: function (cities) {
+       $("#select_city").html(cities);
+        }
+  });
+});
+});
