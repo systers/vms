@@ -32,7 +32,7 @@ class AdministratorSignupView(TemplateView):
     admin user, he/she is allowed to register others as an admin user.
     """
     registered = False
-    organization_list = get_organizations_ordered_by_name() 
+    organization_list = get_organizations_ordered_by_name()
     city_list = City.objects.all()
     state_list = Region.objects.all()
     country_list = Country.objects.all()
@@ -51,14 +51,14 @@ class AdministratorSignupView(TemplateView):
                 'administrator_form': administrator_form,
                 'registered': self.registered,
                 'phone_error': self.phone_error,
-                'organization_list': self.organization_list, 
+                'organization_list': self.organization_list,
                 'city_list': self.city_list,
                 'state_list': self.state_list,
                 'country_list': self.country_list,
             })
 
     def post(self, request):
-        organization_list = get_organizations_ordered_by_name() 
+        organization_list = get_organizations_ordered_by_name()
         city_list = City.objects.all()
         state_list = Region.objects.all()
         country_list = Country.objects.all()
@@ -71,8 +71,15 @@ class AdministratorSignupView(TemplateView):
 
                 if user_form.is_valid() and administrator_form.is_valid():
 
-                    ad_country = request.POST.get('admin-country')
+                    ad_country_id = request.POST.get('country')
+                    ad_country = Country.objects.get(pk=ad_country_id)
                     ad_phone = request.POST.get('admin-phone_number')
+
+                    ad_state_id = request.POST.get('state')
+                    ad_state = Region.objects.get(pk=ad_state_id)
+
+                    ad_city_id = request.POST.get('city')
+                    ad_city = City.objects.get(pk=ad_city_id)
 
                     if (ad_country and ad_phone):
                         if not validate_phone(ad_country, ad_phone):
@@ -85,7 +92,7 @@ class AdministratorSignupView(TemplateView):
                                     'registered': self.registered,
                                     'phone_error': self.phone_error,
                                     'organization_list':
-                                    self.organization_list, 
+                                    self.organization_list,
                                     'city_list': self.city_list,
                                     'country_list': self.countrylist,
                                     'state_list': self.state_list,
@@ -106,6 +113,13 @@ class AdministratorSignupView(TemplateView):
                     if organization:
                         administrator.organization = organization
 
+                    if ad_country:
+                       administrator.country = ad_country
+                    if ad_city:
+                        administrator.city = ad_city
+                    if ad_state:
+                        administrator.state = ad_state
+
                     administrator.save()
                     registered = True
                     messages.success(request,
@@ -119,9 +133,9 @@ class AdministratorSignupView(TemplateView):
                             'administrator_form': administrator_form,
                             'registered': self.registered,
                             'phone_error': self.phone_error,
-                            'organization_list': self.organization_list, 
+                            'organization_list': self.organization_list,
                             'city_list': self.city_list,
-                            'country_list': self.countrylist,
+                            'country_list': self.country_list,
                             'state_list': self.state_list,
                         })
         else:
@@ -156,7 +170,7 @@ class VolunteerSignupView(TemplateView):
         city_list = City.objects.all()
         state_list = Region.objects.all()
         country_list = Country.objects.all()
-   
+
         if organization_list:
             if request.method == 'POST':
                 user_form = UserForm(request.POST, prefix="usr")
@@ -167,7 +181,7 @@ class VolunteerSignupView(TemplateView):
 
                     vol_country_id = request.POST.get('country')
                     vol_country = Country.objects.get(pk=vol_country_id)
-                                         
+
                     vol_state_id = request.POST.get('state')
                     vol_state = Region.objects.get(pk=vol_state_id)
 

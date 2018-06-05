@@ -193,17 +193,18 @@
             </div>
         {% endif %}
 
-        <div id="div_id_city" class="form-group">
-        <label class="control-label">
-        {% trans "City" %}
-        </label>
-        <select id="select" class="form-control" name="city">
-         <option value="0">-- {% trans "Select city" %} --</option>
-                {% for city in city_list %}
-                    <option value="{{ city.id }}">{{ city.name }}</option>
+            <div id="div_id_country" class="form-group">
+                <label class="control-label">
+                    {% trans "Country" %}
+                </label>
+                 <select id="select" class="form-control" name="country">
+                <option value="0">-- {% trans "Select country" %} --</option>
+                {% for country in country_list %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
                 {% endfor %}
             </select>
             </div>
+
 
             <div id="div_id_state" class="form-group">
                 <label class="control-label">
@@ -217,17 +218,18 @@
             </select>
             </div>
 
-            <div id="div_id_country" class="form-group">
-                <label class="control-label">
-                    {% trans "Country" %}
-                </label>
-                 <select id="select" class="form-control" name="country">
-                <option value="0">-- {% trans "Select country" %} --</option>
-                {% for country in country_list %}
-                    <option value="{{ country.id }}">{{ country.name }}</option>
+        <div id="div_id_city" class="form-group">
+        <label class="control-label">
+        {% trans "City" %}
+        </label>
+        <select id="select" class="form-control" name="city">
+         <option value="0">-- {% trans "Select city" %} --</option>
+                {% for city in city_list %}
+                    <option value="{{ city.id }}">{{ city.name }}</option>
                 {% endfor %}
             </select>
             </div>
+
 
         {% if volunteer_form.phone_number.errors %}
             <div id="div_id_phone_number" class="form-group has-error">

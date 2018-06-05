@@ -25,9 +25,9 @@ class Administrator(models.Model):
             RegexValidator(r'^[(A-Z)|(a-z)|(0-9)|(\s)|(\-)|(\.)|(,)|(\:)]+$', ),
         ],
     )
-    city = models.ForeignKey(City)
-    state = models.ForeignKey(Region)
-    country = models.ForeignKey(Country)
+    city = models.ForeignKey(City, null=True, blank=True)
+    state = models.ForeignKey(Region, null=True, blank=True)
+    country = models.ForeignKey(Country, null=True, blank=True)
     phone_number = models.CharField(
         max_length=20,
         validators=[

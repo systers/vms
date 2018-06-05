@@ -166,14 +166,15 @@
                 </div>
             </div>
         {% endif %}
-        <div id="div_id_city" class="form-group">
-        <label class="control-label">
-        {% trans "City" %}
-        </label>
-        <select id="select" class="form-control" name="city_name">
-         <option value="0">-- {% trans "Select city" %} --</option>
-                {% for city in city_list %}
-                    <option value="{{ city.id }}">{{ city.name }}</option>
+
+            <div id="div_id_country" class="form-group">
+                <label class="control-label">
+                    {% trans "Country" %}
+                </label>
+                 <select id="select" class="form-control" name="country">
+                <option value="0">-- {% trans "Select country" %} --</option>
+                {% for country in country_list %}
+                    <option value="{{ country.id }}">{{ country.name }}</option>
                 {% endfor %}
             </select>
             </div>
@@ -182,25 +183,25 @@
                 <label class="control-label">
                     {% trans "State/Province" %}
                 </label>
-                <select id="select" class="form-control" name="state_name">
+                <select id="select" class="form-control" name="state">
                 <option value="0">-- {% trans "Select state" %} --</option>
                 {% for state in state_list %}
                     <option value="{{ state.id }}">{{ state.name }}</option>
                 {% endfor %}
             </select>
             </div>
-
-            <div id="div_id_country" class="form-group">
-                <label class="control-label">
-                    {% trans "Country" %}
-                </label>
-                 <select id="select" class="form-control" name="country_name">
-                <option value="0">-- {% trans "Select country" %} --</option>
-                {% for country in country_list %}
-                    <option value="{{ country.id }}">{{ country.name }}</option>
+            <div id="div_id_city" class="form-group">
+        <label class="control-label">
+        {% trans "City" %}
+        </label>
+        <select id="select" class="form-control" name="city">
+         <option value="0">-- {% trans "Select city" %} --</option>
+                {% for city in city_list %}
+                    <option value="{{ city.id }}">{{ city.name }}</option>
                 {% endfor %}
             </select>
             </div>
+
         {% if administrator_form.phone_number.errors %}
             <div id="div_id_phone_number" class="form-group has-error">
                 <label class="control-label requiredField" for="id_phone_number">
