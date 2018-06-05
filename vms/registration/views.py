@@ -20,6 +20,7 @@ from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
 from volunteer.models import Volunteer
 from cities_light.models import City, Region, Country
+import ipdb
 
 class AdministratorSignupView(TemplateView):
     """
@@ -270,3 +271,8 @@ class VolunteerSignupView(TemplateView):
         else:
             return render(request, 'home/home.html', {'error': True})
 
+def load_cities(request):
+    ipdb.set_trace()
+    country_id = request.GET.get('country')
+    cities = City.objects.filter(country_id=country_id).order_by('name')
+    return JsonResponse(cities, safe=False)
