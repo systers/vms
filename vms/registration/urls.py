@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^signup_volunteer/$',
         VolunteerSignupView.as_view(),
         name='signup_volunteer'),
-    url(r'^load_cities/$', load_cities, name='load_cities'), 
+    url(r'^load_cities/$', load_cities, name='load_cities'),
     url(r'^load_states/$', load_states, name='load_states'),
 ]
 

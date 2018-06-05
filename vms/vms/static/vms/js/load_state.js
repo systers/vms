@@ -1,9 +1,8 @@
 $(document).ready(function(){
 $("#select_country").change(function(){
    var countryId = $(this).val(); 
-   console.log(countryId);
   $.ajax({
-  	url: State_Url,
+  	url: StateUrl,
   	data: {
           'country': countryId
         },

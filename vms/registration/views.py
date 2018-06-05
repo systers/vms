@@ -3,7 +3,7 @@
 # Django
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
@@ -20,8 +20,6 @@ from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
 from volunteer.models import Volunteer
 from cities_light.models import City, Region, Country
-import ipdb
-
 
 
 class AdministratorSignupView(TemplateView):
