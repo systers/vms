@@ -193,7 +193,10 @@ def cancel(request, shift_id, volunteer_id):
         if request.method == 'POST':
             try:
                 cancel_shift_registration(volunteer_id, shift_id)
-                if admin:
+                if admin: 
+                    vol_email = Volunteer.objects.get(pk=volunteer_id).email
+                    send_mail("Shift Cancelled", "Your shift has been cancelled",
+                              "messanger@localhost.com", [vol_email], fail_silently=False)
                     return HttpResponseRedirect(
                         reverse(
                             'shift:manage_volunteer_shifts',
