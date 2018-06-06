@@ -123,6 +123,11 @@ LOGIN_URL = reverse_lazy('authentication:login_process')
 
 STATIC_ROOT = './static/'
 
+if DEBUG:
+    EMAIL_HOST = os.getenv('HOST','localhost')
+    EMAIL_PORT = os.getenv('PORT','1025')
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 LOGIN_REDIRECT_URL = reverse_lazy('home:index')
 RECOVER_ONLY_ACTIVE_USERS = False
 ACCOUNT_ACTIVATION_DAYS = 2
