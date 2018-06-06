@@ -614,7 +614,9 @@ def sign_up(request, shift_id, volunteer_id):
                     if result == "IS_VALID":
                         if admin:
                             vol_email = Volunteer.objects.get(pk=volunteer_id).email
-                            send_mail("Shift Assigned", "You have been assigned a shift, please login to check it", "messanger@localhost.com", [vol_email], fail_silently=False)
+                            send_mail("Shift Assigned", "A shift has been assigned to you.",
+                                       "messanger@localhost.com", [vol_email],
+                                       fail_silently=False)
                             return HttpResponseRedirect(
                                 reverse(
                                     'shift:manage_volunteer_shifts',
