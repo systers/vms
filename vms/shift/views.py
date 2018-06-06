@@ -14,10 +14,11 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, DeleteView, ListView
 from django.views.generic.edit import FormView, UpdateView
 from django.utils.decorators import method_decorator
+from django.core.mail import send_mail
 
 # local Django
 from job.models import Job
-from job.services import get_job_by_id 
+from job.services import get_job_by_id
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
 from shift.services import get_shift_by_id, add_shift_hours, cancel_shift_registration, clear_shift_hours, edit_shift_hours, get_unlogged_shifts_by_volunteer_id, get_logged_volunteers_by_shift_id, get_shift_slots_remaining, get_volunteers_by_shift_id, get_volunteer_by_id, get_volunteer_shifts_with_hours, get_shifts_ordered_by_date, get_shifts_with_open_slots_for_volunteer, register, get_volunteer_shift_by_id, get_shifts_by_job_id, delete_shift
@@ -25,6 +26,7 @@ from volunteer.forms import SearchVolunteerForm
 from volunteer.services import get_all_volunteers, search_volunteers
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
+from volunteer.models import Volunteer
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -191,7 +193,10 @@ def cancel(request, shift_id, volunteer_id):
         if request.method == 'POST':
             try:
                 cancel_shift_registration(volunteer_id, shift_id)
-                if admin:
+                if admin: 
+                    vol_email = Volunteer.objects.get(pk=volunteer_id).email
+                    send_mail("Shift Cancelled", "Your shift has been cancelled",
+                              "messanger@localhost.com", [vol_email], fail_silently=False)
                     return HttpResponseRedirect(
                         reverse(
                             'shift:manage_volunteer_shifts',
@@ -611,6 +616,10 @@ def sign_up(request, shift_id, volunteer_id):
                     result = register(volunteer_id, shift_id)
                     if result == "IS_VALID":
                         if admin:
+                            vol_email = Volunteer.objects.get(pk=volunteer_id).email
+                            send_mail("Shift Assigned", "A shift has been assigned to you.",
+                                       "messanger@localhost.com", [vol_email],
+                                       fail_silently=False)
                             return HttpResponseRedirect(
                                 reverse(
                                     'shift:manage_volunteer_shifts',
