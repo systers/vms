@@ -370,13 +370,16 @@ def get_volunteer_shifts(v_id, event_name, job_name, start_date, end_date):
     # filter based on criteria provided
     if event_name:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__event__name__icontains=event_name)
+            shift__job__event__name__icontains=event_name, report_status=False)
     if job_name:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__name__icontains=job_name)
+            shift__job__name__icontains=job_name, report_status=False)
     if (start_date and end_date):
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__date__gte=start_date, shift__date__lte=end_date)
+            shift__date__gte=start_date, shift__date__lte=end_date, report_status=False)
+    for shift in volunteer_shift_list: 
+        shift.report_status = True
+        shift.save()
     return volunteer_shift_list
 
 def get_volunteer_shift_by_id(v_id, s_id):
