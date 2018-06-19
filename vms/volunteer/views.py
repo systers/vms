@@ -22,7 +22,8 @@ from administrator.utils import admin_required
 from event.services import get_signed_up_events_for_volunteer
 from job.services import get_signed_up_jobs_for_volunteer
 from organization.services import get_organization_by_id, get_organizations_ordered_by_name
-from shift.services import get_volunteer_report, calculate_total_report_hours
+from shift.models import Report
+from shift.services import get_volunteer_report, calculate_total_report_hours, get_volunteer_shifts
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from volunteer.models import Volunteer
 from volunteer.services import (delete_volunteer_resume, search_volunteers,
@@ -31,7 +32,6 @@ from volunteer.services import (delete_volunteer_resume, search_volunteers,
 from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
-
 
 @login_required
 def download_resume(request, volunteer_id):
@@ -175,7 +175,7 @@ class ShowFormView(LoginRequiredMixin, FormView):
     """
     Displays the form
     """
-    model = Volunteer
+    model = Report
     form_class = ReportForm
     template_name = "volunteer/report.html"
 
@@ -204,9 +204,14 @@ class ShowReportListView(LoginRequiredMixin, ListView):
         job_name = self.request.POST['job_name']
         start_date = self.request.POST['start_date']
         end_date = self.request.POST['end_date']
+        volunteer_shift_list = get_volunteer_shifts(volunteer_id, event_name, job_name,
+                                           start_date, end_date)
         report_list = get_volunteer_report(volunteer_id, event_name, job_name,
                                            start_date, end_date)
         total_hours = calculate_total_report_hours(report_list)
+        r=Report.objects.create(total_hrs=total_hours)
+        r.volunteer_shifts.add(*volunteer_shift_list)
+        r.save()
         return render(
             request, 'volunteer/report.html', {
                 'report_list': report_list,

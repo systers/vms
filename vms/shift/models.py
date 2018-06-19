@@ -80,6 +80,6 @@ class VolunteerShift(models.Model):
         return '{0} - {1}'.format(self.shift, self.volunteer.first_name)
 
 class Report(models.Model):
-    total_hrs = models.DurationField()
+    total_hrs = models.DecimalField(max_digits=20, decimal_places=4)
     volunteer_shifts = models.ManyToManyField(VolunteerShift)
     confirm_status = models.BooleanField(default=False)

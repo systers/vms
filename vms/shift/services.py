@@ -359,10 +359,25 @@ def get_volunteer_report(v_id, event_name, job_name, start_date, end_date):
     if (start_date and end_date):
         volunteer_shift_list = volunteer_shift_list.filter(
             shift__date__gte=start_date, shift__date__lte=end_date)
-
     report_list = generate_report(volunteer_shift_list)
     return report_list
 
+
+def get_volunteer_shifts(v_id, event_name, job_name, start_date, end_date):
+
+    volunteer_shift_list = get_volunteer_shifts_with_hours(v_id)
+
+    # filter based on criteria provided
+    if event_name:
+        volunteer_shift_list = volunteer_shift_list.filter(
+            shift__job__event__name__icontains=event_name)
+    if job_name:
+        volunteer_shift_list = volunteer_shift_list.filter(
+            shift__job__name__icontains=job_name)
+    if (start_date and end_date):
+        volunteer_shift_list = volunteer_shift_list.filter(
+            shift__date__gte=start_date, shift__date__lte=end_date)
+    return volunteer_shift_list
 
 def get_volunteer_shift_by_id(v_id, s_id):
 
