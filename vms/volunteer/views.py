@@ -23,7 +23,7 @@ from event.services import get_signed_up_events_for_volunteer
 from job.services import get_signed_up_jobs_for_volunteer
 from organization.services import get_organization_by_id, get_organizations_ordered_by_name
 from shift.models import Report
-from shift.services import get_volunteer_report, calculate_total_report_hours, get_volunteer_shifts
+from shift.services import calculate_total_report_hours, get_volunteer_shifts, generate_report
 from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
 from volunteer.models import Volunteer
 from volunteer.services import (delete_volunteer_resume, search_volunteers,
@@ -207,22 +207,28 @@ class ShowReportListView(LoginRequiredMixin, ListView):
         end_date = self.request.POST['end_date']
         volunteer_shift_list = get_volunteer_shifts(volunteer_id, event_name, job_name,
                                            start_date, end_date)
-        report_list = get_volunteer_report(volunteer_id, event_name, job_name,
-                                           start_date, end_date)
-        total_hours = calculate_total_report_hours(report_list)
-        r=Report.objects.create(total_hrs=total_hours)
-        r.volunteer_shifts.add(*volunteer_shift_list)
-        r.save()
-        return render(
-            request, 'volunteer/report.html', {
-                'report_list': report_list,
-                'total_hours': total_hours,
-                'notification': True,
-                'job_list': job_list,
-                'event_list': event_list,
-                'selected_event': event_name,
-                'selected_job': job_name
-            })
+        if volunteer_shift_list:
+            report_list = generate_report(volunteer_shift_list)
+            total_hours = calculate_total_report_hours(report_list)
+            r=Report.objects.create(total_hrs=total_hours)
+            r.volunteer_shifts.add(*volunteer_shift_list)
+            r.save()
+            return render(
+                request, 'volunteer/report.html', {
+                  'report_list': report_list,
+                  'total_hours': total_hours,
+                  'notification': True,
+                  'job_list': job_list,
+                  'event_list': event_list,
+                  'selected_event': event_name,
+                  'selected_job': job_name
+                  })
+        else:
+            return render(request,'volunteer/report.html',{
+                          'job_list':job_list,
+                          'event_list':event_list,
+                          'notification':True,
+                           })
 
 
 @login_required

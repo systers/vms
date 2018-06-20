@@ -2,7 +2,7 @@
 from django.core.validators import (MaxValueValidator, MinValueValidator,
                                     RegexValidator)
 from django.db import models
-
+from datetime import datetime
 # local Django
 from job.models import Job
 from volunteer.models import Volunteer
@@ -75,7 +75,11 @@ class VolunteerShift(models.Model):
     start_time = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     # assigned_by_manager = models.BooleanField()
-    report_status = models.BooleanField(default=False)
+    STATUS_CHOICES = (
+                     (False,"Not reported"),
+                     (True, "Reported"),
+                     )
+    report_status = models.BooleanField(choices=STATUS_CHOICES,default=False)
 
     def __str__(self):
         return '{0} - {1}'.format(self.shift, self.volunteer.first_name)
@@ -85,3 +89,4 @@ class Report(models.Model):
     volunteer_shifts = models.ManyToManyField(VolunteerShift)
     # 0: pending 1: confirmed 2: rejected
     confirm_status = models.IntegerField(default=0)
+    date_submitted = models.DateField(default=datetime.now().date())
