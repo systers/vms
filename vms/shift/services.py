@@ -9,10 +9,14 @@ from django.core.mail import send_mail
 # local Django
 from organization.services import (get_organization_by_name,
                                    get_organizations_ordered_by_name)
+from shift.models import Report
 from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
 from volunteer.services import get_volunteer_by_id, get_all_volunteers
 
+def get_report_by_id(report_id):
+    report = Report.objects.get(id=report_id)
+    return report
 
 def add_shift_hours(v_id, s_id, start_time, end_time):
 
@@ -345,24 +349,24 @@ def get_unlogged_shifts_by_volunteer_id(v_id):
     return shift_signed_up_list
 
 
-def get_volunteer_report(v_id, event_name, job_name, start_date, end_date):
+def get_volunteer_shifts(v_id, event_name, job_name, start_date, end_date):
 
     volunteer_shift_list = get_volunteer_shifts_with_hours(v_id)
 
     # filter based on criteria provided
     if event_name:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__event__name__icontains=event_name)
+            shift__job__event__name__icontains=event_name, report_status=False)
     if job_name:
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__job__name__icontains=job_name)
+            shift__job__name__icontains=job_name, report_status=False)
     if (start_date and end_date):
         volunteer_shift_list = volunteer_shift_list.filter(
-            shift__date__gte=start_date, shift__date__lte=end_date)
-
-    report_list = generate_report(volunteer_shift_list)
-    return report_list
-
+            shift__date__gte=start_date, shift__date__lte=end_date, report_status=False)
+    for shift in volunteer_shift_list: 
+        shift.report_status = True
+        shift.save()
+    return volunteer_shift_list
 
 def get_volunteer_shift_by_id(v_id, s_id):
 

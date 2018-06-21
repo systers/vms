@@ -1,12 +1,11 @@
 # Django
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 # local Django
 from volunteer import views
-from volunteer.views import VolunteerUpdateView, ProfileView, GenerateReportView
+from volunteer.views import VolunteerUpdateView, ProfileView, GenerateReportView, VolunteerHistoryView
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^delete_resume/(?P<volunteer_id>\d+)$',
         views.delete_resume,
         name='delete_resume'),
@@ -23,4 +22,6 @@ urlpatterns = patterns(
         GenerateReportView.as_view(),
         name='report'),
     url(r'^search/$', views.search, name='search'),
-)
+    url(r'^view_history/(?P<volunteer_id>\d+)$', VolunteerHistoryView.as_view(), name='view_history'),
+]
+
