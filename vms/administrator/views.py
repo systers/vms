@@ -18,10 +18,42 @@ from administrator.models import Administrator
 from administrator.utils import admin_required, admin_id_check
 from event.services import get_events_ordered_by_name
 from job.services import get_jobs_ordered_by_title
-from shift.services import calculate_total_report_hours, get_administrator_report
+from shift.models import Report
+from shift.services import get_administrator_report, get_report_by_id, generate_report
 from organization.services import get_organizations_ordered_by_name, get_organization_by_id
+import ipdb
 
+class ReportListView(ListView, LoginRequiredMixin):
+   template_name = "administrator/report.html"
+   
+   def get_queryset(self):
+      reports = Report.objects.filter(confirm_status=0)
+      return reports
 
+def reject(request, report_id):
+   report = get_report_by_id(report_id)
+   report.confirm_status=2
+   report.save()
+   return HttpResponseRedirect('/administrator/report')
+
+def approve(request, report_id):
+   report = get_report_by_id(report_id)
+   report.confirm_status=1
+   report.save()
+   return HttpResponseRedirect('/administrator/report')
+   
+
+def show_report(request, report_id):
+   report = get_report_by_id(report_id)
+   volunteer_shift_list = report.volunteer_shifts.all()   
+   report_list = generate_report(volunteer_shift_list)
+   total_hours = report.total_hrs
+   return render(
+        request, 'administrator/view_report.html', {
+              'report_list': report_list,
+              'total_hours': total_hours,
+               })
+              
 class AdministratorLoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -31,72 +63,6 @@ class AdministratorLoginRequiredMixin(object):
         else:
             return super(AdministratorLoginRequiredMixin, self).dispatch(
                 request, *args, **kwargs)
-
-
-class ShowFormView(AdministratorLoginRequiredMixin, FormView):
-    """
-    Displays the form
-    """
-    model = Administrator
-    form_class = ReportForm
-    template_name = "administrator/report.html"
-    event_list = get_events_ordered_by_name()
-    job_list = get_jobs_ordered_by_title()
-    organization_list = get_organizations_ordered_by_name()
-
-    def get(self, request, *args, **kwargs):
-        return render(
-            request, 'administrator/report.html', {
-                'event_list': self.event_list,
-                'organization_list': self.organization_list,
-                'job_list': self.job_list
-            })
-
-
-class ShowReportListView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
-                         ListView):
-    """
-    Generate the report using ListView
-    """
-    template_name = "administrator/report.html"
-    organization_list = get_organizations_ordered_by_name()
-    event_list = get_events_ordered_by_name()
-    job_list = get_jobs_ordered_by_title()
-
-    def post(self, request, *args, **kwargs):
-        report_list = get_administrator_report(
-            self.request.POST['first_name'],
-            self.request.POST['last_name'],
-            self.request.POST['organization'],
-            self.request.POST['event_name'],
-            self.request.POST['job_name'],
-            self.request.POST['start_date'],
-            self.request.POST['end_date'],
-        )
-        organization = self.request.POST['organization']
-        event_name = self.request.POST['event_name']
-        total_hours = calculate_total_report_hours(report_list)
-        return render(
-            request, 'administrator/report.html', {
-                'report_list': report_list,
-                'total_hours': total_hours,
-                'notification': True,
-                'organization_list': self.organization_list,
-                'selected_organization': organization,
-                'event_list': self.event_list,
-                'selected_event': event_name,
-                'job_list': self.job_list
-            })
-
-
-class GenerateReportView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        view = ShowFormView.as_view()
-        return view(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        view = ShowReportListView.as_view()
-        return view(request, *args, **kwargs)
 
 
 @login_required

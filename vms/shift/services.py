@@ -9,10 +9,14 @@ from django.core.mail import send_mail
 # local Django
 from organization.services import (get_organization_by_name,
                                    get_organizations_ordered_by_name)
+from shift.models import Report
 from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
 from volunteer.services import get_volunteer_by_id, get_all_volunteers
 
+def get_report_by_id(report_id):
+    report = Report.objects.get(id=report_id)
+    return report
 
 def add_shift_hours(v_id, s_id, start_time, end_time):
 

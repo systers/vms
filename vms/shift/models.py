@@ -65,8 +65,7 @@ class Shift(models.Model):
 
     def __str__(self):
         return '{0} - {1}'.format(self.job.name, self.date)
-
-
+    
 class VolunteerShift(models.Model):
     # Volunteer  to VolunteerShift is a one-to-many relationship
     volunteer = models.ForeignKey(Volunteer)
@@ -90,3 +89,8 @@ class Report(models.Model):
     # 0: pending 1: confirmed 2: rejected
     confirm_status = models.IntegerField(default=0)
     date_submitted = models.DateField(default=datetime.now().date())
+
+    def get_volunteer(self):
+       return self.volunteer_shifts.all()[0].volunteer
+    def get_volunteer_shifts(self):
+       return self.volunteer_shifts.all()
