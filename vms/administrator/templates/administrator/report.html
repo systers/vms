@@ -17,8 +17,8 @@
 {% for report in report_list %}
 <tr> 
 <td> {{report.date_submitted}}</td>
-<td>{{report.get_volunteer}}</td>
-<td>{{report.get_volunteer.get_organization}}</td>
+<td>{{report.volunteer}}</td>
+<td>{{report.volunteer.organization}}</td>
 <td>{{report.total_hrs}}</td>
 <td>
 <a href="{% url 'administrator:show_report' report.id %}" class="btn btn-info btn-sm">{% trans "View" %}</a>
@@ -30,8 +30,4 @@
 {% endfor %}
 </tbody>
 </table>
-
-
-
-
 {% endblock %}

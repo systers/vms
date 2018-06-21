@@ -67,6 +67,26 @@ def delete_resume(request, volunteer_id):
     else:
         return HttpResponse(status=403)
 
+class VolunteerHistoryView(LoginRequiredMixin, ListView):
+    template_name = 'volunteer/view_history.html' 
+    model = Report
+
+    def get_queryset(self):
+       volunteer_id = self.kwargs['volunteer_id']
+       print(volunteer_id)
+       volunteer = get_volunteer_by_id(volunteer_id)
+       reports = Report.objects.filter(confirm_status=1, volunteer=volunteer).order_by('date_submitted') 
+       return reports
+    
+    def get_context_data(self, **kwargs): 
+       context = super(VolunteerHistoryView,self).get_context_data(**kwargs) 
+       volunteer_id = self.kwargs['volunteer_id']
+       print(volunteer_id)
+       volunteer = get_volunteer_by_id(volunteer_id)
+       context['volunteer']=volunteer
+       organization=volunteer.organization
+       context['organization']=organization
+       return context
 
 '''
  The View to edit Volunteer Profile
@@ -199,6 +219,7 @@ class ShowReportListView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         volunteer_id = self.kwargs['volunteer_id']
+        volunteer = get_volunteer_by_id(volunteer_id)
         event_list = get_signed_up_events_for_volunteer(volunteer_id)
         job_list = get_signed_up_jobs_for_volunteer(volunteer_id)
         event_name = self.request.POST['event_name']
@@ -210,7 +231,7 @@ class ShowReportListView(LoginRequiredMixin, ListView):
         if volunteer_shift_list:
             report_list = generate_report(volunteer_shift_list)
             total_hours = calculate_total_report_hours(report_list)
-            r=Report.objects.create(total_hrs=total_hours)
+            r=Report.objects.create(total_hrs=total_hours, volunteer=volunteer)
             r.volunteer_shifts.add(*volunteer_shift_list)
             r.save()
             return render(

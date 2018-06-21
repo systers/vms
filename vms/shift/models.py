@@ -89,8 +89,7 @@ class Report(models.Model):
     # 0: pending 1: confirmed 2: rejected
     confirm_status = models.IntegerField(default=0)
     date_submitted = models.DateField(default=datetime.now().date())
+    volunteer = models.ForeignKey(Volunteer)
 
-    def get_volunteer(self):
-       return self.volunteer_shifts.all()[0].volunteer
     def get_volunteer_shifts(self):
        return self.volunteer_shifts.all()
