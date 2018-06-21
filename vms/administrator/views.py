@@ -21,7 +21,6 @@ from job.services import get_jobs_ordered_by_title
 from shift.models import Report
 from shift.services import get_administrator_report, get_report_by_id, generate_report
 from organization.services import get_organizations_ordered_by_name, get_organization_by_id
-import ipdb
 
 class ReportListView(ListView, LoginRequiredMixin):
    template_name = "administrator/report.html"

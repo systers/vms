@@ -32,7 +32,6 @@ from volunteer.services import (delete_volunteer_resume, search_volunteers,
 from volunteer.validation import validate_file
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
-import ipdb
 
 @login_required
 def download_resume(request, volunteer_id):
