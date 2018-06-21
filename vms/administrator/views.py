@@ -52,6 +52,7 @@ def show_report(request, report_id):
         request, 'administrator/view_report.html', {
               'report_list': report_list,
               'total_hours': total_hours,
+              'report_id': report_id,
                })
               
 class AdministratorLoginRequiredMixin(object):
