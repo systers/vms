@@ -12,6 +12,7 @@ from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
 from organization.models import Organization
 
+
 # Contains common functions which need to be frequently called by tests
 
 
@@ -70,6 +71,27 @@ def create_volunteer_with_details(volunteer):
         phone_number=volunteer[7],
         email=volunteer[8],
         user=u1)
+
+    v1.save()
+    return v1
+
+
+def create_volunteer_with_details_dynamic_password(volunteer):
+    """
+    Creates and returns volunteer with passed name and dates
+    """
+    u1 = User.objects.create_user(username=volunteer[0], password=volunteer[1])
+    v1 = Volunteer(
+        email=volunteer[2],
+        first_name=volunteer[3],
+        last_name=volunteer[4],
+        address=volunteer[5],
+        city=volunteer[6],
+        state=volunteer[7],
+        country=volunteer[8],
+        phone_number=volunteer[9],
+        user=u1
+    )
 
     v1.save()
     return v1
@@ -152,7 +174,6 @@ def create_country():
 
 
 def create_admin():
-
     user_1 = User.objects.create_user(username='admin', password='admin')
 
     admin = Administrator.objects.create(
@@ -169,7 +190,6 @@ def create_admin():
 
 
 def create_volunteer():
-
     user_1 = User.objects.create_user(
         username='volunteer', password='volunteer')
 
@@ -188,7 +208,7 @@ def create_volunteer():
 
 def register_event_utility():
     event = Event.objects.create(
-        name='event', start_date='2016-05-10', end_date='2018-06-16')
+        name='event', start_date='2050-05-10', end_date='2050-06-16')
 
     return event
 
@@ -196,8 +216,8 @@ def register_event_utility():
 def register_job_utility():
     job = Job.objects.create(
         name='job',
-        start_date='2016-05-10',
-        end_date='2017-06-15',
+        start_date='2050-05-10',
+        end_date='2050-06-15',
         event=Event.objects.get(name='event'))
 
     return job
@@ -205,7 +225,7 @@ def register_job_utility():
 
 def register_shift_utility():
     shift = Shift.objects.create(
-        date='2017-06-15',
+        date='2050-06-15',
         start_time='09:00',
         end_time='15:00',
         max_volunteers='6',
