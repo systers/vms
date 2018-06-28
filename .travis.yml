@@ -29,6 +29,7 @@ before_script:
 
 script:
   - cd vms
+  - flake8
   - python manage.py makemigrations auth volunteer administrator organization event job shift registration
   - python manage.py migrate --noinput --traceback --settings=vms.settings
   - coverage run --source='.' manage.py test -v 2
