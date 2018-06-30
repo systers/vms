@@ -36,7 +36,7 @@ def create_event_with_details(event):
     Creates and returns event with passed name and dates
     """
     e1 = Event(name=event[0], start_date=event[1], end_date=event[2])
-    if event[3]:
+    if len(event) == 4:
        e1.description = event[3]
     e1.save()
     return e1
