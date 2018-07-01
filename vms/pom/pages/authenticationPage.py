@@ -28,8 +28,7 @@ class AuthenticationPage(BasePage):
         self.click_link(self.home.LOGIN_TEXT)
 
     def logout(self):
-        element = self.find_link(self.home.LOGOUT_TEXT)
-        self.execute_script('arguments[0].click();', element)
+        self.click_link(self.home.LOGOUT_TEXT)
 
     def get_incorrect_login_message(self):
         return self.element_by_class_name(self.elements.INCORRECT_LOGIN_ERROR)

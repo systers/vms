@@ -9,10 +9,7 @@ class AdminRegistrationPage(BasePage):
 
     live_server_url = ''
     admin_registration_page = PageUrls.admin_registration_page
-    success_message = 'You have successfully registered!'
-    USER_EXISTS = 'A user with that username already exists.'
-    INVALID_PHONE = 'Please enter a valid phone number'
-    INVALID_PHONE_FOR_COUNTRY = 'This phone number isn\'t valid for the selected country'
+    success_message = "You have successfully registered!"
 
     def __init__(self, driver):
         self.elements = AdminRegistrationPageLocators()

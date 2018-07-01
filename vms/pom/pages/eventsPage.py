@@ -1,13 +1,15 @@
 # third party
+from selenium.webdriver.support.ui import Select
 
 # local Django
 from pom.pages.basePage import BasePage
-from pom.locators.eventsPageLocators import EventsPageLocators
+from pom.locators.eventsPageLocators import EventsPageLocators 
 from pom.pages.homePage import HomePage
 from pom.pageUrls import PageUrls
 
 
 class EventsPage(BasePage):
+
     event_list_page = PageUrls.event_list_page
     job_list_page = PageUrls.job_list_page
     shift_list_page = PageUrls.shift_list_page
@@ -19,9 +21,6 @@ class EventsPage(BasePage):
     shift_tab = 'Shifts'
     organization_tab = 'Organizations'
     live_server_url = ''
-    FIELD_REQUIRED = 'This field is required.'
-    NO_EVENT_PRESENT = 'There are currently no events. Please create events first.'
-    START_BEFORE_END = 'Start date must be before the end date'
 
     def __init__(self, driver):
         self.driver = driver
@@ -75,7 +74,7 @@ class EventsPage(BasePage):
         self.element_by_xpath(self.elements.GENERAL_SUBMIT_PATH).submit()
 
     def go_to_events_page(self):
-        self.home_page.get_events_link().click()
+        self.home_page.get_events_link().send_keys('\n')
 
     def navigate_to_event_list_view(self):
         self.get_page(self.live_server_url, self.event_list_page)
@@ -97,7 +96,7 @@ class EventsPage(BasePage):
         self.element_by_xpath(self.elements.EDIT_EVENT).click()
 
     def go_to_create_job_page(self):
-        self.click_link('Create Job')
+        self.get_page(self.live_server_url, self.create_job_page)
 
     def go_to_edit_job_page(self):
         self.element_by_xpath(self.elements.EDIT_JOB).click()
@@ -109,16 +108,10 @@ class EventsPage(BasePage):
         self.element_by_xpath(self.elements.EDIT_SHIFT).click()
 
     def go_to_create_organization_page(self):
-        self.click_link('Create Organization')
-
-    def go_to_edit_organization_page(self):
-        self.element_by_xpath(self.elements.EDIT_ORG).click()
+        self.get_page(self.live_server_url, self.create_organization_page)
 
     def get_deletion_box(self):
         return self.element_by_class_name(self.elements.DELETION_BOX)
-
-    def get_delete_event_element(self, relative):
-        return self.element_by_xpath(self.elements.DELETE_EVENT + relative)
 
     def get_deletion_context(self):
         return self.element_by_class_name(self.elements.DELETION_TOPIC).text
@@ -128,12 +121,6 @@ class EventsPage(BasePage):
 
     def get_event_name(self):
         return self.element_by_xpath(self.elements.EVENT_NAME).text
-
-    def get_event_start_date(self):
-        return self.element_by_xpath(self.elements.EVENT_START_DATE).text
-
-    def get_event_end_date(self):
-        return self.element_by_xpath(self.elements.EVENT_END_DATE).text
 
     def get_warning_context(self):
         return self.element_by_class_name(self.elements.WARNING_CONTEXT).text
@@ -190,13 +177,12 @@ class EventsPage(BasePage):
         return self.element_by_xpath(self.elements.SHIFT_START_TIME_ERROR).text
 
     def get_shift_end_time_error(self):
-        return self.driver.find_element_by_xpath(self.elements.SHIFT_END_TIME_ERROR).text
+        return self.driver.find_element_by_xpath(
+            self.elements.SHIFT_END_TIME_ERROR).text
 
     def get_shift_max_volunteer_error(self):
-        return self.element_by_xpath(self.elements.SHIFT_MAX_VOLUNTEER_ERROR).text
-
-    def get_organization_name_error(self):
-        return self.element_by_xpath(self.elements.ORGANIZATION_NAME_ERROR).text
+        return self.element_by_xpath(
+            self.elements.SHIFT_MAX_VOLUNTEER_ERROR).text
 
     def get_shift_job(self):
         return self.element_by_xpath(self.elements.SHIFT_JOB).text
@@ -244,5 +230,5 @@ class EventsPage(BasePage):
         return self.get_value_for_xpath(self.elements.CREATE_SHIFT_END_TIME)
 
     def get_shift_max_volunteers(self):
-        return self.get_value_for_xpath(self.elements.CREATE_SHIFT_MAX_VOLUNTEER)
-
+        return self.get_value_for_xpath(
+            self.elements.CREATE_SHIFT_MAX_VOLUNTEER)

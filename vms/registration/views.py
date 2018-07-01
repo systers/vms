@@ -2,30 +2,23 @@
 
 # Django
 from django.contrib import messages
-from django.contrib.auth.models import User
-from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.http import HttpResponseBadRequest
 from django.shortcuts import render
-from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_text
-from django.utils.decorators import method_decorator
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
 
 # local Django
 from administrator.forms import AdministratorForm
-from administrator.models import Administrator
+from administrator.models import Administrator 
 from organization.services import (get_organizations_ordered_by_name,
                                    get_organization_by_id)
 from registration.forms import UserForm
 from registration.phone_validate import validate_phone
-from registration.tokens import account_activation_token
 from registration.utils import volunteer_denied
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
+
 
 class AdministratorSignupView(TemplateView):
     """
@@ -70,7 +63,7 @@ class AdministratorSignupView(TemplateView):
                     ad_country = request.POST.get('admin-country')
                     ad_phone = request.POST.get('admin-phone_number')
 
-                    if ad_country and ad_phone:
+                    if (ad_country and ad_phone):
                         if not validate_phone(ad_country, ad_phone):
                             self.phone_error = True
                             return render(
@@ -193,20 +186,13 @@ class VolunteerSignupView(TemplateView):
 
                     volunteer.reminder_days = 1
                     volunteer.save()
-                    current_site = get_current_site(request)
-                    mail_subject = 'Activate your account.'
-                    message = render_to_string(
-                        'registration/acc_active_email.html', {
-                            'user': user,
-                            'domain': current_site.domain,
-                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                            'token': account_activation_token.make_token(user),
-                        })
-                    to_email = volunteer_form.cleaned_data.get('email')
-                    email = EmailMessage(mail_subject, message, to=[to_email])
-                    email.send()
-                    return render(request, 'home/email_ask_confirm.html')
+                    registered = True
+
+                    messages.success(request,
+                                     'You have successfully registered!')
+                    return HttpResponseRedirect(reverse('home:index'))
                 else:
+                    print(user_form.errors, volunteer_form.errors)
                     return render(
                         request, 'registration/signup_volunteer.html', {
                             'user_form': user_form,
@@ -217,26 +203,4 @@ class VolunteerSignupView(TemplateView):
                         })
         else:
             return render(request, 'home/home.html', {'error': True})
-
-
-def activate(request, uidb64, token):
-    """
-    Checks token, if valid, then user will active and login
-
-    :param uidb64: used to generate uid
-    :param token: to be passed in request
-    :return: email
-    :raise: BadRequest
-    """
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        return render(request, 'home/confirmed_email.html')
-    else:
-        return HttpResponseBadRequest('Activation link is invalid!')
 
