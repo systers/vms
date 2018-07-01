@@ -1,7 +1,8 @@
 class EventsPageLocators(object):
-
     # locators for events, jobs, shifts  listed
     EVENT_NAME = '//table//tbody//tr[1]//td[1]'
+    EVENT_START_DATE = '//table//tbody//tr[1]//td[2]'
+    EVENT_END_DATE = '//table//tbody//tr[1]//td[3]'
     JOB_NAME = '//table//tbody//tr[1]//td[1]'
     JOB_EVENT = '//table//tbody//tr[1]//td[2]'
     SHIFT_DATE = '//table//tbody//tr[1]//td[1]'
@@ -48,8 +49,8 @@ class EventsPageLocators(object):
     ORG_NAME = '//input[@name = "name"]'
 
     EVENT_NAME_ERROR = "//form//div[1]/div/p/strong"
-    EVENT_START_DATE_ERROR = "//form//div[2]/div/p/strong"
-    EVENT_END_DATE_ERROR = "//form//div[3]/div/p/strong"
+    EVENT_START_DATE_ERROR = "//form//div[3]/div/p/strong"
+    EVENT_END_DATE_ERROR = "//form//div[4]/div/p/strong"
     JOB_NAME_ERROR = "//form//div[3]/div/p/strong"
     JOB_START_DATE_ERROR = "//form//div[5]/div/p/strong"
     JOB_END_DATE_ERROR = "//form//div[6]/div/p/strong"
@@ -57,5 +58,6 @@ class EventsPageLocators(object):
     SHIFT_START_TIME_ERROR = "//form//div[5]/div/p/strong"
     SHIFT_END_TIME_ERROR = "//form//div[6]/div/p/strong"
     SHIFT_MAX_VOLUNTEER_ERROR = "//form//div[7]/div/p/strong"
+    ORGANIZATION_NAME_ERROR = "//form//div[1]/div/p/strong"
 
     GENERAL_SUBMIT_PATH = '//form[1]'
