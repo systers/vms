@@ -175,9 +175,11 @@
     {% if report_list %}
         <div class="well">
             <legend>{% trans "Report Statistics" %}</legend>
-            <label><h4><span class="label label-default">{% trans "Total Number of Shifts" %}</span></h4></label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ report_list|length }}
+            <table>
+                <tr><td class="centered"><label><h4><span class="label label-default">{% trans "Total Number of Shifts" %}</span></h4></label></td><td class="centered">{{ report_list|length }}</td></tr>
             <br>
-            <label><h4><span class="label label-default">{% trans "Total Hours" %}</span></h4></label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ total_hours }}
+                <tr><td class="centered"><label><h4><span class="label label-default">{% trans "Total Hours" %}</span></h4></label></td><td class="centered">{{ total_hours }}</td></tr>
+            </table>
         </div>
         <div class="well">
             <table class="table table-striped table-hover">
