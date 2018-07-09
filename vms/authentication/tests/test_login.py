@@ -28,6 +28,11 @@ class TestAccessControl(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
+        """Method to initiate class level objects.
+
+        This method initiates Firefox WebDriver, WebDriverWait and
+        the corresponding POM objects for this Test Class
+        """
         cls.driver = webdriver.Firefox()
         cls.driver.maximize_window()
         cls.authentication_page = AuthenticationPage(cls.driver)
@@ -35,18 +40,35 @@ class TestAccessControl(LiveServerTestCase):
         super(TestAccessControl, cls).setUpClass()
 
     def setUp(self):
+        """
+        Method consists of statements to be executed before
+        start of each test.
+        """
         create_admin()
         create_volunteer()
 
     def tearDown(self):
+        """
+        Method consists of statements to be executed at
+        end of each test.
+        """
         pass
 
     @classmethod
     def tearDownClass(cls):
+        """
+        Class method to quit the Firefox WebDriver session after
+        execution of all tests in class.
+        """
         cls.driver.quit()
         super(TestAccessControl, cls).tearDownClass()
 
     def login(self, username, password):
+        """
+        Utility function to login with credentials received as parameters.
+        :param username: Username of the user
+        :param password: Password of the user
+        """
         self.authentication_page.login({
             'username': username,
             'password': password
@@ -54,8 +76,8 @@ class TestAccessControl(LiveServerTestCase):
 
     def test_correct_admin_credentials(self):
         """
-        Method to simulate logging in of a valid admin user and check if they
-        redirected to '/home' and no errors are generated.
+        Test user redirected to home page after logging in as
+        admin with correct credentials.
         """
         authentication_page = self.authentication_page
         authentication_page.server_url = self.live_server_url
@@ -79,8 +101,8 @@ class TestAccessControl(LiveServerTestCase):
 
     def test_incorrect_admin_credentials(self):
         """
-        Method to simulate logging in of an Invalid admin user and check if
-        they are displayed an error and redirected to login page again.
+        Test correct error message displayed while logging as
+        admin with incorrect credentials.
         """
         authentication_page = self.authentication_page
         authentication_page.server_url = self.live_server_url
@@ -105,8 +127,8 @@ class TestAccessControl(LiveServerTestCase):
 
     def test_correct_volunteer_credentials(self):
         """
-        Method to simulate logging in of a valid volunteer user and check if
-        they are redirected to '/home'
+        Test user redirected to home page after logging in as
+        volunteer with correct credentials.
         """
         authentication_page = self.authentication_page
         authentication_page.server_url = self.live_server_url
@@ -130,8 +152,8 @@ class TestAccessControl(LiveServerTestCase):
 
     def test_incorrect_volunteer_credentials(self):
         """
-        Method to simulate logging in of an invalid volunteer user and check if
-        they are displayed an error and redirected to login page again.
+        Test correct error message displayed while logging as
+        volunteer with incorrect credentials.
         """
         authentication_page = self.authentication_page
         authentication_page.server_url = self.live_server_url
@@ -153,6 +175,10 @@ class TestAccessControl(LiveServerTestCase):
         self.assertNotEqual(authentication_page.get_incorrect_login_message(), None)
 
     def test_login_page_after_authentication(self):
+        """
+        Test user redirected to home page if they try to access login page
+        after logging in.
+        """
         authentication_page = self.authentication_page
         authentication_page.server_url = self.live_server_url
         username = password = 'admin'
