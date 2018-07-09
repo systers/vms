@@ -31,6 +31,11 @@ class SearchVolunteer(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
+        """Method to initiate class level objects.
+
+        This method initiates Firefox WebDriver, WebDriverWait and
+        the corresponding POM objects for this Test Class
+        """
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -40,15 +45,27 @@ class SearchVolunteer(LiveServerTestCase):
         super(SearchVolunteer, cls).setUpClass()
 
     def setUp(self):
+        """
+        Method consists of statements to be executed before
+        start of each test.
+        """
         create_admin()
         self.login_admin()
         self.wait_for_home_page()
 
     def tearDown(self):
+        """
+        Method consists of statements to be executed at
+        end of each test.
+        """
         self.authentication_page.logout()
 
     @classmethod
     def tearDownClass(cls):
+        """
+        Class method to quit the Firefox WebDriver session after
+        execution of all tests in class.
+        """
         cls.driver.quit()
         super(SearchVolunteer, cls).tearDownClass()
 
@@ -63,6 +80,9 @@ class SearchVolunteer(LiveServerTestCase):
         })
 
     def wait_for_home_page(self):
+        """
+        Utility function to perform explicit wait for home page.
+        """
         self.wait.until(
             EC.presence_of_element_located(
                 (By.XPATH, "//h1[contains(text(), 'Volunteer Management System')]")
@@ -70,6 +90,9 @@ class SearchVolunteer(LiveServerTestCase):
         )
 
     def test_volunteer_first_name_field(self):
+        """
+        Test volunteer search form using the first name of the volunteers.
+        """
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
@@ -132,6 +155,9 @@ class SearchVolunteer(LiveServerTestCase):
         self.assertNotEqual(search_page.get_help_block(), None)
 
     def test_volunteer_last_name_field(self):
+        """
+        Test volunteer search form using the last name of the volunteers.
+        """
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
@@ -192,6 +218,9 @@ class SearchVolunteer(LiveServerTestCase):
         self.assertNotEqual(search_page.get_help_block(), None)
 
     def test_volunteer_city_field(self):
+        """
+        Test volunteer search form using the city field of the volunteers.
+        """
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
@@ -254,6 +283,9 @@ class SearchVolunteer(LiveServerTestCase):
         self.assertNotEqual(search_page.get_help_block(), None)
 
     def test_volunteer_state_field(self):
+        """
+        Test volunteer search form using the state field of the volunteers.
+        """
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
@@ -316,6 +348,9 @@ class SearchVolunteer(LiveServerTestCase):
         self.assertNotEqual(search_page.get_help_block(), None)
 
     def test_volunteer_country_field(self):
+        """
+        Test volunteer search form using the country field of the volunteers.
+        """
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
@@ -378,6 +413,9 @@ class SearchVolunteer(LiveServerTestCase):
         self.assertNotEqual(search_page.get_help_block(), None)
 
     def test_volunteer_valid_organization_field(self):
+        """
+        Test volunteer search form using the organization field of the volunteers.
+        """
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
 
@@ -441,6 +479,9 @@ class SearchVolunteer(LiveServerTestCase):
         self.assertTrue(expected_result_two in result)
 
     def test_intersection_of_all_fields(self):
+        """
+        Test volunteer search form using multiple fields of the volunteers.
+        """
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
 

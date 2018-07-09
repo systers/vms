@@ -12,15 +12,34 @@ from volunteer.models import Volunteer
 
 
 class VolunteerModelTests(TestCase):
+    """
+    Contains database tests for
+    - volunteer create with valid and invalid values.
+    - volunteer edit with valid and invalid values.
+    - volunteer delete.
+    - volunteer model representation.
+    """
 
     def setUp(self):
+        """
+        Method consists of statements to be executed before
+        start of each test.
+        """
         pass
 
     def tearDown(self):
+        """
+        Method consists of statements to be executed at
+        end of each test.
+        """
         pass
 
     @staticmethod
     def create_valid_vol():
+        """
+        Utility function to create a valid volunteer.
+        :return: Volunteer type object
+        """
         vol = [
             'Goku', "Son", "Goku", "Kame House", "East District",
             "East District", "East District", "9999999999", "idonthave@gmail.com"
@@ -29,6 +48,10 @@ class VolunteerModelTests(TestCase):
 
     @staticmethod
     def create_invalid_vol():
+        """
+        Utility function to create an invalid volunteer.
+        :return: Volunteer type object
+        """
         vol = [
             'Goku~', "Son", "Goku", "Kame House", "East District",
             "East District", "East District", "9999999999", "idonthave@gmail.com"
@@ -36,6 +59,9 @@ class VolunteerModelTests(TestCase):
         return create_volunteer_with_details(vol)
 
     def test_valid_model_create(self):
+        """
+        Database test for model creation with valid values.
+        """
         valid_volunteer = VolunteerModelTests.create_valid_vol()
 
         # Check DB for volunteer create.
@@ -49,10 +75,16 @@ class VolunteerModelTests(TestCase):
         self.assertEqual(valid_volunteer.phone_number, volunteer_in_db.phone_number)
 
     def test_invalid_model_create(self):
+        """
+        Database test for model creation with invalid values.
+        """
         invalid_volunteer = VolunteerModelTests.create_invalid_vol()
         self.assertRaisesRegexp(ValidationError, BasePage.FIELD_CANNOT_LEFT_BLANK, invalid_volunteer.full_clean)
 
     def test_model_edit_with_valid_values(self):
+        """
+        Database test for model edit with valid values.
+        """
         valid_volunteer = VolunteerModelTests.create_valid_vol()
 
         # Check DB for volunteer create.
@@ -82,6 +114,9 @@ class VolunteerModelTests(TestCase):
         self.assertEqual(valid_volunteer.phone_number, volunteer_in_db.phone_number)
 
     def test_model_edit_with_invalid_values(self):
+        """
+        Database test for model edit with invalid values.
+        """
         valid_volunteer = VolunteerModelTests.create_valid_vol()
 
         # Check DB for volunteer create.
@@ -105,6 +140,9 @@ class VolunteerModelTests(TestCase):
         self.assertEqual(len(Volunteer.objects.all()), 1)
 
     def test_model_delete(self):
+        """
+        Database test for model deletion.
+        """
         valid_volunteer = VolunteerModelTests.create_valid_vol()
 
         # Check DB for volunteer create.
@@ -123,6 +161,9 @@ class VolunteerModelTests(TestCase):
         self.assertEqual(len(Volunteer.objects.all()), 0)
 
     def test_model_representation(self):
+        """
+        Database test for model representation.
+        """
         valid_volunteer = VolunteerModelTests.create_valid_vol()
 
         # Check DB for volunteer create.

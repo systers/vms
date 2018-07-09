@@ -23,12 +23,21 @@ from shift.utils import create_volunteer_with_details
 
 class VolunteerProfile(LiveServerTestCase):
     """
+    Contains tests for:
+    - Details of volunteer on profile.
+    - Edit volunteer profile.
+    - Upload of invalid resume format.
+    - Upload of valid resume format.
+    - Checks for resume corrupt uploaded in profile.
     """
 
     @classmethod
     def setUpClass(cls):
-        fp = webdriver.FirefoxProfile()
-        fp.set_preference("dom.file.createInChild", True)
+        """Method to initiate class level objects.
+
+        This method initiates Firefox WebDriver, WebDriverWait and
+        the corresponding POM objects for this Test Class
+        """
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -39,6 +48,10 @@ class VolunteerProfile(LiveServerTestCase):
         super(VolunteerProfile, cls).setUpClass()
 
     def setUp(self):
+        """
+        Method consists of statements to be executed before
+        start of each test.
+        """
         vol = [
             'Goku', "Son", "Goku", "Kame House", "East District",
             "East District", "East District", "9999999999", "idonthave@gmail.com"
@@ -49,16 +62,27 @@ class VolunteerProfile(LiveServerTestCase):
         self.login_correctly()
 
     def tearDown(self):
-        pass
+        """
+        Method consists of statements to be executed at
+        end of each test.
+        """
+        self.authentication_page.logout()
 
     @classmethod
     def tearDownClass(cls):
+        """
+        Class method to quit the Firefox WebDriver session after
+        execution of all tests in class.
+        """
         cls.driver.quit()
         os.remove(os.getcwd() + '/DummyResume.pdf')
         os.remove(os.getcwd() + '/DummyZip.zip')
         super(VolunteerProfile, cls).tearDownClass()
 
     def login_correctly(self):
+        """
+        Utility function to login as volunteer user to perform all tests.
+        """
         self.authentication_page.server_url = self.live_server_url
         self.authentication_page.login({
             'username': "Goku",
@@ -66,6 +90,9 @@ class VolunteerProfile(LiveServerTestCase):
         })
 
     def wait_for_profile_load(self, profile_name):
+        """
+        Utility function to perform explicit wait for volunteer profile page.
+        """
         self.wait.until(
             EC.presence_of_element_located(
                 (By.XPATH, "//h1[contains(text(), '" + profile_name + "')]")
@@ -73,6 +100,9 @@ class VolunteerProfile(LiveServerTestCase):
         )
 
     def wait_for_home_page(self):
+        """
+        Utility function to perform explicit wait for home page.
+        """
         self.wait.until(
             EC.presence_of_element_located(
                 (By.XPATH, "//h1[contains(text(), 'Volunteer Management System')]")
@@ -81,12 +111,18 @@ class VolunteerProfile(LiveServerTestCase):
 
     @staticmethod
     def download_from_internet():
+        """
+        Utility functions to download dummy resume uploaded to dropbox.
+        """
         urlretrieve('https://dl.dropboxusercontent.com/s/08wpfj4n9f9jdnk/DummyResume.pdf',
                     'DummyResume.pdf')
         urlretrieve('https://dl.dropboxusercontent.com/s/uydlhww0ekdy6j7/DummyZip.zip',
                     'DummyZip.zip')
 
     def test_details_tab(self):
+        """
+        Test volunteer details on profile page.
+        """
         profile_page = self.profile_page
         profile_page.navigate_to_profile()
         self.wait_for_profile_load('Son Goku')
@@ -108,6 +144,9 @@ class VolunteerProfile(LiveServerTestCase):
         self.assertNotEqual(found_org, None)
 
     def test_edit_profile(self):
+        """
+        Test profile edit in volunteer profile.
+        """
         profile_page = self.profile_page
         profile_page.navigate_to_profile()
         self.wait_for_profile_load('Son Goku')
@@ -153,6 +192,9 @@ class VolunteerProfile(LiveServerTestCase):
         self.assertNotEqual(found_org, None)
 
     def test_invalid_resume_format(self):
+        """
+        Test upload of invalid resume to profile.
+        """
         self.wait_for_home_page()
 
         path = os.getcwd() + '/DummyZip.zip'
@@ -176,6 +218,9 @@ class VolunteerProfile(LiveServerTestCase):
 
 '''
     def test_valid_upload_resume(self):
+        """
+        Test upload of valid resume to profile.
+        """
         self.wait_for_home_page()
 
         path = os.getcwd() + '/DummyResume.pdf'
@@ -197,7 +242,7 @@ class VolunteerProfile(LiveServerTestCase):
 
     def test_corrupt_resume_uploaded(self):
         """
-        Check if uploaded resume is corrupt.
+        Test uploaded resume is not corrupt by performing a few checks on it.
         """
         self.wait_for_home_page()
         path = os.getcwd() + '/DummyResume.pdf'
