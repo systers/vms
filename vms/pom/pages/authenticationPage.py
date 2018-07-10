@@ -1,5 +1,5 @@
 # local Django
-from basePage import BasePage
+from pom.pages.basePage import BasePage
 from pom.locators.authenticationPageLocators import AuthenticationPageLocators
 from pom.locators.homePageLocators import HomePageLocators
 from pom.pageUrls import PageUrls
@@ -28,7 +28,8 @@ class AuthenticationPage(BasePage):
         self.click_link(self.home.LOGIN_TEXT)
 
     def logout(self):
-        self.click_link(self.home.LOGOUT_TEXT)
+        element = self.find_link(self.home.LOGOUT_TEXT)
+        self.execute_script('arguments[0].click();', element)
 
     def get_incorrect_login_message(self):
         return self.element_by_class_name(self.elements.INCORRECT_LOGIN_ERROR)
