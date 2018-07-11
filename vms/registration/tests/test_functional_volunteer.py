@@ -113,13 +113,13 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.get_volunteer_registration_page()
 
-        entry = ['', '', '', '', '', '', '', '', '', '', '']
+        entry = ['', '', '', '', '', '', '', '', '', '', '', '']
         page.fill_registration_form(entry)
 
         blocks = page.get_help_blocks()
         self.assertNotEqual(blocks, None)
         # Verify that all of the fields are compulsory
-        self.assertEqual(len(blocks), 10)
+        self.assertEqual(len(blocks), 11)
 
     def test_successful_registration(self):
         """
@@ -149,7 +149,8 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username', 'volunteer-password!@#$%^&*()_',
-            'volunteer-first-name', 'volunteer-last-name',
+            'volunteer-password!@#$%^&*()_', 'volunteer-first-name',
+            'volunteer-last-name',
             'volunteer-email1@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'volunteer-country',
             '9999999999', 'volunteer-org'
@@ -159,6 +160,35 @@ class SignUpVolunteer(LiveServerTestCase):
         self.assertNotEqual(page.get_help_blocks(), None)
         self.assertEqual(page.get_username_error_text(),
                          page.USER_EXISTS)
+
+    def test_user_fills_different_passwords(self):
+        """
+        Test error raised when user inputs different passwords while
+        registering.
+        """
+        # register valid volunteer user
+        page = self.page
+        page.live_server_url = self.live_server_url
+        page.register_valid_details()
+        self.assertNotEqual(page.get_message_box(), None)
+        self.assertEqual(page.get_message_box_text(), page.success_message)
+
+        page.get_volunteer_registration_page()
+
+        entry = [
+            'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'jddvolunteer-password!@#$%^&*()_',
+            'volunteer-first-name-1', 'volunteer-last-name-1',
+            'volunteer-email1@systers.org', 'volunteer-address',
+            'volunteer-city', 'volunteer-state', 'volunteer-country',
+            '9999999999', 'volunteer-org'
+        ]
+        page.fill_registration_form(entry)
+
+        self.assertNotEqual(page.get_help_blocks(), None)
+        self.assertEqual(page.get_password_error_text(),
+                         page.NO_MATCH)
+
 
     def test_numeric_characters_in_first_and_last_name(self):
         """
@@ -176,6 +206,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name-1', 'volunteer-last-name-1',
             'volunteer-email1@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'volunteer-country',
@@ -205,6 +236,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'first-name-!@#$%^&*()_', 'last-name!@#$%^&*()_',
             'volunteer-email3@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'volunteer-country',
@@ -215,8 +247,8 @@ class SignUpVolunteer(LiveServerTestCase):
         self.assertNotEqual(page.get_help_blocks(), None)
         self.assertEqual(page.get_first_name_error_text(),
                          page.ENTER_VALID_VALUE)
-        self.assertEqual(page.get_last_name_error_text(),
-                         page.ENTER_VALID_VALUE)
+        self.assertEqual(page.get_password_error_text(),
+                         page.MATCH_ERROR)
 
     def test_length_of_first_and_last_name(self):
         """
@@ -234,6 +266,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name-long-asdfghjkl',
             'volunteer-last-name-long-asdfghjkl',
             'volunteer-email4@systers.org', 'volunteer-address',
@@ -266,6 +299,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email1@systers.org', '123 New-City address',
             '1 volunteer-city', '007 volunteer-state', '54 volunteer-country',
@@ -285,6 +319,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-2', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email2@systers.org', 'volunteer-address!@#$()',
             '!$@%^#&volunteer-city', '!$@%^#&volunteer-state',
@@ -322,6 +357,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'volunteer-country',
@@ -346,6 +382,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'volunteer-country',
@@ -364,6 +401,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email1@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'India', '237937913',
@@ -388,6 +426,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email1@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'India', '23&79^37913',
@@ -412,6 +451,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-1', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email1@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'volunteer-country',
@@ -435,6 +475,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username-2', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email2@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state', 'volunteer-country',
@@ -464,6 +505,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name-3', 'volunteer-last-name',
             'volunteer-email@systers.org', 'volunteer-address',
             'volunteer-city', 'volunteer-state!', 'volunteer-country',
@@ -495,6 +537,7 @@ class SignUpVolunteer(LiveServerTestCase):
 
         entry = [
             'volunteer-username', 'volunteer-password!@#$%^&*()_',
+            'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name-3',
             'volunteer-email@systers.org', 'volunteer-address$@!',
             'volunteer-city#$', 'volunteer-state', 'volunteer-country 15',
