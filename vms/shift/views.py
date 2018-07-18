@@ -1,5 +1,6 @@
 # standard library
 from datetime import date
+from django.utils import timezone
 
 # third party
 from braces.views import LoginRequiredMixin
@@ -8,16 +9,18 @@ from braces.views import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import TemplateView, DeleteView, ListView
 from django.views.generic.edit import FormView, UpdateView
 from django.utils.decorators import method_decorator
+from django.template.loader import render_to_string
 
 # local Django
 from job.models import Job
-from job.services import get_job_by_id 
+from job.services import get_job_by_id
 from shift.forms import HoursForm, ShiftForm
 from shift.models import Shift
 from shift.services import get_shift_by_id, add_shift_hours, cancel_shift_registration, clear_shift_hours, edit_shift_hours, get_unlogged_shifts_by_volunteer_id, get_logged_volunteers_by_shift_id, get_shift_slots_remaining, get_volunteers_by_shift_id, get_volunteer_by_id, get_volunteer_shifts_with_hours, get_shifts_ordered_by_date, get_shifts_with_open_slots_for_volunteer, register, get_volunteer_shift_by_id, get_shifts_by_job_id, delete_shift
@@ -457,6 +460,24 @@ class EditHoursView(LoginRequiredMixin, FormView):
         except:
             raise Http404
 
+def edit_request(request, shift_id, volunteer_id):
+    vol = get_volunteer_by_id(volunteer_id)
+    shift = get_shift_by_id(shift_id)
+    volunteer_shift = get_volunteer_shift_by_id(volunteer_id, shift_id)
+    volunteer_shift.requested = True
+    volunteer_shift.save()
+    mail_message = render_to_string('shift/request_edit.txt', {
+                               'volunteer_first_name': vol.first_name,
+                               'volunteer_last_name': vol.last_name,
+                               'shift_start_time': shift.start_time,
+                               'shift_end_time': shift.end_time,
+              })
+    try:
+        send_mail("Log Hours Edit Requested", mail_message, "messanger@localhost.com", ["admin@email.com"])
+    except:
+        raise Exception("There was an error in sending email.")
+    return HttpResponseRedirect(
+                reverse('shift:view_hours', args=(volunteer_id, )))
 
 class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
     template_name = 'shift/edit_hours_manager.html'
@@ -473,6 +494,7 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         volunteer_id = self.kwargs['volunteer_id']
+        volunteer = get_volunteer_by_id(volunteer_id)
         shift_id = self.kwargs['shift_id']
         shift = get_shift_by_id(shift_id)
         volunteer_shift = get_volunteer_shift_by_id(volunteer_id, shift_id)
@@ -486,6 +508,10 @@ class EditHoursManagerView(AdministratorLoginRequiredMixin, FormView):
                         and end_time <= shift_end_time):
                     edit_shift_hours(volunteer_id, shift_id, start_time,
                                      end_time)
+                    try:
+                        send_mail("Log Hours edited", "Your log hours have been edited", 'messanger@localhost.com', [volunteer.email])
+                    except:
+                         raise Exception("There was an error in sending email.")
                     return HttpResponseRedirect(
                         reverse(
                             'shift:manage_volunteer_shifts',
@@ -639,6 +665,7 @@ def sign_up(request, shift_id, volunteer_id):
 
 class ViewHoursView(LoginRequiredMixin, FormView, TemplateView):
     template_name = 'shift/hours_list.html'
+    form_class = HoursForm
 
     @method_decorator(check_correct_volunteer)
     @method_decorator(vol_id_check)
@@ -651,6 +678,7 @@ class ViewHoursView(LoginRequiredMixin, FormView, TemplateView):
         context['volunteer'] = get_volunteer_by_id(volunteer_id)
         context['volunteer_shift_list'] = get_volunteer_shifts_with_hours(
             volunteer_id)
+        context['last_date'] = timezone.now()
         return context
 
 
@@ -725,3 +753,4 @@ def view_volunteers(request, shift_id):
                 raise Http404
         else:
             raise Http404
+

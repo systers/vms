@@ -1,12 +1,11 @@
 # Django
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 # local Django
 from shift import views
 from shift.views import AddHoursView, AddHoursManagerView, ShiftCreateView, ShiftDeleteView, ClearHoursView, EditHoursView, ShiftUpdateView, ClearHoursManager, EditHoursManagerView, JobListView, ShiftListView, ManageVolunteerShiftView, ViewHoursView, VolunteerSearchView    
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^add_hours/(?P<shift_id>\d+)/(?P<volunteer_id>\d+)$',
         AddHoursView.as_view(),
         name='add_hours'),
@@ -29,7 +28,10 @@ urlpatterns = patterns(
     url(r'^edit/(?P<shift_id>\d+)$', ShiftUpdateView.as_view(), name='edit'),
     url(r'^edit_hours/(?P<shift_id>\d+)/(?P<volunteer_id>\d+)$',
         EditHoursView.as_view(),
-        name='edit_hours'),
+        name='edit_hours'), 
+    url(r'^edit_request/(?P<shift_id>\d+)/(?P<volunteer_id>\d+)$',
+        views.edit_request,
+        name='edit_request'),
     url(r'^edit_hours_manager/(?P<shift_id>\d+)/(?P<volunteer_id>\d+)$',
         EditHoursManagerView.as_view(),
         name='edit_hours_manager'),
@@ -58,4 +60,5 @@ urlpatterns = patterns(
     url(r'^volunteer_search/$',
         VolunteerSearchView.as_view(),
         name='volunteer_search'),
-)
+]
+

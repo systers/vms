@@ -1,6 +1,7 @@
 # standard library
 import datetime
-from datetime import date
+from datetime import date, timedelta
+from django.utils import timezone
 
 # Django
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,14 +14,13 @@ from shift.models import Shift, VolunteerShift
 from volunteer.models import Volunteer
 from volunteer.services import get_volunteer_by_id, get_all_volunteers
 
-
 def add_shift_hours(v_id, s_id, start_time, end_time):
 
     volunteer_shift = get_volunteer_shift_by_id(v_id, s_id)
-
     if volunteer_shift:
         volunteer_shift.start_time = start_time
         volunteer_shift.end_time = end_time
+        volunteer_shift.date_logged = timezone.now()+timedelta(days=7)
         volunteer_shift.save()
     else:
         raise ObjectDoesNotExist
