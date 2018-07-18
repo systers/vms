@@ -76,6 +76,7 @@ class VolunteerShift(models.Model):
     end_time = models.TimeField(blank=True, null=True)
     # assigned_by_manager = models.BooleanField()
     date_logged = models.DateTimeField(null=True, blank=True)
+    requested = models.BooleanField(default=False)
 
     def __str__(self):
         return '{0} - {1}'.format(self.shift, self.volunteer.first_name)

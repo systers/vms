@@ -1,5 +1,6 @@
 # standard library
 from datetime import date
+from django.utils import timezone
 
 # third party
 from braces.views import LoginRequiredMixin
@@ -462,14 +463,17 @@ class EditHoursView(LoginRequiredMixin, FormView):
 def edit_request(request, shift_id, volunteer_id):
     vol = get_volunteer_by_id(volunteer_id)
     shift = get_shift_by_id(shift_id)
-    message = render_to_string('shift/request_edit.txt', {
+    volunteer_shift = get_volunteer_shift_by_id(volunteer_id, shift_id)
+    volunteer_shift.requested = True
+    volunteer_shift.save()
+    mail_message = render_to_string('shift/request_edit.txt', {
                                'volunteer_first_name': vol.first_name,
                                'volunteer_last_name': vol.last_name,
                                'shift_start_time': shift.start_time,
                                'shift_end_time': shift.end_time,
               })
     try:
-        send_mail("Log Hours Edit Requested", message, "messanger@localhost.com", ["admin@email.com"])
+        send_mail("Log Hours Edit Requested", mail_message, "messanger@localhost.com", ["admin@email.com"])
     except:
         raise Exception("There was an error in sending email.")
     return HttpResponseRedirect(
@@ -674,6 +678,7 @@ class ViewHoursView(LoginRequiredMixin, FormView, TemplateView):
         context['volunteer'] = get_volunteer_by_id(volunteer_id)
         context['volunteer_shift_list'] = get_volunteer_shifts_with_hours(
             volunteer_id)
+        context['last_date'] = timezone.now()
         return context
 
 
