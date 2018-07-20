@@ -14,8 +14,7 @@
                     <th>{% trans "Date" %}</th>
                     <th>{% trans "Logged Start Time" %}</th>
                     <th>{% trans "Logged End Time" %}</th>
-                    <th>{% trans "Edit Hours" %}</th>
-                    <th>{% trans "Clear Hours" %}</th>
+                    <th>{% trans "Edit Request" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,11 +24,11 @@
                         <td>{{ volunteershift.shift.date }}</td>
                         <td>{{ volunteershift.start_time }}</td>
                         <td>{{ volunteershift.end_time }}</td>
-                        <td>
-                            <a href="{% url 'shift:edit_hours' volunteershift.shift.id user.volunteer.id %}" class="btn btn-info btn-sm">{% trans "Edit Hours" %}</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'shift:clear_hours' volunteershift.shift.id user.volunteer.id %}" class="btn btn-default btn-sm">{% trans "Clear Hours" %}</a>
+                        <td>{% if volunteershift.date_logged >= last_date and not volunteershift.requested %}
+                            <a href="{% url 'shift:edit_request' volunteershift.shift.id user.volunteer.id %}" class="btn btn-info btn-sm">{% trans "Edit Request" %}</a>
+                            {% else %}
+                            <a href="{% url 'shift:edit_request' volunteershift.shift.id user.volunteer.id %}" class="btn btn-info btn-sm" disabled/>{% trans "Edit Request" %}</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}

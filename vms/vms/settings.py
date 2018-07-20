@@ -107,6 +107,13 @@ LANGUAGES = (
 # Specifies the directory where static files (CSS, JavasScript) are stored
 STATIC_URL = '/static/'
 
+#Instead of sending out real email, during development the emails will be sent
+# to stdout, where from they can be inspected
+if DEBUG:
+    EMAIL_HOST = os.getenv('HOST','localhost')
+    EMAIL_PORT = os.getenv('PORT','1025')
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # All uploaded files (such as resumes) are stored in the /srv directory
 # /srv directory contains site-specific data which is served by the system
 MEDIA_ROOT = os.path.join(BASE_DIR,'srv')
