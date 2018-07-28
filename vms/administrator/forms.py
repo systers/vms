@@ -7,7 +7,7 @@ class AdministratorForm(ModelForm):
     class Meta:
         model = Administrator
         fields = [
-            'first_name', 'last_name', 'address', 'city', 'state', 'country',
+            'first_name', 'last_name', 'address',
             'phone_number', 'unlisted_organization', 'email'
         ]
 

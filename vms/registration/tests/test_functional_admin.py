@@ -13,7 +13,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.adminRegistrationPage import AdminRegistrationPage
 from pom.pageUrls import PageUrls
-from shift.utils import create_organization, create_country
+from shift.utils import create_organization, create_country, create_state, create_city
 
 
 class SignUpAdmin(LiveServerTestCase):
@@ -73,6 +73,8 @@ class SignUpAdmin(LiveServerTestCase):
         create_organization()
         # country created so that phone number can be checked
         create_country()
+        create_state()
+        create_city()
 
     def tearDown(self):
         """

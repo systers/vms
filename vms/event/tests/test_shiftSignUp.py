@@ -10,8 +10,7 @@ from job.models import Job
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventSignUpPage import EventSignUpPage
 from shift.utils import (
-    create_volunteer, register_event_utility, register_job_utility,
-    register_shift_utility, create_shift_with_details, create_volunteer_with_details,
+    create_volunteer, create_second_country, create_second_state, create_second_city, get_country_by_name, get_state_by_name, get_city_by_name,    register_event_utility, register_job_utility, register_shift_utility, create_shift_with_details, create_volunteer_with_details,
     register_volunteer_for_shift_utility)
 
 
@@ -172,8 +171,11 @@ class ShiftSignUp(LiveServerTestCase):
         s2 = create_shift_with_details(shift_2)
 
         # Create another volunteer
-        volunteer_2 = ['volunteer-2', "Sam", "Turtle", "Mario Land", "Nintendo Land", "Nintendo State",
-                       "Nintendo Nation", "2374983247", "volunteer2@volunteer.com"]
+        second_country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
+        volunteer_2 = ['volunteer-2', "Sam", "Turtle", "Mario Land", second_city, second_state, second_country,
+                       "2374983247", "volunteer2@volunteer.com"]
         v2 = create_volunteer_with_details(volunteer_2)
 
         # Assign shift to the volunteer
@@ -261,7 +263,9 @@ class ShiftSignUp(LiveServerTestCase):
         tests for search results on the basis of event city
         """
         event = register_event_utility()
-        event.city = 'event-city'
+        city_name = 'Roorkee'
+        city = get_city_by_name(city_name)
+        event.city = city
         event.save()
         register_job_utility()
         register_shift_utility()
@@ -281,7 +285,9 @@ class ShiftSignUp(LiveServerTestCase):
         tests for search results on the basis of event state
         """
         event = register_event_utility()
-        event.state = 'event-state'
+        state_name = 'Uttarakhand'
+        state = get_state_by_name(state_name)
+        event.state = state
         event.save()
         register_job_utility()
         register_shift_utility()
@@ -300,8 +306,10 @@ class ShiftSignUp(LiveServerTestCase):
         """
         tests for search results on the basis of event country
         """
-        event = register_event_utility()
-        event.country = 'event-country'
+        event = register_event_utility() 
+        country_name = 'India'
+        country = get_country_by_name(country_name)
+        event.country = country
         event.save()
         register_job_utility()
         register_shift_utility()

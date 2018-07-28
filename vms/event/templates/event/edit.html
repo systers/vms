@@ -101,18 +101,23 @@
                     </div>
 
 
-            <div class="form-group">
+            <div id="div_id_country" class="form-group">
                 <label class="col-md-2 control-label">
                     {% trans "Country" %}
                 </label>
                 <div class="col-md-8">
                  <select id="select_country" class="form-control" name="country">
                 <option value="0">-- {% trans "Select country" %}
-<option value={{country_id}} selected="selected">{{country}}</option>
-
- --</option>
                 {% for country in country_list %}
+                    {% if event.country_id %}
+                     {% if country.name == event.country.name %}
+                         <option selected value="{{country.id}}">{{country.name}}</option>
+                     {% else %}
                     <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endif %}
+                {% else %}
+                <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endif %}
                 {% endfor %}
             </select>
             </div>
@@ -124,20 +129,42 @@
                 </label>
                 <div class="col-md-8">
                 <select id="select_state" class="form-control" name="state">
-            <option value={{state_id}} selected="selected">{{state}}</option>
+
+                <option value="0">-- {% trans "Select state" %} --</option>
+                {% for state in state_list %}
+                 {% if event.state_id %}
+                     {% if state.name == event.state.name %}
+                         <option selected value="{{state.id}}">{{state.name}}</option>
+                     {% else %}
+                    <option value="{{ state.id }}">{{ state.name }}</option>
+                {% endif %}
+                {% else %}
+                <option value="{{ state.id }}">{{ state.name }}</option>
+                {% endif %}
+                {% endfor %}
             </select>
             </div>
             </div>
 
-
-            <div class="form-group">
+            <div id="div_id_city" class="form-group">
             <label class="col-md-2 control-label">
         {% trans "City" %}
         </label>
         <div class="col-md-8">
-        <select id="select_city" class="form-control" name="city">
-            <option value={{city_id}} selected="selected">{{city}}</option>
-            </select>
+        <select id="select_city" class="form-control" name="city"> 
+                <option value="0">-- {% trans "Select city" %} --</option>
+                {% for city in city_list %}
+                 {% if event.city_id %}
+                     {% if city.name == event.city.name %}
+                         <option selected value="{{city.id}}">{{city.name}}</option>
+                     {% else %}
+                    <option value="{{ city.id }}">{{ city.name }}</option>
+                {% endif %}
+                {% else %}
+                <option value="{{ city.id }}">{{ city.name }}</option>
+                {% endif %}
+                {% endfor %}
+          </select>
             </div>
 	        </div>
     			{% if form.address.errors %}

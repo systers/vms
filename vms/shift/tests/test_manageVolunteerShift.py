@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventSignUpPage import EventSignUpPage
 from pom.pages.manageShiftPage import ManageShiftPage
-from shift.utils import (create_admin, create_volunteer_with_details,
+from shift.utils import (create_admin, create_country, create_state, create_city, create_volunteer_with_details,
                          create_event_with_details, create_job_with_details,
                          create_shift_with_details, create_edit_request_with_details,
                          log_hours_with_details)
@@ -56,14 +56,17 @@ class ManageVolunteerShift(LiveServerTestCase):
         This method initiates Firefox WebDriver, WebDriverWait and
         the corresponding POM objects for this Test Class
         """
+        country = create_country()
+        state = create_state()
+        city = create_city()
         cls.volunteer_1 = [
             'volunteer-one', 'volunteer-one', 'volunteer-one', 'volunteer-one',
-            'volunteer-one', 'volunteer-one', 'volunteer-one', '9999999999',
+             city, state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-one'
         ]
         cls.volunteer_2 = [
             'volunteer-two', 'volunteer-two', 'volunteer-two', 'volunteer-two',
-            'volunteer-two', 'volunteer-two', 'volunteer-two', '9999999999',
+            city, state, country, '9999999999',
             'volunteer-email2@systers.org', 'volunteer-two'
         ]
 

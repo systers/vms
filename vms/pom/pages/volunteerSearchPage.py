@@ -62,7 +62,6 @@ class VolunteerSearchPage(BasePage):
 
     @staticmethod
     def get_results_list(search_results):
-
         result = []
         for tr in search_results.find_elements_by_tag_name('tr'):
             row = tr.text.split()

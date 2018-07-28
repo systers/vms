@@ -8,7 +8,6 @@ $(document).ready(function() {
                 "country": countryId
             },
             success: function(statecheck) {
-                console.log(statecheck);
                 if (statecheck === 0) {
                     $.ajax({
                         url: CityUrl,
@@ -17,7 +16,9 @@ $(document).ready(function() {
                             "state": 0
                         },
                         success: function(cities) {
+                            console.log("success"); 
                             $("#select_city").html(cities);
+                           $("#select_state").empty(); 
                         }
                     });
                 } else if (statecheck === 1) {
@@ -36,3 +37,4 @@ $(document).ready(function() {
         });
     });
 });
+

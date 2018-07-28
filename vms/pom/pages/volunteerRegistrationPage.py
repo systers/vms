@@ -108,7 +108,7 @@ class VolunteerRegistrationPage(BasePage):
             'volunteer-password!@#$%^&*()_',
             'volunteer-first-name', 'volunteer-last-name',
             'volunteer-email@systers.org', 'volunteer-address',
-            'volunteer-city', 'volunteer-state', 'volunteer-country',
+            'India', 'Roorkee', 'Uttarakhand',
             '9999999999', 'volunteer-org'
         ]
         self.fill_registration_form(entry)

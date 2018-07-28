@@ -15,10 +15,13 @@ from pom.pages.volunteerSearchPage import VolunteerSearchPage
 from pom.pages.volunteerReportPage import VolunteerReportPage
 from pom.locators.volunteerSearchPageLocators import VolunteerSearchPageLocators
 from pom.pageUrls import PageUrls
-from shift.utils import (create_admin, create_volunteer_with_details, create_organization_with_details,
-                         register_past_event_utility, register_past_shift_utility, register_past_job_utility,
-                         create_report_with_details, log_hours_with_details, register_volunteer_for_shift_utility,
-                         register_event_utility, register_job_utility, register_shift_utility)
+from shift.utils import (create_admin, create_country, create_state, create_city,
+                        create_second_country, create_second_state, create_second_city,
+                        create_volunteer_with_details, create_organization_with_details,
+                        register_past_event_utility, register_past_shift_utility, register_past_job_utility,
+                        create_report_with_details, log_hours_with_details, register_volunteer_for_shift_utility,
+                        get_country_by_name, get_state_by_name, get_city_by_name,
+                        register_event_utility, register_job_utility, register_shift_utility)
 
 
 class SearchVolunteer(LiveServerTestCase):
@@ -118,10 +121,13 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'VOLUNTEER-FIRST-NAME',
-            'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'volunteer-country', '9999999999',
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-organization'
         ]
 
@@ -129,25 +135,28 @@ class SearchVolunteer(LiveServerTestCase):
 
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-name',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-stateq', 'volunteer-countryq', '9999999999',
+            'volunteer-last-nameq', 'volunteer-addressq', city,
+            state, country, '9999999999',
             'volunteer-email2@systers.orgq', 'volunteer-organizationq'
         ]
 
         volunteer_2 = create_volunteer_with_details(credentials_2)
 
-        expected_result_one = ['VOLUNTEER-FIRST-NAME', 'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-                               'volunteer-state', 'volunteer-country', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'VOLUNTEER-FIRST-NAME', 'volunteer-last-name', 'volunteer-address',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email@systers.org', 'View']
 
-        expected_result_two = ['volunteer-first-name', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-                               'volunteer-stateq', 'volunteer-countryq', '9999999999', 'volunteer-email2@systers.orgq', 'View']
+        expected_result_two = [
+            'volunteer-first-name', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email2@systers.orgq', 'View']
 
         search_page.search_first_name_field('volunteer')
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
         self.assertEqual(len(result), 2)
-
         self.assertTrue(expected_result_two in result)
         self.assertTrue(expected_result_one in result)
 
@@ -186,27 +195,34 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'VOLUNTEER-LAST-NAME', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'volunteer-country', '9999999999',
+            'VOLUNTEER-LAST-NAME', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-organization'
         ]
         volunteer_1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-name', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-stateq', 'volunteer-countryq', '9999999999',
+            'volunteer-last-name', 'volunteer-addressq', city,
+            state, country, '9999999999',
             'volunteer-email2@systers.orgq', 'volunteer-organizationq'
         ]
         volunteer_2 = create_volunteer_with_details(credentials_2)
 
-        expected_result_one = ['volunteer-first-name', 'VOLUNTEER-LAST-NAME', 'volunteer-address', 'volunteer-city',
-                               'volunteer-state', 'volunteer-country', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'VOLUNTEER-LAST-NAME', 'volunteer-address',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email@systers.org', 'View']
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-name', 'volunteer-addressq', 'volunteer-cityq',
-                               'volunteer-stateq', 'volunteer-countryq', '9999999999', 'volunteer-email2@systers.orgq', 'View']
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-name', 'volunteer-addressq',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email2@systers.orgq', 'View']
 
         search_page.search_last_name_field('volunteer')
         search_page.submit_form()
@@ -252,46 +268,59 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'volunteer-last-name', 'volunteer-address', 'VOLUNTEER-CITY',
-            'volunteer-state', 'volunteer-country', '9999999999',
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-organization'
         ]
 
         volunteer_1 = create_volunteer_with_details(credentials_1)
 
+        country_name = 'United States'
+        state_name = 'Washington'
+        city_name = 'Bothell'
+        second_country = get_country_by_name(country_name)
+        second_state = get_state_by_name(state_name)
+        second_city = get_city_by_name(city_name)
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-city',
-            'volunteer-stateq', 'volunteer-countryq', '9999999999',
+            'volunteer-last-nameq', 'volunteer-addressq', second_city,
+            second_state, second_country, '9999999999',
             'volunteer-email2@systers.orgq', 'volunteer-organizationq'
         ]
 
         volunteer_2 = create_volunteer_with_details(credentials_2)
 
-        expected_result_one = ['volunteer-first-name', 'volunteer-last-name', 'volunteer-address', 'VOLUNTEER-CITY',
-                               'volunteer-state', 'volunteer-country', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'volunteer-last-name', 'volunteer-address',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email@systers.org', 'View'
+        ]
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-city',
-                               'volunteer-stateq', 'volunteer-countryq', '9999999999', 'volunteer-email2@systers.orgq', 'View']
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Bothell,', 'Washington,', 'United', 'States', 'Washington,', 'United',
+            'States', 'United', 'States', '9999999999', 'volunteer-email2@systers.orgq',
+            'View'
+        ]
 
-        search_page.search_city_field('volunteer')
+        search_page.search_city_field('Roorkee')
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
-        self.assertEqual(len(result), 2)
-
+        self.assertEqual(len(result), 1)
         self.assertTrue(expected_result_one in result)
-        self.assertTrue(expected_result_two in result)
 
-        search_page.search_city_field('v')
+        search_page.search_city_field('Bothell')
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
-        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result), 1)
 
-        self.assertTrue(expected_result_one in result)
         self.assertTrue(expected_result_two in result)
 
         search_page.search_city_field('vol-')
@@ -320,47 +349,61 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-            'VOLUNTEER-STATE', 'volunteer-country', '9999999999',
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-organization'
         ]
 
         volunteer_1 = create_volunteer_with_details(credentials_1)
 
+        country_name = 'United States'
+        state_name = 'Washington'
+        city_name = 'Bothell'
+        second_country = get_country_by_name(country_name)
+        second_state = get_state_by_name(state_name)
+        second_city = get_city_by_name(city_name)
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-state', 'volunteer-countryq', '9999999999',
+            'volunteer-last-nameq', 'volunteer-addressq', second_city,
+            second_state, second_country, '9999999999',
             'volunteer-email2@systers.orgq', 'volunteer-organizationq'
         ]
 
         volunteer_2 = create_volunteer_with_details(credentials_2)
 
-        expected_result_one = ['volunteer-first-name', 'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-                               'VOLUNTEER-STATE', 'volunteer-country', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'volunteer-last-name',
+            'volunteer-address', 'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email@systers.org', 'View'
+        ]
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-                               'volunteer-state', 'volunteer-countryq', '9999999999', 'volunteer-email2@systers.orgq', 'View']
 
-        search_page.search_state_field('volunteer')
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Bothell,', 'Washington,', 'United', 'States', 'Washington,', 'United',
+            'States', 'United', 'States', '9999999999',
+            'volunteer-email2@systers.orgq', 'View'
+        ]
+ 
+        search_page.search_state_field('Uttarakhand')
+        search_page.submit_form()
+        search_results = search_page.get_search_results()
+        result = search_page.get_results_list(search_results)
+        self.assertEqual(len(result), 1)
+        self.assertTrue(expected_result_one in result)
+
+        search_page.search_state_field('Washington')
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
 
-        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result), 1)
         self.assertTrue(expected_result_two in result)
-        self.assertTrue(expected_result_one in result)
-
-        search_page.search_state_field('v')
-        search_page.submit_form()
-        search_results = search_page.get_search_results()
-        result = search_page.get_results_list(search_results)
-
-        self.assertEqual(len(result), 2)
-        self.assertTrue(expected_result_two in result)
-        self.assertTrue(expected_result_one in result)
 
         search_page.search_state_field('vol-')
         search_page.submit_form()
@@ -388,47 +431,60 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'VOLUNTEER-COUNTRY', '9999999999',
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-organization'
         ]
 
         volunteer_1 = create_volunteer_with_details(credentials_1)
 
+        country_name = 'United States'
+        state_name = 'Washington'
+        city_name = 'Bothell'
+        second_country = get_country_by_name(country_name)
+        second_state = get_state_by_name(state_name)
+        second_city = get_city_by_name(city_name)
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-stateq', 'volunteer-country', '9999999999',
+            'volunteer-last-nameq', 'volunteer-addressq', second_city,
+            second_state, second_country, '9999999999',
             'volunteer-email2@systers.orgq', 'volunteer-organizationq'
         ]
 
         volunteer_2 = create_volunteer_with_details(credentials_2)
 
-        expected_result_one = ['volunteer-first-name', 'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-                               'volunteer-state', 'VOLUNTEER-COUNTRY', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'volunteer-last-name',
+            'volunteer-address', 'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email@systers.org', 'View'
+        ]
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-                               'volunteer-stateq', 'volunteer-country', '9999999999', 'volunteer-email2@systers.orgq', 'View']
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Bothell,', 'Washington,', 'United', 'States', 'Washington,', 'United',
+            'States', 'United', 'States', '9999999999',
+            'volunteer-email2@systers.orgq', 'View'
+        ]
 
-        search_page.search_country_field('volunteer')
+        search_page.search_country_field('India')
+        search_page.submit_form()
+        search_results = search_page.get_search_results()
+        result = search_page.get_results_list(search_results)
+        self.assertEqual(len(result), 1)
+        self.assertTrue(expected_result_one in result)
+
+        search_page.search_country_field('United States')
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
 
-        self.assertEqual(len(result), 2)
+        self.assertEqual(len(result), 1)
         self.assertTrue(expected_result_two in result)
-        self.assertTrue(expected_result_one in result)
-
-        search_page.search_country_field('v')
-        search_page.submit_form()
-        search_results = search_page.get_search_results()
-        result = search_page.get_results_list(search_results)
-
-        self.assertEqual(len(result), 2)
-        self.assertTrue(expected_result_two in result)
-        self.assertTrue(expected_result_one in result)
 
         search_page.search_country_field('vol-')
         search_page.submit_form()
@@ -455,10 +511,13 @@ class SearchVolunteer(LiveServerTestCase):
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'volunteer-country', '9999999999',
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org'
         ]
 
@@ -466,8 +525,8 @@ class SearchVolunteer(LiveServerTestCase):
 
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-stateq', 'volunteer-countryq', '9999999999',
+            'volunteer-last-nameq', 'volunteer-addressq', city,
+            state, country, '9999999999',
             'volunteer-email2@systers.orgq'
         ]
 
@@ -480,11 +539,19 @@ class SearchVolunteer(LiveServerTestCase):
         volunteer_1.save()
         volunteer_2.save()
 
-        expected_result_one = ['volunteer-first-name', 'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-                               'volunteer-state', 'volunteer-country', 'VOLUNTEER-ORGANIZATION', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'volunteer-last-name', 'volunteer-address',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            'VOLUNTEER-ORGANIZATION', '9999999999', 'volunteer-email@systers.org', 
+            'View'
+            ]
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-                               'volunteer-stateq', 'volunteer-countryq', 'volunteer-organization', '9999999999', 'volunteer-email2@systers.orgq', 'View']
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            'volunteer-organization', '9999999999', 'volunteer-email2@systers.orgq',
+            'View'
+            ]
 
         search_page.navigate_to_volunteer_search_page()
         search_page.search_organization_field('volunteer')
@@ -514,19 +581,24 @@ class SearchVolunteer(LiveServerTestCase):
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_volunteer_search_page()
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'volunteer-country', '9999999999',
-            'volunteer-email@systers.org', 'volunteer-organization']
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
+            'volunteer-email@systers.org', 'volunteer-organization'
+        ]
 
         volunteer_1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-stateq', 'volunteer-countryq', '9999999999',
-            'volunteer-email2@systers.orgq', 'volunteer-organizationq']
+            'volunteer-last-nameq', 'volunteer-addressq', city,
+            state, country, '9999999999', 'volunteer-email2@systers.orgq',
+            'volunteer-organizationq'
+        ]
 
         volunteer_2 = create_volunteer_with_details(credentials_2)
 
@@ -534,12 +606,17 @@ class SearchVolunteer(LiveServerTestCase):
         register_job_utility()
         shift = register_shift_utility()
 
-        expected_result_one = ['volunteer-first-name', 'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-                               'volunteer-state', 'volunteer-country', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'volunteer-last-name', 'volunteer-address',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email@systers.org', 'View'
+            ]
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-                               'volunteer-stateq', 'volunteer-countryq', '9999999999', 'volunteer-email2@systers.orgq', 'View']
-
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email2@systers.orgq', 'View'
+            ]
 
         # search events with no volunteers
         search_page.search_event_field("event")
@@ -568,32 +645,39 @@ class SearchVolunteer(LiveServerTestCase):
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'volunteer-country', '9999999999',
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-organization'
-            'View']
+            ]
 
         volunteer_1 = create_volunteer_with_details(credentials_1)
 
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-stateq', 'volunteer-countryq', '9999999999',
+            'volunteer-last-nameq', 'volunteer-addressq', city,
+            state, country, '9999999999',
             'volunteer-email2@systers.orgq', 'volunteer-organizationq'
-            'View']
+            ]
 
         volunteer_2 = create_volunteer_with_details(credentials_2)
 
         register_event_utility()
         register_job_utility()
         shift = register_shift_utility()
-        expected_result_one = ['volunteer-first-name', 'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-                               'volunteer-state', 'volunteer-country', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'volunteer-last-name', 'volunteer-address',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email@systers.org', 'View']
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-                               'volunteer-stateq', 'volunteer-countryq', '9999999999', 'volunteer-email2@systers.orgq', 'View']
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            '9999999999', 'volunteer-email2@systers.orgq', 'View']
 
         # volunteer_1 and volunteer_2 registered for job
         register_volunteer_for_shift_utility(shift, volunteer_1)
@@ -624,10 +708,13 @@ class SearchVolunteer(LiveServerTestCase):
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'volunteer-last-name', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'volunteer-country', '9999999999',
+            'volunteer-last-name', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org'
         ]
 
@@ -635,8 +722,8 @@ class SearchVolunteer(LiveServerTestCase):
 
         credentials_2 = [
             'volunteer-usernameq', 'volunteer-first-nameq',
-            'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq',
-            'volunteer-stateq', 'volunteer-countryq', '9999999999',
+            'volunteer-last-nameq', 'volunteer-addressq', city,
+            state, country, '9999999999',
             'volunteer-email2@systers.orgq'
         ]
 
@@ -652,17 +739,27 @@ class SearchVolunteer(LiveServerTestCase):
         register_volunteer_for_shift_utility(shift, volunteer_1)
         register_volunteer_for_shift_utility(shift, volunteer_2)
 
-        expected_result_one = ['volunteer-first-name', 'volunteer-last-name', 'volunteer-address', 'volunteer-city', 'volunteer-state', 'volunteer-country', 'VOLUNTEER-ORGANIZATION', '9999999999', 'volunteer-email@systers.org', 'View']
+        expected_result_one = [
+            'volunteer-first-name', 'volunteer-last-name', 'volunteer-address',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            'VOLUNTEER-ORGANIZATION', '9999999999', 'volunteer-email@systers.org',
+            'View'
+            ]
 
-        expected_result_two = ['volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq', 'volunteer-cityq', 'volunteer-stateq', 'volunteer-countryq', 'volunteer-organization', '9999999999', 'volunteer-email2@systers.orgq', 'View']
+        expected_result_two = [
+            'volunteer-first-nameq', 'volunteer-last-nameq', 'volunteer-addressq',
+            'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
+            'volunteer-organization', '9999999999', 'volunteer-email2@systers.orgq',
+            'View'
+            ]
 
         search_page.navigate_to_volunteer_search_page()
 
         search_page.search_first_name_field('volunteer')
         search_page.search_last_name_field('volunteer')
-        search_page.search_city_field('volunteer')
-        search_page.search_state_field('volunteer')
-        search_page.search_country_field('volunteer')
+        search_page.search_city_field('Roorkee')
+        search_page.search_state_field('Uttarakhand')
+        search_page.search_country_field('India')
         search_page.search_organization_field('volunteer')
         search_page.search_event_field('event')
         search_page.search_job_field('job')
@@ -691,10 +788,14 @@ class SearchVolunteer(LiveServerTestCase):
     def test_check_volunteer_reports(self):
         search_page = self.search_page
         search_page.live_server_url = self.live_server_url
+
+        country = create_country()
+        state = create_state()
+        city = create_city()
         credentials_1 = [
             'volunteer-username', 'volunteer-first-name',
-            'VOLUNTEER-LAST-NAME', 'volunteer-address', 'volunteer-city',
-            'volunteer-state', 'volunteer-country', '9999999999',
+            'VOLUNTEER-LAST-NAME', 'volunteer-address', city,
+            state, country, '9999999999',
             'volunteer-email@systers.org', 'volunteer-organization'
         ]
         vol = create_volunteer_with_details(credentials_1)

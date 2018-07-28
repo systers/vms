@@ -242,7 +242,7 @@
                 {% for country in country_list %}
                     <option value="{{ country.id }}">{{ country.name }}</option>
                 {% endfor %}
-            </select>
+                </select>
             </div>
 
 
@@ -251,15 +251,15 @@
                     {% trans "State/Province" %}
                 </label>
                 <select id="select_state" class="form-control" name="state">
-            </select>
+                </select>
             </div>
 
-<div id="div_id_city" class="form-group">
-        <label class="control-label">
-        {% trans "City" %}
-        </label>
-        <select id="select_city" class="form-control" name="city">
-         </select>
+            <div id="div_id_city" class="form-group">
+                <label class="control-label">
+                    {% trans "City" %}
+                </label>
+                <select id="select_city" class="form-control" name="city">
+                </select>
             </div>
 
         {% if volunteer_form.phone_number.errors %}

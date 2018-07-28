@@ -3,7 +3,7 @@ import unittest
 
 # local Django
 from organization.models import Organization
-from shift.utils import (create_volunteer_with_details, clear_objects,
+from shift.utils import (create_country, create_state, create_city, create_second_state, create_second_country, create_second_city, create_volunteer_with_details, clear_objects,
     register_event_utility, register_job_utility, register_shift_utility,
     register_volunteer_for_shift_utility)
 from volunteer.services import (
@@ -15,17 +15,19 @@ from volunteer.services import (
 class VolunteerMethodTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
         volunteer_1 = [
-            'Yoshi', "Yoshi", "Turtle", "Mario Land", "Nintendo Land",
-            "Nintendo State", "Nintendo Nation", "2374983247",
-            "yoshi@nintendo.com"
+            'Yoshi', "Yoshi", "Turtle", "Mario Land", city, state, country,
+            "2374983247", "yoshi@nintendo.com"
         ]
         volunteer_2 = [
-            'John', "John", "Doe", "7 Alpine Street", "Maplegrove", "Wyoming",
-            "USA", "23454545", "john@test.com"
+            'John', "John", "Doe", "7 Alpine Street", city, state,
+            country, "23454545", "john@test.com"
         ]
         volunteer_3 = [
-            'Ash', "Ash", "Doe", "Pallet Town", "Kanto", "Gameboy", "Japan",
+            'Ash', "Ash", "Doe", "Pallet Town", city, state, country,
             "23454545", "ash@pikachu.com"
         ]
 
@@ -164,8 +166,8 @@ class VolunteerMethodTests(unittest.TestCase):
         self.assertIn(self.v3, search_list)
 
         # test exact search
-        search_list = search_volunteers("Yoshi", "Turtle", "Nintendo Land",
-                                        "Nintendo State", "Nintendo Nation",
+        search_list = search_volunteers("Yoshi", "Turtle", "Bothell",
+                                        "Washington", "United States",
                                         "Apple", "event", "job")
         self.assertNotEqual(search_list, False)
         self.assertEqual(len(search_list), 1)
@@ -199,18 +201,21 @@ class VolunteerMethodTests(unittest.TestCase):
 class DeleteVolunteerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        country = create_country()
+        state = create_state()
+        city = create_city()
         volunteer_1 = [
-            'Margaret', "Yoshi", "Turtle", "Mario Land", "Nintendo Land",
-            "Nintendo State", "Nintendo Nation", "2374983247",
+            'Margaret', "Yoshi", "Turtle", "Mario Land", city,
+            state, country, "2374983247",
             "yoshi1@nintendo.com"
         ]
         volunteer_2 = [
-            'Miu', "John", "Doe", "7 Alpine Street", "Maplegrove", "Wyoming",
-            "USA", "23454545", "john1@test.com"
+            'Miu', "John", "Doe", "7 Alpine Street", city, state,
+            country, "23454545", "john1@test.com"
         ]
         volunteer_3 = [
-            'Brock', "Ash", "Ketchum", "Pallet Town", "Kanto", "Gameboy",
-            "Japan", "23454545", "ash1@pikachu.com"
+            'Brock', "Ash", "Ketchum", "Pallet Town", city, state,
+            country, "23454545", "ash1@pikachu.com"
         ]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)

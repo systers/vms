@@ -10,8 +10,8 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.shiftDetailsPage import ShiftDetailsPage
-from shift.utils import (create_volunteer_with_details, create_admin,
-                         create_event_with_details, create_job_with_details,
+from shift.utils import (create_country, create_state, create_city, create_volunteer_with_details,
+                         create_admin, create_event_with_details, create_job_with_details,
                          create_shift_with_details, log_hours_with_details,
                          register_volunteer_for_shift_utility)
 
@@ -33,9 +33,12 @@ class ShiftDetails(LiveServerTestCase):
         This method initiates Firefox WebDriver, WebDriverWait and
         the corresponding POM objects for this Test Class
         """
+        cls.country = create_country()
+        cls.state = create_state()
+        cls.city = create_city()
         cls.volunteer_detail = [
-            'volunteer-username', 'Michael', 'Reed', 'address', 'city',
-            'state', 'country', '9999999999', 'volunteer@volunteer.com',
+            'volunteer-username', 'Michael', 'Reed', 'address', city,
+             state, country, '9999999999', 'volunteer@volunteer.com',
             'organization'
         ]
 
@@ -182,3 +185,4 @@ class ShiftDetails(LiveServerTestCase):
         self.assertEqual(shift_details_page.get_logged_volunteer_name(), 'Michael')
         self.assertEqual(shift_details_page.get_logged_start_time(), '1 p.m.')
         self.assertEqual(shift_details_page.get_logged_end_time(), '2 p.m.')
+

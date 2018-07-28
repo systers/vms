@@ -19,7 +19,7 @@ from django.core import mail
 from pom.pageUrls import PageUrls
 from pom.pages.volunteerRegistrationPage import VolunteerRegistrationPage
 from registration.tokens import account_activation_token
-from shift.utils import create_organization, create_country
+from shift.utils import create_organization, create_country, create_state, create_city
 
 
 class SignUpVolunteer(LiveServerTestCase):
