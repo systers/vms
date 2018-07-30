@@ -4,7 +4,7 @@ import unittest
 # local Django
 from organization.models import Organization
 from organization.services import get_organization_by_id, delete_organization, get_organization_by_name, get_organizations_ordered_by_name
-from shift.utils import clear_objects, create_volunteer_with_details
+from shift.utils import clear_objects, create_volunteer_with_details, create_country, create_state, create_city
 
 
 class OrganizationMethodTests(unittest.TestCase):
@@ -106,9 +106,12 @@ class DeleteOrganizationTests(unittest.TestCase):
         cls.o1.save()
         cls.o2.save()
 
+        country = create_country()
+        state = create_state()
+        city = create_city()
         volunteer_1 = [
-            'Yoshi', "Yoshi", "Turtle", "Mario Land", "Nintendo Land",
-            "Nintendo State", "Nintendo Nation", "2374983247",
+            'Yoshi', "Yoshi", "Turtle", "Mario Land", city,
+             state, country, "2374983247",
             "yoshi@nintendo.com"
         ]
         cls.v1 = create_volunteer_with_details(volunteer_1)

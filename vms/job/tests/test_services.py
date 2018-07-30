@@ -10,7 +10,7 @@ from job.services import (delete_job, check_edit_job, get_job_by_id,
 
 from shift.models import VolunteerShift
 from shift.services import register
-from shift.utils import (create_event_with_details, create_job_with_details,
+from shift.utils import (create_country, create_state, create_city, create_event_with_details, create_job_with_details,
                          create_volunteer_with_details,
                          create_shift_with_details, clear_objects)
 
@@ -254,18 +254,20 @@ class JobWithShiftTests(unittest.TestCase):
         cls.s4 = create_shift_with_details(shift_4)
 
         # creating volunteers who would register for the shifts
+        country = create_country()
+        state = create_state()
+        city = create_city()
         volunteer_1 = [
-            'Yoshi', "Yoshi", "Turtle", "Mario Land", "Nintendo Land",
-            "Nintendo State", "Nintendo Nation", "2374983247",
-            "yoshi@nintendo.com"
+            'Yoshi', "Yoshi", "Turtle", "Mario Land", city, state, country,
+            "2374983247", "yoshi@nintendo.com"
         ]
         volunteer_2 = [
-            'John', "John", "Doe", "7 Alpine Street", "Maplegrove", "Wyoming",
-            "USA", "23454545", "john@test.com"
+            'John', "John", "Doe", "7 Alpine Street", city, state,
+            country, "23454545", "john@test.com"
         ]
         volunteer_3 = [
-            'Ash', "Ash", "Ketchum", "Pallet Town", "Kanto", "Gameboy",
-            "Japan", "23454545", "ash@pikachu.com"
+            'Ash', "Ash", "Ketchum", "Pallet Town", city, state,
+            country, "23454545", "ash@pikachu.com"
         ]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)

@@ -146,7 +146,7 @@ class ShiftDetails(LiveServerTestCase):
 
         # verify that assigned volunteers shows up but no logged hours yet
         self.assertEqual(len(shift_details_page.get_registered_volunteers()), 1)
-        self.assertEqual(shift_details_page.get_registered_volunteer_name(), 'Michael')
+        self.assertEqual(shift_details_page.get_registered_volunteer_name(), 'Prince')
         self.assertEqual(shift_details_page.get_registered_volunteer_email(), 'volunteer@volunteer.com')
         self.assertEqual(shift_details_page.get_message_box(), 'There are no logged hours at the moment')
 
@@ -173,7 +173,7 @@ class ShiftDetails(LiveServerTestCase):
 
         # verify that hours are logged by volunteer
         self.assertEqual(len(shift_details_page.get_logged_volunteers()), 1)
-        self.assertEqual(shift_details_page.get_logged_volunteer_name(), 'Michael')
+        self.assertEqual(shift_details_page.get_logged_volunteer_name(), 'Prince')
         self.assertEqual(shift_details_page.get_logged_start_time(), '1 p.m.')
         self.assertEqual(shift_details_page.get_logged_end_time(), '2 p.m.')
 

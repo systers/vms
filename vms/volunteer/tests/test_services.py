@@ -201,9 +201,9 @@ class VolunteerMethodTests(unittest.TestCase):
 class DeleteVolunteerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        country = create_country()
-        state = create_state()
-        city = create_city()
+        country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
         volunteer_1 = [
             'Margaret', "Yoshi", "Turtle", "Mario Land", city,
             state, country, "2374983247",
