@@ -9,7 +9,7 @@ from django.test.testcases import TestCase
 from shift.models import Shift, VolunteerShift, Report, EditRequest
 from shift.utils import create_country, create_state, create_city, create_event_with_details, create_job_with_details, create_shift_with_details, \
     create_volunteer_with_details, register_volunteer_for_shift_utility, create_edit_request_with_details, \
-    log_hours_with_details, create_report_with_details \
+    log_hours_with_details, create_report_with_details 
 from volunteer.models import Volunteer
 
 

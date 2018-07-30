@@ -10,7 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from shift.models import VolunteerShift
 from shift.services import (
     add_shift_hours, calculate_duration, calculate_total_report_hours,
-    create_report_with_details, cancel_shift_registration, clear_shift_hours, delete_shift,
+    cancel_shift_registration, clear_shift_hours, delete_shift,
     edit_shift_hours, generate_report, get_all_volunteer_shifts_with_hours, get_future_shifts_by_volunteer_id,
     get_shift_by_id, get_shifts_by_job_id, get_shifts_ordered_by_date,
     get_shift_slots_remaining, get_shifts_with_open_slots,
@@ -18,7 +18,7 @@ from shift.services import (
     get_volunteer_shifts, get_volunteer_shifts_with_hours, get_volunteers_by_shift_id,
     get_logged_volunteers_by_shift_id, is_signed_up, register, send_reminder,
     get_shifts_with_open_slots_for_volunteer, get_report_by_id)
-from shift.utils import create_country, create_state, create_city, create_second_country, create_second_state, create_second_city, create_event_with_details, create_job_with_details, create_shift_with_details, clear_objects, get_report_list, create_volunteer_with_details, register_event_utility, register_job_utility, register_shift_utility,  set_shift_location, log_hours_with_details
+from shift.utils import create_country, create_state, create_city, create_report_with_details, create_second_country, create_second_state, create_second_city, create_event_with_details, create_job_with_details, create_shift_with_details, clear_objects, get_report_list, create_volunteer_with_details, register_event_utility, register_job_utility, register_shift_utility,  set_shift_location, log_hours_with_details
 
 
 def setUpModule():
