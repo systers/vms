@@ -130,7 +130,7 @@ class SignUpVolunteer(LiveServerTestCase):
         blocks = page.get_help_blocks()
         self.assertNotEqual(blocks, None)
         # Verify that all of the fields are compulsory
-        self.assertEqual(len(blocks), 11)
+        self.assertEqual(len(blocks), 8)
 
     def test_activation_email(self):
         u1 = User.objects.create_user(username='volunteer',password='volunteer')

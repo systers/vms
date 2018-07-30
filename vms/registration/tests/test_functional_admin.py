@@ -121,8 +121,8 @@ class SignUpAdmin(LiveServerTestCase):
         entry = ['', '', '', '', '', '', '', '', '', '', '', '']
         page.fill_registration_form(entry)
         self.assertNotEqual(page.get_help_blocks(), None)
-        # Verify that 11 of the fields are compulsory
-        self.assertEqual(len(page.get_help_blocks()), 11)
+        # Verify that 8 of the fields are compulsory
+        self.assertEqual(len(page.get_help_blocks()), 8)
 
     def test_successful_registration(self):
         """
