@@ -109,8 +109,8 @@ class DeleteOrganizationTests(unittest.TestCase):
         state_name = 'Washington'
         country_name = 'United States'
         country = get_country_by_name(country_name)
-        state = create_second_state(state_name)
-        city = create_second_city(city_name)
+        state = get_state_by_name(state_name)
+        city = get_city_by_name(city_name)
         volunteer_1 = [
             'Yoshi', "Yoshi", "Turtle", "Mario Land", city,
              state, country, "2374983247",
