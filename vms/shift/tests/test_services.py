@@ -230,9 +230,14 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         cls.s1 = s1
         cls.s2 = s2
         cls.s3 = s3
-        country = create_second_country()
-        state = create_second_state()
-        city = create_second_city()
+        
+
+        country_name = 'United States'
+        country = get_country_by_name(country_name)
+        state_name = 'Washington'
+        state = get_state_by_name(state_name)
+        city_name = 'Bothell'
+        city = get_city_by_name(city_name)
         # Create volunteers who will register for the shifts
         volunteer_1 = [
             'Yoshi', "Yoshi", "Turtle", "Mario Land", city,
@@ -843,9 +848,12 @@ class ShiftReminderTest(unittest.TestCase):
         cls.s2 = create_shift_with_details(shift_2)
         cls.s3 = create_shift_with_details(shift_3)
 
-        country = create_second_country()
-        state = create_second_state()
-        city = create_second_city()
+        country_name = 'United States'
+        country = get_country_by_name(country_name)
+        state_name = 'Washington'
+        state = get_state_by_name(state_name)
+        city_name = 'Bothell'
+        city = get_city_by_name(city_name)
         volunteer_1 = [
             'Jake', "Jake", "Flamoy", "Mario Land", city,
              state, country, "2374983247",
