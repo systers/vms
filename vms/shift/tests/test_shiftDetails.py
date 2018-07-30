@@ -33,21 +33,6 @@ class ShiftDetails(LiveServerTestCase):
         This method initiates Firefox WebDriver, WebDriverWait and
         the corresponding POM objects for this Test Class
         """
-        #country_name = 'India'
-        #state_name = 'Uttarakhand'
-        #city_name = 'Roorkee'
-        #cls.country = get_country_by_name(country_name)
-        #cls.state = get_state_by_name(state_name)
-        #cls.city = get_city_by_name(city_name)
-        cls.country = create_second_country()
-        cls.state = create_second_state()
-        cls.city = create_second_city()
-        cls.volunteer_detail = [
-            'volunteer-username', 'Michael', 'Reed', 'address', cls.city,
-             cls.state, cls.country, '9999999999', 'volunteer@volunteer.com',
-            'organization'
-        ]
-
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -147,7 +132,7 @@ class ShiftDetails(LiveServerTestCase):
         """
         shift_details_page = self.shift_details_page
         shift_details_page.live_server_url = self.live_server_url
-        volunteer = create_volunteer_with_details(self.volunteer_detail)
+        volunteer = create_volunteer()
         volunteer_shift = register_volunteer_for_shift_utility(
             self.shift, volunteer)
 
@@ -171,7 +156,7 @@ class ShiftDetails(LiveServerTestCase):
         """
         shift_details_page = self.shift_details_page
         shift_details_page.live_server_url = self.live_server_url
-        volunteer = create_volunteer_with_details(self.volunteer_detail)
+        volunteer = create_volunteer()
         log_hours_with_details(volunteer, self.shift, '13:00', '14:00')
 
         self.wait_for_home_page()

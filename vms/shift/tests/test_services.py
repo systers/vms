@@ -10,7 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from shift.models import VolunteerShift
 from shift.services import (
     add_shift_hours, calculate_duration, calculate_total_report_hours,
-    cancel_shift_registration, clear_shift_hours, delete_shift,
+    create_report_with_details, cancel_shift_registration, clear_shift_hours, delete_shift,
     edit_shift_hours, generate_report, get_all_volunteer_shifts_with_hours, get_future_shifts_by_volunteer_id,
     get_shift_by_id, get_shifts_by_job_id, get_shifts_ordered_by_date,
     get_shift_slots_remaining, get_shifts_with_open_slots,

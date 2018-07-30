@@ -16,9 +16,9 @@ from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventSignUpPage import EventSignUpPage
 from pom.pages.manageShiftPage import ManageShiftPage
 from shift.utils import (create_admin, create_country, create_state, create_city, create_volunteer_with_details,
-                         create_event_with_details, create_job_with_details,
+                         create_event_with_details, create_job_with_details, create_volunteer,
                          create_shift_with_details, create_edit_request_with_details,
-                         log_hours_with_details)
+                         log_hours_with_details, get_city_by_name, get_state_by_name, get_country_by_name)
 
 
 class ManageVolunteerShift(LiveServerTestCase):
@@ -56,19 +56,6 @@ class ManageVolunteerShift(LiveServerTestCase):
         This method initiates Firefox WebDriver, WebDriverWait and
         the corresponding POM objects for this Test Class
         """
-        country = create_country()
-        state = create_state()
-        city = create_city()
-        cls.volunteer_1 = [
-            'volunteer-one', 'volunteer-one', 'volunteer-one', 'volunteer-one',
-             city, state, country, '9999999999',
-            'volunteer-email@systers.org', 'volunteer-one'
-        ]
-        cls.volunteer_2 = [
-            'volunteer-two', 'volunteer-two', 'volunteer-two', 'volunteer-two',
-            city, state, country, '9999999999',
-            'volunteer-email2@systers.org', 'volunteer-two'
-        ]
 
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
@@ -166,7 +153,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         manage_shift_page.live_server_url = self.live_server_url
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         shift = ['09:00', '15:00', '1']
         shift_1 = self.create_shift(shift)
@@ -221,7 +208,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         manage_shift_page.live_server_url = self.live_server_url
 
         # Register volunteer
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         self.wait_for_home_page()
 
@@ -240,7 +227,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         manage_shift_page = self.manage_shift_page
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         manage_shift_page.live_server_url = self.live_server_url
 
@@ -264,7 +251,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         manage_shift_page.live_server_url = self.live_server_url
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         # Create events
         event = ['event-name', '2017-05-20', '2017-05-20']
@@ -289,7 +276,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         manage_shift_page.live_server_url = self.live_server_url
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         # Create events
         event = ['event-name', '2017-05-20', '2017-05-20']
@@ -319,7 +306,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         manage_shift_page.live_server_url = self.live_server_url
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         shift = ['09:00', '15:00', '1']
         shift_1 = self.create_shift(shift)
@@ -358,7 +345,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         self.assertEqual(len(mail.outbox), 1)
         msg = mail.outbox[0]
         self.assertEqual(msg.subject, 'Shift Assigned')
-        self.assertEqual(msg.to, ['volunteer-email@systers.org'])
+        self.assertEqual(msg.to, ['volunteer@volunteer.com'])
 
     def test_slots_remaining_in_shift(self):
         """
@@ -369,8 +356,19 @@ class ManageVolunteerShift(LiveServerTestCase):
         manage_shift_page.live_server_url = self.live_server_url
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
-        volunteer_2 = create_volunteer_with_details(self.volunteer_2)
+        volunteer_1 = create_volunteer()
+        city_name = 'Bothell'
+        state_name = 'Washington'
+        country_name = 'United States'
+        city = get_city_by_name(city_name)
+        state = get_state_by_name(state_name)
+        country = get_country_by_name(country_name)
+        volunteer_2 = [
+            'volunteer-two', 'volunteer-two', 'volunteer-two', 'volunteer-two',
+            city, state, country, '9999999999',
+            'volunteer-email2@systers.org', 'volunteer-two'
+        ]
+        volunteer_2 = create_volunteer_with_details(volunteer_2)
 
         shift = ['09:00', '15:00', '1']
         shift_1 = self.create_shift(shift)
@@ -428,7 +426,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         self.wait_for_home_page()
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         shift = ['09:00', '15:00', '1']
         shift_1 = self.create_shift(shift)
@@ -489,7 +487,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         self.assertEqual(len(mail.outbox), 1)
         msg = mail.outbox[0]
         self.assertEqual(msg.subject, 'Shift Cancelled')
-        self.assertEqual(msg.to, ['volunteer-email@systers.org'])
+        self.assertEqual(msg.to, ['volunteer@volunteer.com'])
 
         # Check cancelled shift reflects in volunteer shift details
         self.assertEqual(manage_shift_page.get_info_box(),
@@ -508,7 +506,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         """
         checks the edit request link received by admin
         """
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         shift = ['09:00', '15:00', '1']
         shift_1 = self.create_shift(shift)
@@ -526,7 +524,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         checks if the volunteer gets an email when his hours are edited
         by admin upon his request
         """
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         shift = ['09:00', '15:00', '1']
         shift_1 = self.create_shift(shift)
@@ -542,7 +540,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         self.assertEqual(len(mail.outbox), 1)
         msg = mail.outbox[0]
         self.assertEqual(msg.subject, "Log Hours Edited")
-        self.assertEqual(msg.to, ['volunteer-email@systers.org'])
+        self.assertEqual(msg.to, ['volunteer@volunteer.com'])
 
     def test_assign_same_shift_to_volunteer_twice(self):
         """
@@ -553,7 +551,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         self.manage_shift_page.live_server_url = self.live_server_url
 
         # Register volunteers
-        volunteer_1 = create_volunteer_with_details(self.volunteer_1)
+        volunteer_1 = create_volunteer()
 
         shift = ['09:00', '15:00', '1']
         shift_1 = self.create_shift(shift)
