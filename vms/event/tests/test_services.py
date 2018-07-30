@@ -330,7 +330,7 @@ class EventWithVolunteerTest(unittest.TestCase):
             "23454545", "john@test.com"
         ]
         volunteer_3 = [
-            'Ash', "Ash", "Ketchum", "Pallet Town", city, state, coutnry,
+            'Ash', "Ash", "Ketchum", "Pallet Town", city, state, country,
             "23454545", "ash@pikachu.com"
         ]
 

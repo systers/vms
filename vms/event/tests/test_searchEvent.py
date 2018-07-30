@@ -14,6 +14,7 @@ from pom.pages.eventSearchPage import EventSearchPage
 from shift.utils import (create_country, create_city, create_state, create_admin, create_event_with_details,
                         create_job_with_details, get_city_by_name, get_state_by_name, get_country_by_name)
 
+
 class SearchEvent(LiveServerTestCase):
     """
     SearchEvent class contains tests to check '/event/search/' view.
