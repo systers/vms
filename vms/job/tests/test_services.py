@@ -10,10 +10,9 @@ from job.services import (delete_job, check_edit_job, get_job_by_id,
 
 from shift.models import VolunteerShift
 from shift.services import register
-from shift.utils import (create_country, create_state, create_city, create_event_with_details, create_job_with_details,
+from shift.utils import (create_country, create_state, create_city, create_second_city, create_second_state, create_second_country, create_event_with_details, create_job_with_details,
                          create_volunteer_with_details,
                          create_shift_with_details, clear_objects)
-
 
 def setUpModule():
     """
@@ -254,9 +253,9 @@ class JobWithShiftTests(unittest.TestCase):
         cls.s4 = create_shift_with_details(shift_4)
 
         # creating volunteers who would register for the shifts
-        country = create_country()
-        state = create_state()
-        city = create_city()
+        country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
         volunteer_1 = [
             'Yoshi', "Yoshi", "Turtle", "Mario Land", city, state, country,
             "2374983247", "yoshi@nintendo.com"

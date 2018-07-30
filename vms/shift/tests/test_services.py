@@ -843,17 +843,17 @@ class ShiftReminderTest(unittest.TestCase):
         cls.s2 = create_shift_with_details(shift_2)
         cls.s3 = create_shift_with_details(shift_3)
 
-        cls.country = create_country()
-        cls.state = create_state()
-        cls.city = create_city()
+        country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
         volunteer_1 = [
-            'Jake', "Jake", "Flamoy", "Mario Land", cls.city,
-             cls.state, cls.country, "2374983247",
+            'Jake', "Jake", "Flamoy", "Mario Land", city,
+             state, country, "2374983247",
             "jake@nintendo.com"
         ]
         volunteer_2 = [
-            'Dora', "Dorothy", "Flamoy", "7 Alpine Street", cls.city,
-            cls.state, cls.country, "23454545", "dora@test.com"
+            'Dora', "Dorothy", "Flamoy", "7 Alpine Street", city,
+            state, country, "23454545", "dora@test.com"
         ]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)
@@ -915,12 +915,12 @@ class DeleteShiftTest(unittest.TestCase):
         cls.s1 = create_shift_with_details(shift_1)
         cls.s2 = create_shift_with_details(shift_2)
 
-        cls.country = create_country()
-        cls.state = create_state()
-        cls.city = create_city()
+        country = create_country()
+        state = create_state()
+        city = create_city()
         volunteer_1 = [
-            'Aaron', "Aaron", "Turtle", "Mario Land", cls.city, cls.state,
-             cls.country, "2374983247", "aaron@nintendo.com"
+            'Aaron', "Aaron", "Turtle", "Mario Land", city, state,
+             country, "2374983247", "aaron@nintendo.com"
         ]
         cls.v1 = create_volunteer_with_details(volunteer_1)
 
