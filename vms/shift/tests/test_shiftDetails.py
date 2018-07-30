@@ -10,8 +10,8 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.shiftDetailsPage import ShiftDetailsPage
-from shift.utils import (create_country, create_state, create_city, create_volunteer_with_details,
-                         create_admin, create_event_with_details, create_job_with_details,
+from shift.utils import (get_country_by_name, get_state_by_name, get_city_by_name, create_volunteer_with_details,
+                         create_admin, create_second_country, create_second_state, create_second_city, create_event_with_details, create_job_with_details,
                          create_shift_with_details, log_hours_with_details,
                          register_volunteer_for_shift_utility)
 
@@ -33,12 +33,18 @@ class ShiftDetails(LiveServerTestCase):
         This method initiates Firefox WebDriver, WebDriverWait and
         the corresponding POM objects for this Test Class
         """
-        cls.country = create_country()
-        cls.state = create_state()
-        cls.city = create_city()
+        #country_name = 'India'
+        #state_name = 'Uttarakhand'
+        #city_name = 'Roorkee'
+        #cls.country = get_country_by_name(country_name)
+        #cls.state = get_state_by_name(state_name)
+        #cls.city = get_city_by_name(city_name)
+        cls.country = create_second_country()
+        cls.state = create_second_state()
+        cls.city = create_second_city()
         cls.volunteer_detail = [
-            'volunteer-username', 'Michael', 'Reed', 'address', city,
-             state, country, '9999999999', 'volunteer@volunteer.com',
+            'volunteer-username', 'Michael', 'Reed', 'address', cls.city,
+             cls.state, cls.country, '9999999999', 'volunteer@volunteer.com',
             'organization'
         ]
 

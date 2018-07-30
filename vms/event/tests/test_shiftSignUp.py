@@ -275,7 +275,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Enter correct city
         sign_up_page.go_to_sign_up_page()
-        parameters = ['', '', '', 'event-city', '', '']
+        parameters = ['', '', '', 'Roorkee', '', '']
         sign_up_page.fill_search_form(parameters)
         # Verify that the event shows up
         self.assertEqual(sign_up_page.get_event_name(), 'event')
@@ -297,7 +297,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Enter correct state
         sign_up_page.go_to_sign_up_page()
-        parameters = ['', '', '', '', 'event-state', '']
+        parameters = ['', '', '', '', 'Uttarakhand', '']
         sign_up_page.fill_search_form(parameters)
         # Verify that the event shows up
         self.assertEqual(sign_up_page.get_event_name(), 'event')
@@ -306,7 +306,7 @@ class ShiftSignUp(LiveServerTestCase):
         """
         tests for search results on the basis of event country
         """
-        event = register_event_utility() 
+        event = register_event_utility()
         country_name = 'India'
         country = get_country_by_name(country_name)
         event.country = country
@@ -319,7 +319,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Enter correct country
         sign_up_page.go_to_sign_up_page()
-        parameters = ['', '', '', '', '', 'event-country']
+        parameters = ['', '', '', '', '', 'India']
         sign_up_page.fill_search_form(parameters)
         # Verify that the event shows up
         self.assertEqual(sign_up_page.get_event_name(), 'event')

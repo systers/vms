@@ -18,7 +18,7 @@ from shift.services import (
     get_volunteer_shifts, get_volunteer_shifts_with_hours, get_volunteers_by_shift_id,
     get_logged_volunteers_by_shift_id, is_signed_up, register, send_reminder,
     get_shifts_with_open_slots_for_volunteer, get_report_by_id)
-from shift.utils import create_country, create_state, create_city, create_event_with_details, create_job_with_details, create_shift_with_details, clear_objects, get_report_list, create_volunteer_with_details, register_event_utility, register_job_utility, register_shift_utility,  set_shift_location, log_hours_with_details
+from shift.utils import create_country, create_state, create_city, create_second_country, create_second_state, create_second_city, create_event_with_details, create_job_with_details, create_shift_with_details, clear_objects, get_report_list, create_volunteer_with_details, register_event_utility, register_job_utility, register_shift_utility,  set_shift_location, log_hours_with_details
 
 
 def setUpModule():
@@ -230,18 +230,20 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         cls.s1 = s1
         cls.s2 = s2
         cls.s3 = s3
-
+        cls.country = create_second_country()
+        cls.state = create_second_state()
+        cls.city = create_second_city()
         # Create volunteers who will register for the shifts
         volunteer_1 = [
-            'Yoshi', "Yoshi", "Turtle", "Mario Land", city,
-            state, country, "2374983247",
+            'Yoshi', "Yoshi", "Turtle", "Mario Land", cls.city,
+            cls.state, cls.country, "2374983247",
             "yoshi@nintendo.com"
         ]
         volunteer_2 = [
-            'John', "John", "Doe", "7 Alpine Street", city, state, country, "23454545", "john@test.com"
+            'John', "John", "Doe", "7 Alpine Street", cls.city, cls.state, cls.country, "23454545", "john@test.com"
         ]
         volunteer_3 = [
-            'Ash', "Ash", "Ketchum", "Pallet Town", city, state, country, "23454545", "ash@pikachu.com"
+            'Ash', "Ash", "Ketchum", "Pallet Town", cls.city, cls.state, cls.country, "23454545", "ash@pikachu.com"
         ]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)
@@ -841,14 +843,17 @@ class ShiftReminderTest(unittest.TestCase):
         cls.s2 = create_shift_with_details(shift_2)
         cls.s3 = create_shift_with_details(shift_3)
 
+        cls.country = create_country()
+        cls.state = create_state()
+        cls.city = create_city()
         volunteer_1 = [
-            'Jake', "Jake", "Flamoy", "Mario Land", city,
-             state, country, "2374983247",
+            'Jake', "Jake", "Flamoy", "Mario Land", cls.city,
+             cls.state, cls.country, "2374983247",
             "jake@nintendo.com"
         ]
         volunteer_2 = [
-            'Dora', "Dorothy", "Flamoy", "7 Alpine Street", city,
-            state, country, "23454545", "dora@test.com"
+            'Dora', "Dorothy", "Flamoy", "7 Alpine Street", cls.city,
+            cls.state, cls.country, "23454545", "dora@test.com"
         ]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)
@@ -910,9 +915,12 @@ class DeleteShiftTest(unittest.TestCase):
         cls.s1 = create_shift_with_details(shift_1)
         cls.s2 = create_shift_with_details(shift_2)
 
+        cls.country = create_country()
+        cls.state = create_state()
+        cls.city = create_city()
         volunteer_1 = [
-            'Aaron', "Aaron", "Turtle", "Mario Land", city, state,
-             country, "2374983247", "aaron@nintendo.com"
+            'Aaron', "Aaron", "Turtle", "Mario Land", cls.city, cls.state,
+             cls.country, "2374983247", "aaron@nintendo.com"
         ]
         cls.v1 = create_volunteer_with_details(volunteer_1)
 

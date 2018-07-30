@@ -16,7 +16,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.manageShiftPage import ManageShiftPage
 from pom.pages.upcomingShiftsPage import UpcomingShiftsPage
-from shift.utils import (create_country, create_state, create_city, create_volunteer, create_event_with_details,
+from shift.utils import (create_country, create_state, create_city, create_second_city, create_second_state, create_second_country, create_volunteer, create_event_with_details,
                          create_job_with_details, create_shift_with_details,
                          register_volunteer_for_shift_utility, create_volunteer_with_details,
                          register_past_event_utility, register_past_job_utility, register_past_shift_utility)
@@ -117,11 +117,11 @@ class ViewVolunteerShift(LiveServerTestCase):
         upcoming_shift_page.view_upcoming_shifts()
         self.assertEqual(upcoming_shift_page.get_info_box(),
                          upcoming_shift_page.no_shift_message)
-        country = create_country()
-        state = create_state()
-        city = create_city()
+        second_country = create_second_country()
+        second_state = create_second_state()
+        second_city = create_second_city()
         details = ['test_volunteer', 'volunteer-first-name', 'volunteer-last-name',
-                   'volunteer-address', city, state, country,
+                   'volunteer-address', second_city, second_state, second_country,
                    '9999999999', 'volunteer-email2@systers.org', 'volunteer-organization']
         test_volunteer = create_volunteer_with_details(details)
         upcoming_shift_page.get_page(upcoming_shift_page.live_server_url,

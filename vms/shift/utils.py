@@ -85,7 +85,6 @@ def create_volunteer_with_details(volunteer):
         phone_number=volunteer[7],
         email=volunteer[8],
         user=u1)
-
     v1.save()
     return v1
 

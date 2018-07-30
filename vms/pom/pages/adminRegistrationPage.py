@@ -104,7 +104,7 @@ class AdminRegistrationPage(BasePage):
         entry = [
             'admin-username', 'admin-password!@#$%^&*()_', 'admin-password!@#$%^&*()_',
             'admin-first-name', 'admin-last-name', 'admin-email@systers.org', 'admin-address',
-            'admin-city', 'admin-state', 'admin-country', '9999999999',
+            'Roorkee', 'Uttarakhand', 'India', '9999999999',
             'admin-org'
         ]
         self.fill_registration_form(entry)
