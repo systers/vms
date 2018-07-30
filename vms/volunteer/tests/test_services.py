@@ -15,9 +15,12 @@ from volunteer.services import (
 class VolunteerMethodTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        country = create_second_country()
-        state = create_second_state()
-        city = create_second_city()
+        country_name = 'India'
+        country = get_country_by_name(country_name)
+        state_name = 'Uttarakhand'
+        state = get_state_by_name(state_name)
+        city_name = 'Roorkee'
+        city = get_city_by_name(city_name)
         volunteer_1 = [
             'Yoshi', "Yoshi", "Turtle", "Mario Land", city, state, country,
             "2374983247", "yoshi@nintendo.com"
