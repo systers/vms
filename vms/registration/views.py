@@ -14,6 +14,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.decorators import method_decorator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView
+from django.core.exceptions import ObjectDoesNotExist
 
 # local Django
 from administrator.forms import AdministratorForm

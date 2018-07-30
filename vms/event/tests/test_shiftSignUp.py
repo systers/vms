@@ -172,7 +172,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Create another volunteer
         second_country = create_second_country()
-        state = create_second_state()
+        second_state = create_second_state()
         second_city = create_second_city()
         volunteer_2 = ['volunteer-2', "Sam", "Turtle", "Mario Land", second_city, second_state, second_country,
                        "2374983247", "volunteer2@volunteer.com"]
