@@ -4,7 +4,7 @@ import unittest
 # local Django
 from organization.models import Organization
 from organization.services import get_organization_by_id, delete_organization, get_organization_by_name, get_organizations_ordered_by_name
-from shift.utils import clear_objects, create_volunteer_with_details, create_second_country, create_second_state, create_second_city
+from shift.utils import get_country_by_name, get_city_by_name, get_state_by_name, clear_objects, create_volunteer_with_details, create_second_country, create_second_state, create_second_city
 
 
 class OrganizationMethodTests(unittest.TestCase):
@@ -105,10 +105,12 @@ class DeleteOrganizationTests(unittest.TestCase):
 
         cls.o1.save()
         cls.o2.save()
-
-        country = create_second_country()
-        state = create_second_state()
-        city = create_second_city()
+        city_name = 'Bothell'
+        state_name = 'Washington'
+        country_name = 'United States'
+        country = get_country_by_name(country_name)
+        state = create_second_state(state_name)
+        city = create_second_city(city_name)
         volunteer_1 = [
             'Yoshi', "Yoshi", "Turtle", "Mario Land", city,
              state, country, "2374983247",
