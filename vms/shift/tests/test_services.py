@@ -230,20 +230,20 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         cls.s1 = s1
         cls.s2 = s2
         cls.s3 = s3
-        cls.country = create_second_country()
-        cls.state = create_second_state()
-        cls.city = create_second_city()
+        country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
         # Create volunteers who will register for the shifts
         volunteer_1 = [
-            'Yoshi', "Yoshi", "Turtle", "Mario Land", cls.city,
-            cls.state, cls.country, "2374983247",
+            'Yoshi', "Yoshi", "Turtle", "Mario Land", city,
+            state, country, "2374983247",
             "yoshi@nintendo.com"
         ]
         volunteer_2 = [
-            'John', "John", "Doe", "7 Alpine Street", cls.city, cls.state, cls.country, "23454545", "john@test.com"
+            'John', "John", "Doe", "7 Alpine Street", city, state, country, "23454545", "john@test.com"
         ]
         volunteer_3 = [
-            'Ash', "Ash", "Ketchum", "Pallet Town", cls.city, cls.state, cls.country, "23454545", "ash@pikachu.com"
+            'Ash', "Ash", "Ketchum", "Pallet Town", city, state, country, "23454545", "ash@pikachu.com"
         ]
 
         cls.v1 = create_volunteer_with_details(volunteer_1)
@@ -874,6 +874,9 @@ class ShiftReminderTest(unittest.TestCase):
 
     def test_send_reminder(self):
 
+        country = create_country() 
+        state = create_state()
+        city = create_city()
         location = [
             "Test address", city, state, country,
             "Near the south entrance"
