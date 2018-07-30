@@ -18,7 +18,11 @@ from shift.services import (
     get_volunteer_shifts, get_volunteer_shifts_with_hours, get_volunteers_by_shift_id,
     get_logged_volunteers_by_shift_id, is_signed_up, register, send_reminder,
     get_shifts_with_open_slots_for_volunteer, get_report_by_id)
-from shift.utils import create_country, create_state, create_city, create_report_with_details, create_second_country, create_second_state, create_second_city, create_event_with_details, create_job_with_details, create_shift_with_details, clear_objects, get_report_list, create_volunteer_with_details, register_event_utility, register_job_utility, register_shift_utility,  set_shift_location, log_hours_with_details, get_country_by_name, get_state_by_name, get_city_by_name
+from shift.utils import (create_country, create_state, create_city, create_report_with_details,
+                        create_second_country, create_second_state, create_second_city, create_event_with_details,
+                        create_job_with_details, create_shift_with_details, clear_objects, get_report_list,
+                        create_volunteer_with_details, register_event_utility, register_job_utility, register_shift_utility,
+                        set_shift_location, log_hours_with_details, get_country_by_name, get_state_by_name, get_city_by_name)
 
 
 def setUpModule():
@@ -230,7 +234,7 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         cls.s1 = s1
         cls.s2 = s2
         cls.s3 = s3
-        
+
 
         country_name = 'United States'
         country = get_country_by_name(country_name)
@@ -882,9 +886,12 @@ class ShiftReminderTest(unittest.TestCase):
 
     def test_send_reminder(self):
 
-        country = create_country()
-        state = create_state()
-        city = create_city()
+        city_name = 'Roorkee'
+        state_name = 'Uttarakhand'
+        country_name = 'India'
+        country = get_country_by_name(country_name)
+        state = get_state_by_name(state_name)
+        city = get_city_by_name(city_name)
         location = [
             "Test address", city, state, country,
             "Near the south entrance"

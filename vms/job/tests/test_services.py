@@ -141,12 +141,15 @@ class JobTests(unittest.TestCase):
         self.assertIn(self.j3, search_list)
 
         # test exact search
-        e1.city = 'job-city'
-        e1.state = 'job-state'
-        e1.country = 'job-country'
+        country = create_country()
+        state = create_state()
+        city = create_city()
+        e1.city = city
+        e1.state = state
+        e1.country = country
         e1.save()
         search_list = search_jobs('Software Developer', '2012-10-22', '2012-10-25',
-                                  'job-city', 'job-state', 'job-country', 'Software Conference')
+                                  'Roorkee', 'Uttarakhand', 'India', 'Software Conference')
         self.assertNotEqual(search_list, False)
         self.assertEqual(len(search_list), 1)
         self.assertIn(self.j1, search_list)
@@ -161,9 +164,9 @@ class JobTests(unittest.TestCase):
         self.assertNotIn(self.j3, search_list)
         self.assertNotIn(self.j1, search_list)
 
-        e2.city = 'job-city'
+        e2.city = city
         e2.save()
-        search_list = search_jobs(None, None, None, 'job-city', None, None, None)
+        search_list = search_jobs(None, None, None, 'Roorkee', None, None, None)
         self.assertNotEqual(search_list, False)
         self.assertEqual(len(search_list), 3)
         self.assertIn(self.j1, search_list)

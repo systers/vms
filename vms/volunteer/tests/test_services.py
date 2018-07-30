@@ -4,7 +4,7 @@ import unittest
 # local Django
 from organization.models import Organization
 from shift.utils import (create_country, create_state, create_city, create_second_state, create_second_country, create_second_city, create_volunteer_with_details, clear_objects,
-    register_event_utility, register_job_utility, register_shift_utility,
+    register_event_utility, register_job_utility, register_shift_utility, get_country_by_name, get_state_by_name, get_city_by_name,
     register_volunteer_for_shift_utility)
 from volunteer.services import (
     delete_volunteer, delete_volunteer_resume, get_all_volunteers,
@@ -201,9 +201,12 @@ class VolunteerMethodTests(unittest.TestCase):
 class DeleteVolunteerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        country = create_second_country()
-        state = create_second_state()
-        city = create_second_city()
+        country_name = 'United States'
+        country = get_country_by_name(country_name)
+        state_name = 'Washington'
+        state = get_state_by_name(state_name)
+        city_name = 'Bothell'
+        city = get_city_by_name(city_name)
         volunteer_1 = [
             'Margaret', "Yoshi", "Turtle", "Mario Land", city,
             state, country, "2374983247",

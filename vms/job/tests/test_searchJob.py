@@ -11,7 +11,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.jobSearchPage import JobSearchPage
-from shift.utils import create_admin, create_event_with_details, create_job_with_details, create_country, create_state, create_city
+from shift.utils import get_country_by_name, get_state_by_name, get_city_by_name, create_admin, create_event_with_details, create_job_with_details, create_country, create_state, create_city
 
 class SearchJob(LiveServerTestCase):
     """
