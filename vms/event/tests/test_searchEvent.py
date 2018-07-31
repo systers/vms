@@ -207,8 +207,8 @@ class SearchEvent(LiveServerTestCase):
         search_page.live_server_url = self.live_server_url
         search_page.navigate_to_event_search_page()
 
-        country = create_country()
-        state = create_state()
+        create_country()
+        create_state()
         city = create_city()
         credentials_1 = ['event-name', '2015-01-01', '2015-03-01']
 
@@ -270,9 +270,8 @@ class SearchEvent(LiveServerTestCase):
 
         credentials_1 = ['event-name', '2015-01-01', '2015-03-01']
         event_1 = create_event_with_details(credentials_1)
-        country = create_country()
+        create_country()
         state = create_state()
-        city = create_city()
         event_1.state = state
         event_1.save()
 

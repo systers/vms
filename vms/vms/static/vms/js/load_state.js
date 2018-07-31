@@ -16,7 +16,6 @@ $(document).ready(function() {
                             "state": 0
                         },
                         success: function(cities) {
-                            console.log("success"); 
                             $("#select_city").html(cities);
                            $("#select_state").empty(); 
                         }

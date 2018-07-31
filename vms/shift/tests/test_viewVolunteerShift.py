@@ -16,7 +16,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.manageShiftPage import ManageShiftPage
 from pom.pages.upcomingShiftsPage import UpcomingShiftsPage
-from shift.utils import (create_country, create_state, create_city, create_second_city, create_second_state, create_second_country, create_volunteer, create_event_with_details,
+from shift.utils import (create_second_city, create_second_state, create_second_country, create_volunteer, create_event_with_details,
                          create_job_with_details, create_shift_with_details,
                          register_volunteer_for_shift_utility, create_volunteer_with_details,
                          register_past_event_utility, register_past_job_utility, register_past_shift_utility)

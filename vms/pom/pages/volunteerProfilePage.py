@@ -2,8 +2,7 @@
 from pom.pages.basePage import BasePage
 from pom.locators.volunteerProfilePageLocators import VolunteerProfilePageLocators
 from pom.pages.homePage import HomePage
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
+
 
 class VolunteerProfilePage(BasePage):
     def __init__(self, driver):

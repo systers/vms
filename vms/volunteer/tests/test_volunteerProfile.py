@@ -149,7 +149,7 @@ class VolunteerProfile(LiveServerTestCase):
     def test_edit_profile(self):
         """
         Test profile edit in volunteer profile.
-        """ 
+        """
         create_second_country()
         create_second_state()
         create_second_city()
@@ -173,11 +173,11 @@ class VolunteerProfile(LiveServerTestCase):
         found_city = re.search(self.volunteer_1.city.name, page_source)
         self.assertEqual(found_city, None)
 
-        found_state = re.search(self.volunteer_1.state.name, page_source)	
-        self.assertEqual(found_state, None)	
-        
-        found_country = re.search(self.volunteer_1.country.name, page_source)	
-        self.assertEqual(found_country, None)	
+        found_state = re.search(self.volunteer_1.state.name, page_source)
+        self.assertEqual(found_state, None)
+
+        found_country = re.search(self.volunteer_1.country.name, page_source)
+        self.assertEqual(found_country, None)
 
         found_org = re.search(self.volunteer_1.unlisted_organization, page_source)
         self.assertEqual(found_org, None)

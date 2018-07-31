@@ -37,7 +37,7 @@ class ApiForVolaViewTestCase(APITestCase, TestCase):
                   'venue': 'venue'}
 
         event = ['eventq', '2050-02-05', '2050-05-05']
-        self.event_2 = create_event_with_details(event) 
+        self.event_2 = create_event_with_details(event)
         country2 = create_second_country()
         state2 = create_second_state()
         city2 = create_second_city()
