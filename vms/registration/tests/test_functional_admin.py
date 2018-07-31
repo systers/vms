@@ -442,11 +442,11 @@ class SignUpAdmin(LiveServerTestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_ajax_load_cities(self):
-        response = self.client.post('registration/load_cities/', {'country':'India', 'state':'Uttarakhand'})
+        response = self.client.post('/registration/load_cities/', {'country':'India', 'state':'Uttarakhand'})
         self.assertEqual(response.status_code, 302)
 
     def test_ajax_check_states(self):
-        response = self.client.post('registration/check_states',{'country':'India'})
+        response = self.client.post('/registration/check_states/',{'country':'India'})
         self.assertEqual(response.status_code, 302)
 
 
