@@ -156,9 +156,7 @@ class VolunteerProfile(LiveServerTestCase):
         self.wait_for_profile_load('Son Goku')
         profile_page.edit_profile()
 
-        country = create_country()
-        state = create_state()
-        city = create_city()
+        city = create_other_city()
         new_details = [
             'Harvey', 'Specter', 'hspecter@ps.com', 'Empire State Building',
             'Mussorie', 'Uttarakhand', 'India', '9999999998', 'None', 'Lawyer'
