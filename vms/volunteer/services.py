@@ -114,11 +114,11 @@ def search_volunteers(first_name, last_name, city, state, country,
     if last_name:
         search_query = search_query.filter(last_name__icontains=last_name)
     if city:
-        search_query = search_query.filter(city__icontains=city)
+        search_query = search_query.filter(city__name__icontains=city)
     if state:
-        search_query = search_query.filter(state__icontains=state)
+        search_query = search_query.filter(state__name__icontains=state)
     if country:
-        search_query = search_query.filter(country__icontains=country)
+        search_query = search_query.filter(country__name__icontains=country)
     if organization:
         organization_obj = get_organization_by_name(organization)
         organization_list = get_organizations_ordered_by_name()

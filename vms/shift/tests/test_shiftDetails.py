@@ -10,8 +10,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.shiftDetailsPage import ShiftDetailsPage
-from shift.utils import (create_volunteer_with_details, create_admin,
-                         create_event_with_details, create_job_with_details,
+from shift.utils import (create_volunteer, create_admin, create_event_with_details, create_job_with_details,
                          create_shift_with_details, log_hours_with_details,
                          register_volunteer_for_shift_utility)
 
@@ -33,12 +32,6 @@ class ShiftDetails(LiveServerTestCase):
         This method initiates Firefox WebDriver, WebDriverWait and
         the corresponding POM objects for this Test Class
         """
-        cls.volunteer_detail = [
-            'volunteer-username', 'Michael', 'Reed', 'address', 'city',
-            'state', 'country', '9999999999', 'volunteer@volunteer.com',
-            'organization'
-        ]
-
         cls.driver = webdriver.Firefox()
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -138,7 +131,7 @@ class ShiftDetails(LiveServerTestCase):
         """
         shift_details_page = self.shift_details_page
         shift_details_page.live_server_url = self.live_server_url
-        volunteer = create_volunteer_with_details(self.volunteer_detail)
+        volunteer = create_volunteer()
         volunteer_shift = register_volunteer_for_shift_utility(
             self.shift, volunteer)
 
@@ -152,7 +145,7 @@ class ShiftDetails(LiveServerTestCase):
 
         # verify that assigned volunteers shows up but no logged hours yet
         self.assertEqual(len(shift_details_page.get_registered_volunteers()), 1)
-        self.assertEqual(shift_details_page.get_registered_volunteer_name(), 'Michael')
+        self.assertEqual(shift_details_page.get_registered_volunteer_name(), 'Prince')
         self.assertEqual(shift_details_page.get_registered_volunteer_email(), 'volunteer@volunteer.com')
         self.assertEqual(shift_details_page.get_message_box(), 'There are no logged hours at the moment')
 
@@ -162,7 +155,7 @@ class ShiftDetails(LiveServerTestCase):
         """
         shift_details_page = self.shift_details_page
         shift_details_page.live_server_url = self.live_server_url
-        volunteer = create_volunteer_with_details(self.volunteer_detail)
+        volunteer = create_volunteer()
         log_hours_with_details(volunteer, self.shift, '13:00', '14:00')
 
         self.wait_for_home_page()
@@ -179,6 +172,7 @@ class ShiftDetails(LiveServerTestCase):
 
         # verify that hours are logged by volunteer
         self.assertEqual(len(shift_details_page.get_logged_volunteers()), 1)
-        self.assertEqual(shift_details_page.get_logged_volunteer_name(), 'Michael')
+        self.assertEqual(shift_details_page.get_logged_volunteer_name(), 'Prince')
         self.assertEqual(shift_details_page.get_logged_start_time(), '1 p.m.')
         self.assertEqual(shift_details_page.get_logged_end_time(), '2 p.m.')
+
