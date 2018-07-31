@@ -9,6 +9,10 @@ from selenium.webdriver.common.by import By
 
 # Django
 from django.contrib.staticfiles.testing import LiveServerTestCase
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+from pom.locators.adminRegistrationPageLocators import AdminRegistrationPageLocators
+from pom.pages.basePage import BasePage
 
 # local Django
 from pom.pages.adminRegistrationPage import AdminRegistrationPage
@@ -109,6 +113,27 @@ class SignUpAdmin(LiveServerTestCase):
         self.assertEqual(values['country'], info[7])
         self.assertEqual(values['phone'], info[8])
         self.assertEqual(values['organization'], info[9])
+
+    def ajax_complete(self):
+        try:
+            return 0 == self.driver.execute_script("return jQuery.active")
+        except:
+            pass
+
+    def wait_ajax_complete(self):
+        """ Wait until ajax request is completed """
+        self.wait.until(
+             self.ajax_complete(),  "Timeout waiting for page to load")
+
+    def test_state_field(self):
+        self.elements = AdminRegistrationPageLocators()
+        page = self.page
+        page.live_server_url = self.live_server_url
+        page.get_admin_registration_page()
+        select = Select(self.driver.find_element_by_id(self.elements.COUNTRY))
+        select.select_by_index(1)
+        self.wait_ajax_complete()
+        self.send_value_to_element_id(elements.STATE, info[8])
 
     def test_null_values(self):
         """
