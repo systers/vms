@@ -240,6 +240,21 @@ def create_city():
     return city
 
 
+def create_other_city():
+    country = Country.objects.get(name='India')
+    state = Region.objects.get(name='Uttarakhand')
+    city = City.objects.create(
+        name_ascii = 'Mussoorie',
+        slug='mussoorie',
+        geoname_id=1262374,
+        alternate_names='',
+        name='Mussoorie',
+        region=state,
+        country=country,
+        )
+    return city
+
+
 def create_second_country():
     country = Country.objects.create(
         name_ascii='United States',

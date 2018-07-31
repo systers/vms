@@ -18,7 +18,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.volunteerProfilePage import VolunteerProfilePage
-from shift.utils import create_country, create_state, create_city, create_second_country, create_second_state, create_second_city, create_volunteer_with_details
+from shift.utils import create_country, create_state, create_city, create_other_city, create_second_country, create_second_state, create_second_city, create_volunteer_with_details
 
 
 class VolunteerProfile(LiveServerTestCase):
@@ -52,9 +52,10 @@ class VolunteerProfile(LiveServerTestCase):
         Method consists of statements to be executed before
         start of each test.
         """
-        country = create_second_country()
-        state = create_second_state()
-        city = create_second_city()
+        country = create_country()
+        state = create_state()
+        city = create_city()
+        create_other_city()
         vol = [
             'Goku', "Son", "Goku", "Kame House", city,
             state, country, "9999999999", "idonthave@gmail.com"
@@ -160,7 +161,7 @@ class VolunteerProfile(LiveServerTestCase):
         city = create_city()
         new_details = [
             'Harvey', 'Specter', 'hspecter@ps.com', 'Empire State Building',
-            'Roorkee', 'Uttarakhand', 'India', '9999999998', 'None', 'Lawyer'
+            'Mussorie', 'Uttarakhand', 'India', '9999999998', 'None', 'Lawyer'
         ]
         profile_page.fill_values(new_details)
         self.wait_for_profile_load('Harvey Specter')
@@ -172,12 +173,6 @@ class VolunteerProfile(LiveServerTestCase):
           
         found_city = re.search(self.volunteer_1.city.name, page_source)
         self.assertEqual(found_city, None)
-
-        found_state = re.search(self.volunteer_1.state.name, page_source)
-        self.assertEqual(found_state, None)
-
-        found_country = re.search(self.volunteer_1.country.name, page_source)
-        self.assertEqual(found_country, None)
 
         found_org = re.search(self.volunteer_1.unlisted_organization, page_source)
         self.assertEqual(found_org, None)

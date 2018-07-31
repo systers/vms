@@ -169,8 +169,8 @@ class VolunteerMethodTests(unittest.TestCase):
         self.assertIn(self.v3, search_list)
 
         # test exact search
-        search_list = search_volunteers("Yoshi", "Turtle", "Bothell",
-                                        "Washington", "United States",
+        search_list = search_volunteers("Yoshi", "Turtle", "Roorkee",
+                                        "Uttarakhand", "India",
                                         "Apple", "event", "job")
         self.assertNotEqual(search_list, False)
         self.assertEqual(len(search_list), 1)
