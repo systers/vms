@@ -242,7 +242,7 @@ class VolunteerSignupView(TemplateView):
                                     'phone_error': self.phone_error,
                                     'organization_list':
                                     self.organization_list,
-                                    'country_list': self.countrylist,
+                                    'country_list': self.country_list,
                                 })
 
                     if 'resume_file' in request.FILES:

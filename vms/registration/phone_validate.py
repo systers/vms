@@ -4,7 +4,7 @@ import phonenumbers
 
 def validate_phone(my_country, my_phone):
     try:
-        country_code = entry.code2
+        country_code = my_country.code2
     except:
         print('No matching country in database')
         return "missing"

@@ -324,7 +324,6 @@ class SignUpAdmin(LiveServerTestCase):
         page = self.page
         page.live_server_url = self.live_server_url
         page.get_admin_registration_page()
-
         entry = [
             'admin-username', 'admin-password!@#$%^&*()_', 'admin-password!@#$%^&*()_',
             'admin-first-name', 'admin-last-name', 'admin-email@systers.org', 'admin-address',
