@@ -10,8 +10,7 @@ from django.contrib.staticfiles.testing import LiveServerTestCase
 # local Django
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.shiftDetailsPage import ShiftDetailsPage
-from shift.utils import (create_volunteer, get_country_by_name, get_state_by_name, get_city_by_name, create_volunteer_with_details,
-                         create_admin, create_second_country, create_second_state, create_second_city, create_event_with_details, create_job_with_details,
+from shift.utils import (create_volunteer, create_admin, create_event_with_details, create_job_with_details,
                          create_shift_with_details, log_hours_with_details,
                          register_volunteer_for_shift_utility)
 
