@@ -14,4 +14,12 @@ class Organization(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return str(self.name)
+
+    @staticmethod
+    def create_multiple_organizations(n):
+        org_name = 'org-{0}'
+        org_list = list()
+        for i in range(1, n+1):
+            org_list.append(Organization.objects.create(name=org_name.format(str(i))))
+        return org_list
