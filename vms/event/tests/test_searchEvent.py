@@ -328,8 +328,6 @@ class SearchEvent(LiveServerTestCase):
         credentials_1 = ['event-name', '2015-01-01', '2015-03-01']
 
         country = create_country()
-        state = create_state()
-        city = create_city()
         event_1 = create_event_with_details(credentials_1)
         event_1.country = country
         event_1.save()

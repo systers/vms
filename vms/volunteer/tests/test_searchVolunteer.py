@@ -16,7 +16,6 @@ from pom.pages.volunteerReportPage import VolunteerReportPage
 from pom.locators.volunteerSearchPageLocators import VolunteerSearchPageLocators
 from pom.pageUrls import PageUrls
 from shift.utils import (create_admin, create_country, create_state, create_city,
-                        create_second_country, create_second_state, create_second_city,
                         create_volunteer_with_details, create_organization_with_details,
                         register_past_event_utility, register_past_shift_utility, register_past_job_utility,
                         create_report_with_details, log_hours_with_details, register_volunteer_for_shift_utility,
