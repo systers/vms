@@ -158,7 +158,7 @@ class VolunteerProfile(LiveServerTestCase):
 
         new_details = [
             'Harvey', 'Specter', 'hspecter@ps.com', 'Empire State Building',
-            'Mussorie', 'Uttarakhand', 'India', '9999999998', 'None', 'Lawyer'
+            'Mussoorie', 'Uttarakhand', 'India', '9999999998', 'None', 'Lawyer'
         ]
         profile_page.fill_values(new_details)
         self.wait_for_profile_load('Harvey Specter')
@@ -167,7 +167,7 @@ class VolunteerProfile(LiveServerTestCase):
 
         found_email = re.search(self.volunteer_1.email, page_source)
         self.assertEqual(found_email, None)
-          
+
         found_city = re.search(self.volunteer_1.city.name, page_source)
         self.assertEqual(found_city, None)
 

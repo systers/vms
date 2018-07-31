@@ -39,7 +39,7 @@ class VolunteerModelTests(TestCase):
         """
         Utility function to create a valid volunteer.
         :return: Volunteer type object
-        """ 
+        """
         country = create_country()
         state = create_state()
         city = create_city()

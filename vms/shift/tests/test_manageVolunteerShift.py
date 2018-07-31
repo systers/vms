@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pages.eventSignUpPage import EventSignUpPage
 from pom.pages.manageShiftPage import ManageShiftPage
-from shift.utils import (create_admin, create_country, create_state, create_city, create_volunteer_with_details,
+from shift.utils import (create_admin, create_volunteer_with_details,
                          create_event_with_details, create_job_with_details, create_volunteer,
                          create_shift_with_details, create_edit_request_with_details,
                          log_hours_with_details, get_city_by_name, get_state_by_name, get_country_by_name)

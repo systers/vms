@@ -16,7 +16,6 @@ from pom.pages.administratorReportPage import AdministratorReportPage
 from pom.pages.authenticationPage import AuthenticationPage
 from pom.pageUrls import PageUrls
 from shift.utils import (create_admin, create_country, create_state, create_city, create_volunteer,
-                         create_organization_with_details,
                          create_event_with_details, create_job_with_details,
                          create_shift_with_details, log_hours_with_details,
                          register_volunteer_for_shift_utility, create_volunteer_with_details_dynamic_password,

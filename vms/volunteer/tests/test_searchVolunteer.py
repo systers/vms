@@ -389,7 +389,7 @@ class SearchVolunteer(LiveServerTestCase):
             'States', 'United', 'States', '9999999999',
             'volunteer-email2@systers.orgq', 'View'
         ]
- 
+
         search_page.search_state_field('Uttarakhand')
         search_page.submit_form()
         search_results = search_page.get_search_results()
@@ -542,7 +542,7 @@ class SearchVolunteer(LiveServerTestCase):
         expected_result_one = [
             'volunteer-first-name', 'volunteer-last-name', 'volunteer-address',
             'Roorkee,', 'Uttarakhand,', 'India', 'Uttarakhand,', 'India', 'India',
-            'VOLUNTEER-ORGANIZATION', '9999999999', 'volunteer-email@systers.org', 
+            'VOLUNTEER-ORGANIZATION', '9999999999', 'volunteer-email@systers.org',
             'View'
             ]
 
