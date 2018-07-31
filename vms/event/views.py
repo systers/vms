@@ -69,23 +69,23 @@ class EventCreateView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
         else:
             event = form.save(commit=False)
             try:
-                country_id = self.request.POST.get('country')
-                country = Country.objects.get(pk=country_id)
+                country_name = self.request.POST.get('country')
+                country = Country.objects.get(name=country_name)
                 event.country = country
             except ObjectDoesNotExist:
-                country_id = None
+                country_name = None
             try:
-                state_id = self.request.POST.get('state')
-                state = Region.objects.get(pk=state_id)
+                state_name = self.request.POST.get('state')
+                state = Region.objects.get(name=state_name)
                 event.state = state
             except ObjectDoesNotExist:
-                state_id = None
+                state_name = None
             try:
-                city_id = self.request.POST.get('city')
-                city = City.objects.get(pk=city_id)
+                city_name = self.request.POST.get('city')
+                city = City.objects.get(name=city_name)
                 event.city = city
             except ObjectDoesNotExist:
-                city_id = None
+                city_name = None
             event.save()
             return HttpResponseRedirect(reverse('event:list'))
 
@@ -190,20 +190,20 @@ class EventUpdateView(LoginRequiredMixin, AdministratorLoginRequiredMixin,
                 else:
                     event_to_edit = form.save(commit=False)
                     try:
-                        country_id = self.request.POST.get('country')
-                        country = Country.objects.get(pk=country_id)
+                        country_name = self.request.POST.get('country')
+                        country = Country.objects.get(name=country_name)
                     except ObjectDoesNotExist:
                         country = None
                     event_to_edit.country = country
                     try:
-                        state_id = self.request.POST.get('state')
-                        state = Region.objects.get(pk=state_id)
+                        state_name = self.request.POST.get('state')
+                        state = Region.objects.get(name=state_name)
                     except ObjectDoesNotExist:
                         state = None
                     event_to_edit.state = state
                     try:
-                        city_id = self.request.POST.get('city')
-                        city = City.objects.get(pk=city_id)
+                        city_name = self.request.POST.get('city')
+                        city = City.objects.get(name=city_name)
                     except ObjectDoesNotExist:
                         city = None
                     event_to_edit.city = city

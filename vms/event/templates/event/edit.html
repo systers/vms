@@ -111,12 +111,12 @@
                 {% for country in country_list %}
                     {% if event.country_id %}
                      {% if country.name == event.country.name %}
-                         <option selected value="{{country.id}}">{{country.name}}</option>
+                         <option selected value="{{country.name}}">{{country.name}}</option>
                      {% else %}
-                    <option value="{{ country.id }}">{{ country.name }}</option>
+                    <option value="{{ country.name }}">{{ country.name }}</option>
                 {% endif %}
                 {% else %}
-                <option value="{{ country.id }}">{{ country.name }}</option>
+                <option value="{{ country.name }}">{{ country.name }}</option>
                 {% endif %}
                 {% endfor %}
             </select>
@@ -134,12 +134,12 @@
                 {% for state in state_list %}
                  {% if event.state_id %}
                      {% if state.name == event.state.name %}
-                         <option selected value="{{state.id}}">{{state.name}}</option>
+                         <option selected value="{{state.name}}">{{state.name}}</option>
                      {% else %}
-                    <option value="{{ state.id }}">{{ state.name }}</option>
+                    <option value="{{ state.name }}">{{ state.name }}</option>
                 {% endif %}
                 {% else %}
-                <option value="{{ state.id }}">{{ state.name }}</option>
+                <option value="{{ state.name }}">{{ state.name }}</option>
                 {% endif %}
                 {% endfor %}
             </select>
@@ -156,12 +156,12 @@
                 {% for city in city_list %}
                  {% if event.city_id %}
                      {% if city.name == event.city.name %}
-                         <option selected value="{{city.id}}">{{city.name}}</option>
+                         <option selected value="{{city.name}}">{{city.name}}</option>
                      {% else %}
-                    <option value="{{ city.id }}">{{ city.name }}</option>
+                    <option value="{{ city.name }}">{{ city.name }}</option>
                 {% endif %}
                 {% else %}
-                <option value="{{ city.id }}">{{ city.name }}</option>
+                <option value="{{ city.name }}">{{ city.name }}</option>
                 {% endif %}
                 {% endfor %}
           </select>

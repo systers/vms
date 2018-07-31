@@ -240,7 +240,7 @@
                  <select id="select_country" class="form-control" name="country">
                 <option value="0">-- {% trans "Select country" %} --</option>
                 {% for country in country_list %}
-                    <option value="{{ country.id }}">{{ country.name }}</option>
+                    <option value="{{ country.name }}">{{ country.name }}</option>
                 {% endfor %}
                 </select>
             </div>

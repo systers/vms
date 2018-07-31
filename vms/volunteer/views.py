@@ -169,20 +169,20 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
 
         volunteer_to_edit = form.save(commit=False)
         try:
-            country_id = self.request.POST.get('country')
-            country = Country.objects.get(pk=country_id)
+            country_name = self.request.POST.get('country')
+            country = Country.objects.get(name=country_name)
         except ObjectDoesNotExist:
             country = None
         volunteer_to_edit.country = country
         try:
-            state_id = self.request.POST.get('state')
-            state = Region.objects.get(pk=state_id)
+            state_name = self.request.POST.get('state')
+            state = Region.objects.get(name=state_name)
         except ObjectDoesNotExist:
             state = None
         volunteer_to_edit.state = state
         try:
-            city_id = self.request.POST.get('city')
-            city = City.objects.get(pk=city_id)
+            city_name = self.request.POST.get('city')
+            city = City.objects.get(name=city_name)
         except ObjectDoesNotExist:
             city = None
         volunteer_to_edit.city = city

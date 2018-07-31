@@ -90,20 +90,20 @@ class AdministratorSignupView(TemplateView):
                                 'organization_list': self.organization_list,
                             })
                     try:
-                        admin_country_id = request.POST.get('country')
-                        admin_country = Country.objects.get(pk=admin_country_id)
+                        admin_country_name = request.POST.get('country')
+                        admin_country = Country.objects.get(name=admin_country_name)
                     except:
                         admin_country = None
 
                     try:
-                        admin_state_id = request.POST.get('state')
-                        admin_state = Region.objects.get(pk=admin_state_id)
+                        admin_state_name = request.POST.get('state')
+                        admin_state = Region.objects.get(name=admin_state_name)
                     except ObjectDoesNotExist:
                         admin_state = None
 
                     try:
-                        admin_city_id = request.POST.get('city')
-                        admin_city = City.objects.get(pk=admin_city_id)
+                        admin_city_name = request.POST.get('city')
+                        admin_city = City.objects.get(pk=admin_city_name)
                     except ObjectDoesNotExist:
                         admin_city = None
 
@@ -212,20 +212,20 @@ class VolunteerSignupView(TemplateView):
                                 'organization_list': self.organization_list,
                             })
                     try:
-                        vol_country_id = request.POST.get('country')
-                        vol_country = Country.objects.get(pk=vol_country_id)
+                        vol_country_name = request.POST.get('country')
+                        vol_country = Country.objects.get(name=vol_country_name)
                     except ObjectDoesNotExist:
                         vol_country = None
 
                     try:
-                        vol_state_id = request.POST.get('state')
-                        vol_state = Region.objects.get(pk=vol_state_id)
+                        vol_state_name = request.POST.get('state')
+                        vol_state = Region.objects.get(name=vol_state_name)
                     except ObjectDoesNotExist:
                         vol_state = None
 
                     try:
-                        vol_city_id = request.POST.get('city')
-                        vol_city = City.objects.get(pk=vol_city_id)
+                        vol_city_name = request.POST.get('city')
+                        vol_city = City.objects.get(name=vol_city_name)
                     except ObjectDoesNotExist:
                         vol_city = None
 
@@ -339,8 +339,8 @@ def check_states(request):
 
     :return: 1 if states exist, otherwise 0
     """
-    country_id = request.GET.get('country')
-    if Region.objects.filter(country_id=country_id).exists():
+    country_name = request.GET.get('country')
+    if Region.objects.filter(country__name=country_name).exists():
        statecheck = 1
     else:
        statecheck = 0
@@ -352,8 +352,8 @@ def load_states(request):
 
     :return: states belonging to the selected country
     """
-    country_id = request.GET.get('country')
-    states = Region.objects.filter(country_id=country_id).order_by('name')
+    country_name = request.GET.get('country')
+    states = Region.objects.filter(country__name=country_name).order_by('name')
     return render(request, 'registration/state_dropdown_list_options.html',{'states':states})
 
 def load_cities(request):
@@ -362,11 +362,11 @@ def load_cities(request):
 
     :return: cities belonging to the selected country and state
     """
-    country_id = request.GET.get('country')
-    state_id = request.GET.get('state')
-    if state_id is '0':
-        cities = City.objects.filter(country_id=country_id).order_by('name')
+    country_name = request.GET.get('country')
+    state_name = request.GET.get('state')
+    if state_name is '0':
+        cities = City.objects.filter(country__name=country_name).order_by('name')
     else:
-        cities = City.objects.filter(country_id=country_id,region_id=state_id).order_by('name')
+        cities = City.objects.filter(country__name=country_name,region__name=state_name).order_by('name')
     return render(request, 'registration/city_dropdown_list_options.html', {'cities': cities})
 
