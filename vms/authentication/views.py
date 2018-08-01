@@ -1,40 +1,26 @@
-from authentication.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, user_passes_test
+# Django
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect
+
+# local Django
+from vms import settings
+
 
 def index(request):
-    return HttpResponse("Hello world")
-    
-def login_process(request):
+    return redirect(reverse('authentication:login_process'))
 
-    if request.method == 'POST':
 
-        authentication_form = AuthenticationForm(request.POST)
+def anonymous_required(func):
+    """
+    Function for login and logout process using Django's built in auth-views
+    """
 
-        if authentication_form.is_valid():
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+    def as_view(request, *args, **kwargs):
+        redirect_to = kwargs.get('next', settings.LOGIN_REDIRECT_URL)
+        if request.user.is_authenticated():
+            return redirect(redirect_to)
+        response = func(request, *args, **kwargs)
+        return response
 
-            user = authenticate(username=username, password=password)
+    return as_view
 
-            if user:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('home:index'))
-                else:
-                    return HttpResponse("Your account is disabled.")
-            else:
-                return render(request, 'authentication/login.html', {'authentication_form' : authentication_form, 'is_invalid_credentials' : True,})
-        else:
-            return render(request, 'authentication/login.html', {'authentication_form' : authentication_form,})
-    else:
-        return render(request, 'authentication/login.html', {'is_invalid_credentials' : False,})
-
-@login_required
-def logout_process(request):
-
-    logout(request)
-    return HttpResponseRedirect(reverse('home:index'))
