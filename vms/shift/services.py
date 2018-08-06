@@ -100,7 +100,7 @@ def send_reminder():
         else:
             email_word = " in " + str(days) + " days."
         v_id = volunteer.id
-        shift_list = get_unlogged_shifts_by_volunteer_id(v_id)
+        shift_list = get_future_shifts_by_volunteer_id(v_id)
         subject = "The Systers - VMS Volunteer Shift Reminder Mail"
         for shift in shift_list:
             date_shift = shift.date
@@ -116,9 +116,9 @@ def send_reminder():
                 "\nShift End Time: " + str(shift.end_time) + \
                 "\n\nAddress: " + shift.address + \
                 "\nVenue: " + shift.venue + \
-                "\nCity: " + shift.city + \
-                "\nState: " + shift.state + \
-                "\nCountry: " + shift.country + \
+                "\nCity: " + shift.city.name + \
+                "\nState: " + shift.state.name + \
+                "\nCountry: " + shift.country.name + \
                 "\n\nThank you for registering!"
                 send_mail(
                     subject,
@@ -312,10 +312,11 @@ def get_unlogged_shifts_by_volunteer_id(v_id):
 
     # get shifts that the volunteer signed up for and
     # that have not been logged yet (in terms of logged start and end times)
-    shift_signed_up_list = Shift.objects.filter(
+    shift_signed_up_list = Shift.objects.filter(Q(
         volunteershift__volunteer_id=v_id,
         volunteershift__start_time__isnull=True,
-        volunteershift__end_time__isnull=True)
+        volunteershift__end_time__isnull=True)&Q(date__lte=timezone.now().date())|
+        Q(date=timezone.now().date(), start_time__lte=timezone.now().time()))
 
     # this filtering is buggy when done this way, why?
     # it shows the same shift multiple times if

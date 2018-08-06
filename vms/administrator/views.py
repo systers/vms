@@ -1,16 +1,22 @@
 # third-party
 from braces.views import LoginRequiredMixin
+from cities_light.models import Country, Region, City
 
 # Django
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic import View
 from django.views.generic.edit import FormView, UpdateView
+from easy_pdf.rendering import render_to_pdf
+from django.core.mail.message import EmailMessage
+from django.core.mail import send_mail
 
 # local Django
 from administrator.forms import ReportForm, AdministratorForm
@@ -49,6 +55,14 @@ def reject(request, report_id):
    report = get_report_by_id(report_id)
    report.confirm_status = 2
    report.save()
+   volunteer = report.volunteer
+   admin = Administrator.objects.get(user=request.user)
+   message = render_to_string('administrator/reject_report.html',
+                              {
+                              'volunteer': volunteer,
+                              'admin': admin,
+                              })
+   send_mail("Report Rejected", message, "messanger@localhost.com", [volunteer.email])
    return HttpResponseRedirect('/administrator/report')
 
 def approve(request, report_id):
@@ -61,8 +75,24 @@ def approve(request, report_id):
    report = get_report_by_id(report_id)
    report.confirm_status = 1
    report.save()
+   admin = Administrator.objects.get(user=request.user)
+   volunteer_shift_list = report.volunteer_shifts.all()
+   report_list = generate_report(volunteer_shift_list)
+   volunteer = report.volunteer
+   post_pdf = render_to_pdf('administrator/pdf.html',
+        {'report': report,
+       'admin': admin,
+       'report_list': report_list,},
+   )
+   message = render_to_string('administrator/confirm_report.html',
+                              {
+                              'volunteer': volunteer,
+                              'admin': admin,
+                              })
+   msg = EmailMessage("Report Approved", message, "messanger@localhost.com", [report.volunteer.email])
+   msg.attach('file.pdf', post_pdf, 'application/pdf')
+   msg.send()
    return HttpResponseRedirect('/administrator/report')
-
 
 def show_report(request, report_id):
    """
@@ -117,7 +147,19 @@ class AdminUpdateView(AdministratorLoginRequiredMixin, UpdateView, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(AdminUpdateView, self).get_context_data(**kwargs)
+        admin_id = self.kwargs['admin_id']
+        admin = Administrator.objects.get(pk=admin_id)
+        country_list = Country.objects.all()
+        if admin.country:
+            country = admin.country
+            state_list = Region.objects.filter(country=country)
+            context['state_list'] = state_list
+        if admin.state:
+            state = admin.state
+            city_list = City.objects.filter(region=state)
+            context['city_list'] = city_list
         context['organization_list'] = self.organization_list
+        context['country_list'] = country_list
         return context
 
     def get_object(self, queryset=None):
@@ -129,7 +171,24 @@ class AdminUpdateView(AdministratorLoginRequiredMixin, UpdateView, FormView):
         admin_id = self.kwargs['admin_id']
         administrator = Administrator.objects.get(pk=admin_id)
         admin_to_edit = form.save(commit=False)
-
+        try:
+            country_name = self.request.POST.get('country')
+            country = Country.objects.get(name=country_name)
+        except ObjectDoesNotExist:
+            country = None
+        admin_to_edit.country = country
+        try:
+            state_name = self.request.POST.get('state')
+            state = Region.objects.get(name=state_name)
+        except ObjectDoesNotExist:
+            state = None
+        admin_to_edit.state = state
+        try:
+            city_name = self.request.POST.get('city')
+            city = City.objects.get(name=city_name)
+        except ObjectDoesNotExist:
+            city = None
+        admin_to_edit.city = city
         organization_id = self.request.POST.get('organization_name')
         organization = get_organization_by_id(organization_id)
         if organization:

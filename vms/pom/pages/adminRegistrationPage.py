@@ -14,6 +14,7 @@ class AdminRegistrationPage(BasePage):
     INVALID_PHONE = 'Please enter a valid phone number'
     INVALID_PHONE_FOR_COUNTRY = 'This phone number isn\'t valid for the selected country'
     NO_MATCH = 'Passwords don\'t match.'
+    CONFIRM_EMAIL_MESSAGE = "Please confirm your email address before login."
 
     def __init__(self, driver):
         self.elements = AdminRegistrationPageLocators()
@@ -28,9 +29,9 @@ class AdminRegistrationPage(BasePage):
         self.send_value_to_element_id(elements.LAST_NAME, info[4])
         self.send_value_to_element_id(elements.EMAIL, info[5])
         self.send_value_to_element_id(elements.ADDRESS, info[6])
-        self.send_value_to_element_id(elements.CITY, info[7])
-        self.send_value_to_element_id(elements.STATE, info[8])
         self.send_value_to_element_id(elements.COUNTRY, info[9])
+        self.send_value_to_element_id(elements.STATE, info[8])
+        self.send_value_to_element_id(elements.CITY, info[7])
         self.send_value_to_element_id(elements.PHONE, info[10])
         self.send_value_to_element_id(elements.ORGANIZATION, info[11])
         self.submit_form()
@@ -104,7 +105,7 @@ class AdminRegistrationPage(BasePage):
         entry = [
             'admin-username', 'admin-password!@#$%^&*()_', 'admin-password!@#$%^&*()_',
             'admin-first-name', 'admin-last-name', 'admin-email@systers.org', 'admin-address',
-            'admin-city', 'admin-state', 'admin-country', '9999999999',
+            'Roorkee', 'Uttarakhand', 'India', '9999999999',
             'admin-org'
         ]
         self.fill_registration_form(entry)
