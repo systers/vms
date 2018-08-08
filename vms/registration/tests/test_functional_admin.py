@@ -166,6 +166,31 @@ class SignUpAdmin(LiveServerTestCase):
         self.assertEqual(page.get_username_error_text(),
                          page.USER_EXISTS)
 
+    def test_user_fills_shorter_password(self):
+        """
+        Test error raised when user inputs shorter password< 8 characters
+        """
+        page = self.page
+        page.live_server_url = self.live_server_url
+        page.register_valid_details()
+        self.assertNotEqual(page.get_message_box(), None)
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
+
+        page.get_admin_registration_page()
+
+        entry = [
+            'admin-username-1', 'adm',
+            'adm', 'admin-first-name', 'admin-last-name',
+            'admin-email1@systers.org', 'admin-address',
+            'Roorkee', 'Uttarakhand', 'India',
+            '9999999999', 'admin-org'
+        ]
+        page.fill_registration_form(entry)
+
+        self.assertNotEqual(page.get_help_blocks(), None)
+        self.assertEqual(page.get_password_length_error_text(),
+                         page.SHORT_PASSWORD_ERROR)
+
     def test_user_fills_different_passwords(self):
         """
         Test error raised when user inputs different passwords while
