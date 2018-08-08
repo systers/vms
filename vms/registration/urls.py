@@ -1,20 +1,7 @@
-# Django
-from django.conf.urls import url
+from django.conf.urls import patterns, url
+from registration import views
 
-# local Django
-# from administrator.views import AdministratorSignUpView
-# from registration import views
-from registration.views import AdministratorSignupView, VolunteerSignupView, activate
-
-urlpatterns = [
-    url(r'^signup_administrator/$',
-        AdministratorSignupView.as_view(),
-        name='signup_administrator'),
-    url(r'^signup_volunteer/$',
-        VolunteerSignupView.as_view(),
-        name='signup_volunteer'),
-    url(r'^signup_volunteer/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        activate,
-        name='activate'),
-]
-
+urlpatterns = patterns('',
+    url(r'^signup_administrator/$', views.signup_administrator, name='signup_administrator'),
+    url(r'^signup_volunteer/$', views.signup_volunteer, name='signup_volunteer'),
+)

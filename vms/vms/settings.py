@@ -1,26 +1,37 @@
 """
 Django settings for vms project.
 
-Note: Currently development settings. Not suitable as is for production.
+For more information on this file, see
+https://docs.djangoproject.com/en/1.6/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 from django.core.urlresolvers import reverse_lazy
-from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = 'rs473)3n^fe0^t-^s$n)_%pl=75f_na7z5ee@(^xc-vn^bzr%a'
 
-# SECURITY WARNING: run with debug turned off (DEBUG = False) in production!
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
 # Application definition
+
+# Make sure all apps are specified here
 INSTALLED_APPS = (
-    'authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'administrator',
+    'authentication',
     'event',
     'home',
     'job',
@@ -36,14 +48,10 @@ INSTALLED_APPS = (
     'shift',
     'vms',
     'volunteer',
-    'cities_light',
-    'pom',
-    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -55,38 +63,24 @@ ROOT_URLCONF = 'vms.urls'
 
 WSGI_APPLICATION = 'vms.wsgi.application'
 
+
 # Database
-# Change these database settings if your database engine, database name,
-# username or password changes
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
+# Change these database settings if your database engine, database name, username or password changes
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vms',
-        'USER': 'vmsadmin',
-        'PASSWORD': '0xdeadbeef',
-        'HOST': 'localhost',
+        'ENGINE' : 'django.db.backends.postgresql_psycopg2',    #your database engine
+        'NAME' : 'vms',             #the name of your database
+        'USER' : 'myuser',          #your DBMS username
+        'PASSWORD' : 'mypassword',  #your DBMS password
+        'HOST' : 'localhost',
     }
 }
 
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
-
 # Internationalization
+# https://docs.djangoproject.com/en/1.6/topics/i18n/
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -97,50 +91,21 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale/'), )
-
-LANGUAGES = (
-    ('en-us', _('English')),
-    ('fr-fr', _('French')),
-)
 
 # Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+
 # Specifies the directory where static files (CSS, JavasScript) are stored
 STATIC_URL = '/static/'
 
 # All uploaded files (such as resumes) are stored in the /srv directory
 # /srv directory contains site-specific data which is served by the system
-MEDIA_ROOT = os.path.join(BASE_DIR,'srv')
-MEDIA_URL = '/srv/'
+MEDIA_ROOT = '/srv/'
 
 # Uploaded files have read and write permissions to the owner only
-FILE_UPLOAD_PERMISSIONS = 0o600
+FILE_UPLOAD_PERMISSIONS = 0600
 
-FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o600
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0600
 
-# Instead of sending out real email, during development the emails will be sent
-# to stdout, where from they can be inspected.
-if DEBUG:
-    EMAIL_HOST = os.getenv('HOST', 'localhost')
-    EMAIL_PORT = os.getenv('PORT', '1025')
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
-# If user fails to authenticate, then they are redirected to the view
-# specified in the reverse_lazy call
-LOGIN_URL = reverse_lazy('authentication:login_process')
-
-STATIC_ROOT = './static/'
-
-#Instead of sending out real email, during development the emails will be sent
-# to stdout, where from they can be inspected.
-if DEBUG:
-    EMAIL_HOST = os.getenv('HOST','localhost')
-    EMAIL_PORT = os.getenv('PORT','1025')
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-LOGIN_REDIRECT_URL = reverse_lazy('home:index')
-RECOVER_ONLY_ACTIVE_USERS = False
-ACCOUNT_ACTIVATION_DAYS = 2
-ANONYMOUS_USER_ID = -1
-
+# If user fails to authenticate, then they are redirected to the view specified in the reverse_lazy call
+LOGIN_URL = reverse_lazy('auth:user_login')

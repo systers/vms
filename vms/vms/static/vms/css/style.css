@@ -23,12 +23,10 @@ body {
   margin-top: 40px;
 }
 
-
 /* Custom page CSS
 -------------------------------------------------- */
 body > .container {
   padding: 60px 15px 0;
-  overflow-x: hidden;
 }
 
 .container .text-muted {
@@ -45,15 +43,6 @@ body > .container {
   text-align: center;
   border: 0;
   box-shadow: none;
-}
-
-#approve {
-  border: 1px solid red;
-}
-
-.approve-heading {
-  text-align: center;
-  color: red;
 }
 
 /* Featurettes

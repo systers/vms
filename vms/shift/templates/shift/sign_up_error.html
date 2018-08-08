@@ -1,28 +1,26 @@
 {% extends "vms/base.html" %}
 
-{% load i18n %}
-
 {% block content %}
     <div class="spacer"></div>
     <div class="alert alert-danger">
-        <h4>{% trans "Error" %}</h4>
+        <h4>Error</h4>
         <br>
         {% if error_code == "ERROR_CODE_ALREADY_SIGNED_UP" %}
             {% if user.administrator %}
-                {% trans "This user is already signed up for this shift. Please assign a different shift." %}
+                This user is already signed up for this shift. Please assign a different shift.
             {% else %}
-                {% trans "You have already signed up for this shift. Please sign up for a different shift." %}
+                You have already signed up for this shift. Please sign up for a different shift.
             {% endif %}
         {% elif error_code == "ERROR_CODE_NO_SLOTS_REMAINING" %}
             {% if user.administrator %}
-                {% trans "There are no slots remaining for this shift. Please assign a different shift." %}
+                There are no slots remaining for this shift. Please assign a different shift.
             {% else %}
-                {% trans "There are no slots remaining for this shift. Please sign up for a different shift." %}
+                There are no slots remaining for this shift. Please sign up for a different shift.
             {% endif %}
         {% else %}
         {% endif %}
         <br>
         <br>
-        <input type="button" class="btn btn-default" value="{% blocktrans %}Return to Previous Page{% endblocktrans %}" onClick="javascript:history.go(-1);">
+        <input type="button" class="btn btn-default" value="Return to Previous Page" onClick="javascript:history.go(-1);">
     </div>
 {% endblock %}
