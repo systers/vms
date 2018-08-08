@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
     # password not visible when user types it out
-    password = forms.CharField(widget=forms.PasswordInput(), min_length=8, max_length=25)
-    confirm_password = forms.CharField(widget=forms.PasswordInput(), min_length=8, max_length=25)
+    password = forms.CharField(widget=forms.PasswordInput(), min_length=8)
+    confirm_password = forms.CharField(widget=forms.PasswordInput(), min_length=8)
 
     class Meta:
         model = User
