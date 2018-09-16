@@ -309,7 +309,7 @@ class OrganizationTest(LiveServerTestCase):
         self.delete_organization_from_list()
 
         # Check Organization is deleted.
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             organization_page.get_org_name()
 
     def test_delete_org_with_users_linked(self):
