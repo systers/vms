@@ -137,7 +137,7 @@ class Report(LiveServerTestCase):
         )
         self.assertEqual(report_page.get_rejection_context(), 'Reject')
         report_page.reject_report()
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             report_page.get_report()
 
     def test_view_report(self):
@@ -180,7 +180,7 @@ class Report(LiveServerTestCase):
             report_page.remove_i18n(self.driver.current_url),
             self.live_server_url + report_page.administrator_report_page
         )
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             report_page.get_report()
 
     def test_email_on_report_approval(self):

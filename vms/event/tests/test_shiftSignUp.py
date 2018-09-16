@@ -115,7 +115,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Confirm shift assignment
         sign_up_page.submit_form()
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             sign_up_page.get_danger_box()
 
         # check shift signed up
@@ -141,7 +141,7 @@ class ShiftSignUp(LiveServerTestCase):
         sign_up_page.navigate_to_sign_up()
 
         # Events shown in table
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             sign_up_page.get_info_box()
         sign_up_page.click_to_view_jobs()
 
@@ -153,7 +153,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Confirm on shift sign up
         sign_up_page.submit_form()
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             sign_up_page.get_danger_box()
 
         # Sign up same shift again
@@ -166,7 +166,7 @@ class ShiftSignUp(LiveServerTestCase):
             sign_up_page.no_event_message
         )
 
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             sign_up_page.find_table_tag()
 
     def test_empty_events(self):
@@ -184,7 +184,7 @@ class ShiftSignUp(LiveServerTestCase):
             sign_up_page.no_event_message
         )
 
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             sign_up_page.find_table_tag()
             sign_up_page.click_to_view_jobs()
 
@@ -195,7 +195,7 @@ class ShiftSignUp(LiveServerTestCase):
             sign_up_page.no_event_message
         )
 
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             sign_up_page.find_table_tag()
 
     def test_shift_sign_up_with_outdated_shifts(self):

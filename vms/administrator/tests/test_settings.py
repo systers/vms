@@ -488,7 +488,7 @@ class Settings(LiveServerTestCase):
             settings.remove_i18n(self.driver.current_url),
             self.live_server_url + settings.event_list_page
         )
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             settings.get_results()
 
     def test_delete_event_with_associated_job(self):
@@ -865,7 +865,7 @@ class Settings(LiveServerTestCase):
             settings.remove_i18n(self.driver.current_url),
             self.live_server_url + settings.job_list_page
         )
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             settings.get_results()
 
     def test_delete_job_with_associated_shifts(self):
@@ -969,7 +969,7 @@ class Settings(LiveServerTestCase):
 
         # verify that shift was created
         self.assertNotEqual(settings.get_results(), None)
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             settings.get_help_block()
 
     def test_create_shift_with_invalid_timings(self):
@@ -1244,7 +1244,7 @@ class Settings(LiveServerTestCase):
         }
         settings.fill_shift_form(shift)
 
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             settings.get_help_block()
 
         self.assertEqual(settings.get_shift_date(), 'Aug. 25, 2050')
@@ -1442,7 +1442,7 @@ class Settings(LiveServerTestCase):
         self.delete_organization_from_list()
 
         # check org deleted
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             settings.element_by_xpath('//*[@id="confirmed"]//tbody//tr[1]')
 
     def test_delete_org_with_associated_users(self):
