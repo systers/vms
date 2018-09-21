@@ -88,3 +88,4 @@ class CompletedShiftsPage(BasePage):
 
     def get_result_container(self):
         return self.element_by_xpath(self.elements.CONTAINER)
+
