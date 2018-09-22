@@ -4,6 +4,9 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 admin.autodiscover()
+admin.site.site_title = 'VMS Administration'
+admin.site.site_header = 'VMS Administration'
+admin.site.index_title = 'Admin Panel'
 
 urlpatterns = i18n_patterns(
     url(r'^', include('home.urls', namespace='home')),
@@ -22,4 +25,3 @@ urlpatterns = i18n_patterns(
     url(r'^shift/', include('shift.urls', namespace='shift')),
     url(r'^volunteer/', include('volunteer.urls', namespace='volunteer')),
 )
-
