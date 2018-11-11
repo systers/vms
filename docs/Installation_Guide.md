@@ -116,7 +116,7 @@ To shut down the VM, run the command:
 To start up the VM again, run the command:
 
     vagrant up
-    
+
 
 ## Install PostgreSQL
 
@@ -223,7 +223,7 @@ To generate the database tables that correspond to the Django models, run the co
 NOTE: In case, you get the following error django.db.utils.ProgrammingError: relation "auth_user" does not exist, while running the above command do the following
     python manage.py migrate auth
     python manage.py migrate
-Now again try running the command 
+Now again try running the command
     python manage.py syncdb
 
 
@@ -233,10 +233,10 @@ We do not want to create a superuser at this time, so when it asks you to create
     Would you like to create one now? (yes/no): no
 
 Use the secret_key by running this command:
-    
+
     export DJANGO_SECRET_KEY='foobarbaz'
-    
-    
+
+
 In addition to this, you would also have to populate the database for django-cities-light. Run the following to do so:
 
     python manage.py migrate
