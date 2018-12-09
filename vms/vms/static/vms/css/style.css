@@ -131,7 +131,7 @@ body {
 
 .btn-success:hover {
   background-color: #288F79;
-  border-color: #288F79; 
+  border-color: #288F79;
 }
 
 .btn-info {
@@ -156,8 +156,8 @@ body {
 
 
 .btn-primary, .btn-primary[disabled] {
-  background-color: #005c88; 
-  border-color: #005c88; 
+  background-color: #005c88;
+  border-color: #005c88;
 
 }
 
@@ -169,7 +169,6 @@ body {
 /* Custom page CSS
 -------------------------------------------------- */
 body > .container {
-  padding: 15px 0;
   padding-top: 0px;
   overflow-x: hidden;
 }
@@ -351,4 +350,3 @@ p.comment-alert {
     font-size: 50px;
   }
 }
-
