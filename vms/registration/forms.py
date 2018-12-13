@@ -26,9 +26,10 @@ class UserForm(forms.ModelForm):
         checks['special'] = set(y).intersection(password)
         #check for common passwords
         pas = re.split(r"[^\w]", password)
-        for a in pas:
-            if not a.isdigit():
-               if CommonPasswordValidator().validate(a):
+        for pwd in pas:
+            pwd = pwd.lower()
+            if not pwd.isdigit():
+               if CommonPasswordValidator().validate(pwd):
                    raise ValidationError("Please choose another password")
         if all(checks.values()):
             return password
