@@ -373,7 +373,7 @@ class JobWithShiftTests(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "23454545",
+            'phone_number': "23454546",
             'email': "john@test.com"
         }
         volunteer_3 = {

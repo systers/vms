@@ -297,8 +297,8 @@ class ShiftWithVolunteerTest(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "2374983247",
-            'email': "yoshi@nintendo.com"
+            'phone_number': "2374983241",
+            'email': "yoshinn@nintendo.com"
         }
         volunteer_2 = {
             'username': 'John',
@@ -308,7 +308,7 @@ class ShiftWithVolunteerTest(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "23454545",
+            'phone_number': "23454546",
             'email': "john@test.com"
         }
         volunteer_3 = {
@@ -319,7 +319,7 @@ class ShiftWithVolunteerTest(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "23454545",
+            'phone_number': "23454542",
             'email': "ash@pikachu.com"
         }
 
@@ -962,7 +962,7 @@ class ShiftReminderTest(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "2374983247",
+            'phone_number': "2374983243",
             'email': "jake@nintendo.com"
         }
         volunteer_2 = {

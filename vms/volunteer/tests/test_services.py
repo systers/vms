@@ -32,8 +32,8 @@ class VolunteerMethodTests(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "2374983247",
-            'email': "yoshi@nintendo.com"
+            'phone_number': "2374983249 ",
+            'email': "yoshin@nintendo.com"
         }
         volunteer_2 = {
             'username': 'John',
@@ -54,7 +54,7 @@ class VolunteerMethodTests(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "23454545",
+            'phone_number': "23454546",
             'email': "ash@pikachu.com"
         }
         o1 = 'Apple'
@@ -257,7 +257,7 @@ class DeleteVolunteerTest(unittest.TestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': "23454545",
+            'phone_number': "23454540",
             'email': "john@test.com"
         }
         volunteer_3 = {

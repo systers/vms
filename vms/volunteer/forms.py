@@ -53,3 +53,20 @@ class VolunteerForm(forms.ModelForm):
             'reminder_days'
         ]
 
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        data_unchanged = data
+        if "gmail.com" or "googlemail.com" in data:
+            data = data[:-4]
+            if "." in data:
+                data = data.replace(".", "")
+            data = data + '.com'
+            if "googlemail.com" in data:
+                data = data.replace("@googlemail", "@gmail")
+            if '+' in data:
+                i = data.find('+')
+                j = data.find('@')
+                data = data[:i] + data[j:]
+            return data
+        return data_unchanged
+

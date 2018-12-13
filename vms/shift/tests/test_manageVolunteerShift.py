@@ -437,7 +437,7 @@ class ManageVolunteerShift(LiveServerTestCase):
             'city': city,
             'state': state,
             'country': country,
-            'phone_number': '9999999999',
+            'phone_number': '9999999998',
             'email': 'volunteer-email2@systers.org',
         }
         org_name = 'Google'

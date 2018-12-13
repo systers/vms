@@ -36,6 +36,7 @@ class Administrator(models.Model):
                 message="Please enter a valid phone number",
             ),
         ],
+        unique=True,
     )
     # Organization to Volunteer is a one-to-many relationship
     organization = models.ForeignKey(Organization)
@@ -45,3 +46,4 @@ class Administrator(models.Model):
 
     def __str__(self):
         return self.user.username
+

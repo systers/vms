@@ -151,7 +151,7 @@ class ViewVolunteerShift(LiveServerTestCase):
             'city': second_city,
             'state': second_state,
             'country': second_country,
-            'phone_number': '9999999999',
+            'phone_number': '9999999998',
             'email': 'volunteer-email2@systers.org'
         }
 

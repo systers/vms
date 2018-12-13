@@ -246,7 +246,7 @@ class SignUpVolunteer(LiveServerTestCase):
             'city': 'Roorkee',
             'state': 'Uttarakhand',
             'country': 'India',
-            'phone_number': '9999999999',
+            'phone_number': '9999998999',
             'organization': 'volunteer-org',
             'password': 'volunteer-password1!@#$%^&*()_',
             'confirm_password': 'jddvolunteer-password1!@#$%^&*()_'

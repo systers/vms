@@ -225,7 +225,7 @@ class SignUpAdmin(LiveServerTestCase):
             'city': 'Roorkee',
             'state': 'Uttarakhand',
             'country': 'India',
-            'phone_number': '9999999999',
+            'phone_number': '9999999899',
             'organization': 'admin-org'
         }
         page.fill_registration_form(entry)
