@@ -5,16 +5,17 @@ Note: Currently development settings. Not suitable as is for production.
 """
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-
+from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = config('SECRET_KEY', cast=str)
 
 # SECURITY WARNING: run with debug turned off (DEBUG = False) in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -62,13 +63,12 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'vms',
-        'USER': 'vmsadmin',
-        'PASSWORD': '0xdeadbeef',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'localhost',
     }
 }
-
 
 TEMPLATES = [
     {
@@ -86,7 +86,6 @@ TEMPLATES = [
     },
 ]
 
-
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 
@@ -98,7 +97,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale/'), )
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale/'),)
 
 LANGUAGES = (
     ('en-us', _('English')),
@@ -119,14 +118,6 @@ FILE_UPLOAD_PERMISSIONS = 0o600
 
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o600
 
-# Instead of sending out real email, during development the emails will be sent
-# to stdout, where from they can be inspected.
-if DEBUG:
-    EMAIL_HOST = os.getenv('HOST', 'localhost')
-    EMAIL_PORT = os.getenv('PORT', '1025')
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-
 # If user fails to authenticate, then they are redirected to the view
 # specified in the reverse_lazy call
 LOGIN_URL = reverse_lazy('authentication:login_process')
@@ -135,13 +126,12 @@ STATIC_ROOT = './static/'
 
 # Instead of sending out real email, during development the emails will be sent
 # to stdout, where from they can be inspected.
-if DEBUG:
-    EMAIL_HOST = os.getenv('HOST', 'localhost')
-    EMAIL_PORT = os.getenv('PORT', '1025')
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', default='1025')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_REDIRECT_URL = reverse_lazy('home:index')
 RECOVER_ONLY_ACTIVE_USERS = False
 ACCOUNT_ACTIVATION_DAYS = 2
 ANONYMOUS_USER_ID = -1
-
