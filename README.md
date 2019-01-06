@@ -56,6 +56,7 @@ production at the moment. It may be configured to do so in the future.
 1. Enter `git clone git@github.com:systers/vms.git` to clone the Systers
    VMS repository. After the clone is done, change directory (cd) to the
    `vms` directory.
+1. Copy the sample .env file and make relevant changes as required`cp .env.example .env`   
 1. Run `docker-compose build`. This pulls the Docker images required to run the
    project and installs the necessary dependencies.
 1. Run `docker run -e SECRET_KEY=foobarbaz vms_web`
