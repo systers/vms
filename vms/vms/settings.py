@@ -17,7 +17,7 @@ SECRET_KEY = config('SECRET_KEY', cast=str)
 # SECURITY WARNING: run with debug turned off (DEBUG = False) in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 INSTALLED_APPS = (
