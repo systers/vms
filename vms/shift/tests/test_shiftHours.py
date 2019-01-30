@@ -216,7 +216,7 @@ class ShiftHours(LiveServerTestCase):
         completed_shifts_page.go_to_completed_shifts()
         self.assertEqual(completed_shifts_page.get_unlogged_info_box(),
                          "You have no unlogged shifts.")
-        with self.assertRaises(NoSuchElementException):
+        with self.assertRaisesRegexp(NoSuchElementException):
             completed_shifts_page.get_result_container()
 
     def test_view_with_logged_shift(self):
