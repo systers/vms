@@ -456,13 +456,13 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         """ Uses shifts s1, s2, s3 and volunteers v1,v2 """
 
         # test cases when try to cancel when they aren't signed up for a shift
-        with self.assertRaisesRegexp(ObjectDoesNotExist):
+        with self.assertRaisesRegexp(ObjectDoesNotExist, 'message'):
             cancel_shift_registration(self.v1.id, self.s1.id)
 
-        with self.assertRaisesRegexp(ObjectDoesNotExist):
+        with self.assertRaisesRegexp(ObjectDoesNotExist, 'message'):
             cancel_shift_registration(self.v1.id, self.s2.id)
 
-        with self.assertRaisesRegexp(ObjectDoesNotExist):
+        with self.assertRaisesRegexp(ObjectDoesNotExist, 'message'):
             cancel_shift_registration(self.v2.id, self.s1.id)
 
         # register volunteers to shifts
@@ -473,7 +473,7 @@ class ShiftWithVolunteerTest(unittest.TestCase):
         # test typical cases
         cancel_shift_registration(self.v1.id, self.s1.id)
 
-        with self.assertRaisesRegexp(ObjectDoesNotExist):
+        with self.assertRaisesRegexp(ObjectDoesNotExist, 'message'):
             cancel_shift_registration(self.v2.id, self.s1.id)
 
         cancel_shift_registration(self.v2.id, self.s2.id)
