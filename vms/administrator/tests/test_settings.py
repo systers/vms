@@ -488,7 +488,7 @@ class Settings(LiveServerTestCase):
             settings.remove_i18n(self.driver.current_url),
             self.live_server_url + settings.event_list_page
         )
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     settings.get_results)
 
@@ -866,7 +866,7 @@ class Settings(LiveServerTestCase):
             settings.remove_i18n(self.driver.current_url),
             self.live_server_url + settings.job_list_page
         )
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     settings.get_results)
 
@@ -971,7 +971,7 @@ class Settings(LiveServerTestCase):
 
         # verify that shift was created
         self.assertNotEqual(settings.get_results(), None)
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     settings.get_help_block)
 
@@ -1247,7 +1247,7 @@ class Settings(LiveServerTestCase):
         }
         settings.fill_shift_form(shift)
 
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     settings.get_help_block)
 
@@ -1446,7 +1446,7 @@ class Settings(LiveServerTestCase):
         self.delete_organization_from_list()
 
         # check org deleted
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     settings.element_by_xpath('//*[@id="confirmed"]//tbody//tr[1]')
                                     )

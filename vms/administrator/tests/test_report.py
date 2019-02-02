@@ -137,8 +137,8 @@ class Report(LiveServerTestCase):
         )
         self.assertEqual(report_page.get_rejection_context(), 'Reject')
         report_page.reject_report()
-        with self.assertRaisesRegexp(
-                NoSuchElementException,
+
+        self.assertRaisesRegexp(NoSuchElementException,
                 'Unable to locate element: //table//tbody',
                 report_page.get_report
             )
@@ -183,8 +183,7 @@ class Report(LiveServerTestCase):
             report_page.remove_i18n(self.driver.current_url),
             self.live_server_url + report_page.administrator_report_page
         )
-        with self.assertRaisesRegexp(
-                NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                 'Unable to locate element: //table//tbody',
                 report_page.get_report
             )

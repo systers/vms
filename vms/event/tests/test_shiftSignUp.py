@@ -115,7 +115,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Confirm shift assignment
         sign_up_page.submit_form()
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     sign_up_page.get_danger_box)
 
@@ -155,7 +155,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Confirm on shift sign up
         sign_up_page.submit_form()
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     sign_up_page.get_danger_box)
 
@@ -169,7 +169,7 @@ class ShiftSignUp(LiveServerTestCase):
             sign_up_page.no_event_message
         )
 
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     sign_up_page.find_table_tag)
 
@@ -200,7 +200,7 @@ class ShiftSignUp(LiveServerTestCase):
             sign_up_page.no_event_message
         )
 
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     sign_up_page.find_table_tag)
 

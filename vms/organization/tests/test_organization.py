@@ -309,7 +309,7 @@ class OrganizationTest(LiveServerTestCase):
         self.delete_organization_from_list()
 
         # Check Organization is deleted.
-        with self.assertRaisesRegexp(NoSuchElementException,
+        self.assertRaisesRegexp(NoSuchElementException,
                                     'Unable to locate element: //table//tbody',
                                     organization_page.get_org_name)
 
