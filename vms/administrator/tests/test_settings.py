@@ -972,7 +972,7 @@ class Settings(LiveServerTestCase):
         # verify that shift was created
         self.assertNotEqual(settings.get_results(), None)
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: .help-block ',
+                                    'Unable to locate element: .help-block',
                                     settings.get_help_block)
 
     def test_create_shift_with_invalid_timings(self):
@@ -1248,7 +1248,7 @@ class Settings(LiveServerTestCase):
         settings.fill_shift_form(shift)
 
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: .help-block ',
+                                    'Unable to locate element: .help-block',
                                     settings.get_help_block)
 
         self.assertEqual(settings.get_shift_date(), 'Aug. 25, 2050')

@@ -217,7 +217,7 @@ class ShiftHours(LiveServerTestCase):
         self.assertEqual(completed_shifts_page.get_unlogged_info_box(),
                          "You have no unlogged shifts.")
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Message: Unable to locate element: //*[@id="unlogged"] ',
+                                    'Unable to locate element: //*[@id="unlogged"] ',
                                     completed_shifts_page.get_result_container)
 
     def test_view_with_logged_shift(self):
