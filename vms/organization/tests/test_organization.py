@@ -310,7 +310,7 @@ class OrganizationTest(LiveServerTestCase):
 
         # Check Organization is deleted.
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //*[@id="confirmed"]//tbody//tr//td[1] ',
+                                    'Unable to locate element: //*[@id="confirmed"]//tbody//tr//td[1]',
                                     organization_page.get_org_name)
 
     def test_delete_org_with_users_linked(self):

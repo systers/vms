@@ -40,7 +40,7 @@ class ShiftSignUp(LiveServerTestCase):
         firefox_options = Options()
         firefox_options.add_argument('-headless')
         cls.driver = webdriver.Firefox(firefox_options=firefox_options)
-        cls.driver.implicitly_wait(35)
+        cls.driver.implicitly_wait(50)
         cls.driver.maximize_window()
         cls.sign_up_page = EventSignUpPage(cls.driver)
         cls.authentication_page = AuthenticationPage(cls.driver)
