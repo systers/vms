@@ -72,7 +72,7 @@ class Settings(LiveServerTestCase):
         firefox_options = Options()
         firefox_options.add_argument('-headless')
         cls.driver = webdriver.Firefox(firefox_options=firefox_options)
-        cls.driver.implicitly_wait(5)
+        cls.driver.implicitly_wait(25)
         cls.driver.maximize_window()
         cls.settings = EventsPage(cls.driver)
         cls.authentication_page = AuthenticationPage(cls.driver)
@@ -972,7 +972,7 @@ class Settings(LiveServerTestCase):
         # verify that shift was created
         self.assertNotEqual(settings.get_results(), None)
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Unable to locate element: .help-block ',
                                     settings.get_help_block)
 
     def test_create_shift_with_invalid_timings(self):
@@ -1248,7 +1248,7 @@ class Settings(LiveServerTestCase):
         settings.fill_shift_form(shift)
 
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Unable to locate element: .help-block ',
                                     settings.get_help_block)
 
         self.assertEqual(settings.get_shift_date(), 'Aug. 25, 2050')
@@ -1447,7 +1447,7 @@ class Settings(LiveServerTestCase):
 
         # check org deleted
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Unable to locate element: //*[@id="confirmed"]//tbody//tr[1] ',
                                     settings.element_by_xpath('//*[@id="confirmed"]//tbody//tr[1]')
                                     )
 

@@ -40,7 +40,7 @@ class ShiftSignUp(LiveServerTestCase):
         firefox_options = Options()
         firefox_options.add_argument('-headless')
         cls.driver = webdriver.Firefox(firefox_options=firefox_options)
-        cls.driver.implicitly_wait(5)
+        cls.driver.implicitly_wait(25)
         cls.driver.maximize_window()
         cls.sign_up_page = EventSignUpPage(cls.driver)
         cls.authentication_page = AuthenticationPage(cls.driver)
@@ -116,7 +116,7 @@ class ShiftSignUp(LiveServerTestCase):
         # Confirm shift assignment
         sign_up_page.submit_form()
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Unable to locate element: .alert-danger',
                                     sign_up_page.get_danger_box)
 
         # check shift signed up
@@ -143,7 +143,7 @@ class ShiftSignUp(LiveServerTestCase):
 
         # Events shown in table
         with self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody'):
+                                    'Unable to locate element: .alert-info'):
                                         sign_up_page.get_info_box()
                                         sign_up_page.click_to_view_jobs()
 
@@ -156,7 +156,7 @@ class ShiftSignUp(LiveServerTestCase):
         # Confirm on shift sign up
         sign_up_page.submit_form()
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Unable to locate element: .alert-danger',
                                     sign_up_page.get_danger_box)
 
         # Sign up same shift again
@@ -170,7 +170,7 @@ class ShiftSignUp(LiveServerTestCase):
         )
 
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Unable to locate element: table',
                                     sign_up_page.find_table_tag)
 
     def test_empty_events(self):
@@ -189,7 +189,7 @@ class ShiftSignUp(LiveServerTestCase):
         )
 
         with self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody'):
+                                    'Unable to locate element: table '):
                                         sign_up_page.find_table_tag()
                                         sign_up_page.click_to_view_jobs()
 
@@ -201,7 +201,7 @@ class ShiftSignUp(LiveServerTestCase):
         )
 
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Unable to locate element: table',
                                     sign_up_page.find_table_tag)
 
     def test_shift_sign_up_with_outdated_shifts(self):

@@ -37,7 +37,7 @@ class OrganizationTest(LiveServerTestCase):
         firefox_options = Options()
         firefox_options.add_argument('-headless')
         cls.driver = webdriver.Firefox(firefox_options=firefox_options)
-        cls.driver.implicitly_wait(5)
+        cls.driver.implicitly_wait(25)
         cls.driver.maximize_window()
         cls.organization_page = EventsPage(cls.driver)
         cls.authentication_page = AuthenticationPage(cls.driver)
@@ -310,7 +310,7 @@ class OrganizationTest(LiveServerTestCase):
 
         # Check Organization is deleted.
         self.assertRaisesRegexp(NoSuchElementException,
-                                    'Unable to locate element: //table//tbody',
+                                    'Message: Unable to locate element: //*[@id="confirmed"]//tbody//tr//td[1] ',
                                     organization_page.get_org_name)
 
     def test_delete_org_with_users_linked(self):

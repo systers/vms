@@ -44,7 +44,7 @@ class VolunteerProfile(LiveServerTestCase):
         firefox_options = Options()
         firefox_options.add_argument('-headless')
         cls.driver = webdriver.Firefox(firefox_options=firefox_options)
-        cls.driver.implicitly_wait(5)
+        cls.driver.implicitly_wait(25)
         cls.driver.maximize_window()
         cls.profile_page = VolunteerProfilePage(cls.driver)
         cls.authentication_page = AuthenticationPage(cls.driver)

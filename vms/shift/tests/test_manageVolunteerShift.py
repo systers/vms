@@ -62,7 +62,7 @@ class ManageVolunteerShift(LiveServerTestCase):
         firefox_options = Options()
         firefox_options.add_argument('-headless')
         cls.driver = webdriver.Firefox(firefox_options=firefox_options)
-        cls.driver.implicitly_wait(5)
+        cls.driver.implicitly_wait(25)
         cls.driver.maximize_window()
         cls.sign_up_page = EventSignUpPage(cls.driver)
         cls.manage_shift_page = ManageShiftPage(cls.driver)

@@ -40,7 +40,7 @@ Lets start by importing this TestCase and a few other necessary imports.
             @classmethod
             def setUpClass(cls):
                 cls.driver = webdriver.Firefox()
-                cls.driver.implicitly_wait(5)
+                cls.driver.implicitly_wait(25)
                 cls.driver.maximize_window()
                 # Initiate POM pages here
                 super(LearningAutomatedTesting, cls).setUpClass()
@@ -162,7 +162,7 @@ After compiling all the above code snippets the test finally will look like:
         @classmethod
         def setUpClass(cls):
             cls.driver = webdriver.Firefox()
-            cls.driver.implicitly_wait(5)
+            cls.driver.implicitly_wait(25)
             cls.driver.maximize_window()
             # Initiate POM pages here
             super(LearningAutomatedTesting, cls).setUpClass()
