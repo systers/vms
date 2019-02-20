@@ -22,8 +22,13 @@
                     <tr>
                         <td>{{ shift.job.name }}</td>
                         <td>{{ shift.date }}</td>
+                        {% if is_12_hours_format %}
                         <td>{{ shift.start_time }}</td>
                         <td>{{ shift.end_time }}</td>
+                        {% else %}
+                        <td>{{ shift.start_time|time:"H:i" }}</td>
+                        <td>{{ shift.end_time|time:"H:i" }}</td>
+                        {% endif %}
                         <td><a href="{% url 'shift:add_hours' shift.id user.volunteer.id %}" class="btn btn-info btn-sm">{% trans "Log Hours" %}
                         </a>
                         </td>
@@ -54,8 +59,13 @@
                     <tr>
                         <td>{{ volunteershift.shift.job.name }}</td>
                         <td>{{ volunteershift.shift.date }}</td>
+                        {% if is_12_hours_format %}
                         <td>{{ volunteershift.start_time }}</td>
                         <td>{{ volunteershift.end_time }}</td>
+                        {% else %}
+                        <td>{{ volunteershift.start_time|time:"H:i" }}</td>
+                        <td>{{ volunteershift.end_time|time:"H:i" }}</td>
+                        {% endif %}
                         <td>
                             {% if volunteershift.date_logged >= init_date and not volunteershift.edit_requested  and not volunteershift.report_status %}
                             <a href="{% url 'shift:edit_hours' volunteershift.shift.id user.volunteer.id %}" class="btn btn-primary btn-sm">{% trans "Edit Hours" %}</a>

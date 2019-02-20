@@ -79,7 +79,7 @@ class Volunteer(models.Model):
         blank=True)
 
     user = models.OneToOneField(User)
+    is_12_hours_format = models.BooleanField(default=True)
 
     def __str__(self):
         return '{0} {1}'.format(self.first_name, self.last_name)
-

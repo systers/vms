@@ -22,6 +22,7 @@ from django.views.generic.edit import FormView, UpdateView
 # local Django
 from event.models import Event
 from job.models import Job
+from volunteer.models import Volunteer
 from job.services import get_job_by_id
 from shift.forms import HoursForm, ShiftForm, EditForm
 from shift.models import Shift, EditRequest
@@ -41,6 +42,7 @@ from volunteer.models import Volunteer
 from volunteer.services import get_all_volunteers, search_volunteers
 from volunteer.utils import vol_id_check
 from vms.utils import check_correct_volunteer
+from volunteer.views import ProfileView
 
 
 class AdministratorLoginRequiredMixin(object):
@@ -820,17 +822,22 @@ class ViewHoursView(LoginRequiredMixin, FormView, TemplateView):
         context['logged_volunteer_shift_list'] = \
             get_volunteer_shifts_with_hours(volunteer_id)
         context['init_date'] = timezone.now() - timedelta(days=7)
+        context['is_12_hours_format'] = Volunteer.objects.get(id=volunteer_id).is_12_hours_format
+        print(context['is_12_hours_format'])
         return context
+
 
 
 @login_required
 @check_correct_volunteer
 @vol_id_check
 def view_volunteer_shifts(request, volunteer_id):
+    is_12_hours_format = Volunteer.objects.get(id=volunteer_id).is_12_hours_format
     shift_list = get_future_shifts_by_volunteer_id(volunteer_id)
     return render(request, 'shift/volunteer_shifts.html', {
         'shift_list': shift_list,
         'volunteer_id': volunteer_id,
+        'is_12_hours_format': is_12_hours_format,
     })
 
 
@@ -865,6 +872,7 @@ class VolunteerSearchView(AdministratorLoginRequiredMixin, FormView):
 @login_required
 def view_volunteers(request, shift_id):
     user = request.user
+
     admin = None
 
     try:
@@ -894,4 +902,3 @@ def view_volunteers(request, shift_id):
                 raise Http404
         else:
             raise Http404
-

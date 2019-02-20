@@ -27,7 +27,7 @@ from organization.services import (create_organization, get_organization_by_id,
 from shift.models import Report
 from shift.services import (calculate_total_report_hours, get_volunteer_shifts,
                             generate_report)
-from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm
+from volunteer.forms import ReportForm, SearchVolunteerForm, VolunteerForm, TimeForm
 from volunteer.models import Volunteer
 from volunteer.services import (delete_volunteer_resume, search_volunteers,
                                 get_volunteer_resume_file_url, has_resume_file,
@@ -213,7 +213,12 @@ class VolunteerUpdateView(LoginRequiredMixin, UpdateView, FormView):
 
 
 class ProfileView(LoginRequiredMixin, DetailView):
+    form_class = TimeForm
+    initial = {'key': 'value'}
     template_name = 'volunteer/profile.html'
+    model = Volunteer
+    TWELVE_HOUR_FORMAT_STRING = "12_hours"
+    TWENTY_FOUR_HOUR_FORMAT_STRING = "24_hours"
 
     @method_decorator(check_correct_volunteer)
     @method_decorator(vol_id_check)
@@ -225,6 +230,24 @@ class ProfileView(LoginRequiredMixin, DetailView):
         obj = Volunteer.objects.get(id=self.kwargs['volunteer_id'])
         return obj
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        volunteer_id = self.kwargs['volunteer_id']
+        is_12_hours_format = get_volunteer_by_id(volunteer_id).is_12_hours_format
+        time_format_string = (self.TWELVE_HOUR_FORMAT_STRING if is_12_hours_format else self.TWENTY_FOUR_HOUR_FORMAT_STRING)
+        form = TimeForm(initial={'display_time': time_format_string})
+        context['form'] = form
+        return context
+
+    def post(self, request, *args, **kwargs):
+            form = TimeForm(request.POST)
+            volunteer_id = self.kwargs['volunteer_id']
+            volunteer = get_volunteer_by_id(volunteer_id)
+            if form.is_valid():
+                display_time = form.cleaned_data['display_time']
+                volunteer.is_12_hours_format = (False if display_time == "24_hours" else True)
+                volunteer.save()
+            return HttpResponseRedirect(reverse('volunteer:profile', args=volunteer_id,))
 
 '''
   The view generates Report.
@@ -345,4 +368,3 @@ def search(request):
             'form': form,
             'has_searched': False
         })
-

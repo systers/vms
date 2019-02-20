@@ -22,8 +22,13 @@
                     <tr>
                         <td>{{ shift.job.name }}</td>
                         <td>{{ shift.date }}</td>
+                        {% if is_12_hours_format %}
                         <td>{{ shift.start_time }}</td>
                         <td>{{ shift.end_time }}</td>
+                        {% else %}
+                        <td>{{ shift.start_time|time:"H:i" }}</td>
+                        <td>{{ shift.end_time|time:"H:i" }}</td>
+                        {% endif %}
                         <td>
                             <a href="{% url 'shift:cancel' shift.id user.volunteer.id %}" class="btn btn-danger btn-sm">{% trans "Cancel Shift Registration" %}</a>
                         </td>

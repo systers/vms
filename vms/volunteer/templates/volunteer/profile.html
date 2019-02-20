@@ -110,6 +110,20 @@
                     <a href="{% url 'volunteer:edit' volunteer.id %}" class="btn btn-primary">{% trans "Edit Profile" %}</a>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                      {% trans "Time format" %}
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      {{form}}
+                      <input type="submit">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

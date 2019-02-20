@@ -53,3 +53,10 @@ class VolunteerForm(forms.ModelForm):
             'reminder_days'
         ]
 
+display_time_format = (
+    ("12_hours", "12 hours"),
+    ("24_hours", "24 hours")
+)
+
+class TimeForm(forms.Form):
+    display_time = forms.ChoiceField(choices=display_time_format)
