@@ -377,7 +377,7 @@ class SearchJob(LiveServerTestCase):
         search_page.submit_form()
         search_results = search_page.get_search_results()
         result = search_page.get_results_list(search_results)
-        self.assertEqual(len(result), 1)
+        self.assertEqual(len(result), 2)
         self.assertTrue(self.expected_result_one in result)
 
         search_page.search_name_field('job')
@@ -394,4 +394,3 @@ class SearchJob(LiveServerTestCase):
         self.assertRaisesRegexp(NoSuchElementException,
                                 'Unable to locate element: //table//tbody',
                                 search_page.get_search_results)
-
