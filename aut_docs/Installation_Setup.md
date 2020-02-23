@@ -28,17 +28,18 @@ Following points are needed to start a testing session:
     ```bash
       source venv/bin/activate
     ```
+
+- Change directory to VMS code
+    ```bash
+      cd vms/
+    ```
+    
 - Install all python dependencies
     ```bash
       pip install -r requirements.txt
     ```
   
   :Note: If you face any errors, do not open a new issue and ask for help on slack with full error logs.
-
-- Change directory to VMS code
-    ```bash
-      cd vms/
-    ```
 
 - Create migrations for database
     ```bash
