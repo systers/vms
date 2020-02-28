@@ -11,6 +11,7 @@ from organization.models import Organization
 
 class Volunteer(models.Model):
     id = models.AutoField(primary_key=True)
+    is_verified = models.BooleanField(default=False)
     first_name = models.CharField(
         max_length=30,
         validators=[
