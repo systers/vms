@@ -292,6 +292,7 @@
                     <input id="id_country" class="textinput textInput form-control" type="text" placeholder="{% blocktrans %}Country{% endblocktrans %}" name="vol-country" value="{% if volunteer_form.country.value %}{{ volunteer_form.country.value }}{% endif %}" required>
                 </div>
             </div>
+             {% endif %}
         {% if volunteer_form.phone_number.errors %}
             <div id="div_id_phone_number" class="form-group has-error">
                 <label class="control-label requiredField" for="id_phone_number">
