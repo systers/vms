@@ -13,7 +13,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
-# export DJANGO_SECRET_KEY='foobarbaz'
 
 # SECURITY WARNING: run with debug turned off (DEBUG = False) in production!
 DEBUG = True
@@ -30,18 +29,18 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'administrator',
+    # 'authentication',
     'event',
     'home',
     'job',
     'organization',
     'registration',
     'shift',
-    'vms',
     'volunteer',
-    'cities_light',
+    # 'cities_light',
     'pom',
-    'rest_framework',
-    'easy_pdf',
+    # 'rest_framework',
+    # 'easy_pdf',
 )
 
 MIDDLEWARE_CLASSES = (
