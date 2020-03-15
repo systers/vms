@@ -13,6 +13,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
+# export DJANGO_SECRET_KEY='foobarbaz'
+
 # SECURITY WARNING: run with debug turned off (DEBUG = False) in production!
 DEBUG = True
 
