@@ -87,9 +87,6 @@ target/
 # Virtualenv
 venv
 
-# vs code
-.vscode
-
 .lesshst
 .viminfo
 .zcompdump
