@@ -11,8 +11,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
-
+# SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+SECRET_KEY = 'rs473)3n^fe0^t-^s$n)_%pl=75f_na7z5ee@(^xc-vn^bzr%a'
 
 # SECURITY WARNING: run with debug turned off (DEBUG = False) in production!
 DEBUG = True
@@ -21,6 +21,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = (
+    'authentication',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,7 +29,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'administrator',
-    'authentication',
     'event',
     'home',
     'job',
@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'pom',
     'rest_framework',
     'easy_pdf',
-    'vms'
+    'vms',
 )
 
 MIDDLEWARE_CLASSES = (
