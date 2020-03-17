@@ -1,7 +1,10 @@
 $(document).ready(function() {
-    $("#datepicker").datepicker();
-});
+    $("#datepicker").datepicker(
+        {
+            minDate : 0,
 
+        });
+});
 //Select the date range to search for
 $(function() {
     $( "#from" ).datepicker({

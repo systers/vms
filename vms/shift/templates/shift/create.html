@@ -43,7 +43,7 @@
                     <div class="form-group has-error">
                         <label class="col-md-2 control-label">{% trans "Date" %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="date" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
+                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="date" id="datepicker" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
                             <p class="help-block">
                                 <strong>
                                     {% for error in form.date.errors %}
@@ -55,9 +55,9 @@
                     </div>
                 {% else %}
                     <div class="form-group">
-                        <label class="col-md-2 control-label">{% trans "Date" %}<span class="asteriskField">*</span></label>
+                        <label class="col-md-2 control-label">{% trans "Date  (select a date that lies within the job dates) " %}<span class="asteriskField">*</span></label>
                         <div class="col-md-8">
-							<input class="form-control" type="text" name="date" id="datepicker" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
+                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" name="date" id="datepicker" value="{% if form.date.value %}{{ form.date.value }}{% endif %}">
                         </div>
                     </div>
                 {% endif %}
