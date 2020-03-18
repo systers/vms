@@ -22,7 +22,7 @@ class ReportForm(forms.Form):
 
 class SearchVolunteerForm(forms.Form):
     first_name = forms.RegexField(
-        regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=30, required=False)
+        regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=30, required=True)
     last_name = forms.RegexField(
         regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=30, required=False)
     city = forms.RegexField(
@@ -30,10 +30,10 @@ class SearchVolunteerForm(forms.Form):
     state = forms.RegexField(
         regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=75, required=False)
     country = forms.RegexField(
-        regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=75, required=False)
+        regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=75, required=True)
     organization = forms.RegexField(
-        regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=75, required=False)
-    event = forms.CharField(required=False)
+        regex=r'^[(A-Z)|(a-z)|(\s)|(\-)]+$', max_length=75, required=True)
+    event = forms.CharField(required=True)
     job = forms.CharField(required=False)
 
 
