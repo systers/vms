@@ -11,7 +11,7 @@ reporting.
 
 **This project is under active development.**
 
-VMS is live [here](http://52.8.110.63/).
+VMS is live [here](http://ec2-52-53-177-18.us-west-1.compute.amazonaws.com/en-us/).
 
 If you are an Outreachy Applicant, start with reading [this](https://github.com/systers/ossprojects/wiki/Volunteer-Management-System).
 
