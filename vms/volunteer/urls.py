@@ -27,4 +27,3 @@ urlpatterns = [
         VolunteerHistoryView.as_view(),
         name='view_history'),
 ]
-
