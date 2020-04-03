@@ -103,3 +103,5 @@ local/
 # Documentation build
 _build
 
+# media files
+srv/
