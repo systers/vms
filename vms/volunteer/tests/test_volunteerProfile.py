@@ -92,6 +92,7 @@ class VolunteerProfile(LiveServerTestCase):
         cls.driver.quit()
         os.remove(os.getcwd() + '/DummyResume.pdf')
         os.remove(os.getcwd() + '/DummyZip.zip')
+        os.remove(os.getcwd() + '/CorruptedPdfResume.pdf')
         super(VolunteerProfile, cls).tearDownClass()
 
     def login_correctly(self):
@@ -141,6 +142,10 @@ class VolunteerProfile(LiveServerTestCase):
         urlretrieve(
             'https://dl.dropboxusercontent.com/s/uydlhww0ekdy6j7/DummyZip.zip',
             'DummyZip.zip'
+        )
+        urlretrieve(
+            'https://raw.githubusercontent.com/AnweshaSen/VMS_Corrupted_pdf_test_file/master/CorruptedPdfResume.pdf',
+            'CorruptedPdfResume.pdf'
         )
 
     def test_details_tab(self):
@@ -302,4 +307,27 @@ class VolunteerProfile(LiveServerTestCase):
             self.fail('Uploaded resume is corrupted')
         else:
             pass
+
+    def test_corrupt_pdf_resume_upload(self):
+        """
+        Test upload of corrupted pdf resume to profile.
+        """
+        self.wait_for_home_page()
+        path = os.getcwd() + '/CorruptedPdfResume.pdf'
+        profile_page = self.profile_page
+        profile_page.navigate_to_profile()
+        self.wait_for_profile_load('Son Goku')
+        profile_page.edit_profile()
+        self.wait.until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//legend[contains(text(), 'Edit Profile')]")
+            )
+        )
+
+        profile_page.upload_resume(path)
+        profile_page.submit_form()
+        self.assertEqual(
+            profile_page.get_invalid_format_error(),
+            'Uploaded file is invalid.'
+        )
 
