@@ -23,7 +23,8 @@ before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
-  - export DJANGO_SECRET_KEY=foobarbaz
+  - cp .env.example .env
+  - python manage.py migrate
 
 script:
   - cd vms
