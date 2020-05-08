@@ -7,21 +7,24 @@ from organization.services import (get_organization_by_id,
                                    delete_organization,
                                    get_organization_by_name,
                                    get_organizations_ordered_by_name)
-from shift.utils import (get_country_by_name, get_city_by_name,
-                         get_state_by_name, clear_objects,
-                         create_volunteer_with_details)
+from shift.utils import (clear_objects,
+                         create_volunteer_with_details,
+                         create_second_country,
+                         create_second_city, create_second_state)
 
 
 class OrganizationMethodTests(unittest.TestCase):
     @classmethod
     def setup_test_data(cls):
-        cls.o1 = Organization(name="Google")
-        cls.o2 = Organization(name="Yahoo")
-        cls.o3 = Organization(name="Ubisoft")
-
-        cls.o1.save()
-        cls.o2.save()
-        cls.o3.save()
+        if not get_organization_by_name("Google"):
+            cls.o1 = Organization(name="Google")
+            cls.o1.save()
+        if not get_organization_by_name("Yahoo"):
+            cls.o2 = Organization(name="Yahoo")
+            cls.o2.save()
+        if not get_organization_by_name("Ubisoft"):
+            cls.o3 = Organization(name="Ubisoft")
+            cls.o3.save()
 
     @classmethod
     def setUpClass(cls):
@@ -110,12 +113,9 @@ class DeleteOrganizationTests(unittest.TestCase):
 
         cls.o1.save()
         cls.o2.save()
-        city_name = 'Bothell'
-        state_name = 'Washington'
-        country_name = 'United States'
-        country = get_country_by_name(country_name)
-        state = get_state_by_name(state_name)
-        city = get_city_by_name(city_name)
+        country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
         volunteer_1 = {
             'username': 'Yoshi',
             'first_name': "Yoshi",

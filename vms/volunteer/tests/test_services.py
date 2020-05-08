@@ -5,9 +5,11 @@ import unittest
 from shift.utils import (create_volunteer_with_details,
                          create_organization_with_details, clear_objects,
                          register_event_utility, register_job_utility,
-                         register_shift_utility, get_country_by_name,
-                         get_state_by_name, get_city_by_name,
-                         register_volunteer_for_shift_utility)
+                         register_shift_utility,
+                         register_volunteer_for_shift_utility,
+                         create_country, create_state, create_city,
+                         create_second_country, create_second_state,
+                         create_second_city)
 from volunteer.services import (delete_volunteer, delete_volunteer_resume,
                                 get_all_volunteers, get_volunteer_by_id,
                                 get_volunteer_resume_file_url,
@@ -18,12 +20,12 @@ from volunteer.services import (delete_volunteer, delete_volunteer_resume,
 class VolunteerMethodTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        country_name = 'India'
-        country = get_country_by_name(country_name)
-        state_name = 'Uttarakhand'
-        state = get_state_by_name(state_name)
-        city_name = 'Roorkee'
-        city = get_city_by_name(city_name)
+        # country_name = 'India'
+        country = create_country()
+        # state_name = 'Uttarakhand'
+        state = create_state()
+        # city_name = 'Roorkee'
+        city = create_city()
         volunteer_1 = {
             'username': 'Yoshi',
             'first_name': "Yoshi",
@@ -232,12 +234,12 @@ class VolunteerMethodTests(unittest.TestCase):
 class DeleteVolunteerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        country_name = 'United States'
-        country = get_country_by_name(country_name)
-        state_name = 'Washington'
-        state = get_state_by_name(state_name)
-        city_name = 'Bothell'
-        city = get_city_by_name(city_name)
+        # country_name = 'United States'
+        country = create_second_country()
+        # state_name = 'Washington'
+        state = create_second_state()
+        # city_name = 'Bothell'
+        city = create_second_city()
         volunteer_1 = {
             'username': 'Margaret',
             'first_name': "Yoshi",
@@ -286,4 +288,3 @@ class DeleteVolunteerTest(unittest.TestCase):
         self.assertFalse(delete_volunteer(1000))
         self.assertFalse(delete_volunteer(2000))
         self.assertFalse(delete_volunteer(3000))
-
