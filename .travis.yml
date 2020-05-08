@@ -30,7 +30,7 @@ script:
   - python manage.py migrate --noinput --traceback --settings=vms.settings
   - python manage.py cities_light
   - flake8
-  - coverage run --source='.' manage.py test organization -v 2
+  - coverage run --source='.' manage.py test organization volunteer -v 2
   - coverage report -m
 
 after_success:
