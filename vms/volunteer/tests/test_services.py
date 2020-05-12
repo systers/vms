@@ -20,12 +20,22 @@ from volunteer.services import (delete_volunteer, delete_volunteer_resume,
 class VolunteerMethodTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # country_name = 'India'
-        country = create_country()
-        # state_name = 'Uttarakhand'
-        state = create_state()
-        # city_name = 'Roorkee'
-        city = create_city()
+        country_name = 'India'
+        try:
+            country = get_country_by_name(country_name)
+        except KeyError:
+            country = create_country()
+        state_name = 'Uttarakhand'
+        try:
+            state = get_state_by_name(state_name)
+        except KeyError:
+            state = create_state()
+        city_name = 'Roorkee'
+        try:
+            city = get_city_by_name(city_name)
+        except KeyError:
+            city = create_city()
+
         volunteer_1 = {
             'username': 'Yoshi',
             'first_name': "Yoshi",

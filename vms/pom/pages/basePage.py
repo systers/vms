@@ -23,9 +23,12 @@ class BasePage(object):
     # New function to check if Element is visible before calling it
     def is_visible(self, element, timeout=5):
         try:
-            wait(self.driver,
-                 timeout).until(ec.visibility_of_element_located((By.XPATH,
-                                                                  element)))
+            wait(self.driver, timeout) \
+                .until(
+                ec.visibility_of_element_located(
+                    (By.XPATH, element)
+                )
+            )
             return True
         except TimeoutException:
             return NoSuchElementException
