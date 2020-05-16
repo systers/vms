@@ -292,6 +292,7 @@
                     <input id="id_country" class="textinput textInput form-control" type="text" placeholder="{% blocktrans %}Country{% endblocktrans %}" name="vol-country" value="{% if volunteer_form.country.value %}{{ volunteer_form.country.value }}{% endif %}" required>
                 </div>
             </div>
+        {% endif %}
         {% if volunteer_form.phone_number.errors %}
             <div id="div_id_phone_number" class="form-group has-error">
                 <label class="control-label requiredField" for="id_phone_number">
@@ -425,7 +426,7 @@
                     <textarea id="id_resume" class="textinput textInput form-control" type="text" placeholder="{% blocktrans %}Alternatively, include your resume here{% endblocktrans %}" name="vol-resume" rows="5"></textarea>
                 </div>
             </div>
-	{% endif %}
+	    {% endif %}
         <button type="submit" class="btn btn-lg btn-primary btn-block">{% trans "Create Account" %}</button>
         <p>
             {% trans "Already have an account? Then please "%}<a href="{% url 'authentication:login_process' %}" class="link">{% trans "sign in" %}</a>.
