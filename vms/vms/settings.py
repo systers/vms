@@ -13,6 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
+
 # SECURITY WARNING: run with debug turned off (DEBUG = False) in production!
 DEBUG = True
 
@@ -34,12 +35,12 @@ INSTALLED_APPS = (
     'organization',
     'registration',
     'shift',
-    'vms',
     'volunteer',
     'cities_light',
     'pom',
     'rest_framework',
     'easy_pdf',
+    'vms',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,14 +119,6 @@ MEDIA_URL = '/srv/'
 FILE_UPLOAD_PERMISSIONS = 0o740
 
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o740
-
-# Instead of sending out real email, during development the emails will be sent
-# to stdout, where from they can be inspected.
-if DEBUG:
-    EMAIL_HOST = os.getenv('HOST', 'localhost')
-    EMAIL_PORT = os.getenv('PORT', '1025')
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 
 # If user fails to authenticate, then they are redirected to the view
 # specified in the reverse_lazy call
