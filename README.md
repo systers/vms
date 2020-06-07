@@ -18,9 +18,9 @@ If you are an Outreachy Applicant, start with reading [this](https://www.outreac
 Features
 --------
 
-The VMS is developed in phases. The initial implementation will track
-volunteers' contact information, enable administrators to track volunteer
-hours, and allow reporting of useful information.
+The VMS is developed in phases. The initial implementation tracks
+volunteers' contact information, enables administrators to track volunteer
+hours, and allows reporting of useful information.
 
 
 Installation
