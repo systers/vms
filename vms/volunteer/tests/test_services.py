@@ -7,10 +7,7 @@ from shift.utils import (create_volunteer_with_details,
                          register_event_utility, register_job_utility,
                          register_shift_utility, get_country_by_name,
                          get_state_by_name, get_city_by_name,
-                         register_volunteer_for_shift_utility,
-                         create_country,create_state,create_city,
-                         create_second_country,create_second_state,
-                         create_second_city)
+                         register_volunteer_for_shift_utility)
 from volunteer.services import (delete_volunteer, delete_volunteer_resume,
                                 get_all_volunteers, get_volunteer_by_id,
                                 get_volunteer_resume_file_url,

@@ -15,8 +15,7 @@ from shift.utils import (create_second_city, create_second_state,
                          create_job_with_details, create_volunteer_with_details,
                          create_organization_with_details, clear_objects,
                          get_city_by_name, get_state_by_name,
-                         get_country_by_name, create_shift_with_details,
-                         create_country,create_state,create_city)
+                         get_country_by_name, create_shift_with_details)
 
 
 def setUpModule():
@@ -171,9 +170,12 @@ class JobTests(unittest.TestCase):
         self.assertIn(self.j3, search_list)
 
         # test exact search
-        country = create_country()
-        state = create_state()
-        city = create_city()
+        country_name = 'India'
+        state_name = 'Uttarakhand'
+        city_name = 'Roorkee'
+        country = get_country_by_name(country_name)
+        state = get_state_by_name(state_name)
+        city = get_city_by_name(city_name)
         e1.city = city
         e1.state = state
         e1.country = country
