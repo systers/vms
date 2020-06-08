@@ -2,8 +2,8 @@
 import re
 from urllib.request import urlretrieve
 import os
-import PyPDF2
-from PyPDF2.utils import PdfReadError
+# import PyPDF2
+# from PyPDF2.utils import PdfReadError
 
 # third party
 from selenium import webdriver
@@ -265,8 +265,8 @@ class VolunteerProfile(LiveServerTestCase):
         profile_page.submit_form()
         self.wait_for_profile_load('Son Goku')
         self.assertEqual(profile_page.download_resume_text(), 'Download Resume')
-    
-    # TODO FIX this test case
+
+# TODO FIX this test case
     # def test_corrupt_resume_uploaded(self):
     #     """
     #     Test uploaded resume is not corrupt by performing a few checks on it.

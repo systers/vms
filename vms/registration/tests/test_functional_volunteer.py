@@ -7,15 +7,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.options import Options
 
 # Django
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import LiveServerTestCase
-from django.urls import reverse
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+# from django.urls import reverse
+# from django.utils.encoding import force_bytes
+# from django.utils.http import urlsafe_base64_encode
 
 # local Django
 from pom.pages.volunteerRegistrationPage import VolunteerRegistrationPage
-from registration.tokens import account_activation_token
+# from registration.tokens import account_activation_token
 from shift.utils import (create_organization, create_country,
                          create_state, create_city)
 

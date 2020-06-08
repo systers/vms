@@ -265,8 +265,8 @@ class Settings(LiveServerTestCase):
             self.live_server_url + settings.event_list_page
         )
     '''
-    
-    # TODO this test case need to fix
+
+# TODO this test case need to fix
     # def test_edit_event(self):
     #     """
     #     Test event edit with valid values.
@@ -540,8 +540,8 @@ class Settings(LiveServerTestCase):
         # check event NOT deleted
         settings.navigate_to_event_list_view()
         self.assertEqual(settings.get_event_name(), event['name'])
-    
-    # TODO this test case need to fix
+
+# TODO this test case need to fix
     # def test_create_job(self):
     #     """
     #     Test creation of job with valid values.
