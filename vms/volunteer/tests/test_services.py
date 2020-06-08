@@ -21,9 +21,12 @@ from volunteer.services import (delete_volunteer, delete_volunteer_resume,
 class VolunteerMethodTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        country = create_country()
-        state = create_state()
-        city = create_city()
+        country_name = 'India'
+        country = get_country_by_name(country_name)
+        state_name = 'Uttarakhand'
+        state = get_state_by_name(state_name)
+        city_name = 'Roorkee'
+        city = get_city_by_name(city_name)
         volunteer_1 = {
             'username': 'Yoshi',
             'first_name': "Yoshi",
@@ -232,9 +235,12 @@ class VolunteerMethodTests(unittest.TestCase):
 class DeleteVolunteerTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        country = create_second_country()
-        state = create_second_state()
-        city = create_second_city()
+        country_name = 'United States'
+        country = get_country_by_name(country_name)
+        state_name = 'Washington'
+        state = get_state_by_name(state_name)
+        city_name = 'Bothell'
+        city = get_city_by_name(city_name)
         volunteer_1 = {
             'username': 'Margaret',
             'first_name': "Yoshi",
