@@ -31,7 +31,10 @@ from shift.utils import (create_report_with_details, create_event_with_details,
                          register_event_utility, register_job_utility,
                          register_shift_utility, set_shift_location,
                          log_hours_with_details, get_country_by_name,
-                         get_state_by_name, get_city_by_name)
+                         get_state_by_name, get_city_by_name,
+                         create_country,create_state,create_city,
+                         create_second_country,create_second_state,
+                         create_second_city)
 
 
 def setUpModule():
@@ -948,12 +951,9 @@ class ShiftReminderTest(unittest.TestCase):
         cls.s2 = create_shift_with_details(shift_2)
         cls.s3 = create_shift_with_details(shift_3)
 
-        country_name = 'United States'
-        country = get_country_by_name(country_name)
-        state_name = 'Washington'
-        state = get_state_by_name(state_name)
-        city_name = 'Bothell'
-        city = get_city_by_name(city_name)
+        country = create_second_country()
+        state = create_second_state()
+        city = create_second_city()
         volunteer_1 = {
             'username': 'Jake',
             'first_name': "Jake",
@@ -1063,12 +1063,9 @@ class DeleteShiftTest(unittest.TestCase):
         cls.s1 = create_shift_with_details(shift_1)
         cls.s2 = create_shift_with_details(shift_2)
 
-        city_name = 'Roorkee'
-        state_name = 'Uttarakhand'
-        country_name = 'India'
-        country = get_country_by_name(country_name)
-        state = get_state_by_name(state_name)
-        city = get_city_by_name(city_name)
+        country = create_country()
+        state = create_state()
+        city = create_city()
         volunteer_1 = {
             'username': 'Aaron',
             'first_name': "Aaron",
