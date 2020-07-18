@@ -114,3 +114,8 @@ _build
 *.sublime-workspace 
 *.sublime-project
 
+# media srv
+srv/
+
+# migrations
+migrations/
