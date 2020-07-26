@@ -54,13 +54,30 @@ production at the moment. It may be configured to do so in the future.
 1. Run `docker-compose build`. This pulls the Docker images required to run the
    project and installs the necessary dependencies.
 1. Run `docker run -e SECRET_KEY=foobarbaz vms_web`
+1. Edit `vms/vms/settings.py` as specified in the comment in the DATABASES Object created.
 1. Run `docker-compose run web python vms/manage.py migrate`.
+    If face any issues like **Docker cannot link or db not running** 
+    then open up new terminal move to the working dir and run `docker-compose up db` and then run the above command again in the previous terminal.
+   
+   - Insert the Data in Database Corresponding to the Django models
+     * After Running the above Run `docker-compose run web python vms/manage.py makemigrations` and then run again `docker-compose run web python vms/manage.py migrate` .
+     * After proper migration open new terminal and get into Database bash to insert organization details by running `docker-compose run db bash` . 
+       After entering the bash shell run `psql  -U postgres  -d postgres  -h db` . 
+     * After Running the following command we can check the tables inside the db using `\dt` . 
+       After that check for `organization_organization` relation then insert one data in that relation using 
+       `insert into organization_organization values (1, 'Google', 1);` .
+     * After successful insertion quit the postgres terminal using `\q` and then press `CTRL + D` to exit the db bash.
+     
 1. Run `docker-compose run web python vms/manage.py cities_light` for downloading and importing data for django-cities-light.
 1. *Optional:*
    Run `docker-compose run web python vms/manage.py createsuperuser`
    if you wish to create a superuser to access the admin panel.
 1. Run `docker-compose up` to start the webserver for the Django AnitaB.org VMS
    project.
+   
+   * Note If you face any error like **vms_web cannot start service web**
+    then run following command `service docker restart ` then again run the above following command.
+    
 1. AnitaB.org VMS should be running on port 8000.
      * If you are on Linux, enter `http://0.0.0.0:8000` in your browser.
      * If you are using boot2docker on Windows or Mac OS X, enter

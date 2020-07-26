@@ -64,10 +64,12 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
+        'NAME': config('DB_NAME'),  # Edit 'postgres' while running docker
+        'USER': config('DB_USER'),  # Edit 'postgres' while running docker
+        'PASSWORD': config('DB_PASSWORD'),  # Edit 'mysecretpassword' while running docker
+        'HOST': config('DB_HOST'),  # Edit 'db' while running docker
+        'PORT': 5432
+
     }
 }
 
