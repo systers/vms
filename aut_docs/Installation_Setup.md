@@ -130,10 +130,14 @@
     ```
         \q
     ```
-
-- Use the secret_key by running this command
+- Change directory to VMS having the ``manage.py`` in it
+    ```bash
+      cd vms/
     ```
-        export DJANGO_SECRET_KEY='foobarbaz'
+
+- Use the following command to handle the environment variables (secret key, DEBUG, email keys, db settings)
+    ```
+        cp .env.example .env
     ```
     
 ### Setting up the database
