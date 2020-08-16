@@ -1,7 +1,16 @@
 ## Installation Guide
+## Table of Contents (for Reference)
+
+1. [Install git](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-git)
+2. [Clone Project](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#clone-project)
+3. [Install Python] (https://www.python.org/downloads/)
+4. [Install and make sure pip is working] (https://pip.pypa.io/en/latest/installing/)
+5. [Install PostgreSQL](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#install-postgresql)
+6. [Setup PostgreSQL](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#setup-postgresql)
+7. [Change Directory Permissions](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#change-directory-permissions)
+8. [Run Unit Tests](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#run-unit-tests)
 
 ### A one-time setup:
-
 - Install python
     ```bash
       sudo apt-get install python3.6
