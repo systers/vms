@@ -7,5 +7,5 @@ RUN mkdir vms
 RUN cd vms
 WORKDIR /usr/src/vms
 COPY requirements.txt /usr/src/vms/requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
