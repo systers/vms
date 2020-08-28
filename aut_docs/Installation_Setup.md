@@ -188,7 +188,7 @@
       python manage.py test <app_name> -v 2 
     ```
 
-- To execute a test file inside a app use
+- To execute a test file inside an app use
     ```bash
       python manage.py test <app_name>.tests.<test_file_name> -v 2
     ```
@@ -205,6 +205,6 @@
    ```bash
      sudo chmod -R 740 /srv
    ```
-- In case you can the error `/srv: No such file or directory` while running the above comment do the following `sudo mkdir /srv`
+- In case you can see the error `/srv: No such file or directory` while running the above command do the following `sudo mkdir /srv`
 
 - After creating the directory, then try to change the permissions i.e., run the following command `sudo chmod 740 /srv`

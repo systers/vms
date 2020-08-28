@@ -33,7 +33,7 @@ Lets start by importing this TestCase and a few other necessary imports.
 
 1. Initiate WebDriver to open Firefox session.
 
-    Usually this is done only once per test suite i.e. at class level since all tests can be executed withing a single session.
+    Usually this is done only once per test suite i.e. at class level since all tests can be executed within a single session.
     This can be done as follows:
     ```python
         class LearningAutomatedTesting(LiveServerTestCase):
