@@ -44,7 +44,6 @@ Installation for Django
 1. Open the terminal.
 1. First, update your local package index with `sudo apt update`.
 1. Verify your python version using `python3 -V`.
-1. Install pip from the Ubuntu repositories : `sudo apt install python3-pip`.
 1. Next, install **Django** : `sudo apt install python3-django`.
 1. Check version of **Django** using `django-admin --version`.
 
