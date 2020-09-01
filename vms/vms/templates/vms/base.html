@@ -83,8 +83,8 @@
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                     <li><a href="{% url 'volunteer:profile' user.volunteer.id %}">{% trans "Profile" %}</a></li>
-                                    <li><a href="{% url 'authentication:logout_process' %}">{% trans "Log Out" %}</a></li>
                                     <li><a href="{% url 'authentication:password_change' %}">{% trans "Change Password" %}</a></li>
+                                    <li><a href="{% url 'authentication:logout_process' %}">{% trans "Log Out" %}</a></li>
                             </ul>
                         </li>
                         {% else %}
