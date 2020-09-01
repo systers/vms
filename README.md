@@ -31,21 +31,9 @@ framework and [Python](https://www.python.org/).
 
 To get started, read the [Installation Guide](aut_docs/Installation_Setup.md).
 
-Installation for Django
+Reference for Installing Django
 -----------------------------
-* For Windows
-1. Open the command line.
-1. Verify your python version using `python -V`.
-1. Upgrade pip using `python -m pip install --upgrade pip`.
-1. Install **Django** using `pip install django`.
-1. Check version of **Django** using `django-admin.py version`.
-
-* For Ubuntu
-1. Open the terminal.
-1. First, update your local package index with `sudo apt update`.
-1. Verify your python version using `python3 -V`.
-1. Next, install **Django** : `sudo apt install python3-django`.
-1. Check version of **Django** using `django-admin --version`.
+Refer this [link](https://www.djangoproject.com/start/) for more detailed explanation.
 
 Run VMS in a Docker Container
 -----------------------------
