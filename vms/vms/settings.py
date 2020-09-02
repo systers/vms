@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
     'administrator',
     'event',
     'home',
@@ -58,6 +59,15 @@ ROOT_URLCONF = 'vms.urls'
 
 WSGI_APPLICATION = 'vms.wsgi.application'
 
+# Social Authentication
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = config('GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = config('GITHUB_SECRET')
+
 # Database
 # Change these database settings if your database engine, database name,
 # username or password changes
@@ -71,6 +81,8 @@ DATABASES = {
     }
 }
 
+# This must be set to true for social auth in postgres.
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 TEMPLATES = [
     {
@@ -83,6 +95,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },

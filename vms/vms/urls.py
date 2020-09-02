@@ -24,6 +24,7 @@ urlpatterns = i18n_patterns(
         include('registration.urls', namespace='registration')),
     url(r'^shift/', include('shift.urls', namespace='shift')),
     url(r'^volunteer/', include('volunteer.urls', namespace='volunteer')),
+    url(r'^social-auth/', include('social_django.urls', namespace='social')),
 )
 
 if settings.DEBUG:
