@@ -128,8 +128,8 @@
     ```
         \dt[S+]
     ```
- 
- We can now manipulate the database by running the appropriate sql commands under this postgres client.
+   We can now manipulate the database by running the appropriate sql commands under this postgres client.
+
 
 
 - Exit the postgres client using
