@@ -1,6 +1,7 @@
 # Django
 from django.urls import reverse
 from django.shortcuts import redirect
+from social_django.models import UserSocialAuth
 
 # local Django
 from vms import settings
@@ -24,3 +25,6 @@ def anonymous_required(func):
 
     return as_view
 
+def github_auth_dialog_step(strategy, backend, request, details, *args, **kwargs):
+    print(details)
+    print(kwargs)
