@@ -1,17 +1,22 @@
 # Django
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.db import IntegrityError
 
 # local Django
 from organization.models import Organization
 
 
 def create_organization(name):
-    org, created = Organization.objects.get_or_create(
-        name=name, approved_status=False
-    )
-    if created:
-        org.save()
-    return org
+    try:
+        org, created = Organization.objects.get_or_create(
+            name=name, approved_status=0
+        )
+        if created:
+            org.save()
+        return org
+    except IntegrityError:
+        org = Organization.objects.get(name=name)
+        return org
 
 
 # need to check that this organization is not currently
