@@ -71,5 +71,8 @@
         <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit">
             {% trans "Sign In" %}
         </button>
+        <a href="{% url 'social:begin' 'github' %}" id="github-button" class="btn btn-lg btn-primary btn-block">
+            Sign in with Github
+        </a>
     </form>
 {% endblock %}
