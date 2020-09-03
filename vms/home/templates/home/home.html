@@ -5,7 +5,7 @@
 {% block content %}
 
 {% if messages %}
-
+<header>
 <div class="alert alert-dismissible alert-success">
   <button type="button" class="close" data-dismiss="alert">×</button>
   <ul class="messages">
@@ -14,7 +14,7 @@
     {% endfor %}
 </ul>
 </div>
-
+</header>
 {% endif %}
 
     <div class="jumbotron jumbotron-custom">
@@ -26,4 +26,18 @@
             </div>
         {% endif %}
     </div>
+ 
+
+<div id="footer">
+		<div class="clearfix">
+			<div>
+				<a href="http://anitab.org/" target="_blank" class="facebook"></a>
+				<a href="http://anitab.org/" target="_blank" class="googleplus"></a>
+				<a href="http://anitab.org/" target="_blank" class="twitter"></a>
+				<a href="http://anitab.org/" target="_blank" class="tumbler"></a>
+			</div>
+			<p>
+				© 2020 AnitaB.org. All Rights Reserved.
+			</p>
+		</div>
 {% endblock %}
