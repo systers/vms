@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ -f .git/hooks/pre-commit ];
+then
+    exit 0
+else
+    echo "Unstage changes and install pre-commit first(COMMAND : $ pre-commit install). Then commit."
+    exit 1
+fi
