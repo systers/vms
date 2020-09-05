@@ -51,7 +51,7 @@
     ```
   Note: In case of an error:
     * Ensure that you are outside the vms directory. You can do this with `cd ..`
-    * If you still face issues complete install and setup postgress and then come back to this step. 
+    * If you still face issues complete install and setup postgresql steps and then come back to this step. 
     * You may refer to [this link](https://stackoverflow.com/questions/28253681/you-need-to-install-postgresql-server-dev-x-y-for-building-a-server-side-extensi) if you are getting a similar error and follow the instructions in the first answer.
     
   Note: If you face any errors, do not open a new issue and ask for help on slack with full error logs.
