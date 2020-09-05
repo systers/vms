@@ -49,6 +49,10 @@
     ```bash
       pip install -r requirements.txt
     ```
+  Note: In case of an error:
+    * ensure that you are outside the vms directory. You can do this with `cd ..`.
+    * If you still face issues complete install and setup postgress and then come back to this step. 
+    * You may refer to [this link](https://stackoverflow.com/questions/28253681/you-need-to-install-postgresql-server-dev-x-y-for-building-a-server-side-extensi) if you are getting a similar error and follow the instructions in the first answer.
     
   Note: If you face any errors, do not open a new issue and ask for help on slack with full error logs.
 
@@ -90,10 +94,12 @@
      ```
      
     and open the pg_hba.conf file using this path after "sudo nano ".
+    
+    Note: If you still do not find the file, check the version of postgresql installed in your system. It is possible that a different version like version 10 instead of 11 was installed.
 
 - Change the line `local all postgres peer` to `local all postgres md5` and the line `local all all peer` to `local all all md5` and save the file.
 
-    Note: In case you dont find the entries, just add the entries as mentioned above.
+    Note: In case you dont find the entries, just add the entries as mentioned above. Also, look for the entries manually instead of using `Ctr + W` as the spaces between the words may differ.
 
 - Restart the postgresql client
     ```bash
@@ -142,6 +148,7 @@
     ```bash
       python manage.py makemigrations auth volunteer administrator organization event job shift registration
     ```
+    Note: If this line throws an error, ensure you have created a `.env` file. You can refer to `.env.example` for creating a `.env` file.
     
 - Apply migrations to database
     ```bash
