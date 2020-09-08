@@ -16,7 +16,7 @@ $(document).ready(function() {
 		}
 		else {
 			document.getElementById("select_city").disabled=true;
-			document.getElementById("select_city").value="";
+			document.getElementById("select_city").value=null;
 		}
 	}
 	hideState(); 
