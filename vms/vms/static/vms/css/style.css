@@ -203,6 +203,15 @@ body > .container {
   border-color: #158cba;
 }
 
+/*Volunteer sign-up 
+--------------------------*/
+#id_description, #id_resume,
+#id_websites {
+  min-height:130px;
+  min-width:300px;
+  max-width: 500px;
+  max-height:300px;
+}
 
 /* Featurettes
 ------------------------- */
@@ -394,7 +403,6 @@ p.comment-alert {
     margin-left:15px;
   }
 }
-
 
 
 
