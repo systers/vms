@@ -2,9 +2,9 @@
 
 If you believe someone is violating the code of conduct we ask that you report it to Systers by emailing systers.keeper@gmail.com. 
 
-**All reports will be kept confidential.** In some cases we may determine that a public statement will need to be made. If that's the case, the identities of all victims and reporters will remain confidential unless those individuals instruct us otherwise.
+**All reports will be kept confidential.** In some cases, we may determine that a public statement will need to be made. If that's the case, the identities of all victims and reporters will remain confidential unless those individuals instruct us otherwise.
 
-If you believe anyone is in physical danger, please notify appropriate emergency services first. If you are unsure what service or agency is appropriate to contact, include this in your report and we will attempt to notify them.
+If you believe anyone is in physical danger, please notify the appropriate emergency services first. If you are unsure what service or agency is appropriate to contact, include this in your report and we will attempt to notify them.
 
 In your report please include:
 
@@ -30,7 +30,7 @@ The working group will immediately meet to review the incident and determine:
 
 If this is determined to be an ongoing incident or a threat to physical safety, the team's immediate priority will be to protect everyone involved. This means we may delay an "official" response until we believe that the situation has ended and that everyone is physically safe.
 
-Once the team has a complete account of the events they will make a decision as to how to respond. Responses may include:
+Once the team has a complete account of the events they will decide as to how to respond. Responses may include:
 
 * Nothing (if we determine no code of conduct violation occurred).
 * A private reprimand from the Code of Conduct response team to the individual(s) involved.
