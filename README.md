@@ -1,5 +1,5 @@
 AnitaB.org Portal - VMS project
-=============================
+============================
 
 [![Build Status](https://img.shields.io/travis/anitab-org/vms/develop?logo=travis)](https://travis-ci.org/anitab-org/vms)
 [![Coverage Status](https://coveralls.io/repos/github/anitab-org/vms/badge.svg)](https://coveralls.io/github/anitab-org/vms?branch=develop) 
