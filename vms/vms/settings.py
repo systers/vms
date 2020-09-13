@@ -139,3 +139,11 @@ RECOVER_ONLY_ACTIVE_USERS = False
 ACCOUNT_ACTIVATION_DAYS = 2
 ANONYMOUS_USER_ID = -1
 
+# SMTP configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST ='smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER ='anitaborg.vms@gmail.com'
+EMAIL_HOST_PASSWORD ='#Vms@Anita'
