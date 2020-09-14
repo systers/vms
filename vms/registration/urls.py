@@ -1,5 +1,6 @@
 # Django
 from django.conf.urls import url
+from django.urls import path
 
 # local Django
 from registration.views import (activate, AdministratorSignupView,
@@ -22,5 +23,6 @@ urlpatterns = [
     url(r'^check_states/$', check_states, name='check_states'),
     url(r'^load_cities/$', load_cities, name='load_cities'),
     url(r'^load_states/$', load_states, name='load_states'),
+    path('activate/<uidb64>/<token>/',views.activate, name='activate'),
 ]
 
