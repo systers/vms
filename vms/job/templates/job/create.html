@@ -32,12 +32,12 @@
                             {% trans "Event:" %}
                         </label>
                         <div class="col-md-8">
-                            <select class="form-control" name="event_id" id="events" onchange="updateEventDates()">
+                            <select class="form-control" name="event_id" id="events" onchange="updateEventDates();">
                                 {% for event in event_list %}
                                     {% if event == last_event %}
-                                        <option value="{{ event.id }}" start_date="{{ event.start_date }}" end_date="{{ event.end_date }}" selected="selected">{{ event.name }}</option>
+                                        <option value="{{ event.id }}" non_formatted_start_date="{{ event.start_date }}" non_formatted_end_date="{{ event.end_date }}" start_date="{{ event.start_date |date:'m/d/Y' }}" end_date="{{ event.end_date |date:'m/d/Y' }}" selected="selected">{{ event.name }}</option>
                                     {% else %}
-                                        <option value="{{ event.id }}" start_date="{{ event.start_date }}" end_date="{{ event.end_date }}">{{ event.name }}</option>
+                                        <option value="{{ event.id }}" non_formatted_start_date="{{ event.start_date }}" non_formatted_end_date="{{ event.end_date }}" start_date="{{ event.start_date |date:'m/d/Y' }}" end_date="{{ event.end_date |date:'m/d/Y' }}" >{{ event.name }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -102,7 +102,7 @@
                         <div class="form-group has-error">
                             <label class="col-md-2 control-label">{% trans "Start Date" %}<span class="asteriskField">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
+                                <input class="form-control" type="text" name="start_date" id="from" placeholder="{% blocktrans %}mm/dd/yyyy{% endblocktrans %}" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
                                 <p class="help-block">
                                     <strong>
                                         {% for error in form.start_date.errors %}
@@ -116,7 +116,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">{% trans "Start Date" %}<span class="asteriskField">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" name="start_date" id="from" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
+                                <input class="form-control" type="text" name="start_date" id="from" placeholder="{% blocktrans %}mm/dd/yyyy{% endblocktrans %}" name="from" value="{% if form.start_date.value %}{{ form.start_date.value }}{% endif %}">
                             </div>
                         </div>
                     {% endif %}
@@ -124,7 +124,7 @@
                         <div class="form-group has-error">
                             <label class="col-md-2 control-label">{% trans "End Date" %}<span class="asteriskField">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
+                                <input class="form-control" type="text" name="end_date" id="to" placeholder="{% blocktrans %}mm/dd/yyyy{% endblocktrans %}" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
                                 <p class="help-block">
                                     <strong>
                                         {% for error in form.end_date.errors %}
@@ -138,7 +138,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">{% trans "End Date" %}<span class="asteriskField">*</span></label>
                             <div class="col-md-8">
-                                <input class="form-control" type="text" name="end_date" id="to" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
+                                <input class="form-control" type="text" name="end_date" id="to" placeholder="{% blocktrans %}mm/dd/yyyy{% endblocktrans %}" name="to" value="{% if form.end_date.value %}{{ form.end_date.value }}{% endif %}">
                             </div>
                         </div>
                     {% endif %}

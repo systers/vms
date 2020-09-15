@@ -13,6 +13,7 @@ class JobDetailsPage(BasePage):
     create_job_tab = 'Create Job'
     NO_JOBS_PRESENT = 'No jobs present.'
     ADD_EVENTS_TO_JOB = 'Please add events to associate with jobs first.'
+    WITHIN_EVENT_DATES = 'Job dates should lie within Event dates'
 
     def __init__(self, driver):
         self.driver = driver
@@ -83,3 +84,6 @@ class JobDetailsPage(BasePage):
 
     def get_message_context(self):
         return self.events_page.get_message_context()
+
+    def get_danger_message(self):
+        return self.events_page.get_danger_message()

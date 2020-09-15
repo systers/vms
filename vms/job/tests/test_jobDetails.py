@@ -299,4 +299,52 @@ class JobDetails(LiveServerTestCase):
         self.assertEqual(job_details_page.get_job_start_date_error(),
                          job_details_page.START_BEFORE_END)
 
+    def test_start_date_between_events_date(self):
+        """
+        Test start date of job and end date is between event dates.
+        """
+        created_event = JobDetails.register_valid_event()
+        self.job_details_page.navigate_to_event_list_view()
 
+        job_details_page = self.job_details_page
+        job_details_page.live_server_url = self.live_server_url
+        job_details_page.navigate_to_job_list_view()
+        job_details_page.go_to_create_job_page()
+
+        job_start_between_event = {
+            'event': created_event.id,
+            'name': 'new job name',
+            'description': 'new-job-description',
+            'start_date': '2050-06-10',
+            'end_date': '2050-06-18'
+        }
+        job_details_page.fill_job_form(job_start_between_event)
+
+        # Check error.
+        self.assertEqual(job_details_page.get_danger_message(),
+                         job_details_page.WITHIN_EVENT_DATES)
+
+    def test_end_date_between_events_date(self):
+        """
+        Test start date of job and end date is between event dates.
+        """
+        created_event = JobDetails.register_valid_event()
+        self.job_details_page.navigate_to_event_list_view()
+
+        job_details_page = self.job_details_page
+        job_details_page.live_server_url = self.live_server_url
+        job_details_page.navigate_to_job_list_view()
+        job_details_page.go_to_create_job_page()
+
+        job_end_between_event = {
+            'event': created_event.id,
+            'name': 'job new name',
+            'description': 'job-new-description',
+            'start_date': '2050-06-12',
+            'end_date': '2050-06-20'
+        }
+        job_details_page.fill_job_form(job_end_between_event)
+
+        # Check error.
+        self.assertEqual(job_details_page.get_danger_message(),
+                         job_details_page.WITHIN_EVENT_DATES)

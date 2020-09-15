@@ -32,12 +32,12 @@
                             {% trans "Event:" %}
                         </label>
                         <div class="col-md-8">
-                            <select class="form-control" name="event_id" id="events" onchange="updateEventDates()">
+                            <select class="form-control" name="event_id" id="events" onchange="updateEventDates();">
                                 {% for event in event_list %}
                                     {% if event.name == job.event.name %}
-                                        <option selected value="{{ event.id }}" start_date="{{ event.start_date }}" end_date="{{ event.end_date }}">{{ event.name }}</option>
+                                        <option value="{{ event.id }}" non_formatted_start_date="{{ event.start_date }}" non_formatted_end_date="{{ event.end_date }}" start_date="{{ event.start_date |date:'m/d/Y' }}" end_date="{{ event.end_date |date:'m/d/Y' }}" selected="selected">{{ event.name }}</option>
                                     {% else %}
-                                        <option value="{{ event.id }}" start_date="{{ event.start_date }}" end_date="{{ event.end_date }}">{{ event.name }}</option>
+                                        <option value="{{ event.id }}" non_formatted_start_date="{{ event.start_date }}" non_formatted_end_date="{{ event.end_date }}" start_date="{{ event.start_date |date:'m/d/Y' }}" end_date="{{ event.end_date |date:'m/d/Y' }}" >{{ event.name }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>

@@ -656,8 +656,10 @@ class FormFields(LiveServerTestCase):
         )
         # verify that the correct event name and date are displayed
         self.assertEqual(element.text, 'event')
-        self.assertEqual(element.get_attribute('start_date'), 'Aug. 21, 2050')
-        self.assertEqual(element.get_attribute('end_date'), 'Sept. 28, 2050')
+        self.assertEqual(element.get_attribute(
+            'non_formatted_start_date'), 'Aug. 21, 2050')
+        self.assertEqual(element.get_attribute(
+            'non_formatted_end_date'), 'Sept. 28, 2050')
 
     '''
     # Retention tests are buggy.

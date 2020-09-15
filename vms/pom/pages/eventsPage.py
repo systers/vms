@@ -186,7 +186,7 @@ class EventsPage(BasePage):
         return self.element_by_class_name(self.elements.WARNING_CONTEXT).text
 
     def get_danger_message(self):
-        return self.element_by_class_name(self.elements.DANGER_BOX)
+        return self.element_by_class_name(self.elements.DANGER_BOX).text
 
     def get_job_name(self):
         return self.element_by_xpath(self.elements.JOB_NAME).text
