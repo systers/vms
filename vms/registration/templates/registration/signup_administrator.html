@@ -206,12 +206,11 @@
                 </div>
             </div>
         {% endif %}
-
             <div id="div_id_country" class="form-group">
                 <label class="control-label">
                 {% trans "Country" %}
                 </label>
-                    <select  id="select_country" class="form-control" name="country">
+                    <select id="select_country" class="form-control" name="country">
                         <option value="0">-- {% trans "Select country" %} --</option>
                         {% for country in country_list %}
                             {% if volunteer.country_id %}
