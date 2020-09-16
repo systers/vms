@@ -1,13 +1,16 @@
 $(document).ready(function() {
     $("#select_state").change(function() {
+	
 /* Disables the city input field until the state input is filled up */
 	function hideCity(){
-		var state =document.getElementById("select_state");
-		if(state.disabled===false && state.value!==null && state.value!=="0") {
-			document.getElementById("select_city").disabled=false;
+		var country = $("#select_country");
+    		var state = $("#select_state");
+		var city = $("#select_city"); if(state.prop('disabled') === false) console.log("yessss",state.val())
+		if(state.prop('disabled') === false && state.val() !== null && state.val() !== "0") { console.log("ji")
+			city.prop("disabled", false);
 		}
 		else {
-			document.getElementById("select_city").disabled=true;
+			city.prop("disabled", true);
 		}
 	}
     hideCity(); 
@@ -21,12 +24,15 @@ $(document).ready(function() {
                 "country": countryId,
                 "state": stateId
             },
-            success: function(cities) {
-		var state=$("#select_state"); 
-		if(state.val()!=="0" && state.val()!==null && state.prop('disabled')===false)
-                	$("#select_city").html(cities);
-		else  
-			$("#select_city").empty();
+            success: function(cities) { 
+		var state = $("#select_state");
+		var city = $("#select_city");
+		if(state.val() !== "0" && state.val()!==null && state.prop('disabled') === false) {
+                	city.html(cities);
+		}
+		else { 
+			city.empty();
+		}
             }
         });
 
@@ -34,4 +40,3 @@ $(document).ready(function() {
     });
 
 });
-
