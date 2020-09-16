@@ -1,23 +1,27 @@
 $(document).ready(function() {
     $("#select_country").change(function() {
+console.log("hi")
 /* Disables the city and state input field until the country input is filled up */
 	function hideState(){
- 		var country =document.getElementById("select_country").value;
-    		var state =document.getElementById("select_state").value;
-		if(country==="0") {
-			document.getElementById("select_state").disabled='disabled';
-			document.getElementById("select_city").disabled='disabled';
+		var country = $("#select_country");
+    		var state = $("#select_state");
+		var city = $("#select_city");
+
+		if(country.val() === "0") {
+			state.prop("disabled", true); console.log("country 0");
+			city.prop("disabled", true);
 		}  
-		if (country!=="0"){
-			document.getElementById("select_state").disabled=false;	
-		}
-		if(state.disabled===false && state.value!==null && state.value!=="0") {
-			document.getElementById("select_city").disabled=false;
+		if (country.val() !== "0"){ console.log("country 0");
+			state.prop("disabled", false);
+		}  console.log(state.val())
+		if(state.prop('disabled') === false && state.val() !== null && state.val() !== "0") {
+			city.prop("disabled", false);
 		}
 		else {
-			document.getElementById("select_city").disabled=true;
-			document.getElementById("select_city").value=null;
+			city.prop("disabled", true);
+			city.val("");
 		}
+ console.log(state.val())
 	}
 	hideState(); 
 
@@ -37,15 +41,16 @@ $(document).ready(function() {
                             "state": 0
                         },
                         success: function(cities) {
-		var state=$("#select_state"); 
-		if(state.val()!=="0" && state.val()!==null && state.prop('disabled')===false)
-              $("#select_city").html(cities);
-		else  
-              $("#select_city").empty();
-        $("#select_state").empty(); 
-                      
+    				var state = $("#select_state");
+				var city = $("#select_city");
+				if(state.val() !== "0" && state.val() !== null &&state.prop('disabled') === false) {
+               				city.html(cities);
+				}
+				else {  
+					city.empty();
+				}
+                         	state.empty(); 
 			 },
-			
                     });
                 } else if (statecheck === true) {
                     $.ajax({
@@ -54,24 +59,14 @@ $(document).ready(function() {
                             "country": countryId
                         },
                         success: function(states) {
-                            $("#select_state").html(states);
-                            $("#select_city").empty();
-				 
+    				var state = $("#select_state");
+				var city = $("#select_city");
+				state.html(states);
+                           	city.empty();	 
                         }
                     });
                 }
             }
         }); 
     });
-
 });
-
-
-
-
-
-
-
-
-
-
