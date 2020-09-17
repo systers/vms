@@ -5,8 +5,8 @@ $(document).ready(function() {
 	function hideCity(){
 		var country = $("#select_country");
     		var state = $("#select_state");
-		var city = $("#select_city"); if(state.prop('disabled') === false) console.log("yessss",state.val())
-		if(state.prop('disabled') === false && state.val() !== null && state.val() !== "0") { console.log("ji")
+		var city = $("#select_city"); 
+		if(state.prop('disabled') === false && state.val() !== null && state.val() !== "0") {
 			city.prop("disabled", false);
 		}
 		else {
