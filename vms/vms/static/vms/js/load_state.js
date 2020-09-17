@@ -1,19 +1,17 @@
 $(document).ready(function() {
     $("#select_country").change(function() {
-console.log("hi")
 /* Disables the city and state input field until the country input is filled up */
 	function hideState(){
 		var country = $("#select_country");
     		var state = $("#select_state");
 		var city = $("#select_city");
-
 		if(country.val() === "0") {
-			state.prop("disabled", true); console.log("country 0");
+			state.prop("disabled", true);
 			city.prop("disabled", true);
-		}  
-		if (country.val() !== "0"){ console.log("country 0");
+		}
+		if (country.val() !== "0"){
 			state.prop("disabled", false);
-		}  console.log(state.val())
+		}
 		if(state.prop('disabled') === false && state.val() !== null && state.val() !== "0") {
 			city.prop("disabled", false);
 		}
@@ -21,9 +19,8 @@ console.log("hi")
 			city.prop("disabled", true);
 			city.val("");
 		}
- console.log(state.val())
 	}
-	hideState(); 
+	hideState();
 
 /** Fetches states belonging to selected  country */
         var countryId = $(this).val();
@@ -43,10 +40,10 @@ console.log("hi")
                         success: function(cities) {
     				var state = $("#select_state");
 				var city = $("#select_city");
-				if(state.val() !== "0" && state.val() !== null &&state.prop('disabled') === false) {
+				if(state.val() !== "0" && state.val() !== null && state.prop('disabled') === false) {
                				city.html(cities);
 				}
-				else {  
+				else {
 					city.empty();
 				}
                          	state.empty(); 
@@ -62,11 +59,11 @@ console.log("hi")
     				var state = $("#select_state");
 				var city = $("#select_city");
 				state.html(states);
-                           	city.empty();	 
+                           	city.empty();
                         }
                     });
                 }
             }
-        }); 
+        });
     });
 });
