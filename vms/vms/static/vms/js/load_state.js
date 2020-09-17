@@ -38,9 +38,9 @@ $(document).ready(function() {
                             "state": 0
                         },
                         success: function(cities) {
-    				var state = $("#select_state");
-				var city = $("#select_city");
-				if(state.val() !== "0" && state.val() !== null && state.prop('disabled') === false) {
+    			    var state = $("#select_state");
+			    var city = $("#select_city");
+			    if(state.val() !== "0" && state.val() !== null && state.prop('disabled') === false) {
                				city.html(cities);
 				}
 				else {
