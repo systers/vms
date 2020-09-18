@@ -1,5 +1,9 @@
 db:
   image: postgres:9.6.3
+  ports:
+    - "5432:5432"
+  environment:
+     - POSTGRES_HOST_AUTH_METHOD=trust
 web:
   build: .
   command: python vms/manage.py runserver 0.0.0.0:8000
@@ -9,6 +13,8 @@ web:
     - "8000:8000"
   links:
     - db
+  env_file:
+    - .env
   environment:
     - DJANGO_SETTINGS_MODULE=vms.settings
     
