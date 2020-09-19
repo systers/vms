@@ -5,8 +5,8 @@ from django.core.exceptions import ValidationError
 
 
 class UserForm(forms.ModelForm):
-    # password not visible when user types it out
-    password = forms.CharField(widget=forms.PasswordInput())
+    # Added toggle eye button to view/hide the password
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'********','autocomplete':'off','data-toggle': 'password'})
     confirm_password = forms.CharField(widget=forms.PasswordInput())
 
     def clean_password(self):
