@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
@@ -15,6 +16,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView
 
 # local Django
+from vms.settings import EMAIL_HOST_USER
 from administrator.forms import AdministratorForm
 from cities_light.models import City, Region, Country
 from organization.models import Organization
@@ -316,34 +318,6 @@ class VolunteerSignupView(TemplateView):
                         'country_list': country_list,
                     })
 
-def signup(request):
-    if request.method == 'GET':
-        return render(request, 'registration/signup_administrator.html')
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        # print(form.errors.as_data())
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your account.'
-            message = render_to_string('registration/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                mail_subject, message, to=[to_email]
-            )
-            email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
-    else:
-        form = SignUpForm()
-    return render(request, 'accounts/signup.html', {'form': form})
-
 def activate(request, uidb64, token):
     """
     Checks token, if valid, then user will active and login
@@ -360,6 +334,14 @@ def activate(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
+        sub = forms.registration()
+    if request.method == 'POST':
+        sub = forms.registration(request.POST)
+        subject = 'Account Verification'
+        message = 'Thank you for confirmation of your account'
+        recepient = str(sub['Email'].value())
+        send_mail(subject, 
+            message, EMAIL_HOST_USER, [recepient], fail_silently = False)
         user.save()
         return render(request, 'home/confirmed_email.html')
     else:
