@@ -3,6 +3,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+class useremail(forms.ModelForm):
+    Email = forms.CharField(widget=forms.EmailInput())
+    def __str__(self):
+        return self.Email
 
 class UserForm(forms.ModelForm):
     # password not visible when user types it out
