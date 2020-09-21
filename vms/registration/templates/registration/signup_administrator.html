@@ -206,7 +206,6 @@
                 </div>
             </div>
         {% endif %}
-
             <div id="div_id_country" class="form-group">
                 <label class="control-label">
                 {% trans "Country" %}
@@ -230,14 +229,14 @@
                 <label class="control-label">
                 {% trans "State/Province" %}
                 </label>
-                    <select id="select_state" class="form-control" name="state">
+                    <select disabled id="select_state" class="form-control" name="state">
                     </select>
                 </div>
             <div id="div_id_city" class="form-group">
                 <label class="control-label">
                 {% trans "City" %}
                 </label>
-                    <select id="select_city" class="form-control" name="city">
+                    <select disabled id="select_city" class="form-control" name="city">
                     </select>
              </div>
         {% if administrator_form.phone_number.errors %}
