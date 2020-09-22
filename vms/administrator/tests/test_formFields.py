@@ -87,7 +87,16 @@ class FormFields(LiveServerTestCase):
         :param job: Iterable consisting values for job.
         """
         settings = self.settings
+        cls.driver.implicitly_wait(8)
+        try:
+            WebDriverWait(driver,10).until(EC.visibility_of(setings.elements_by_xpath(settings.elements.CREATE_EVENT_NAME)))
+        except:
+            print("Error occured in wait for event name at line 78")
         self.assertEqual(settings.get_job_name_value(), job['name'])
+        try:
+            WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_START_DATE)))
+        except:
+            print("Error occured in wait for start date value  at line 85")
         self.assertEqual(
             settings.get_job_description_value(),
             job['description']
