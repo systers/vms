@@ -74,12 +74,12 @@ class FormFields(LiveServerTestCase):
         """
         settings = self.settings
         try:
-            WebDriverWait(driver,10).until(EC.visibility_of(setings.elements_by_xpath(settings.elements.CREATE_EVENT_NAME)))
+            WebDriverWait(self.driver,10).until(EC.visibility_of(setings.elements_by_xpath(settings.elements.CREATE_EVENT_NAME)))
         except:
             print("Error occured in wait for event name at line 77")
         self.assertEqual(settings.get_event_name_value(), event['name'])
         try:
-            WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_START_DATE)))
+            WebDriverWait(self.driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_START_DATE)))
         except:
             print("Error occured in wait for event start date at line 82")
         self.assertEqual(
@@ -87,7 +87,7 @@ class FormFields(LiveServerTestCase):
             event['start_date']
         )
         try:
-            WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_END_DATE)))
+            WebDriverWait(self.driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_END_DATE)))
         except:
             print("Error occured in wait for event end date at line 90")
         self.assertEqual(settings.get_event_end_date_value(), event['end_date'])
@@ -99,14 +99,14 @@ class FormFields(LiveServerTestCase):
         :param job: Iterable consisting values for job.
         """
         settings = self.settings
-        cls.driver.implicitly_wait(8)
+        self.driver.implicitly_wait(8)
         try:
-            WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_NAME)))
+            WebDriverWait(self.driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_NAME)))
         except:
             print("Error occured in wait for create job name at line 104")        
         self.assertEqual(settings.get_job_name_value(), job['name'])
         try:
-            WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_DESCRIPTION)))
+            WebDriverWait(self.driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_DESCRIPTION)))
         except:
             print("Error occured in wait for create job name at line 109")
         self.assertEqual(
@@ -114,12 +114,12 @@ class FormFields(LiveServerTestCase):
             job['description']
         )
         try:
-            WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_START_DATE)))
+            WebDriverWait(self.driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_START_DATE)))
         except:
             print("Error occured in wait for create job start date at line 117")    
         self.assertEqual(settings.get_job_start_date_value(), job['start_date'])
         try:
-            WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_END_DATE)))
+            WebDriverWait(self.driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_END_DATE)))
         except:
             print("Error occured in wait for create job start date at line 122")
         self.assertEqual(settings.get_job_end_date_value(), job['end_date'])
@@ -174,7 +174,7 @@ class FormFields(LiveServerTestCase):
         for the non-nullable fields while creating a new event.
         """
         self.settings.go_to_events_page()
-        driver.implicitly_wait(8)
+        self.driver.implicitly_wait(8)
         event = {
             'name': '',
             'start_date': '',
