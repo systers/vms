@@ -73,11 +73,16 @@ class FormFields(LiveServerTestCase):
         :param event: Iterable consisting values for events.
         """
         settings = self.settings
+        cls.driver.implicitly_wait(8)
+        WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_NAME))   #explicit  wait for event name
         self.assertEqual(settings.get_event_name_value(), event['name'])
+        WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_START_DATE))     #explicit wait for event  start date                         
         self.assertEqual(
             settings.get_event_start_date_value(),
             event['start_date']
         )
+        cls.driver.implicitly_wait(5)
+        WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_END_DATE))   #explicit wait for event end date
         self.assertEqual(settings.get_event_end_date_value(), event['end_date'])
 
     def check_job_form_values(self, job):
@@ -87,6 +92,7 @@ class FormFields(LiveServerTestCase):
         :param job: Iterable consisting values for job.
         """
         settings = self.settings
+                                      
         self.assertEqual(settings.get_job_name_value(), job['name'])
         self.assertEqual(
             settings.get_job_description_value(),
