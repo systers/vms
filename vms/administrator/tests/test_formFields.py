@@ -174,7 +174,7 @@ class FormFields(LiveServerTestCase):
         for the non-nullable fields while creating a new event.
         """
         self.settings.go_to_events_page()
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
         event = {
             'name': '',
             'start_date': '',
@@ -233,7 +233,7 @@ class FormFields(LiveServerTestCase):
         }
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
         settings = self.settings
         try:
             WebDriverWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_NAME)))
@@ -305,7 +305,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
         # Create Job of null values
         job = {
             'event': created_event.id,
@@ -365,7 +365,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
         settings = self.settings
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
         # Create Job with not-null values
         job = {
             'event': created_event,
@@ -437,7 +437,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
         settings = self.settings
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
         # Create Job with not-null values
         job = {
             'event': created_event,
@@ -534,7 +534,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
         settings = self.settings
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
  
         # Create Job with not-null values
         job = {
@@ -618,7 +618,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
 
         event = {
             'name': 'event-name',
@@ -715,7 +715,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
 
         event = {
             'name': 'event-name',
@@ -766,7 +766,7 @@ class FormFields(LiveServerTestCase):
             'address': 'shift-address',
             'venue': 'shift-venue'
         }
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
         create_shift_with_details(shift)
         settings.navigate_to_shift_list_view()
         settings.go_to_edit_shift_page()
@@ -805,7 +805,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
-        cls.driver.implicitly_wait(8)
+        driver.implicitly_wait(8)
 
         # Create job and check event details in edit form
         job = {
