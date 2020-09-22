@@ -73,25 +73,11 @@ class FormFields(LiveServerTestCase):
         :param event: Iterable consisting values for events.
         """
         settings = self.settings
-        cls.driver.implicitly_wait(8)
-        try:
-            WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_NAME))   #explicit  wait for event name
-        except:
-            print("Error occured  in wait for event name at line  78")
         self.assertEqual(settings.get_event_name_value(), event['name'])
-        try:
-            WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_START_DATE))     #explicit wait for event  start date                         
-        except:
-            print("Error occured in wait for start date value at line 85")
         self.assertEqual(
             settings.get_event_start_date_value(),
             event['start_date']
         )
-        cls.driver.implicitly_wait(5)
-        try:
-            WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_END_DATE))   #explicit wait for event end date
-        except:
-            print("Error occured in wait for end date value at line 94")
         self.assertEqual(settings.get_event_end_date_value(), event['end_date'])
 
     def check_job_form_values(self, job):
@@ -101,24 +87,12 @@ class FormFields(LiveServerTestCase):
         :param job: Iterable consisting values for job.
         """
         settings = self.settings
-        try:
-           WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_NAME))
-        except:
-           print("error occured at  creating job name at line 105")
         self.assertEqual(settings.get_job_name_value(), job['name'])
         self.assertEqual(
             settings.get_job_description_value(),
             job['description']
         )
-        try:
-           WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_START_DATE))
-        except:
-           print("error occured at  creating job start date at line 114")                                 
         self.assertEqual(settings.get_job_start_date_value(), job['start_date'])
-        try:
-           WebDriveWait(driver,10).until(EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_END_DATE))
-        except:
-           print("error occured at  creating job end date at line 119")                                     
         self.assertEqual(settings.get_job_end_date_value(), job['end_date'])
 
     def check_shift_form_values(self, shift):
@@ -127,7 +101,6 @@ class FormFields(LiveServerTestCase):
         shift against the shift list received as param.
         :param shift: Iterable consisting values for shift.
         """
-        
         settings = self.settings
         self.assertEqual(settings.get_shift_date_value(), shift['date'])
         self.assertEqual(
