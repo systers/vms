@@ -850,7 +850,8 @@ class FormFields(LiveServerTestCase):
             WebDriverWait(self.driver, 10).until(
                 EC.visibility_of(settings.elements_by_xpath(
                     settings.elements.SHIFT_JOB)))
-        except:
+        except as e:
+            print(e)
             print("Error occured in wait for get  shift job at line 776")
         self.assertEqual(settings.get_shift_job(), job['name'])
         try:
