@@ -75,15 +75,15 @@ class FormFields(LiveServerTestCase):
         settings = self.settings
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_NAME))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_EVENT_NAME)))
         except:
             print("Error occured in wait for event name at line 77")
         self.assertEqual(settings.get_event_name_value(), event['name'])
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_START_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_EVENT_START_DATE)))
         except:
             print("Error occured in wait for event start date at line 82")
         self.assertEqual(
@@ -92,8 +92,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_EVENT_END_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_EVENT_END_DATE)))
         except:
             print("Error occured in wait for event end date at line 90")
         self.assertEqual(settings.get_event_end_date_value(), event['end_date'])
@@ -108,15 +108,15 @@ class FormFields(LiveServerTestCase):
         self.driver.implicitly_wait(8)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_NAME))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_JOB_NAME)))
         except:
             print("Error occured in wait for create job name at line 104")  
         self.assertEqual(settings.get_job_name_value(), job['name'])
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_DESCRIPTION))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_JOB_DESCRIPTION)))
         except:
             print("Error occured in wait for create job name at line 109")
         self.assertEqual(
@@ -125,15 +125,15 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_START_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_JOB_START_DATE)))
         except:
             print("Error occured in wait for create job start date at line 117")    
         self.assertEqual(settings.get_job_start_date_value(), job['start_date'])
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_JOB_END_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_JOB_END_DATE)))
         except:
             print("Error occured in wait for create job start date at line 122")
         self.assertEqual(settings.get_job_end_date_value(), job['end_date'])
@@ -147,15 +147,15 @@ class FormFields(LiveServerTestCase):
         settings = self.settings
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_SHIFT_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_SHIFT_DATE)))
         except:
             print("Error occured in wait for create shift date at line 135")
         self.assertEqual(settings.get_shift_date_value(), shift['date'])
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_SHIFT_START_TIME))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_SHIFT_START_TIME)))
         except:
             print("Error occured in wait for create shift start time at line 140") 
         self.assertEqual(
@@ -164,15 +164,15 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_SHIFT_END_TIME))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_SHIFT_END_TIME)))
         except:
             print("Error occured in wait for create shift end time at line 148")
         self.assertEqual(settings.get_shift_end_time_value(), shift['end_time'])
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.CREATE_SHIFT_MAX_VOLUNTEER))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.CREATE_SHIFT_MAX_VOLUNTEER)))
         except:
             print("Error occured in wait for create shift max volunteer at line 153")
         self.assertEqual(
@@ -217,8 +217,8 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(len(settings.get_help_blocks()), 5)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_NAME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.EVENT_NAME_ERROR)))
         except:
             print("Error occured in wait for create event name error at line 197")
         self.assertEqual(
@@ -227,8 +227,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_START_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.EVENT_START_DATE_ERROR)))
         except:
             print("Error occured in wait for create event start date error at line 205")
         self.assertEqual(
@@ -237,8 +237,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_END_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.EVENT_END_DATE_ERROR)))
         except:
             print("Error occured in wait for create event end date error at line 213")
         self.assertEqual(
@@ -265,8 +265,8 @@ class FormFields(LiveServerTestCase):
         settings = self.settings
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_NAME))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.EVENT_NAME)))
         except:
             print("Error occured in wait for create event name at line 239")
         # Check we are having correct event
@@ -293,8 +293,8 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(len(settings.get_help_blocks()), 3)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_NAME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.EVENT_NAME_ERROR)))
         except:
             print("Error occured in wait for create event name error at line 265")
         self.assertEqual(
@@ -303,8 +303,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_START_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.EVENT_START_DATE_ERROR)))
         except:
             print("Error occured in wait for create event start date error at line 273")
         self.assertEqual(
@@ -313,8 +313,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.EVENT_END_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.EVENT_END_DATE_ERROR)))
         except:
             print("Error occured in wait for create event end date error at line 213")
         self.assertEqual(
@@ -364,15 +364,15 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(len(settings.get_help_blocks()), 3)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.JOB_NAME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.JOB_NAME_ERROR)))
         except:
             print("Error occured in wait for get job name error at line 330")
         self.assertEqual(settings.get_job_name_error(), settings.FIELD_REQUIRED)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.JOB_START_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.JOB_START_DATE_ERROR)))
         except:
             print("Error occured in wait for get job start date error at line 335")
         self.assertEqual(
@@ -381,8 +381,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.JOB_END_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.JOB_END_DATE_ERROR)))
         except:
             print("Error occured in wait for get job end date error at line 343")
         self.assertEqual(
@@ -442,15 +442,15 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(len(settings.get_help_blocks()), 3)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.JOB_NAME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.JOB_NAME_ERROR)))
         except:
             print("Error occured in wait for get job name error at line 402")
         self.assertEqual(settings.get_job_name_error(), settings.FIELD_REQUIRED)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.JOB_START_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.JOB_START_DATE_ERROR)))
         except:
             print("Error occured in wait for get job start date error at line 409")
         self.assertEqual(
@@ -459,8 +459,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.JOB_END_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.JOB_END_DATE_ERROR)))
         except:
             print("Error occured in wait for get job end date error at line 415")
         self.assertEqual(
@@ -518,8 +518,8 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(len(settings.get_help_blocks()), 6)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_DATE_ERROR)))
         except:
             print("Error occured in wait for get  shift date error at line 472")
         self.assertEqual(
@@ -528,8 +528,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_START_TIME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_START_TIME_ERROR)))
         except:
             print("Error occured in wait for get  shift start time error at line 480")
         self.assertEqual(
@@ -538,8 +538,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_END_TIME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_END_TIME_ERROR)))
         except:
             print("Error occured in wait for get  shift start end time error at line 488")
         self.assertEqual(
@@ -548,8 +548,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_MAX_VOLUNTEER_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_MAX_VOLUNTEER_ERROR)))
         except:
             print("Error occured in wait for get  shift max volunteer error at line 496")
         self.assertEqual(
@@ -558,8 +558,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_ADDRESS_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_ADDRESS_ERROR)))
         except:
             print("Error occured in wait for get  shift address error at line 504")
         self.assertEqual(
@@ -568,8 +568,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_VENUE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_VENUE_ERROR)))
         except:
             print("Error occured in wait for get  shift venue error at line 512")
         self.assertEqual(
@@ -639,8 +639,8 @@ class FormFields(LiveServerTestCase):
         self.assertEqual(len(settings.get_help_blocks()), 4)
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_DATE_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_DATE_ERROR)))
         except:
             print("Error occured in wait for get  shift date error at line 581")
 
@@ -650,8 +650,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_START_TIME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_START_TIME_ERROR)))
         except:
             print("Error occured in wait for get  shift start time error at line 590")
         self.assertEqual(
@@ -660,8 +660,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_END_TIME_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_END_TIME_ERROR)))
         except:
             print("Error occured in wait for get  shift end time error at line 598")
         self.assertEqual(
@@ -670,8 +670,8 @@ class FormFields(LiveServerTestCase):
         )
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_MAX_VOLUNTEER_ERROR))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_MAX_VOLUNTEER_ERROR)))
         except:
             print("Error occured in wait for get  shift max volunteer error at line 606")
         self.assertEqual(
@@ -810,22 +810,22 @@ class FormFields(LiveServerTestCase):
         # Check correctness of Job name and date.
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_JOB))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_JOB)))
         except:
             print("Error occured in wait for get  shift job at line 744")
         self.assertEqual(settings.get_shift_job(), job['name'])
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_JOB_START_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_JOB_START_DATE)))
         except:
             print("Error occured in wait for get  shift job at line 749")
         self.assertEqual(settings.get_shift_job_start_date(), 'May 24, 2050')
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_JOB_END_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_JOB_END_DATE)))
         except:
             print("Error occured in wait for get  shift job at line 756")
         self.assertEqual(settings.get_shift_job_end_date(), 'May 28, 2050')
@@ -848,22 +848,22 @@ class FormFields(LiveServerTestCase):
         # Check correctness of Job name and date.
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_JOB))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_JOB)))
         except:
             print("Error occured in wait for get  shift job at line 776")
         self.assertEqual(settings.get_shift_job(), job['name'])
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_JOB_START_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_JOB_START_DATE)))
         except:
             print("Error occured in wait for get  shift job at line 781")
         self.assertEqual(settings.get_shift_job_start_date(), 'May 24, 2050')
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.elements_by_xpath(settings.elements.SHIFT_JOB_END_DATE))
-                )
+                EC.visibility_of(settings.elements_by_xpath(
+                    settings.elements.SHIFT_JOB_END_DATE)))
         except:
             print("Error occured in wait for get  shift job at line 788")
         self.assertEqual(settings.get_shift_job_end_date(), 'May 28, 2050')
