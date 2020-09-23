@@ -1,8 +1,11 @@
 AnitaB.org Portal - VMS project
-============================
+=============================
 
-[![Build Status](https://travis-ci.org/anitab-org/vms.svg?branch=develop)](https://travis-ci.org/anitab-org/vms) [![Coverage Status](https://coveralls.io/repos/github/anitab-org/vms/badge.svg?branch=develop)](https://coveralls.io/github/anitab-org/vms?branch=develop) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![project chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms)
-
+[![Build Status](https://img.shields.io/travis/anitab-org/vms/develop?logo=travis)](https://travis-ci.org/anitab-org/vms)
+[![Coverage Status](https://coveralls.io/repos/github/anitab-org/vms/badge.svg)](https://coveralls.io/github/anitab-org/vms?branch=develop) 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com) 
+[![project chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg?logo=zulip)](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms)
+[![Python Version](https://img.shields.io/badge/python-3.6-blue.svg?logo=python)](https://www.python.org/downloads/release/python-360/)
 
 AnitaB.org has many volunteers that offer their skills, time, and commitment to
 our vision and projects. The **Volunteer Management System** (VMS) will
@@ -120,7 +123,7 @@ for the contributions from our GSoC developers.
 Communicate
 -----------
 
-The best way to connect with the maintainers is through Github comments. Communicate with our community on [AnitaB.org Open Source Zulip](https://anitab-org.zulipchat.com/). For queries regarding VMS Project join, [#vms](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms).
+The best way to connect with the maintainers is through Github comments. Communicate with our community on [AnitaB.org Open Source Zulip](https://anitab-org.zulipchat.com/). For queries regarding VMS Project join, [#vms](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms) and newcomers can join, [#newcomers](https://anitab-org.zulipchat.com/#narrow/stream/223071-newcomers).
 
 
 
