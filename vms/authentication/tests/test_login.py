@@ -313,7 +313,7 @@ class TestAccessControl(LiveServerTestCase):
         home_page.go_to_change_password_page()
         self.assertEqual(
             home_page.remove_i18n(self.driver.current_url),
-            self.live_server_url + PageUrls.password_change_page
+            self.live_server_url + PageUrls.homepage
         )
         password = {
             'old_password': 'volunteer',
