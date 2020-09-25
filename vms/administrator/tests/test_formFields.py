@@ -67,6 +67,11 @@ class FormFields(LiveServerTestCase):
         super(FormFields, cls).tearDownClass()
 
     def explicit_wait(self, xpath_value, time=10):
+        '''
+        Function for explicit wait of the selenium webdriver.
+        :param xpath_value: xpath value of element
+        :param time: time to wait until it loads,default 10.
+        '''
         settings = self.settings
         try:
             WebDriverWait(self.driver, time).until(
