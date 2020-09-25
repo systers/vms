@@ -66,42 +66,33 @@ class FormFields(LiveServerTestCase):
         cls.driver.quit()
         super(FormFields, cls).tearDownClass()
 
+    def explicit_wait(relative_xpath,time=10):
+        settings=self.settings
+        try:
+            WebDriverWait(self.driver, time).until(
+                EC.visibility_of(settings.element_by_xpath(
+                    relative_xpath)))
+        except Exception as e:
+            print(e.__class__)
+            print(e)
+
+
     def check_event_form_values(self, event):
         """
         Utility function to perform assertion for details of
         events against the event list received as param.
         :param event: Iterable consisting values for events.
         """
+        settings.elements.CREATE_EVENT_NAME
         settings = self.settings
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.element_by_xpath(
-                    settings.elements.CREATE_EVENT_NAME)))
-        except Exception as e:
-            print(e.__class__)
-            print(e)
-            print("Error occured in wait for event name at line 77")
+        explicit_wait(settings.elements.CREATE_EVENT_NAME)       
         self.assertEqual(settings.get_event_name_value(), event['name'])
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.element_by_xpath(
-                    settings.elements.CREATE_EVENT_START_DATE)))
-        except Exception as e:
-            print(e.__class__)
-            print(e)
-            print("Error occured in wait for event start date at line 82")
+        explicit_wait(settings.elements.CREATE_EVENT_START_DATE)
         self.assertEqual(
             settings.get_event_start_date_value(),
             event['start_date']
         )
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.visibility_of(settings.element_by_xpath(
-                    settings.elements.CREATE_EVENT_END_DATE)))
-        except Exception as e:
-            print(e.__class__)
-            print(e)
-            print("Error occured in wait for event end date at line 90")
+        explicit_wait(settings.elements.CREATE_EVENT_END_DATE)
         self.assertEqual(settings.get_event_end_date_value(), event['end_date'])
 
     def check_job_form_values(self, job):
