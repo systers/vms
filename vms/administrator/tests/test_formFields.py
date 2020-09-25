@@ -83,9 +83,9 @@ class FormFields(LiveServerTestCase):
         :param event: Iterable consisting values for events.
         """
         settings = self.settings
-        self.explicit_wait(relative_xpath=settings.elements.CREATE_EVENT_NAME)  
+        self.explicit_wait(relative_xpath=settings.elements.CREATE_EVENT_NAME)
         self.assertEqual(settings.get_event_name_value(), event['name'])
-        explicit_wait(relative_xpath = settings.elements.CREATE_EVENT_START_DATE)
+        self.explicit_wait(relative_xpath=settings.elements.CREATE_EVENT_START_DATE)
         self.assertEqual(
             settings.get_event_start_date_value(),
             event['start_date']
