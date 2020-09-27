@@ -38,11 +38,12 @@
         {% endif %}
         {% if user_form.password.errors %}
             <div id="div_id_password" class="form-group has-error">
-                <label class="control-label requiredField" for="id_password">
+                <label class="control-label requiredField" style="margin-top: -20px;" for="id_password" >
                     {% trans "Password" %}<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
-                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" name="usr-password">
+                    <i id="toggle_icon" class="fa fa-eye" style="position: relative; cursor: pointer; left:92%; top: 10px;  z-index: 2;"></i>
+                    <input id="id_password" class="textinput textInput form-control"  type="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" name="usr-password" style="margin-top: -20px;">
                     <p class="help-block">
                         <strong>
                             {% for error in user_form.password.errors %}
@@ -58,9 +59,11 @@
                     {% trans "Password" %}<span class="asteriskField">*</span>
                 </label>
                 <div class="controls">
-                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" name="usr-password">
+                    <i id="toggle_icon" class="fa fa-eye" style="position: relative; cursor: pointer; left:92%; top:10px;  z-index: 2;"></i>
+                    <input id="id_password" class="textinput textInput form-control" type="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" name="usr-password" style="margin-top: -20px;">
                 </div>
             </div>
+           
         {% endif %}
         {% if user_form.confirm_password.errors %}
             <div id="div_id_confirm_password" class="form-group has-error">

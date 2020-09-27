@@ -42,6 +42,7 @@
                     {% trans "Password" %}<span class="asteriskField">*</span>
                 </label>
                 <div class="control">
+                    <i id="toggle_icon" class="fa fa-eye" style="position: relative; cursor: pointer; left:92%; top: 30px;  z-index: 2;"></i>
                     <input class="textinput textInput form-control" id="id_password" name="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" type="password">
                 </div>
                 <p class="help-block">
@@ -57,10 +58,11 @@
                 <label for="id_password" class="control-label" requiredField>
                     {% trans "Password" %}<span class="asteriskField">*</span>
                 </label>
-                <div class="control">
-                    <input class="textinput textInput form-control" id="id_password" name="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" type="password">
+                <div class="control"><i id="toggle_icon" class="fa fa-eye" style="position: relative; cursor: pointer; left:92%; top: 10px;  z-index: 2;"></i>
+                    <input class="textinput textInput form-control" id="id_password" name="password" placeholder="{% blocktrans %}Password{% endblocktrans %}" type="password" style="margin-top: -19.9px;">
                 </div>
             </div>
+      
         {% endif %}
         {% if form.errors %}
         <div class="alert alert-danger">
