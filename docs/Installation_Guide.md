@@ -1,5 +1,9 @@
 # Installation Guide
 
+## For Windows User 
+[Installation Guide](aut_docs/Installation_Guide_WindowsOS.md)
+
+## For Linux/MacOS User 
 ### A one-time setup:
 
 - Install python
