@@ -203,7 +203,12 @@ body > .container {
   border-color: #158cba;
 }
 
-
+  /* Custom  Css for administrator/settings.html */
+ul.nav.nav-tabs li.active a.tabActive{
+  background-color: #158cba !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
 /* Featurettes
 ------------------------- */
 
