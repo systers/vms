@@ -81,7 +81,7 @@ The `vagrant up` command also boots the Virtual Machine.
 
 Once the VM download has completed, upon boot, it may ask you to choose an `Available bridged network interface`. The first option will work in most cases.
 
-You may come across a message that says `default: Warning: Remote connection disconnect. Retrying...` This message means that the VM is still booting up which is why we cannot establish a connection with it. It is normal to wait on this message for a few minutes (~5 minutes in my case) before we are able to get a connection to the VM. You may need to wait a few minutes until you get a message saying `default: Machine booted and ready!`.
+You may come across a message that says `default: Warning: Remote connection disconnect. Retrying...` This message means that the VM is still booting up which is why we cannot establish a connection with it. It is normal to wait on this message for a few minutes (~5 minutes in my case) before we can get a connection to the VM. You may need to wait a few minutes until you get a message saying `default: Machine booted and ready!`.
 
 You might be prompted for the virtual machine login and password.
 Enter "vagrant" as login and "vagrant" as password.
