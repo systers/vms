@@ -1,6 +1,6 @@
 # Contribution Guide
 
-The VMS project is always looking for more contributors like you! Before you begin however, you should install and get the project running. Click [here](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#installation-guide) for the installation guide. Always make sure that you are working with the latest version of the project, as your concerns may have already been addressed. Remember that coding is not the only method of contributing. You can help with documentation, QA, user interface, and much more!
+The VMS project is always looking for more contributors like you! Before you begin, however, you should install and get the project running. Click [here](https://github.com/systers/vms/blob/master/docs/Installation%20Guide.md#installation-guide) for the installation guide. Always make sure that you are working with the latest version of the project, as your concerns may have already been addressed. Remember that coding is not the only method of contributing. You can help with documentation, QA, user interface, and much more!
 
 ## Reporting bugs
 
