@@ -129,7 +129,7 @@ If you are installing and running the project on your local machine and not on t
 
 ## <a name="ppm"></a>Install Django and additional packages
 
-Run the following commands to install required libraries for vms:
+Run the following commands to install the required libraries for vms:
 
     cd vms
     sudo pip install -r requirements.txt
