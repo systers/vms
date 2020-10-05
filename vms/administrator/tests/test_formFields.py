@@ -14,6 +14,7 @@ from pom.pages.eventsPage import EventsPage
 from shift.utils import (create_admin, create_event_with_details,
                          create_job_with_details, create_shift_with_details)
 
+implicit_wait_time=8
 
 class FormFields(LiveServerTestCase):
     """
@@ -66,6 +67,21 @@ class FormFields(LiveServerTestCase):
         cls.driver.quit()
         super(FormFields, cls).tearDownClass()
 
+    def explicit_wait(self, xpath_value, time=10):
+        '''
+        Function for explicit wait of the selenium webdriver.
+        :param xpath_value: xpath value of element
+        :param time: time to wait until it loads,default 10.
+        '''
+        settings = self.settings
+        try:
+            WebDriverWait(self.driver, time).until(
+                EC.visibility_of(settings.element_by_xpath(
+                    xpath_value)))
+        except Exception as e:
+            print(e.__class__)
+            print(e)
+
     def check_event_form_values(self, event):
         """
         Utility function to perform assertion for details of
@@ -73,11 +89,14 @@ class FormFields(LiveServerTestCase):
         :param event: Iterable consisting values for events.
         """
         settings = self.settings
+        self.explicit_wait(xpath_value=settings.elements.CREATE_EVENT_NAME)
         self.assertEqual(settings.get_event_name_value(), event['name'])
+        self.explicit_wait(xpath_value=settings.elements.CREATE_EVENT_START_DATE)
         self.assertEqual(
             settings.get_event_start_date_value(),
             event['start_date']
         )
+        self.explicit_wait(xpath_value=settings.elements.CREATE_EVENT_END_DATE)
         self.assertEqual(settings.get_event_end_date_value(), event['end_date'])
 
     def check_job_form_values(self, job):
@@ -87,12 +106,17 @@ class FormFields(LiveServerTestCase):
         :param job: Iterable consisting values for job.
         """
         settings = self.settings
+        self.driver.implicitly_wait(implicit_wait_time)
+        self.explicit_wait(xpath_value=settings.elements.CREATE_JOB_NAME)
         self.assertEqual(settings.get_job_name_value(), job['name'])
+        self.explicit_wait(xpath_value=settings.elements.CREATE_JOB_DESCRIPTION)
         self.assertEqual(
             settings.get_job_description_value(),
             job['description']
         )
+        self.explicit_wait(xpath_value=settings.elements.CREATE_JOB_START_DATE)
         self.assertEqual(settings.get_job_start_date_value(), job['start_date'])
+        self.explicit_wait(xpath_value=settings.elements.CREATE_JOB_END_DATE)
         self.assertEqual(settings.get_job_end_date_value(), job['end_date'])
 
     def check_shift_form_values(self, shift):
@@ -102,12 +126,16 @@ class FormFields(LiveServerTestCase):
         :param shift: Iterable consisting values for shift.
         """
         settings = self.settings
+        self.explicit_wait(xpath_value=settings.elements.CREATE_SHIFT_DATE)
         self.assertEqual(settings.get_shift_date_value(), shift['date'])
+        self.explicit_wait(xpath_value=settings.elements.CREATE_SHIFT_START_TIME)
         self.assertEqual(
             settings.get_shift_start_time_value(),
             shift['start_time']
         )
+        self.explicit_wait(xpath_value=settings.elements.CREATE_SHIFT_END_TIME)
         self.assertEqual(settings.get_shift_end_time_value(), shift['end_time'])
+        self.explicit_wait(xpath_value=settings.elements.CREATE_SHIFT_MAX_VOLUNTEER)
         self.assertEqual(
             settings.get_shift_max_volunteers(),
             shift['max_volunteers']
@@ -129,7 +157,7 @@ class FormFields(LiveServerTestCase):
         for the non-nullable fields while creating a new event.
         """
         self.settings.go_to_events_page()
-
+        self.driver.implicitly_wait(implicit_wait_time)
         event = {
             'name': '',
             'start_date': '',
@@ -144,17 +172,21 @@ class FormFields(LiveServerTestCase):
         # Checks:
         # Event was not created
         # Error messages appear
+
         self.assertEqual(settings.remove_i18n(self.driver.current_url),
                          self.live_server_url + settings.create_event_page)
         self.assertEqual(len(settings.get_help_blocks()), 5)
+        self.explicit_wait(xpath_value=settings.elements.EVENT_NAME_ERROR)
         self.assertEqual(
             settings.get_event_name_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.EVENT_START_DATE_ERROR)
         self.assertEqual(
             settings.get_event_start_date_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.EVENT_END_DATE_ERROR)
         self.assertEqual(
             settings.get_event_end_date_error(),
             settings.FIELD_REQUIRED
@@ -175,13 +207,14 @@ class FormFields(LiveServerTestCase):
         }
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
-
+        self.driver.implicitly_wait(implicit_wait_time)
         settings = self.settings
-
+        settings.elements.EVENT_NAME
+        self.explicit_wait(xpath_value=settings.elements.EVENT_NAME)
         # Check we are having correct event
         self.assertEqual(settings.get_event_name(), created_event.name)
+        self.driver.implicitly_wait(implicit_wait_time)
         settings.go_to_edit_event_page()
-
         edited_event = {
             'name': '',
             'start_date': '',
@@ -200,14 +233,17 @@ class FormFields(LiveServerTestCase):
             self.live_server_url + settings.event_list_page
         )
         self.assertEqual(len(settings.get_help_blocks()), 3)
+        self.explicit_wait(xpath_value=settings.elements.EVENT_NAME_ERROR)
         self.assertEqual(
             settings.get_event_name_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.EVENT_START_DATE_ERROR)
         self.assertEqual(
             settings.get_event_start_date_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.EVENT_END_DATE_ERROR)
         self.assertEqual(
             settings.get_event_end_date_error(),
             settings.FIELD_REQUIRED
@@ -232,7 +268,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
-
+        self.driver.implicitly_wait(implicit_wait_time)
         # Create Job of null values
         job = {
             'event': created_event.id,
@@ -253,12 +289,14 @@ class FormFields(LiveServerTestCase):
             self.live_server_url + settings.create_job_page
         )
         self.assertEqual(len(settings.get_help_blocks()), 3)
-
+        self.explicit_wait(xpath_value=settings.elements.JOB_NAME_ERROR)
         self.assertEqual(settings.get_job_name_error(), settings.FIELD_REQUIRED)
+        self.explicit_wait(xpath_value=settings.elements.JOB_START_DATE_ERROR)
         self.assertEqual(
             settings.get_job_start_date_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.JOB_END_DATE_ERROR)
         self.assertEqual(
             settings.get_job_end_date_error(),
             settings.FIELD_REQUIRED
@@ -281,7 +319,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
         settings = self.settings
-
+        self.driver.implicitly_wait(implicit_wait_time)
         # Create Job with not-null values
         job = {
             'event': created_event,
@@ -296,7 +334,6 @@ class FormFields(LiveServerTestCase):
         settings.live_server_url = self.live_server_url
         settings.navigate_to_job_list_view()
         settings.go_to_edit_job_page()
-
         # Edit job with null values
         edit_job = {
             'event': created_event.id,
@@ -306,7 +343,7 @@ class FormFields(LiveServerTestCase):
             'description': ''
         }
         settings.fill_job_form(edit_job)
-
+        self.driver.implicitly_wait(implicit_wait_time)
         # Checks:
         # Job not edited
         # Error messages appear
@@ -315,11 +352,14 @@ class FormFields(LiveServerTestCase):
             self.live_server_url + settings.job_list_page
         )
         self.assertEqual(len(settings.get_help_blocks()), 3)
+        self.explicit_wait(xpath_value=settings.elements.JOB_NAME_ERROR)
         self.assertEqual(settings.get_job_name_error(), settings.FIELD_REQUIRED)
+        self.explicit_wait(xpath_value=settings.elements.JOB_START_DATE_ERROR)
         self.assertEqual(
             settings.get_job_start_date_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.JOB_END_DATE_ERROR)
         self.assertEqual(
             settings.get_job_end_date_error(),
             settings.FIELD_REQUIRED
@@ -342,7 +382,7 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
         settings = self.settings
-
+        self.driver.implicitly_wait(implicit_wait_time)
         # Create Job with not-null values
         job = {
             'event': created_event,
@@ -354,6 +394,7 @@ class FormFields(LiveServerTestCase):
         create_job_with_details(job)
 
         settings.live_server_url = self.live_server_url
+        self.driver.implicitly_wait(implicit_wait_time)
         settings.navigate_to_shift_list_view()
         settings.go_to_create_shift_page()
 
@@ -372,27 +413,32 @@ class FormFields(LiveServerTestCase):
         # Shift not created
         # Error messages appear
         self.assertEqual(len(settings.get_help_blocks()), 6)
-
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_DATE_ERROR)
         self.assertEqual(
             settings.get_shift_date_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_START_TIME_ERROR)
         self.assertEqual(
             settings.get_shift_start_time_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_END_TIME_ERROR)
         self.assertEqual(
             settings.get_shift_end_time_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_MAX_VOLUNTEER_ERROR)
         self.assertEqual(
             settings.get_shift_max_volunteer_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_ADDRESS_ERROR)
         self.assertEqual(
             settings.get_shift_address_error(),
             settings.ENTER_VALID_VALUE
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_VENUE_ERROR)
         self.assertEqual(
             settings.get_shift_venue_error(),
             settings.ENTER_VALID_VALUE
@@ -415,7 +461,8 @@ class FormFields(LiveServerTestCase):
         created_event = create_event_with_details(event)
         self.settings.go_to_events_page()
         settings = self.settings
-
+        self.driver.implicitly_wait(implicit_wait_time)
+ 
         # Create Job with not-null values
         job = {
             'event': created_event,
@@ -437,6 +484,7 @@ class FormFields(LiveServerTestCase):
             'venue': 'shift-venue'
         }
         create_shift_with_details(shift)
+        self.driver.implicitly_wait(implicit_wait_time)
 
         settings.live_server_url = self.live_server_url
         settings.navigate_to_shift_list_view()
@@ -456,19 +504,22 @@ class FormFields(LiveServerTestCase):
         # verify that shift was not edited and error messages appear as
         # expected
         self.assertEqual(len(settings.get_help_blocks()), 4)
-
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_DATE_ERROR)
         self.assertEqual(
             settings.get_shift_date_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_START_TIME_ERROR)
         self.assertEqual(
             settings.get_shift_start_time_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_END_TIME_ERROR)
         self.assertEqual(
             settings.get_shift_end_time_error(),
             settings.FIELD_REQUIRED
         )
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_MAX_VOLUNTEER_ERROR)
         self.assertEqual(
             settings.get_shift_max_volunteer_error(),
             settings.FIELD_REQUIRED
@@ -481,6 +532,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
+        self.driver.implicitly_wait(implicit_wait_time)
 
         event = {
             'name': 'event-name',
@@ -499,6 +551,7 @@ class FormFields(LiveServerTestCase):
             'description': ''
         }
         created_job = create_job_with_details(job)
+        self.driver.implicitly_wait(implicit_wait_time)
 
         settings.navigate_to_shift_list_view()
         settings.go_to_create_shift_page()
@@ -548,6 +601,7 @@ class FormFields(LiveServerTestCase):
             'venue': 'shift-venue'
         }
         create_shift_with_details(shift)
+        self.driver.implicitly_wait(implicit_wait_time)
 
         settings.navigate_to_shift_list_view()
         settings.go_to_edit_shift_page()
@@ -575,6 +629,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
+        self.driver.implicitly_wait(implicit_wait_time)
 
         event = {
             'name': 'event-name',
@@ -592,14 +647,18 @@ class FormFields(LiveServerTestCase):
             'end_date': '2050-05-28',
             'description': ''
         }
+        self.driver.implicitly_wait(implicit_wait_time)
         created_job = create_job_with_details(job)
 
         settings.navigate_to_shift_list_view()
         settings.go_to_create_shift_page()
 
         # Check correctness of Job name and date.
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_JOB)
         self.assertEqual(settings.get_shift_job(), job['name'])
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_JOB_START_DATE)
         self.assertEqual(settings.get_shift_job_start_date(), 'May 24, 2050')
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_JOB_END_DATE)
         self.assertEqual(settings.get_shift_job_end_date(), 'May 28, 2050')
 
         # Create shift and check job details in edit form
@@ -612,13 +671,17 @@ class FormFields(LiveServerTestCase):
             'address': 'shift-address',
             'venue': 'shift-venue'
         }
+        self.driver.implicitly_wait(implicit_wait_time)
         create_shift_with_details(shift)
         settings.navigate_to_shift_list_view()
         settings.go_to_edit_shift_page()
 
         # Check correctness of Job name and date.
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_JOB)
         self.assertEqual(settings.get_shift_job(), job['name'])
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_JOB_START_DATE)
         self.assertEqual(settings.get_shift_job_start_date(), 'May 24, 2050')
+        self.explicit_wait(xpath_value=settings.elements.SHIFT_JOB_END_DATE)
         self.assertEqual(settings.get_shift_job_end_date(), 'May 28, 2050')
 
     def test_simplify_job(self):
@@ -638,6 +701,7 @@ class FormFields(LiveServerTestCase):
         self.settings.go_to_events_page()
         settings = self.settings
         settings.live_server_url = self.live_server_url
+        self.driver.implicitly_wait(implicit_wait_time)
 
         # Create job and check event details in edit form
         job = {
@@ -651,6 +715,8 @@ class FormFields(LiveServerTestCase):
 
         settings.navigate_to_job_list_view()
         settings.go_to_edit_job_page()
+        self.driver.implicitly_wait(implicit_wait_time)
+
         element = self.driver.find_element_by_xpath(
             '//div[2]//div[3]//div[1]//div[1]//option[1]'
         )
