@@ -14,7 +14,8 @@ from pom.pages.eventsPage import EventsPage
 from shift.utils import (create_admin, create_event_with_details,
                          create_job_with_details, create_shift_with_details)
 
-implicit_wait_time=8
+implicit_wait_time = 8
+
 
 class FormFields(LiveServerTestCase):
     """
