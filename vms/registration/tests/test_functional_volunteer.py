@@ -7,15 +7,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.options import Options
 
 # Django
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import LiveServerTestCase
-# from django.urls import reverse
-# from django.utils.encoding import force_bytes
-# from django.utils.http import urlsafe_base64_encode
+from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 # local Django
 from pom.pages.volunteerRegistrationPage import VolunteerRegistrationPage
-# from registration.tokens import account_activation_token
+from registration.tokens import account_activation_token
 from shift.utils import (create_organization, create_country,
                          create_state, create_city)
 
@@ -146,26 +146,25 @@ class SignUpVolunteer(LiveServerTestCase):
         # Verify that all of the fields are compulsory
         self.assertEqual(len(blocks), 8)
 
-    # TODO Fix the test case(regarding binary string in url)
-    # def test_activation_email(self):
-    #     u1 = User.objects.create_user(
-    #         username='volunteer',
-    #         password='volunteer'
-    #     )
-    #     page = self.page
-    #     page.live_server_url = self.live_server_url
-    #     page.register_valid_details()
-    #     self.assertEqual(page.get_help_blocks(), None)
-    #     self.assertEqual(
-    #         page.get_message_box_text(),
-    #         page.confirm_email_message
-    #     )
-    #     uid = urlsafe_base64_encode(force_bytes(u1.pk))
-    #     token = account_activation_token.make_token(u1)
-    #     response = self.client.get(
-    #         reverse('registration:activate', args=[uid, token])
-    #     )
-    #     self.assertEqual(response.status_code, 200)
+    def test_activation_email(self):
+        u1 = User.objects.create_user(
+            username='volunteer',
+            password='volunteer'
+        )
+        page = self.page
+        page.live_server_url = self.live_server_url
+        page.register_valid_details()
+        self.assertEqual(page.get_help_blocks(), None)
+        self.assertEqual(
+            page.get_message_box_text(),
+            page.confirm_email_message
+        )
+        uid = urlsafe_base64_encode(force_bytes(u1.pk)).decode()
+        token = account_activation_token.make_token(u1)
+        response = self.client.get(
+            reverse('registration:activate', args=[uid, token])
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_successful_registration(self):
         """

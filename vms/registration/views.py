@@ -154,7 +154,7 @@ class AdministratorSignupView(TemplateView):
                     'registration/acc_active_email.html', {
                         'user': user,
                         'domain': current_site.domain,
-                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
                         'token': account_activation_token.make_token(user),
                     })
                 to_email = administrator_form.cleaned_data.get('email')
@@ -298,7 +298,7 @@ class VolunteerSignupView(TemplateView):
                     'registration/acc_active_email.html', {
                         'user': user,
                         'domain': current_site.domain,
-                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
                         'token': account_activation_token.make_token(user),
                     })
                 to_email = volunteer_form.cleaned_data.get('email')
@@ -373,7 +373,7 @@ def load_cities(request):
     """
     country_name = request.GET.get('country')
     state_name = request.GET.get('state')
-    if state_name is '0':
+    if state_name == '0':
         cities = City.objects.filter(
             country__name=country_name
         ).order_by('name')
@@ -387,4 +387,3 @@ def load_cities(request):
         'registration/city_dropdown_list_options.html',
         {'cities': cities}
     )
-
