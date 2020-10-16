@@ -1,8 +1,19 @@
+<<<<<<< HEAD
 AnitaB.org Portal - VMS project
 ============================
 
 [![Build Status](https://travis-ci.org/anitab-org/vms.svg?branch=develop)](https://travis-ci.org/anitab-org/vms) [![Coverage Status](https://coveralls.io/repos/github/anitab-org/vms/badge.svg?branch=develop)](https://coveralls.io/github/anitab-org/vms?branch=develop) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![project chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms)
+=======
+Volunteer Management System(VMS)
+=============================
+>>>>>>> eb63dfd094642071c6570504567507ddf7579346
 
+[![Build Status](https://img.shields.io/travis/anitab-org/vms/develop?logo=travis)](https://travis-ci.org/anitab-org/vms)
+[![Coverage Status](https://coveralls.io/repos/github/anitab-org/vms/badge.svg)](https://coveralls.io/github/anitab-org/vms?branch=develop) 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com) 
+[![project chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg?logo=zulip)](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms)
+[![Python Version](https://img.shields.io/badge/python-3.6-blue.svg?logo=python)](https://www.python.org/downloads/release/python-360/)
+[![codecov](https://codecov.io/gh/anitab-org/vms/branch/develop/graph/badge.svg)](https://codecov.io/gh/anitab-org/vms)
 
 AnitaB.org has many volunteers that offer their skills, time, and commitment to
 our vision and projects. The **Volunteer Management System** (VMS) will
@@ -73,7 +84,7 @@ production at the moment. It may be configured to do so in the future.
 Contribute
 ----------
 
-- Please read our [Contributing guidelines](CONTRIBUTING.md), [Code of Conduct](code_of_conduct.md) and [Reporting Guidelines](reporting_guidelines.md)
+- Please read our [Contributing guidelines](CONTRIBUTING.md), [Code of Conduct](CODE_OF_CONDUCT.md) and [Reporting Guidelines](docs/reporting_guidelines.md)
 - Please follow our [Commit Message Style Guide](https://github.com/anitab-org/mentorship-android/wiki/Commit-Message-Style-Guide) while sending PRs.
 - Issue Tracker: [vms/issues](http://github.com/anitab-org/vms/issues)
 - Source Code: [vms](http://github.com/anitab-org/vms/)
@@ -120,7 +131,7 @@ for the contributions from our GSoC developers.
 Communicate
 -----------
 
-The best way to connect with the maintainers is through Github comments. Communicate with our community on [AnitaB.org Open Source Zulip](https://anitab-org.zulipchat.com/). For queries regarding VMS Project join, [#vms](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms).
+The best way to connect with the maintainers is through Github comments. Communicate with our community on [AnitaB.org Open Source Zulip](https://anitab-org.zulipchat.com/). For queries regarding VMS Project join, [#vms](https://anitab-org.zulipchat.com/#narrow/stream/222539-vms) and newcomers can join, [#newcomers](https://anitab-org.zulipchat.com/#narrow/stream/223071-newcomers).
 
 
 
