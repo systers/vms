@@ -107,6 +107,7 @@ body {
 .header {
   font-family: Cairo;
   color: #8d2165;
+  text-align: center;
 }
 
 .link {
