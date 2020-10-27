@@ -23,6 +23,8 @@
   
 **Step 5.** Run the following cmd's to deploy the web app to heroku.
 
+  **Note:** Make sure you are inside `vms/vms` directory during deployment process
+
   ``` 
   $ git init
   $ heroku git:clone -a vms-r 
@@ -42,11 +44,12 @@
   |___ Procfile
   |___ requirements.txt
   |___ .env
-  |___ vms folder
-       |__ wsgi.py
-       |__ manage.py
-       |__ ...other files
-  
+  |___ vms 
+  |     |__ wsgi.py
+  |     |__ manage.py
+  |     |__ ...other files
+  |
+  |__ ...other files
   ```
   
   
