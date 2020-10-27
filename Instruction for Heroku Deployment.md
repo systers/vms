@@ -46,7 +46,7 @@
   |___ .env
   |___ vms 
   |     |__ wsgi.py
-  |     |__ manage.py
+  |     |__ utils.py
   |     |__ ...other files
   |
   |__ ...other files
