@@ -37,7 +37,7 @@
   
   **Note:** vms-r is the name of the web app created in the heroku for deployment.
   
-  **Note:** Procfile and .env should be created inside main vms folder refer to below file structure.
+  **Note:** Procfile and .env should be created inside main vms folder as metioned in Step 2 refer to below file structure.
   
   ```
   vms
