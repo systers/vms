@@ -17,7 +17,6 @@ from django.views.generic import TemplateView
 # local Django
 from administrator.forms import AdministratorForm
 from cities_light.models import City, Region, Country
-from organization.models import Organization
 from organization.services import (create_organization,
                                    get_organizations_ordered_by_name,
                                    get_organization_by_id)
@@ -90,7 +89,8 @@ class AdministratorSignupView(TemplateView):
                         })
                 try:
                     admin_country_name = request.POST.get('country')
-                    admin_country = Country.objects.get(name=admin_country_name)
+                    admin_country = Country.objects.get(
+                        name=admin_country_name)
                 except ObjectDoesNotExist:
                     admin_country = None
 
@@ -283,10 +283,9 @@ class VolunteerSignupView(TemplateView):
                 if organization:
                     volunteer.organization = organization
                 else:
-                    unlisted_org = request.POST.get('vol-unlisted_organization')
-                    org = Organization.objects.create(name=unlisted_org,
-                                                      approved_status=False)
-                    org.save()
+                    unlisted_org = request.POST.get(
+                        'vol-unlisted_organization')
+                    org = create_organization(unlisted_org)
                     volunteer.organization = org
                 volunteer.country = vol_country
                 volunteer.city = vol_city
@@ -373,7 +372,7 @@ def load_cities(request):
     """
     country_name = request.GET.get('country')
     state_name = request.GET.get('state')
-    if state_name is '0':
+    if state_name == '0':
         cities = City.objects.filter(
             country__name=country_name
         ).order_by('name')
@@ -387,4 +386,3 @@ def load_cities(request):
         'registration/city_dropdown_list_options.html',
         {'cities': cities}
     )
-
