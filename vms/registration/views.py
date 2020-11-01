@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
@@ -15,6 +16,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import TemplateView
 
 # local Django
+from vms.settings import EMAIL_HOST_USER
 from administrator.forms import AdministratorForm
 from cities_light.models import City, Region, Country
 from organization.models import Organization
@@ -316,7 +318,6 @@ class VolunteerSignupView(TemplateView):
                         'country_list': country_list,
                     })
 
-
 def activate(request, uidb64, token):
     """
     Checks token, if valid, then user will active and login
@@ -333,6 +334,14 @@ def activate(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
+        sub = forms.registration()
+    if request.method == 'POST':
+        sub = forms.registration(request.POST)
+        subject = 'Account Verification'
+        message = 'Thank you for confirmation of your account'
+        recepient = str(sub['Email'].value())
+        send_mail(subject, 
+            message, EMAIL_HOST_USER, [recepient], fail_silently = False)
         user.save()
         return render(request, 'home/confirmed_email.html')
     else:
