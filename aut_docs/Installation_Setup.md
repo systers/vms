@@ -171,8 +171,14 @@
 - To view a list of tables for the `vms` database, run this command under the postgres client
     ```
         \dt
-    ```        
-    We can now manipulate the database by running the appropriate sql commands under this postgres client.
+   ```        
+    Note: In case you get an error `Did not find any relations`, then run the following command 
+    ```
+        \dt[S+]
+    ```
+   We can now manipulate the database by running the appropriate sql commands under this postgres client.
+
+
 
 - Exit the postgres client using
     ```
