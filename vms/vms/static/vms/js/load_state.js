@@ -1,6 +1,28 @@
-/** Fetches states belonging to selected  country */
 $(document).ready(function() {
     $("#select_country").change(function() {
+/* Disables the city and state input field until the country input is filled up */
+	function hideState(){
+		var country = $("#select_country");
+    		var state = $("#select_state");
+		var city = $("#select_city");
+		if(country.val() === "0") {
+			state.prop("disabled", true);
+			city.prop("disabled", true);
+		}
+		if (country.val() !== "0"){
+			state.prop("disabled", false);
+		}
+		if(state.prop('disabled') === false && state.val() !== null && state.val() !== "0") {
+			city.prop("disabled", false);
+		}
+		else {
+			city.prop("disabled", true);
+			city.val("");
+		}
+	}
+	hideState();
+
+/** Fetches states belonging to selected  country */
         var countryId = $(this).val();
         $.ajax({
             url: CheckState,
@@ -16,9 +38,16 @@ $(document).ready(function() {
                             "state": 0
                         },
                         success: function(cities) {
-                            $("#select_city").html(cities);
-                           $("#select_state").empty(); 
-                        }
+    			    var state = $("#select_state");
+			    var city = $("#select_city");
+			    if(state.val() !== "0" && state.val() !== null && state.prop('disabled') === false) {
+               				city.html(cities);
+				}
+				else {
+					city.empty();
+				}
+                         	state.empty(); 
+			 },
                     });
                 } else if (statecheck === true) {
                     $.ajax({
@@ -27,8 +56,10 @@ $(document).ready(function() {
                             "country": countryId
                         },
                         success: function(states) {
-                            $("#select_state").html(states);
-                            $("#select_city").empty();
+    				var state = $("#select_state");
+				var city = $("#select_city");
+				state.html(states);
+                           	city.empty();
                         }
                     });
                 }
@@ -36,4 +67,3 @@ $(document).ready(function() {
         });
     });
 });
-
