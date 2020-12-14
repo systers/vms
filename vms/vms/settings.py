@@ -129,10 +129,19 @@ STATIC_ROOT = './static/'
 
 # Instead of sending out real email, during development the emails will be sent
 # to stdout, where from they can be inspected.
-if DEBUG:
-    EMAIL_HOST = config('EMAIL_HOST', default='localhost')
-    EMAIL_PORT = config('EMAIL_PORT', default=1025, cast=int)
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# if DEBUG:
+#     EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+#     EMAIL_PORT = config('EMAIL_PORT', default=1025, cast=int)
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# SMTP configuration
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = config('EMAIL')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
 
 LOGIN_REDIRECT_URL = reverse_lazy('home:index')
 RECOVER_ONLY_ACTIVE_USERS = False
