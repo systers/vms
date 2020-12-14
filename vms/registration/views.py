@@ -27,6 +27,8 @@ from registration.utils import volunteer_denied, match_password
 from registration.tokens import account_activation_token
 from volunteer.forms import VolunteerForm
 from volunteer.validation import validate_file
+from vms.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 
 class AdministratorSignupView(TemplateView):
@@ -73,6 +75,11 @@ class AdministratorSignupView(TemplateView):
                 request.POST, prefix="admin")
 
             if user_form.is_valid() and administrator_form.is_valid():
+                email = request.POST['admin-email']
+                subject = 'Account Verification'
+                message = 'Thank you for confirmation of your account'
+                recepient = email
+                send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently=False)
                 password1 = request.POST.get('usr-password')
                 password2 = request.POST.get('usr-confirm_password')
                 if not match_password(password1, password2):
@@ -205,6 +212,11 @@ class VolunteerSignupView(TemplateView):
                 request.POST, request.FILES, prefix="vol")
 
             if user_form.is_valid() and volunteer_form.is_valid():
+                email = request.POST['vol-email']
+                subject = 'Account Verification'
+                message = 'Thank you for confirmation of your account'
+                recepient = email
+                send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently=False)
                 password1 = request.POST.get('usr-password')
                 password2 = request.POST.get('usr-confirm_password')
                 if not match_password(password1, password2):
