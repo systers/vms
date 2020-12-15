@@ -102,12 +102,14 @@
             </div>
         </div>
 	</div>
-    <div class="container">
+    <div class="container" id="blockContainer">
         {% block content %}
         {% endblock %}
     </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+  <script src="{% static "vms/js/marginTop.js" %}"></script>
+
   </body>
 </html>
