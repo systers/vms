@@ -17,8 +17,11 @@ class AdminRegistrationPage(BasePage):
                                 'valid for the selected country'
     NO_MATCH = 'Passwords don\'t match.'
     CONFIRM_EMAIL_MESSAGE = "Please confirm your email address before login."
-    PASSWORD_ERROR = 'Password must have at least 6 characters, one ' \
-                     'lowercase letter, one special character and one digit.'
+    PASSWORD_ERROR = 'Password must have at least 6 characters, one lowercase letter,' \
+                     ' one special character and one ' \
+                     'digit and must not contain space.'
+    PASSWORD_SIMILAR_TO_IDENTITY_PREFIX = 'The password is too similar to the'
+    PASSWORD_TOO_COMMON = 'This password is too common.'
 
     def __init__(self, driver):
         self.elements = AdminRegistrationPageLocators()
@@ -80,10 +83,10 @@ class AdminRegistrationPage(BasePage):
     def get_username_error_text(self):
         return self.element_by_xpath(self.elements.USERNAME_ERROR).text
 
-    def get_password_error_text(self):
+    def get_password_match_error_text(self):
         return self.element_by_xpath(self.elements.MATCH_ERROR).text
 
-    def get_password_regex_error_text(self):
+    def get_password_error_text(self):
         return self.element_by_xpath(self.elements.PASSWORD_ERROR).text
 
     def get_first_name_error_text(self):
