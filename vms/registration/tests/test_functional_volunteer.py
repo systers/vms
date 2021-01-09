@@ -9,15 +9,16 @@ from selenium.webdriver.firefox.options import Options
 # Django
 # from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import LiveServerTestCase
+
 # from django.urls import reverse
 # from django.utils.encoding import force_bytes
 # from django.utils.http import urlsafe_base64_encode
 
 # local Django
 from pom.pages.volunteerRegistrationPage import VolunteerRegistrationPage
+
 # from registration.tokens import account_activation_token
-from shift.utils import (create_organization, create_country,
-                         create_state, create_city)
+from shift.utils import create_organization, create_country, create_state, create_city
 
 
 class SignUpVolunteer(LiveServerTestCase):
@@ -64,7 +65,7 @@ class SignUpVolunteer(LiveServerTestCase):
         the corresponding POM objects for this Test Class
         """
         firefox_options = Options()
-        firefox_options.add_argument('-headless')
+        firefox_options.add_argument("-headless")
         cls.driver = webdriver.Firefox(firefox_options=firefox_options)
         cls.driver.implicitly_wait(5)
         cls.driver.maximize_window()
@@ -106,16 +107,16 @@ class SignUpVolunteer(LiveServerTestCase):
         """
         page = self.page
         values = page.get_field_values()
-        self.assertEqual(values['username'], info['username'])
-        self.assertEqual(values['first_name'], info['first_name'])
-        self.assertEqual(values['last_name'], info['last_name'])
-        self.assertEqual(values['email'], info['email'])
-        self.assertEqual(values['address'], info['address'])
-        self.assertEqual(values['city'], info['city'])
-        self.assertEqual(values['state'], info['state'])
-        self.assertEqual(values['country'], info['country'])
-        self.assertEqual(values['phone'], info['phone_number'])
-        self.assertEqual(values['organization'], info['organization'])
+        self.assertEqual(values["username"], info["username"])
+        self.assertEqual(values["first_name"], info["first_name"])
+        self.assertEqual(values["last_name"], info["last_name"])
+        self.assertEqual(values["email"], info["email"])
+        self.assertEqual(values["address"], info["address"])
+        self.assertEqual(values["city"], info["city"])
+        self.assertEqual(values["state"], info["state"])
+        self.assertEqual(values["country"], info["country"])
+        self.assertEqual(values["phone"], info["phone_number"])
+        self.assertEqual(values["organization"], info["organization"])
 
     def test_null_values(self):
         """
@@ -126,18 +127,18 @@ class SignUpVolunteer(LiveServerTestCase):
         page.get_volunteer_registration_page()
 
         entry = {
-            'username': '',
-            'first_name': '',
-            'last_name': '',
-            'email': '',
-            'address': '',
-            'city': '',
-            'state': '',
-            'country': '',
-            'phone_number': '',
-            'organization': '',
-            'password': '',
-            'confirm_password': ''
+            "username": "",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "address": "",
+            "city": "",
+            "state": "",
+            "country": "",
+            "phone_number": "",
+            "organization": "",
+            "password": "",
+            "confirm_password": "",
         }
         page.fill_registration_form(entry)
 
@@ -158,7 +159,7 @@ class SignUpVolunteer(LiveServerTestCase):
     #     self.assertEqual(page.get_help_blocks(), None)
     #     self.assertEqual(
     #         page.get_message_box_text(),
-    #         page.confirm_email_message
+    #         page.CONFIRM_EMAIL_MESSAGE
     #     )
     #     uid = urlsafe_base64_encode(force_bytes(u1.pk))
     #     token = account_activation_token.make_token(u1)
@@ -175,10 +176,7 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.register_valid_details()
         self.assertEqual(page.get_help_blocks(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
 
     def test_user_registration_with_same_username(self):
         """
@@ -190,37 +188,33 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.register_valid_details()
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
 
         # Register a user again with username same as already registered user
         self.assertEqual(
             page.remove_i18n(self.driver.current_url),
-            self.live_server_url + page.volunteer_registration_page
+            self.live_server_url + page.volunteer_registration_page,
         )
         page.get_volunteer_registration_page()
 
         entry = {
-            'username': 'volunteer-username',
-            'first_name': 'volunteer-first-name',
-            'last_name': 'volunteer-last-name',
-            'email': 'volunteer-email1@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password!@#$%^&*()_',
-            'confirm_password': 'volunteer-password!@#$%^&*()_'
+            "username": "volunteer-username",
+            "first_name": "volunteer-first-name",
+            "last_name": "volunteer-last-name",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer-password!@#$%^&*()_",
+            "confirm_password": "volunteer-password!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_username_error_text(),
-                         page.USER_EXISTS)
+        self.assertEqual(page.get_username_error_text(), page.USER_EXISTS)
 
     def test_user_fills_different_passwords(self):
         """
@@ -232,31 +226,27 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.register_valid_details()
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
 
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name',
-            'last_name': 'volunteer-last-name',
-            'email': 'volunteer-email1@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password1!@#$%^&*()_',
-            'confirm_password': 'jddvolunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name",
+            "last_name": "volunteer-last-name",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer-password1!@#$%^&*()_",
+            "confirm_password": "jddvolunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_password_error_text(),
-                         page.NO_MATCH)
+        self.assertEqual(page.get_password_match_error_text(), page.NO_MATCH)
 
     def test_password_follows_regex(self):
         """
@@ -266,29 +256,94 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.register_valid_details()
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(page.get_message_box_text(),
-                         page.confirm_email_message)
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
 
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name-1',
-            'last_name': 'volunteer-last-name-1',
-            'email': 'volunteer-email1@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password',
-            'confirm_password': 'volunteer-password'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name-1",
+            "last_name": "volunteer-last-name-1",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer-password",
+            "confirm_password": "volunteer-password",
         }
         page.fill_registration_form(entry)
 
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_password_regex_error_text(),
-                         page.PASSWORD_ERROR)
+        self.assertEqual(page.get_password_error_text(), page.PASSWORD_ERROR)
+
+    def test_password_is_similar_to_username(self):
+        """
+        Test error raised when user inputs invalid password
+        """
+        page = self.page
+        page.live_server_url = self.live_server_url
+        page.register_valid_details()
+        self.assertNotEqual(page.get_message_box(), None)
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
+        page.get_volunteer_registration_page()
+        entry = {
+            "username": "volunteer2",
+            "first_name": "volunteer-first-name-1",
+            "last_name": "volunteer-last-name-1",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer2123#",
+            "confirm_password": "volunteer2123#",
+        }
+        page.fill_registration_form(entry)
+        self.assertNotEqual(page.get_help_blocks(), None)
+        self.assertIn(
+            page.PASSWORD_SIMILAR_TO_IDENTITY_PREFIX, page.get_password_error_text(),
+        )
+
+    # NOTE: too common password test is redundant
+    # - all the common passwords that Django checks are already
+    # validated with regex validations in the code
+    # (length, digits and chars, special chars) and those passwords are
+    # caught these regex validations
+    # def test_password_is_too_common(self):
+    #     """
+    #     Test error raised when user inputs invalid password
+    #     """
+    #     page = self.page
+    #     page.live_server_url = self.live_server_url
+    #     page.register_valid_details()
+    #     self.assertNotEqual(page.get_message_box(), None)
+    #     self.assertEqual(
+    #         page.get_message_box_text(),
+    #         page.CONFIRM_EMAIL_MESSAGE
+    #     )
+    #     page.get_volunteer_registration_page()
+    #     entry = {
+    #         'username': 'volunteer-username-1',
+    #         'first_name': 'volunteer-first-name-1',
+    #         'last_name': 'volunteer-last-name-1',
+    #         'email': 'volunteer-email1@systers.org',
+    #         'address': 'volunteer-address',
+    #         'city': 'Roorkee',
+    #         'state': 'Uttarakhand',
+    #         'country': 'India',
+    #         'phone_number': '9999999999',
+    #         'organization': 'volunteer-org',
+    #         'password': 'password',
+    #         'confirm_password': 'password'
+    #     }
+    #     page.fill_registration_form(entry)
+    #     self.assertNotEqual(page.get_help_blocks(), None)
+    #     self.assertEqual(page.get_password_error_text,
+    #                      page.PASSWORD_TOO_COMMON)
 
     def test_numeric_characters_in_first_and_last_name(self):
         """
@@ -300,33 +355,28 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.register_valid_details()
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
 
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name-1',
-            'last_name': 'volunteer-last-name-1',
-            'email': 'volunteer-email1@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password1!@#$%^&*()_',
-            'confirm_password': 'volunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name-1",
+            "last_name": "volunteer-last-name-1",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer-password1!@#$%^&*()_",
+            "confirm_password": "volunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_first_name_error_text(),
-                         page.ENTER_VALID_VALUE)
-        self.assertEqual(page.get_last_name_error_text(),
-                         page.ENTER_VALID_VALUE)
+        self.assertEqual(page.get_first_name_error_text(), page.ENTER_VALID_VALUE)
+        self.assertEqual(page.get_last_name_error_text(), page.ENTER_VALID_VALUE)
 
     def test_special_characters_in_first_and_last_name(self):
         """
@@ -338,33 +388,28 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.register_valid_details()
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
 
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'first-name-!@#$%^&*()_',
-            'last_name': 'last-name!@#$%^&*()_',
-            'email': 'volunteer-email3@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password1!@#$%^&*()_',
-            'confirm_password': 'volunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "first-name-!@#$%^&*()_",
+            "last_name": "last-name!@#$%^&*()_",
+            "email": "volunteer-email3@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer-password1!@#$%^&*()_",
+            "confirm_password": "volunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_first_name_error_text(),
-                         page.ENTER_VALID_VALUE)
-        self.assertEqual(page.get_last_name_error_text(),
-                         page.ENTER_VALID_VALUE)
+        self.assertEqual(page.get_first_name_error_text(), page.ENTER_VALID_VALUE)
+        self.assertEqual(page.get_last_name_error_text(), page.ENTER_VALID_VALUE)
 
     def test_length_of_first_and_last_name(self):
         """
@@ -376,25 +421,22 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.register_valid_details()
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
 
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name-long-asdfghjkl',
-            'last_name': 'volunteer-last-name-long-asdfghjkl',
-            'email': 'volunteer-email4@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password1!@#$%^&*()_',
-            'confirm_password': 'volunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name-long-asdfghjkl",
+            "last_name": "volunteer-last-name-long-asdfghjkl",
+            "email": "volunteer-email4@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer-password1!@#$%^&*()_",
+            "confirm_password": "volunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
@@ -402,14 +444,20 @@ class SignUpVolunteer(LiveServerTestCase):
         error_message = page.get_first_name_error_text()
         self.assertTrue(
             bool(
-                re.search(r'Ensure this value has at most 30 characters',
-                          str(error_message))))
+                re.search(
+                    r"Ensure this value has at most 30 characters", str(error_message)
+                )
+            )
+        )
 
         error_message = page.get_last_name_error_text()
         self.assertTrue(
             bool(
-                re.search(r'Ensure this value has at most 30 characters',
-                          str(error_message))))
+                re.search(
+                    r"Ensure this value has at most 30 characters", str(error_message)
+                )
+            )
+        )
 
     def test_email_field(self):
         """
@@ -422,41 +470,39 @@ class SignUpVolunteer(LiveServerTestCase):
 
         # verify successful registration
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
         self.assertEqual(
             page.remove_i18n(self.driver.current_url),
-            self.live_server_url + page.volunteer_registration_page
+            self.live_server_url + page.volunteer_registration_page,
         )
 
         # Try to register volunteer again with same email address
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name',
-            'last_name': 'volunteer-last-name',
-            'email': 'volunteer-email@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password1!@#$%^&*()_',
-            'confirm_password': 'volunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name",
+            "last_name": "volunteer-last-name",
+            "email": "volunteer-email@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org",
+            "password": "volunteer-password1!@#$%^&*()_",
+            "confirm_password": "volunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         # Verify that volunteer wasn't registered
         self.assertEqual(
             page.remove_i18n(self.driver.current_url),
-            self.live_server_url + page.volunteer_registration_page
+            self.live_server_url + page.volunteer_registration_page,
         )
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_email_error_text(),
-                         'Volunteer with this Email already exists.')
+        self.assertEqual(
+            page.get_email_error_text(), "Volunteer with this Email already exists."
+        )
 
     # TODO FIX this test case
     # def test_phone_in_different_country(self):
@@ -486,7 +532,7 @@ class SignUpVolunteer(LiveServerTestCase):
     #     self.assertNotEqual(page.get_message_box(), None)
     #     self.assertEqual(
     #         page.get_message_box_text(),
-    #         page.confirm_email_message
+    #         page.CONFIRM_EMAIL_MESSAGE
     #     )
     #     self.assertEqual(
     #         page.remove_i18n(self.driver.current_url),
@@ -528,29 +574,28 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name',
-            'last_name': 'volunteer-last-name',
-            'email': 'volunteer-email1@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '23&79^37913',
-            'organization': 'volunteer-org',
-            'password': 'volunteer-password1!@#$%^&*()_',
-            'confirm_password': 'volunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name",
+            "last_name": "volunteer-last-name",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "23&79^37913",
+            "organization": "volunteer-org",
+            "password": "volunteer-password1!@#$%^&*()_",
+            "confirm_password": "volunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         # verify that user wasn't registered
         self.assertEqual(
             page.remove_i18n(self.driver.current_url),
-            self.live_server_url + page.volunteer_registration_page
+            self.live_server_url + page.volunteer_registration_page,
         )
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_phone_error_text(),
-                         page.INVALID_PHONE)
+        self.assertEqual(page.get_phone_error_text(), page.INVALID_PHONE)
 
     def test_organization_with_numeric_characters(self):
         """
@@ -560,30 +605,27 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name',
-            'last_name': 'volunteer-last-name',
-            'email': 'volunteer-email1@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': 'volunteer-org 13',
-            'password': 'volunteer-password1!@#$%^&*()_',
-            'confirm_password': 'volunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name",
+            "last_name": "volunteer-last-name",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "volunteer-org 13",
+            "password": "volunteer-password1!@#$%^&*()_",
+            "confirm_password": "volunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         # Verify successful registration
         self.assertNotEqual(page.get_message_box(), None)
-        self.assertEqual(
-            page.get_message_box_text(),
-            page.confirm_email_message
-        )
+        self.assertEqual(page.get_message_box_text(), page.CONFIRM_EMAIL_MESSAGE)
         self.assertEqual(
             page.remove_i18n(self.driver.current_url),
-            self.live_server_url + page.volunteer_registration_page
+            self.live_server_url + page.volunteer_registration_page,
         )
 
     def test_organization_with_invalid_characters(self):
@@ -594,29 +636,28 @@ class SignUpVolunteer(LiveServerTestCase):
         page.live_server_url = self.live_server_url
         page.get_volunteer_registration_page()
         entry = {
-            'username': 'volunteer-username-1',
-            'first_name': 'volunteer-first-name',
-            'last_name': 'volunteer-last-name',
-            'email': 'volunteer-email1@systers.org',
-            'address': 'volunteer-address',
-            'city': 'Roorkee',
-            'state': 'Uttarakhand',
-            'country': 'India',
-            'phone_number': '9999999999',
-            'organization': '!*^$volunteer-org',
-            'password': 'volunteer-password!1@#$%^&*()_',
-            'confirm_password': 'volunteer-password1!@#$%^&*()_'
+            "username": "volunteer-username-1",
+            "first_name": "volunteer-first-name",
+            "last_name": "volunteer-last-name",
+            "email": "volunteer-email1@systers.org",
+            "address": "volunteer-address",
+            "city": "Roorkee",
+            "state": "Uttarakhand",
+            "country": "India",
+            "phone_number": "9999999999",
+            "organization": "!*^$volunteer-org",
+            "password": "volunteer-password!1@#$%^&*()_",
+            "confirm_password": "volunteer-password1!@#$%^&*()_",
         }
         page.fill_registration_form(entry)
 
         # verify that user wasn't registered
         self.assertEqual(
             page.remove_i18n(self.driver.current_url),
-            self.live_server_url + page.volunteer_registration_page
+            self.live_server_url + page.volunteer_registration_page,
         )
         self.assertNotEqual(page.get_help_blocks(), None)
-        self.assertEqual(page.get_organization_error_text(),
-                         page.ENTER_VALID_VALUE)
+        self.assertEqual(page.get_organization_error_text(), page.ENTER_VALID_VALUE)
 
 
 # Retention test are buggy and unstable, issue is open to fix them
